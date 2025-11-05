@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter, Heart, Zap } from "lucide-react";
+import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter, Heart, Zap, Monitor, Tablet, Smartphone } from "lucide-react";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { useLanguage } from "@/contexts/language-context";
 
@@ -236,34 +236,64 @@ export default function Home() {
             <p className="text-foreground/70 text-lg">{t("services.subtitle")}</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm p-8 rounded-xl border border-primary/30 hover:shadow-2xl hover:shadow-primary/20 transition-all hover:scale-105">
               <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4 shadow-lg">
-                <Palette className="w-6 h-6 text-primary-foreground" />
+                <Monitor className="w-6 h-6 text-primary-foreground" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">{t("services.design.title")}</h3>
+              <h3 className="text-xl font-semibold mb-3">{t("services.desktop.title")}</h3>
               <p className="text-foreground/70">
-                {t("services.design.desc")}
+                {t("services.desktop.desc")}
               </p>
             </div>
 
             <div className="bg-gradient-to-br from-secondary/20 to-secondary/5 backdrop-blur-sm p-8 rounded-xl border border-secondary/30 hover:shadow-2xl hover:shadow-secondary/20 transition-all hover:scale-105">
               <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center mb-4 shadow-lg">
-                <Code className="w-6 h-6 text-secondary-foreground" />
+                <Tablet className="w-6 h-6 text-secondary-foreground" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">{t("services.dev.title")}</h3>
+              <h3 className="text-xl font-semibold mb-3">{t("services.tablet.title")}</h3>
               <p className="text-foreground/70">
-                {t("services.dev.desc")}
+                {t("services.tablet.desc")}
               </p>
             </div>
 
             <div className="bg-gradient-to-br from-accent/20 to-accent/5 backdrop-blur-sm p-8 rounded-xl border border-accent/30 hover:shadow-2xl hover:shadow-accent/20 transition-all hover:scale-105">
               <div className="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center mb-4 shadow-lg">
-                <Sparkles className="w-6 h-6 text-accent-foreground" />
+                <Smartphone className="w-6 h-6 text-accent-foreground" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">{t("services.mobile.title")}</h3>
+              <p className="text-foreground/70">
+                {t("services.mobile.desc")}
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm p-8 rounded-xl border border-primary/30 hover:shadow-2xl hover:shadow-primary/20 transition-all hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4 shadow-lg">
+                <Monitor className="w-6 h-6 text-primary-foreground" />
               </div>
               <h3 className="text-xl font-semibold mb-3">{t("services.responsive.title")}</h3>
               <p className="text-foreground/70">
                 {t("services.responsive.desc")}
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-secondary/20 to-secondary/5 backdrop-blur-sm p-8 rounded-xl border border-secondary/30 hover:shadow-2xl hover:shadow-secondary/20 transition-all hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center mb-4 shadow-lg">
+                <Palette className="w-6 h-6 text-secondary-foreground" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">{t("services.branding.title")}</h3>
+              <p className="text-foreground/70">
+                {t("services.branding.desc")}
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-accent/20 to-accent/5 backdrop-blur-sm p-8 rounded-xl border border-accent/30 hover:shadow-2xl hover:shadow-accent/20 transition-all hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center mb-4 shadow-lg">
+                <Zap className="w-6 h-6 text-accent-foreground" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">{t("services.performance.title")}</h3>
+              <p className="text-foreground/70">
+                {t("services.performance.desc")}
               </p>
             </div>
           </div>
