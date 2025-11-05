@@ -7,7 +7,16 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 backdrop-blur-md border-b border-border z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">GUAPO</div>
+          <a href="#accueil" className="flex items-center">
+            <Image 
+              src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
+              alt="GUAPO Web Designer Logo"
+              width={120}
+              height={60}
+              className="h-12 w-auto object-contain"
+              priority
+            />
+          </a>
           <div className="hidden md:flex gap-8">
             <a href="#accueil" className="hover:text-primary transition-colors">Accueil</a>
             <a href="#about" className="hover:text-secondary transition-colors">À propos</a>
@@ -161,12 +170,15 @@ export default function Home() {
                 <div className="absolute -inset-4 border-2 border-border rounded-2xl"></div>
                 <div className="absolute -inset-2 border border-primary/40 rounded-xl"></div>
                 
-                {/* Logo container */}
-                <div className="relative w-64 h-64 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl shadow-2xl shadow-primary/30 flex items-center justify-center border-4 border-border">
-                  <div className="text-center">
-                    <div className="text-6xl font-black text-primary-foreground mb-2 tracking-wider">GUAPO</div>
-                    <div className="text-sm font-light text-accent-foreground tracking-widest">WEB DESIGNER</div>
-                  </div>
+                {/* Logo Image */}
+                <div className="relative w-64 h-64 bg-gradient-to-br from-background to-background/50 rounded-2xl shadow-2xl shadow-primary/30 flex items-center justify-center border-4 border-border p-4">
+                  <Image 
+                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
+                    alt="GUAPO Web Designer"
+                    width={240}
+                    height={240}
+                    className="w-full h-full object-contain"
+                  />
                   
                   {/* Sparkle decorations */}
                   <Sparkles className="absolute top-4 right-4 w-6 h-6 text-accent animate-pulse" />
