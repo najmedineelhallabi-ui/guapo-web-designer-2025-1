@@ -88,6 +88,31 @@ const translations = {
     "contact.title.highlight": "Ensemble",
     "contact.subtitle": "Vous avez un projet en tête ? Contactez-moi et discutons de vos besoins.",
     
+    // Contact Page
+    "contact.page.title": "Contactez-nous",
+    "contact.page.intro": "Besoin d'un site web moderne et performant ? Contactez-nous dès maintenant !",
+    "contact.email.title": "Email",
+    "contact.email.address": "info@guapowebdesigner.com",
+    "contact.email.copy": "Copier",
+    "contact.email.copied": "Email copié !",
+    "contact.instagram.title": "Instagram",
+    "contact.instagram.handle": "@guapo.webdesigner",
+    "contact.instagram.copy": "Copier",
+    "contact.instagram.copied": "Handle copié !",
+    "contact.form.title": "Demande de devis",
+    "contact.form.name": "Nom complet",
+    "contact.form.email": "Email",
+    "contact.form.phone": "Téléphone (optionnel)",
+    "contact.form.message": "Message",
+    "contact.form.submit": "Envoyer la demande",
+    "contact.form.sending": "Envoi en cours...",
+    "contact.form.success": "Demande envoyée avec succès !",
+    "contact.form.error": "Erreur lors de l'envoi. Veuillez réessayer.",
+    "footer.description": "Créateur de sites web modernes et performants. Votre vision, notre expertise.",
+    "footer.links": "Liens rapides",
+    "footer.social": "Suivez-nous",
+    "footer.copyright": "Guapo Web Designer 2025",
+    
     // Footer
     "footer.rights": "Tous droits réservés."
   },
@@ -168,7 +193,31 @@ const translations = {
     "contact.title.highlight": "Samenwerken",
     "contact.subtitle": "Heeft u een project in gedachten? Neem contact met mij op en laten we uw behoeften bespreken.",
     
-    // Footer
+    // Contact Page
+    "contact.page.title": "Neem contact op",
+    "contact.page.intro": "Heeft u een moderne en krachtige website nodig? Neem nu contact met ons op!",
+    "contact.email.title": "Email",
+    "contact.email.address": "info@guapowebdesigner.com",
+    "contact.email.copy": "Kopiëren",
+    "contact.email.copied": "Email gekopieerd!",
+    "contact.instagram.title": "Instagram",
+    "contact.instagram.handle": "@guapo.webdesigner",
+    "contact.instagram.copy": "Kopiëren",
+    "contact.instagram.copied": "Handle gekopieerd!",
+    "contact.form.title": "Offerte aanvraag",
+    "contact.form.name": "Volledige naam",
+    "contact.form.email": "Email",
+    "contact.form.phone": "Telefoon (optioneel)",
+    "contact.form.message": "Bericht",
+    "contact.form.submit": "Verstuur aanvraag",
+    "contact.form.sending": "Bezig met versturen...",
+    "contact.form.success": "Aanvraag succesvol verzonden!",
+    "contact.form.error": "Fout bij verzenden. Probeer het opnieuw.",
+    "footer.description": "Maker van moderne en krachtige websites. Uw visie, onze expertise.",
+    "footer.links": "Snelle links",
+    "footer.social": "Volg ons",
+    "footer.copyright": "Guapo Web Designer 2025",
+    
     "footer.rights": "Alle rechten voorbehouden."
   },
   en: {
@@ -248,7 +297,31 @@ const translations = {
     "contact.title.highlight": "Together",
     "contact.subtitle": "Have a project in mind? Contact me and let's discuss your needs.",
     
-    // Footer
+    // Contact Page
+    "contact.page.title": "Contact Us",
+    "contact.page.intro": "Need a modern and powerful website? Contact us now!",
+    "contact.email.title": "Email",
+    "contact.email.address": "info@guapowebdesigner.com",
+    "contact.email.copy": "Copy",
+    "contact.email.copied": "Email copied!",
+    "contact.instagram.title": "Instagram",
+    "contact.instagram.handle": "@guapo.webdesigner",
+    "contact.instagram.copy": "Copy",
+    "contact.instagram.copied": "Handle copied!",
+    "contact.form.title": "Quote Request",
+    "contact.form.name": "Full Name",
+    "contact.form.email": "Email",
+    "contact.form.phone": "Phone (optional)",
+    "contact.form.message": "Message",
+    "contact.form.submit": "Send Request",
+    "contact.form.sending": "Sending...",
+    "contact.form.success": "Request sent successfully!",
+    "contact.form.error": "Error sending. Please try again.",
+    "footer.description": "Creator of modern and powerful websites. Your vision, our expertise.",
+    "footer.links": "Quick Links",
+    "footer.social": "Follow Us",
+    "footer.copyright": "Guapo Web Designer 2025",
+    
     "footer.rights": "All rights reserved."
   }
 };
