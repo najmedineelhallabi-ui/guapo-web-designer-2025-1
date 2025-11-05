@@ -121,9 +121,29 @@ export default function Home() {
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Real Portfolio Sites */}
+            <a href="https://www.fiscand.business" target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
+              <div className="aspect-video bg-background/50 backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg">
+                <div className="w-full h-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center group-hover:scale-105 transition-transform opacity-60 group-hover:opacity-80">
+                  <span className="text-2xl font-bold text-white/90">Fiscand</span>
+                </div>
+              </div>
+              <h3 className="font-semibold mb-2">Fiscand Business</h3>
+              <p className="text-sm text-foreground/60">www.fiscand.business</p>
+            </a>
+
+            <a href="https://www.salarybusiness.be" target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
+              <div className="aspect-video bg-background/50 backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg">
+                <div className="w-full h-full bg-gradient-to-br from-secondary to-accent flex items-center justify-center group-hover:scale-105 transition-transform opacity-60 group-hover:opacity-80">
+                  <span className="text-2xl font-bold text-white/90">Salary</span>
+                </div>
+              </div>
+              <h3 className="font-semibold mb-2">Salary Business</h3>
+              <p className="text-sm text-foreground/60">www.salarybusiness.be</p>
+            </a>
+
+            {/* Other Projects */}
             {[
-              { id: 1, color: 'from-primary to-secondary' },
-              { id: 2, color: 'from-secondary to-accent' },
               { id: 3, color: 'from-accent to-primary' },
               { id: 4, color: 'from-primary via-accent to-secondary' },
               { id: 5, color: 'from-secondary via-primary to-accent' },
