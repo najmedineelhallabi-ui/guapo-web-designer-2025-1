@@ -1,0 +1,11 @@
+# Fichiers Orchids (développement uniquement)
+src/visual-edits/
+src/components/ErrorReporter.tsx
+
+# Fichiers de développement
+*.log
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
