@@ -138,26 +138,12 @@ export default function Home() {
 
             {/* Text Content */}
             <div className="relative z-10 space-y-6">
-              <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                {t("about.heading")}
-              </h3>
               <p className="text-lg text-foreground/80 leading-relaxed">
                 {t("about.intro")}
               </p>
               <p className="text-foreground/70 leading-relaxed">
                 {t("about.p1")}
               </p>
-              <div className="flex flex-wrap gap-4 pt-4">
-                <div className="px-4 py-2 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/30 text-sm">
-                  {t("about.badge.design")}
-                </div>
-                <div className="px-4 py-2 rounded-full bg-gradient-to-r from-secondary/20 to-accent/20 border border-accent/30 text-sm">
-                  {t("about.badge.performance")}
-                </div>
-                <div className="px-4 py-2 rounded-full bg-gradient-to-r from-accent/20 to-primary/20 border border-primary/30 text-sm">
-                  {t("about.badge.tech")}
-                </div>
-              </div>
             </div>
 
             {/* Logo */}
