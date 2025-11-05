@@ -28,7 +28,7 @@ export default function Home() {
             <a href="#about" className="hover:text-secondary transition-colors">{t("nav.about")}</a>
             <a href="#portfolio" className="hover:text-accent transition-colors">{t("nav.portfolio")}</a>
             <a href="#services" className="hover:text-secondary transition-colors">{t("nav.services")}</a>
-            <a href="#contact" className="hover:text-primary transition-colors">{t("nav.contact")}</a>
+            <a href="/contact" className="hover:text-primary transition-colors">{t("nav.contact")}</a>
             <LanguageSwitcher />
           </div>
         </div>
@@ -296,6 +296,41 @@ export default function Home() {
                 {t("services.performance.desc")}
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-6 bg-gradient-to-br from-[#6C63FF]/20 via-[#00D1FF]/15 to-[#4BE3C1]/20 relative overflow-hidden">
+        {/* Decorative background blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-1/4 w-72 h-72 bg-[#6C63FF]/40 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-[#00D1FF]/40 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#4BE3C1]/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+        </div>
+
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <div className="group relative p-12 rounded-3xl bg-gradient-to-br from-background/90 to-background/60 backdrop-blur-sm border-2 border-[#00D1FF]/50 shadow-2xl shadow-[#00D1FF]/30 hover:shadow-[#00D1FF]/50 hover:scale-105 hover:-translate-y-3 hover:rotate-1 transition-all duration-500">
+            {/* Decorative corners */}
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#6C63FF]/30 to-[#4BE3C1]/30 rounded-bl-full blur-xl group-hover:blur-2xl transition-all"></div>
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#00D1FF]/30 to-[#4BE3C1]/30 rounded-tr-full blur-xl group-hover:blur-2xl transition-all"></div>
+            
+            {/* Glow effect on hover */}
+            <div className="absolute inset-0 rounded-3xl border-2 border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#6C63FF] via-[#4BE3C1] to-[#00D1FF] bg-clip-text text-transparent">
+              {t("services.cta.title")}
+            </h2>
+            <p className="text-xl text-foreground/80 mb-8 leading-relaxed max-w-2xl mx-auto">
+              {t("services.cta.desc")}
+            </p>
+            <a 
+              href="/contact"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#6C63FF] via-[#5A3BEF] to-[#00D1FF] text-white rounded-xl hover:opacity-90 hover:scale-110 transition-all duration-300 shadow-lg shadow-[#6C63FF]/40 hover:shadow-[#00D1FF]/50 text-lg font-semibold group/btn"
+            >
+              {t("services.cta.button")}
+              <Sparkles className="w-5 h-5 group-hover/btn:rotate-12 transition-transform" />
+            </a>
           </div>
         </div>
       </section>
