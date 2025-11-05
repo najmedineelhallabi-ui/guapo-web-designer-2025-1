@@ -1,17 +1,6 @@
 import type { NextConfig } from "next";
-import path from "node:path";
-
-const LOADER = path.resolve(__dirname, 'src/visual-edits/component-tagger-loader.js');
-
 
 const nextConfig: NextConfig = {
-  // Allow Orchids to load the site
-  allowedDevOrigins: [
-    'www.orchids.app',
-    'orchids.app',
-    '*.orchids.app',
-    '*.proxy.daytona.works'
-  ],
   images: {
     remotePatterns: [
       {
@@ -63,15 +52,7 @@ const nextConfig: NextConfig = {
         ]
       }
     ]
-  },
-  turbopack: {
-    rules: {
-      "*.{jsx,tsx}": {
-        loaders: [LOADER]
-      }
-    }
   }
 };
 
 export default nextConfig;
-// Orchids restart: 1762384246606
