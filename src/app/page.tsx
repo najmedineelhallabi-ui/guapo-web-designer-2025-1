@@ -33,7 +33,7 @@ export default function Home() {
               <span>Guapo Web Designer</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight max-w-4xl">
-              Designer d'Expériences Digitales <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Exceptionnelles</span>
+              If you can imagine it, I can <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">design it.</span>
             </h1>
             <p className="text-xl text-foreground/80 max-w-2xl">
               Je transforme vos idées en sites web modernes, élégants et performants. 
