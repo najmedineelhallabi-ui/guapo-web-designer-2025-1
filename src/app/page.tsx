@@ -336,42 +336,56 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-6 bg-gradient-to-br from-primary/25 via-secondary/20 to-accent/25 relative overflow-hidden">
+      <section id="contact" className="py-20 px-6 bg-gradient-to-br from-[#6C63FF]/20 via-[#00D1FF]/15 to-[#4BE3C1]/20 relative overflow-hidden">
         {/* Decorative background blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-1/4 w-72 h-72 bg-primary/40 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-secondary/40 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/30 rounded-full blur-3xl"></div>
+          <div className="absolute top-10 left-1/4 w-72 h-72 bg-[#6C63FF]/40 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-[#00D1FF]/40 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#4BE3C1]/30 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "0.5s" }}></div>
         </div>
         
-        <div className="max-w-3xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">{t("contact.title")} <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{t("contact.title.highlight")}</span></h2>
-          <p className="text-foreground/70 text-lg mb-8">
-            {t("contact.subtitle")}
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#6C63FF] via-[#00D1FF] to-[#4BE3C1] bg-clip-text text-transparent">
+            Contactez-nous
+          </h2>
+          <h3 className="text-2xl font-semibold text-foreground mb-6">
+            Transformons vos idées en réalité digitale
+          </h3>
+          <p className="text-lg text-foreground/80 mb-12 leading-relaxed max-w-2xl mx-auto">
+            Un projet en tête ? N'hésitez pas à nous contacter pour en discuter. Nous serons ravis de vous accompagner dans la création de votre site web.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
             <a 
               href="mailto:info@guapowebdesigner.com" 
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-primary/25"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#00D1FF] to-[#4BE3C1] text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg shadow-[#00D1FF]/40 hover:shadow-[#4BE3C1]/50 text-lg font-semibold"
             >
-              <Mail className="w-4 h-4" />
+              <Mail className="w-5 h-5" />
               info@guapowebdesigner.com
+            </a>
+            <a 
+              href="https://www.instagram.com/guapo.webdesigner/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#4BE3C1] to-[#00D1FF] text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg shadow-[#4BE3C1]/40 hover:shadow-[#00D1FF]/50 text-lg font-semibold"
+            >
+              <Instagram className="w-5 h-5" />
+              @guapo.webdesigner
             </a>
           </div>
 
           <div className="flex gap-6 justify-center">
-            <a href="https://www.instagram.com/guapo.webdesigner/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-primary border border-accent/20 flex items-center justify-center hover:scale-110 transition-transform text-accent-foreground shadow-lg shadow-accent/20">
-              <Instagram className="w-5 h-5" />
+            <a href="https://www.instagram.com/guapo.webdesigner/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-gradient-to-br from-[#4BE3C1] to-[#00D1FF] border-2 border-white/30 flex items-center justify-center hover:scale-110 transition-transform text-white shadow-lg shadow-[#4BE3C1]/30">
+              <Instagram className="w-6 h-6" />
             </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary border border-primary/20 flex items-center justify-center hover:scale-110 transition-transform text-primary-foreground shadow-lg shadow-primary/20">
-              <Github className="w-5 h-5" />
+            <a href="#" className="w-12 h-12 rounded-full bg-gradient-to-br from-[#6C63FF] to-[#5A3BEF] border-2 border-white/30 flex items-center justify-center hover:scale-110 transition-transform text-white shadow-lg shadow-[#6C63FF]/30">
+              <Github className="w-6 h-6" />
             </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-gradient-to-br from-secondary to-accent border border-secondary/20 flex items-center justify-center hover:scale-110 transition-transform text-secondary-foreground shadow-lg shadow-secondary/20">
-              <Linkedin className="w-5 h-5" />
+            <a href="#" className="w-12 h-12 rounded-full bg-gradient-to-br from-[#00D1FF] to-[#4BE3C1] border-2 border-white/30 flex items-center justify-center hover:scale-110 transition-transform text-white shadow-lg shadow-[#00D1FF]/30">
+              <Linkedin className="w-6 h-6" />
             </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-gradient-to-br from-accent to-primary border border-accent/20 flex items-center justify-center hover:scale-110 transition-transform text-accent-foreground shadow-lg shadow-accent/20">
-              <Twitter className="w-5 h-5" />
+            <a href="#" className="w-12 h-12 rounded-full bg-gradient-to-br from-[#4BE3C1] to-[#6C63FF] border-2 border-white/30 flex items-center justify-center hover:scale-110 transition-transform text-white shadow-lg shadow-[#4BE3C1]/30">
+              <Twitter className="w-6 h-6" />
             </a>
           </div>
         </div>
