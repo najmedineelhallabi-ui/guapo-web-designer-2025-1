@@ -30,7 +30,7 @@ export default function Home() {
           <div className="flex flex-col items-center text-center gap-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/30 via-secondary/30 to-accent/30 text-sm border border-primary/40 backdrop-blur-sm">
               <Sparkles className="w-4 h-4 text-primary" />
-              <span>Web Designer Créatif</span>
+              <span>Guapo Web Designer</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight max-w-4xl">
               Designer d'Expériences Digitales <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Exceptionnelles</span>
