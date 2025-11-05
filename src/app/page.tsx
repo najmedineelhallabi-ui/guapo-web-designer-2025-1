@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter, Heart, Zap } from "lucide-react";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 export default function Home() {
   return (
@@ -17,12 +18,13 @@ export default function Home() {
               priority
             />
           </a>
-          <div className="hidden md:flex gap-8">
+          <div className="hidden md:flex gap-8 items-center">
             <a href="#accueil" className="hover:text-primary transition-colors">Accueil</a>
             <a href="#about" className="hover:text-secondary transition-colors">À propos</a>
             <a href="#services" className="hover:text-secondary transition-colors">Services</a>
             <a href="#portfolio" className="hover:text-accent transition-colors">Portfolio</a>
             <a href="#contact" className="hover:text-primary transition-colors">Contact</a>
+            <LanguageSwitcher />
           </div>
         </div>
       </nav>
