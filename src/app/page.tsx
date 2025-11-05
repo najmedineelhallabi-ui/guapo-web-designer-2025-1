@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter } from "lucide-react";
+import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter, Heart, Zap } from "lucide-react";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
           <div className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">GUAPO</div>
           <div className="hidden md:flex gap-8">
             <a href="#accueil" className="hover:text-primary transition-colors">Accueil</a>
-            <a href="/about" className="hover:text-secondary transition-colors">À propos</a>
+            <a href="#about" className="hover:text-secondary transition-colors">À propos</a>
             <a href="#services" className="hover:text-secondary transition-colors">Services</a>
             <a href="#portfolio" className="hover:text-accent transition-colors">Portfolio</a>
             <a href="#contact" className="hover:text-primary transition-colors">Contact</a>
@@ -53,6 +53,126 @@ export default function Home() {
               >
                 Me contacter
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* À propos Section */}
+      <section id="about" className="py-20 px-6 bg-gradient-to-br from-accent/20 via-primary/15 to-secondary/20 relative overflow-hidden">
+        {/* Decorative background blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-20 w-96 h-96 bg-primary/30 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-accent/30 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Title */}
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <Sparkles className="w-8 h-8 text-primary animate-pulse" />
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                À propos de Guapo
+              </h2>
+              <Sparkles className="w-8 h-8 text-accent animate-pulse" />
+            </div>
+          </div>
+
+          {/* Values Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+            <div className="group relative p-8 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm border-2 border-primary/30 shadow-lg hover:shadow-2xl hover:shadow-primary/20 hover:scale-105 hover:rotate-1 transition-all duration-300">
+              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-primary to-secondary">
+                <Heart className="w-8 h-8 text-primary-foreground" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3">Passion</h3>
+              <p className="text-foreground/70 leading-relaxed">Chaque projet est une nouvelle aventure créative</p>
+            </div>
+
+            <div className="group relative p-8 rounded-2xl bg-gradient-to-br from-secondary/20 to-secondary/5 backdrop-blur-sm border-2 border-secondary/30 shadow-lg hover:shadow-2xl hover:shadow-secondary/20 hover:scale-105 hover:rotate-1 transition-all duration-300">
+              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-secondary to-accent">
+                <Sparkles className="w-8 h-8 text-secondary-foreground" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3">Innovation</h3>
+              <p className="text-foreground/70 leading-relaxed">Toujours à l'avant-garde des tendances</p>
+            </div>
+
+            <div className="group relative p-8 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 backdrop-blur-sm border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 hover:rotate-1 transition-all duration-300">
+              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-accent to-primary">
+                <Zap className="w-8 h-8 text-accent-foreground" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3">Performance</h3>
+              <p className="text-foreground/70 leading-relaxed">Des sites rapides et optimisés</p>
+            </div>
+
+            <div className="group relative p-8 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/10 backdrop-blur-sm border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 hover:rotate-1 transition-all duration-300">
+              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-primary via-secondary to-accent">
+                <Palette className="w-8 h-8 text-primary-foreground" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3">Créativité</h3>
+              <p className="text-foreground/70 leading-relaxed">Des designs uniques et mémorables</p>
+            </div>
+          </div>
+
+          {/* Description Block */}
+          <div className="grid md:grid-cols-2 gap-12 items-center p-12 rounded-3xl bg-gradient-to-br from-background/80 to-background/40 backdrop-blur-sm border-2 border-border shadow-2xl relative">
+            {/* Background decorative elements */}
+            <div className="absolute top-10 right-10 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-10 left-10 w-40 h-40 bg-accent/20 rounded-full blur-2xl"></div>
+
+            {/* Text Content */}
+            <div className="relative z-10 space-y-6">
+              <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Créateur d'expériences digitales
+              </h3>
+              <p className="text-lg text-foreground/80 leading-relaxed">
+                Bienvenue chez <span className="text-primary font-semibold">Guapo Web Designer</span>, 
+                votre partenaire créatif pour transformer vos idées en réalités digitales exceptionnelles.
+              </p>
+              <p className="text-foreground/70 leading-relaxed">
+                Avec une passion pour le design moderne et une expertise technique pointue, 
+                je crée des sites web qui ne se contentent pas d'être beaux, mais qui performent, 
+                convertissent et marquent les esprits.
+              </p>
+              <p className="text-foreground/70 leading-relaxed">
+                Mon approche combine <span className="text-accent font-semibold">créativité audacieuse</span>, 
+                <span className="text-primary font-semibold"> innovation technologique</span> et 
+                <span className="text-secondary font-semibold"> excellence professionnelle</span> pour 
+                donner vie à des projets web qui dépassent vos attentes.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-4">
+                <div className="px-4 py-2 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/30 text-sm">
+                  🎨 Design UI/UX
+                </div>
+                <div className="px-4 py-2 rounded-full bg-gradient-to-r from-secondary/20 to-accent/20 border border-accent/30 text-sm">
+                  ⚡ Performance optimale
+                </div>
+                <div className="px-4 py-2 rounded-full bg-gradient-to-r from-accent/20 to-primary/20 border border-primary/30 text-sm">
+                  🚀 Technologies modernes
+                </div>
+              </div>
+            </div>
+
+            {/* Logo */}
+            <div className="relative z-10 flex items-center justify-center">
+              <div className="relative">
+                {/* Decorative frame */}
+                <div className="absolute -inset-8 bg-gradient-to-br from-primary/30 via-secondary/30 to-accent/30 rounded-3xl blur-xl"></div>
+                <div className="absolute -inset-4 border-2 border-border rounded-2xl"></div>
+                <div className="absolute -inset-2 border border-primary/40 rounded-xl"></div>
+                
+                {/* Logo container */}
+                <div className="relative w-64 h-64 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl shadow-2xl shadow-primary/30 flex items-center justify-center border-4 border-border">
+                  <div className="text-center">
+                    <div className="text-6xl font-black text-primary-foreground mb-2 tracking-wider">GUAPO</div>
+                    <div className="text-sm font-light text-accent-foreground tracking-widest">WEB DESIGNER</div>
+                  </div>
+                  
+                  {/* Sparkle decorations */}
+                  <Sparkles className="absolute top-4 right-4 w-6 h-6 text-accent animate-pulse" />
+                  <Sparkles className="absolute bottom-4 left-4 w-5 h-5 text-secondary animate-pulse" style={{ animationDelay: "0.5s" }} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
