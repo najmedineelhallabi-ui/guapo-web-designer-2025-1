@@ -117,48 +117,39 @@ export default function Home() {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Port<span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">folio</span></h2>
-            <p className="text-foreground/70 text-lg">Quelques-uns de mes projets récents</p>
+            <p className="text-foreground/70 text-lg">Mes projets récents</p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Real Portfolio Sites */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Fiscand Business */}
             <a href="https://www.fiscand.business" target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
-              <div className="aspect-video bg-background/50 backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg">
-                <div className="w-full h-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center group-hover:scale-105 transition-transform opacity-60 group-hover:opacity-80">
-                  <span className="text-2xl font-bold text-white/90">Fiscand</span>
-                </div>
+              <div className="aspect-video bg-white backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg flex items-center justify-center p-8">
+                <Image 
+                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Capture-d-ecran-2025-10-24-124300-1762369451856.png?width=8000&height=8000&resize=contain"
+                  alt="Fiscand Business Logo"
+                  width={400}
+                  height={200}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                />
               </div>
-              <h3 className="font-semibold mb-2">Fiscand Business</h3>
+              <h3 className="font-semibold mb-2 text-lg">Fiscand Business</h3>
               <p className="text-sm text-foreground/60">www.fiscand.business</p>
             </a>
 
+            {/* Salary Business */}
             <a href="https://www.salarybusiness.be" target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
-              <div className="aspect-video bg-background/50 backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg">
-                <div className="w-full h-full bg-gradient-to-br from-secondary to-accent flex items-center justify-center group-hover:scale-105 transition-transform opacity-60 group-hover:opacity-80">
-                  <span className="text-2xl font-bold text-white/90">Salary</span>
-                </div>
+              <div className="aspect-video bg-white backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg flex items-center justify-center p-8">
+                <Image 
+                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/LOGO-SALARYBUSINESS-1762369466889.jpg?width=8000&height=8000&resize=contain"
+                  alt="Salary Business Logo"
+                  width={400}
+                  height={200}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                />
               </div>
-              <h3 className="font-semibold mb-2">Salary Business</h3>
+              <h3 className="font-semibold mb-2 text-lg">Salary Business</h3>
               <p className="text-sm text-foreground/60">www.salarybusiness.be</p>
             </a>
-
-            {/* Other Projects */}
-            {[
-              { id: 3, color: 'from-accent to-primary' },
-              { id: 4, color: 'from-primary via-accent to-secondary' },
-              { id: 5, color: 'from-secondary via-primary to-accent' },
-              { id: 6, color: 'from-accent via-secondary to-primary' }
-            ].map((item) => (
-              <div key={item.id} className="group cursor-pointer">
-                <div className="aspect-video bg-background/50 backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg">
-                  <div className={`w-full h-full bg-gradient-to-br ${item.color} flex items-center justify-center group-hover:scale-105 transition-transform opacity-60 group-hover:opacity-80`}>
-                    <span className="text-4xl font-bold text-white/70">Projet {item.id}</span>
-                  </div>
-                </div>
-                <h3 className="font-semibold mb-2">Projet Portfolio {item.id}</h3>
-                <p className="text-sm text-foreground/60">Design & Développement Web</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
