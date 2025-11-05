@@ -51,6 +51,24 @@ const translations = {
     "about.badge.performance": "⚡ Performance optimale",
     "about.badge.tech": "🚀 Technologies modernes",
     
+    // Services Page
+    "services.page.title": "Nos Services",
+    "services.desktop.title": "Sites Vitrine Desktop",
+    "services.desktop.desc": "Sites web optimisés pour écrans larges avec designs professionnels et modernes",
+    "services.tablet.title": "Adaptation Tablette",
+    "services.tablet.desc": "Interfaces parfaitement adaptées aux tablettes pour une expérience fluide",
+    "services.mobile.title": "Optimisation Mobile",
+    "services.mobile.desc": "Navigation optimale sur smartphones avec performances maximales",
+    "services.responsive.title": "Design Responsive",
+    "services.responsive.desc": "Adaptation automatique à tous types d'appareils et résolutions",
+    "services.branding.title": "Identité Visuelle",
+    "services.branding.desc": "Création de logos, chartes graphiques et éléments visuels uniques",
+    "services.performance.title": "Performance Web",
+    "services.performance.desc": "Sites ultra-rapides optimisés pour le référencement et l'expérience utilisateur",
+    "services.cta.title": "Besoin d'un site vitrine ? 🚀",
+    "services.cta.desc": "Restaurant, cabinet professionnel, entreprise ou portfolio personnel : nous créons votre site vitrine accessible sur tous les appareils !",
+    "services.cta.button": "Discutons de votre projet 💬",
+    
     // Services
     "services.title": "Mes",
     "services.title.highlight": "Services",
@@ -59,8 +77,6 @@ const translations = {
     "services.design.desc": "Création d'interfaces utilisateur intuitives et attrayantes avec une expérience optimale.",
     "services.dev.title": "Développement Web",
     "services.dev.desc": "Développement de sites web modernes avec React, Next.js et les dernières technologies.",
-    "services.responsive.title": "Design Responsive",
-    "services.responsive.desc": "Sites web parfaitement adaptés à tous les écrans : mobile, tablette et desktop.",
     
     // Portfolio
     "portfolio.title.prefix": "Port",
@@ -115,6 +131,24 @@ const translations = {
     "about.badge.performance": "⚡ Optimale prestaties",
     "about.badge.tech": "🚀 Moderne technologieën",
     
+    // Services Page
+    "services.page.title": "Onze Diensten",
+    "services.desktop.title": "Desktop Showcase Sites",
+    "services.desktop.desc": "Websites geoptimaliseerd voor grote schermen met professionele en moderne ontwerpen",
+    "services.tablet.title": "Tablet Aanpassing",
+    "services.tablet.desc": "Interfaces perfect aangepast aan tablets voor een vloeiende ervaring",
+    "services.mobile.title": "Mobiele Optimalisatie",
+    "services.mobile.desc": "Optimale navigatie op smartphones met maximale prestaties",
+    "services.responsive.title": "Responsive Design",
+    "services.responsive.desc": "Automatische aanpassing aan alle soorten apparaten en resoluties",
+    "services.branding.title": "Visuele Identiteit",
+    "services.branding.desc": "Creatie van logo's, grafische handvesten en unieke visuele elementen",
+    "services.performance.title": "Web Prestaties",
+    "services.performance.desc": "Ultrasnelle websites geoptimaliseerd voor SEO en gebruikerservaring",
+    "services.cta.title": "Heeft u een showcase site nodig? 🚀",
+    "services.cta.desc": "Restaurant, professioneel kantoor, bedrijf of persoonlijke portfolio: wij creëren uw showcase site toegankelijk op alle apparaten!",
+    "services.cta.button": "Laten we praten over uw project 💬",
+    
     // Services
     "services.title": "Mijn",
     "services.title.highlight": "Diensten",
@@ -123,8 +157,6 @@ const translations = {
     "services.design.desc": "Creatie van intuïtieve en aantrekkelijke gebruikersinterfaces met een optimale ervaring.",
     "services.dev.title": "Web Ontwikkeling",
     "services.dev.desc": "Ontwikkeling van moderne websites met React, Next.js en de nieuwste technologieën.",
-    "services.responsive.title": "Responsive Design",
-    "services.responsive.desc": "Websites perfect aangepast aan alle schermen: mobiel, tablet en desktop.",
     
     // Portfolio
     "portfolio.title.prefix": "Port",
@@ -179,6 +211,24 @@ const translations = {
     "about.badge.performance": "⚡ Optimal performance",
     "about.badge.tech": "🚀 Modern technologies",
     
+    // Services Page
+    "services.page.title": "Our Services",
+    "services.desktop.title": "Desktop Showcase Sites",
+    "services.desktop.desc": "Websites optimized for large screens with professional and modern designs",
+    "services.tablet.title": "Tablet Adaptation",
+    "services.tablet.desc": "Interfaces perfectly adapted to tablets for a smooth experience",
+    "services.mobile.title": "Mobile Optimization",
+    "services.mobile.desc": "Optimal navigation on smartphones with maximum performance",
+    "services.responsive.title": "Responsive Design",
+    "services.responsive.desc": "Automatic adaptation to all types of devices and resolutions",
+    "services.branding.title": "Visual Identity",
+    "services.branding.desc": "Creation of logos, graphic guidelines and unique visual elements",
+    "services.performance.title": "Web Performance",
+    "services.performance.desc": "Ultra-fast websites optimized for SEO and user experience",
+    "services.cta.title": "Need a showcase website? 🚀",
+    "services.cta.desc": "Restaurant, professional office, company or personal portfolio: we create your showcase website accessible on all devices!",
+    "services.cta.button": "Let's discuss your project 💬",
+    
     // Services
     "services.title": "My",
     "services.title.highlight": "Services",
@@ -187,8 +237,6 @@ const translations = {
     "services.design.desc": "Creation of intuitive and attractive user interfaces with an optimal experience.",
     "services.dev.title": "Web Development",
     "services.dev.desc": "Development of modern websites with React, Next.js and the latest technologies.",
-    "services.responsive.title": "Responsive Design",
-    "services.responsive.desc": "Websites perfectly adapted to all screens: mobile, tablet and desktop.",
     
     // Portfolio
     "portfolio.title.prefix": "Port",
