@@ -373,21 +373,6 @@ export default function Home() {
               @guapo.webdesigner
             </a>
           </div>
-
-          <div className="flex gap-6 justify-center">
-            <a href="https://www.instagram.com/guapo.webdesigner/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-gradient-to-br from-[#4BE3C1] to-[#00D1FF] border-2 border-white/30 flex items-center justify-center hover:scale-110 transition-transform text-white shadow-lg shadow-[#4BE3C1]/30">
-              <Instagram className="w-6 h-6" />
-            </a>
-            <a href="#" className="w-12 h-12 rounded-full bg-gradient-to-br from-[#6C63FF] to-[#5A3BEF] border-2 border-white/30 flex items-center justify-center hover:scale-110 transition-transform text-white shadow-lg shadow-[#6C63FF]/30">
-              <Github className="w-6 h-6" />
-            </a>
-            <a href="#" className="w-12 h-12 rounded-full bg-gradient-to-br from-[#00D1FF] to-[#4BE3C1] border-2 border-white/30 flex items-center justify-center hover:scale-110 transition-transform text-white shadow-lg shadow-[#00D1FF]/30">
-              <Linkedin className="w-6 h-6" />
-            </a>
-            <a href="#" className="w-12 h-12 rounded-full bg-gradient-to-br from-[#4BE3C1] to-[#6C63FF] border-2 border-white/30 flex items-center justify-center hover:scale-110 transition-transform text-white shadow-lg shadow-[#4BE3C1]/30">
-              <Twitter className="w-6 h-6" />
-            </a>
-          </div>
         </div>
       </section>
 
@@ -437,7 +422,7 @@ export default function Home() {
                 className="text-foreground/70 hover:text-primary transition-colors text-sm flex items-center gap-2"
               >
                 <Instagram className="w-4 h-4" />
-                <span>📸 Instagram</span>
+                <span>Instagram</span>
               </a>
             </div>
           </div>
