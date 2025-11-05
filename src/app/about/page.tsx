@@ -137,9 +137,6 @@ export default function AboutPage() {
 
             {/* Text Content */}
             <div className="relative z-10 space-y-6">
-              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#6C63FF] to-[#4BE3C1] bg-clip-text text-transparent">
-                Créateur d'expériences digitales
-              </h2>
               <p className="text-lg text-gray-300 leading-relaxed">
                 Bienvenue chez <span className="text-[#4BE3C1] font-semibold">Guapo Web Designer</span>, 
                 votre partenaire créatif pour transformer vos idées en réalités digitales exceptionnelles.
@@ -155,17 +152,6 @@ export default function AboutPage() {
                 <span className="text-[#4BE3C1] font-semibold"> excellence professionnelle</span> pour 
                 donner vie à des projets web qui dépassent vos attentes.
               </p>
-              <div className="flex flex-wrap gap-4 pt-4">
-                <div className="px-4 py-2 rounded-full bg-gradient-to-r from-[#6C63FF]/20 to-[#4BE3C1]/20 border border-[#4BE3C1]/30 text-sm">
-                  🎨 Design UI/UX
-                </div>
-                <div className="px-4 py-2 rounded-full bg-gradient-to-r from-[#4BE3C1]/20 to-[#00D1FF]/20 border border-[#00D1FF]/30 text-sm">
-                  ⚡ Performance optimale
-                </div>
-                <div className="px-4 py-2 rounded-full bg-gradient-to-r from-[#5A3BEF]/20 to-[#6C63FF]/20 border border-[#6C63FF]/30 text-sm">
-                  🚀 Technologies modernes
-                </div>
-              </div>
             </div>
 
             {/* Logo/Image */}
