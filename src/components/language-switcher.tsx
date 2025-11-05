@@ -2,15 +2,12 @@
 
 import { useState } from "react";
 import { Globe } from "lucide-react";
+import { useLanguage } from "@/contexts/language-context";
 
 type Language = "fr" | "nl" | "en";
 
-interface LanguageSwitcherProps {
-  onLanguageChange?: (lang: Language) => void;
-}
-
-export function LanguageSwitcher({ onLanguageChange }: LanguageSwitcherProps) {
-  const [currentLanguage, setCurrentLanguage] = useState<Language>("fr");
+export function LanguageSwitcher() {
+  const { language: currentLanguage, setLanguage } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
 
   const languages = {
@@ -20,11 +17,8 @@ export function LanguageSwitcher({ onLanguageChange }: LanguageSwitcherProps) {
   };
 
   const handleLanguageChange = (lang: Language) => {
-    setCurrentLanguage(lang);
+    setLanguage(lang);
     setIsOpen(false);
-    if (onLanguageChange) {
-      onLanguageChange(lang);
-    }
   };
 
   return (
