@@ -44,7 +44,7 @@ export default function ContactPage() {
             <a href="/#about" className="hover:text-[#00D1FF] transition-colors">{t("nav.about")}</a>
             <a href="/#portfolio" className="hover:text-[#4BE3C1] transition-colors">{t("nav.portfolio")}</a>
             <a href="/#services" className="hover:text-[#00D1FF] transition-colors">{t("nav.services")}</a>
-            <a href="/contact" className="text-[#6C63FF] font-semibold">{t("nav.contact")}</a>
+            <a href="/#contact" className="text-[#6C63FF] font-semibold">{t("nav.contact")}</a>
             <LanguageSwitcher />
           </div>
         </div>
