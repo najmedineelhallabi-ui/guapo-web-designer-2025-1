@@ -3,9 +3,9 @@ import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter } 
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/10">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-sm border-b border-border z-50">
+      <nav className="fixed top-0 w-full bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 backdrop-blur-md border-b border-border z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">GUAPO</div>
           <div className="hidden md:flex gap-8">
@@ -18,17 +18,24 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section id="accueil" className="pt-32 pb-20 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section id="accueil" className="pt-32 pb-20 px-6 bg-gradient-to-br from-primary/20 via-secondary/15 to-accent/20 relative overflow-hidden">
+        {/* Decorative background blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/30 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-secondary/30 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-accent/20 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col items-center text-center gap-8">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 text-sm border border-primary/20">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/30 via-secondary/30 to-accent/30 text-sm border border-primary/40 backdrop-blur-sm">
               <Sparkles className="w-4 h-4 text-primary" />
               <span>Web Designer Créatif</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight max-w-4xl">
               Designer d'Expériences Digitales <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Exceptionnelles</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl">
+            <p className="text-xl text-foreground/80 max-w-2xl">
               Je transforme vos idées en sites web modernes, élégants et performants. 
               Spécialisé en design UI/UX et développement front-end.
             </p>
@@ -42,7 +49,7 @@ export default function Home() {
               </a>
               <a 
                 href="#contact" 
-                className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary/30 rounded-lg hover:bg-primary/5 transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary/30 bg-background/50 backdrop-blur-sm rounded-lg hover:bg-primary/10 transition-colors"
               >
                 Me contacter
               </a>
@@ -52,40 +59,46 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 px-6 bg-muted/50">
-        <div className="max-w-7xl mx-auto">
+      <section id="services" className="py-20 px-6 bg-gradient-to-br from-secondary/20 via-accent/15 to-primary/20 relative overflow-hidden">
+        {/* Decorative background blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 right-20 w-64 h-64 bg-secondary/40 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-10 w-80 h-80 bg-accent/30 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Mes <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Services</span></h2>
-            <p className="text-muted-foreground text-lg">Ce que je peux faire pour vous</p>
+            <p className="text-foreground/70 text-lg">Ce que je peux faire pour vous</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-background p-8 rounded-xl border border-primary/20 hover:shadow-lg hover:shadow-primary/10 transition-all hover:scale-105">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm p-8 rounded-xl border border-primary/30 hover:shadow-2xl hover:shadow-primary/20 transition-all hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Palette className="w-6 h-6 text-primary-foreground" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Design UI/UX</h3>
-              <p className="text-muted-foreground">
+              <p className="text-foreground/70">
                 Création d'interfaces utilisateur intuitives et attrayantes avec une expérience optimale.
               </p>
             </div>
 
-            <div className="bg-background p-8 rounded-xl border border-secondary/20 hover:shadow-lg hover:shadow-secondary/10 transition-all hover:scale-105">
-              <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-gradient-to-br from-secondary/20 to-secondary/5 backdrop-blur-sm p-8 rounded-xl border border-secondary/30 hover:shadow-2xl hover:shadow-secondary/20 transition-all hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Code className="w-6 h-6 text-secondary-foreground" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Développement Web</h3>
-              <p className="text-muted-foreground">
+              <p className="text-foreground/70">
                 Développement de sites web modernes avec React, Next.js et les dernières technologies.
               </p>
             </div>
 
-            <div className="bg-background p-8 rounded-xl border border-accent/20 hover:shadow-lg hover:shadow-accent/10 transition-all hover:scale-105">
-              <div className="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-gradient-to-br from-accent/20 to-accent/5 backdrop-blur-sm p-8 rounded-xl border border-accent/30 hover:shadow-2xl hover:shadow-accent/20 transition-all hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Sparkles className="w-6 h-6 text-accent-foreground" />
               </div>
               <h3 className="text-xl font-semibold mb-3">Design Responsive</h3>
-              <p className="text-muted-foreground">
+              <p className="text-foreground/70">
                 Sites web parfaitement adaptés à tous les écrans : mobile, tablette et desktop.
               </p>
             </div>
@@ -94,11 +107,17 @@ export default function Home() {
       </section>
 
       {/* Portfolio Section */}
-      <section id="portfolio" className="py-20 px-6">
-        <div className="max-w-7xl mx-auto">
+      <section id="portfolio" className="py-20 px-6 bg-gradient-to-br from-accent/20 via-primary/15 to-secondary/20 relative overflow-hidden">
+        {/* Decorative background blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-10 w-96 h-96 bg-accent/30 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-primary/30 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Port<span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">folio</span></h2>
-            <p className="text-muted-foreground text-lg">Quelques-uns de mes projets récents</p>
+            <p className="text-foreground/70 text-lg">Quelques-uns de mes projets récents</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -111,13 +130,13 @@ export default function Home() {
               { id: 6, color: 'from-accent via-secondary to-primary' }
             ].map((item) => (
               <div key={item.id} className="group cursor-pointer">
-                <div className="aspect-video bg-muted rounded-xl mb-4 overflow-hidden border border-border shadow-lg">
-                  <div className={`w-full h-full bg-gradient-to-br ${item.color} flex items-center justify-center group-hover:scale-105 transition-transform opacity-30 group-hover:opacity-50`}>
-                    <span className="text-4xl font-bold text-white/50">Projet {item.id}</span>
+                <div className="aspect-video bg-background/50 backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg">
+                  <div className={`w-full h-full bg-gradient-to-br ${item.color} flex items-center justify-center group-hover:scale-105 transition-transform opacity-60 group-hover:opacity-80`}>
+                    <span className="text-4xl font-bold text-white/70">Projet {item.id}</span>
                   </div>
                 </div>
                 <h3 className="font-semibold mb-2">Projet Portfolio {item.id}</h3>
-                <p className="text-sm text-muted-foreground">Design & Développement Web</p>
+                <p className="text-sm text-foreground/60">Design & Développement Web</p>
               </div>
             ))}
           </div>
@@ -125,10 +144,17 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-6 bg-gradient-to-br from-muted/50 via-primary/5 to-secondary/5">
-        <div className="max-w-3xl mx-auto text-center">
+      <section id="contact" className="py-20 px-6 bg-gradient-to-br from-primary/25 via-secondary/20 to-accent/25 relative overflow-hidden">
+        {/* Decorative background blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-1/4 w-72 h-72 bg-primary/40 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-secondary/40 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/30 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-3xl mx-auto text-center relative z-10">
           <h2 className="text-4xl font-bold mb-4">Travaillons <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Ensemble</span></h2>
-          <p className="text-muted-foreground text-lg mb-8">
+          <p className="text-foreground/70 text-lg mb-8">
             Vous avez un projet en tête ? Contactez-moi et discutons de vos besoins.
           </p>
           
@@ -157,8 +183,8 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-6 border-t border-border">
-        <div className="max-w-7xl mx-auto text-center text-muted-foreground">
+      <footer className="py-8 px-6 border-t border-border bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto text-center text-foreground/70">
           <p>© 2025 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer. Tous droits réservés.</p>
         </div>
       </footer>
