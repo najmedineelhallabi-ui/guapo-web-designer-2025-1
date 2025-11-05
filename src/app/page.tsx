@@ -1,8 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter, Heart, Zap } from "lucide-react";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { useLanguage } from "@/contexts/language-context";
 
 export default function Home() {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/10">
       {/* Navigation */}
@@ -19,11 +24,11 @@ export default function Home() {
             />
           </a>
           <div className="hidden md:flex gap-8 items-center">
-            <a href="#accueil" className="hover:text-primary transition-colors">Accueil</a>
-            <a href="#about" className="hover:text-secondary transition-colors">À propos</a>
-            <a href="#services" className="hover:text-secondary transition-colors">Services</a>
-            <a href="#portfolio" className="hover:text-accent transition-colors">Portfolio</a>
-            <a href="#contact" className="hover:text-primary transition-colors">Contact</a>
+            <a href="#accueil" className="hover:text-primary transition-colors">{t("nav.home")}</a>
+            <a href="#about" className="hover:text-secondary transition-colors">{t("nav.about")}</a>
+            <a href="#services" className="hover:text-secondary transition-colors">{t("nav.services")}</a>
+            <a href="#portfolio" className="hover:text-accent transition-colors">{t("nav.portfolio")}</a>
+            <a href="#contact" className="hover:text-primary transition-colors">{t("nav.contact")}</a>
             <LanguageSwitcher />
           </div>
         </div>
@@ -42,27 +47,27 @@ export default function Home() {
           <div className="flex flex-col items-center text-center gap-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-primary/30 via-secondary/30 to-accent/30 text-sm border border-primary/40 backdrop-blur-sm">
               <Sparkles className="w-4 h-4 text-primary" />
-              <span>Guapo Web Designer</span>
+              <span>{t("hero.badge")}</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight max-w-4xl">
-              If you can imagine it, I can <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">design it.</span>
+              {t("hero.title")} <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">{t("hero.title.highlight")}</span>
             </h1>
             <p className="text-xl text-foreground/80 max-w-2xl">
-              Des sites web conçus pour améliorer votre visibilité et professionnaliser votre entreprise
+              {t("hero.subtitle")}
             </p>
             <div className="flex gap-4 mt-4">
               <a 
                 href="#portfolio" 
                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-primary/25"
               >
-                Voir mes projets
+                {t("hero.cta.projects")}
                 <ArrowRight className="w-4 h-4" />
               </a>
               <a 
                 href="#contact" 
                 className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary/30 bg-background/50 backdrop-blur-sm rounded-lg hover:bg-primary/10 transition-colors"
               >
-                Me contacter
+                {t("hero.cta.contact")}
               </a>
             </div>
           </div>
@@ -84,7 +89,7 @@ export default function Home() {
             <div className="flex items-center justify-center gap-4 mb-6">
               <Sparkles className="w-8 h-8 text-primary animate-pulse" />
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                À propos de Guapo
+                {t("about.title")}
               </h2>
               <Sparkles className="w-8 h-8 text-accent animate-pulse" />
             </div>
@@ -96,32 +101,32 @@ export default function Home() {
               <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-primary to-secondary">
                 <Heart className="w-8 h-8 text-primary-foreground" />
               </div>
-              <h3 className="text-2xl font-bold mb-3">Passion</h3>
-              <p className="text-foreground/70 leading-relaxed">Chaque projet est une nouvelle aventure créative</p>
+              <h3 className="text-2xl font-bold mb-3">{t("about.values.passion")}</h3>
+              <p className="text-foreground/70 leading-relaxed">{t("about.values.passion.desc")}</p>
             </div>
 
             <div className="group relative p-8 rounded-2xl bg-gradient-to-br from-secondary/20 to-secondary/5 backdrop-blur-sm border-2 border-secondary/30 shadow-lg hover:shadow-2xl hover:shadow-secondary/20 hover:scale-105 hover:rotate-1 transition-all duration-300">
               <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-secondary to-accent">
                 <Sparkles className="w-8 h-8 text-secondary-foreground" />
               </div>
-              <h3 className="text-2xl font-bold mb-3">Innovation</h3>
-              <p className="text-foreground/70 leading-relaxed">Toujours à l'avant-garde des tendances</p>
+              <h3 className="text-2xl font-bold mb-3">{t("about.values.innovation")}</h3>
+              <p className="text-foreground/70 leading-relaxed">{t("about.values.innovation.desc")}</p>
             </div>
 
             <div className="group relative p-8 rounded-2xl bg-gradient-to-br from-accent/20 to-accent/5 backdrop-blur-sm border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 hover:rotate-1 transition-all duration-300">
               <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-accent to-primary">
                 <Zap className="w-8 h-8 text-accent-foreground" />
               </div>
-              <h3 className="text-2xl font-bold mb-3">Performance</h3>
-              <p className="text-foreground/70 leading-relaxed">Des sites rapides et optimisés</p>
+              <h3 className="text-2xl font-bold mb-3">{t("about.values.performance")}</h3>
+              <p className="text-foreground/70 leading-relaxed">{t("about.values.performance.desc")}</p>
             </div>
 
             <div className="group relative p-8 rounded-2xl bg-gradient-to-br from-primary/20 to-accent/10 backdrop-blur-sm border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 hover:rotate-1 transition-all duration-300">
               <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-primary via-secondary to-accent">
                 <Palette className="w-8 h-8 text-primary-foreground" />
               </div>
-              <h3 className="text-2xl font-bold mb-3">Créativité</h3>
-              <p className="text-foreground/70 leading-relaxed">Des designs uniques et mémorables</p>
+              <h3 className="text-2xl font-bold mb-3">{t("about.values.creativity")}</h3>
+              <p className="text-foreground/70 leading-relaxed">{t("about.values.creativity.desc")}</p>
             </div>
           </div>
 
@@ -134,32 +139,26 @@ export default function Home() {
             {/* Text Content */}
             <div className="relative z-10 space-y-6">
               <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Créateur d'expériences digitales
+                {t("about.heading")}
               </h3>
               <p className="text-lg text-foreground/80 leading-relaxed">
-                Bienvenue chez <span className="text-primary font-semibold">Guapo Web Designer</span>, 
-                votre partenaire créatif pour transformer vos idées en réalités digitales exceptionnelles.
+                {t("about.intro")} <span className="text-primary font-semibold">{t("about.intro.highlight")}</span>{t("about.intro.text")}
               </p>
               <p className="text-foreground/70 leading-relaxed">
-                Avec une passion pour le design moderne et une expertise technique pointue, 
-                je crée des sites web qui ne se contentent pas d'être beaux, mais qui performent, 
-                convertissent et marquent les esprits.
+                {t("about.p1")}
               </p>
               <p className="text-foreground/70 leading-relaxed">
-                Mon approche combine <span className="text-accent font-semibold">créativité audacieuse</span>, 
-                <span className="text-primary font-semibold"> innovation technologique</span> et 
-                <span className="text-secondary font-semibold"> excellence professionnelle</span> pour 
-                donner vie à des projets web qui dépassent vos attentes.
+                {t("about.p2.prefix")} <span className="text-accent font-semibold">{t("about.p2.creativity")}</span>, <span className="text-primary font-semibold">{t("about.p2.innovation")}</span> {t("about.p2.excellence")} {t("about.p2.suffix")}
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
                 <div className="px-4 py-2 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/30 text-sm">
-                  🎨 Design UI/UX
+                  {t("about.badge.design")}
                 </div>
                 <div className="px-4 py-2 rounded-full bg-gradient-to-r from-secondary/20 to-accent/20 border border-accent/30 text-sm">
-                  ⚡ Performance optimale
+                  {t("about.badge.performance")}
                 </div>
                 <div className="px-4 py-2 rounded-full bg-gradient-to-r from-accent/20 to-primary/20 border border-primary/30 text-sm">
-                  🚀 Technologies modernes
+                  {t("about.badge.tech")}
                 </div>
               </div>
             </div>
@@ -202,8 +201,8 @@ export default function Home() {
         
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Mes <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Services</span></h2>
-            <p className="text-foreground/70 text-lg">Ce que je peux faire pour vous</p>
+            <h2 className="text-4xl font-bold mb-4">{t("services.title")} <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{t("services.title.highlight")}</span></h2>
+            <p className="text-foreground/70 text-lg">{t("services.subtitle")}</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -211,9 +210,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Palette className="w-6 h-6 text-primary-foreground" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Design UI/UX</h3>
+              <h3 className="text-xl font-semibold mb-3">{t("services.design.title")}</h3>
               <p className="text-foreground/70">
-                Création d'interfaces utilisateur intuitives et attrayantes avec une expérience optimale.
+                {t("services.design.desc")}
               </p>
             </div>
 
@@ -221,9 +220,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Code className="w-6 h-6 text-secondary-foreground" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Développement Web</h3>
+              <h3 className="text-xl font-semibold mb-3">{t("services.dev.title")}</h3>
               <p className="text-foreground/70">
-                Développement de sites web modernes avec React, Next.js et les dernières technologies.
+                {t("services.dev.desc")}
               </p>
             </div>
 
@@ -231,9 +230,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Sparkles className="w-6 h-6 text-accent-foreground" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Design Responsive</h3>
+              <h3 className="text-xl font-semibold mb-3">{t("services.responsive.title")}</h3>
               <p className="text-foreground/70">
-                Sites web parfaitement adaptés à tous les écrans : mobile, tablette et desktop.
+                {t("services.responsive.desc")}
               </p>
             </div>
           </div>
@@ -250,8 +249,8 @@ export default function Home() {
         
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Port<span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">folio</span></h2>
-            <p className="text-foreground/70 text-lg">Mes projets récents</p>
+            <h2 className="text-4xl font-bold mb-4">{t("portfolio.title.prefix")}<span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">{t("portfolio.title.highlight")}</span></h2>
+            <p className="text-foreground/70 text-lg">{t("portfolio.subtitle")}</p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -298,9 +297,9 @@ export default function Home() {
         </div>
         
         <div className="max-w-3xl mx-auto text-center relative z-10">
-          <h2 className="text-4xl font-bold mb-4">Travaillons <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Ensemble</span></h2>
+          <h2 className="text-4xl font-bold mb-4">{t("contact.title")} <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">{t("contact.title.highlight")}</span></h2>
           <p className="text-foreground/70 text-lg mb-8">
-            Vous avez un projet en tête ? Contactez-moi et discutons de vos besoins.
+            {t("contact.subtitle")}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -330,7 +329,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-border bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto text-center text-foreground/70">
-          <p>© 2025 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer. Tous droits réservés.</p>
+          <p>© 2025 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer. {t("footer.rights")}</p>
         </div>
       </footer>
     </div>
