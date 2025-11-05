@@ -26,8 +26,8 @@ export default function Home() {
           <div className="hidden md:flex gap-8 items-center">
             <a href="#accueil" className="hover:text-primary transition-colors">{t("nav.home")}</a>
             <a href="#about" className="hover:text-secondary transition-colors">{t("nav.about")}</a>
-            <a href="#services" className="hover:text-secondary transition-colors">{t("nav.services")}</a>
             <a href="#portfolio" className="hover:text-accent transition-colors">{t("nav.portfolio")}</a>
+            <a href="#services" className="hover:text-secondary transition-colors">{t("nav.services")}</a>
             <a href="#contact" className="hover:text-primary transition-colors">{t("nav.contact")}</a>
             <LanguageSwitcher />
           </div>
@@ -174,54 +174,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-20 px-6 bg-gradient-to-br from-secondary/20 via-accent/15 to-primary/20 relative overflow-hidden">
-        {/* Decorative background blobs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 right-20 w-64 h-64 bg-secondary/40 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-10 w-80 h-80 bg-accent/30 rounded-full blur-3xl"></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">{t("services.title")} <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{t("services.title.highlight")}</span></h2>
-            <p className="text-foreground/70 text-lg">{t("services.subtitle")}</p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm p-8 rounded-xl border border-primary/30 hover:shadow-2xl hover:shadow-primary/20 transition-all hover:scale-105">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4 shadow-lg">
-                <Palette className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">{t("services.design.title")}</h3>
-              <p className="text-foreground/70">
-                {t("services.design.desc")}
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-br from-secondary/20 to-secondary/5 backdrop-blur-sm p-8 rounded-xl border border-secondary/30 hover:shadow-2xl hover:shadow-secondary/20 transition-all hover:scale-105">
-              <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center mb-4 shadow-lg">
-                <Code className="w-6 h-6 text-secondary-foreground" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">{t("services.dev.title")}</h3>
-              <p className="text-foreground/70">
-                {t("services.dev.desc")}
-              </p>
-            </div>
-
-            <div className="bg-gradient-to-br from-accent/20 to-accent/5 backdrop-blur-sm p-8 rounded-xl border border-accent/30 hover:shadow-2xl hover:shadow-accent/20 transition-all hover:scale-105">
-              <div className="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center mb-4 shadow-lg">
-                <Sparkles className="w-6 h-6 text-accent-foreground" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">{t("services.responsive.title")}</h3>
-              <p className="text-foreground/70">
-                {t("services.responsive.desc")}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Portfolio Section */}
       <section id="portfolio" className="py-20 px-6 bg-gradient-to-br from-accent/20 via-primary/15 to-secondary/20 relative overflow-hidden">
         {/* Decorative background blobs */}
@@ -266,6 +218,54 @@ export default function Home() {
               <h3 className="font-semibold mb-2 text-lg">Salary Business</h3>
               <p className="text-sm text-foreground/60">www.salarybusiness.be</p>
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="py-20 px-6 bg-gradient-to-br from-secondary/20 via-accent/15 to-primary/20 relative overflow-hidden">
+        {/* Decorative background blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 right-20 w-64 h-64 bg-secondary/40 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-10 w-80 h-80 bg-accent/30 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4">{t("services.title")} <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{t("services.title.highlight")}</span></h2>
+            <p className="text-foreground/70 text-lg">{t("services.subtitle")}</p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-br from-primary/20 to-primary/5 backdrop-blur-sm p-8 rounded-xl border border-primary/30 hover:shadow-2xl hover:shadow-primary/20 transition-all hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4 shadow-lg">
+                <Palette className="w-6 h-6 text-primary-foreground" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">{t("services.design.title")}</h3>
+              <p className="text-foreground/70">
+                {t("services.design.desc")}
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-secondary/20 to-secondary/5 backdrop-blur-sm p-8 rounded-xl border border-secondary/30 hover:shadow-2xl hover:shadow-secondary/20 transition-all hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center mb-4 shadow-lg">
+                <Code className="w-6 h-6 text-secondary-foreground" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">{t("services.dev.title")}</h3>
+              <p className="text-foreground/70">
+                {t("services.dev.desc")}
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-accent/20 to-accent/5 backdrop-blur-sm p-8 rounded-xl border border-accent/30 hover:shadow-2xl hover:shadow-accent/20 transition-all hover:scale-105">
+              <div className="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center mb-4 shadow-lg">
+                <Sparkles className="w-6 h-6 text-accent-foreground" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3">{t("services.responsive.title")}</h3>
+              <p className="text-foreground/70">
+                {t("services.responsive.desc")}
+              </p>
+            </div>
           </div>
         </div>
       </section>
