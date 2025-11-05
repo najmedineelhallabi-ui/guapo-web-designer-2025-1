@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter, Heart, Zap, Monitor, Tablet, Smartphone, Instagram } from "lucide-react";
+import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter, Heart, Zap, Monitor, Tablet, Smartphone, Instagram, Menu, X } from "lucide-react";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { useLanguage } from "@/contexts/language-context";
+import { useState } from "react";
 
 export default function Home() {
   const { t } = useLanguage();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-secondary/10">
@@ -23,6 +25,8 @@ export default function Home() {
               priority
             />
           </a>
+          
+          {/* Desktop Navigation */}
           <div className="hidden md:flex gap-8 items-center">
             <a href="#accueil" className="hover:text-primary transition-colors">{t("nav.home")}</a>
             <a href="#about" className="hover:text-secondary transition-colors">{t("nav.about")}</a>
@@ -31,7 +35,66 @@ export default function Home() {
             <a href="/contact" className="hover:text-primary transition-colors">{t("nav.contact")}</a>
             <LanguageSwitcher />
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 hover:bg-primary/10 rounded-lg transition-colors"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6 text-primary" />
+            ) : (
+              <Menu className="w-6 h-6 text-primary" />
+            )}
+          </button>
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 backdrop-blur-md border-b border-border shadow-lg">
+            <div className="flex flex-col gap-4 px-6 py-6">
+              <a 
+                href="#accueil" 
+                className="hover:text-primary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.home")}
+              </a>
+              <a 
+                href="#about" 
+                className="hover:text-secondary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.about")}
+              </a>
+              <a 
+                href="#portfolio" 
+                className="hover:text-accent transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.portfolio")}
+              </a>
+              <a 
+                href="#services" 
+                className="hover:text-secondary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.services")}
+              </a>
+              <a 
+                href="/contact" 
+                className="hover:text-primary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.contact")}
+              </a>
+              <div className="pt-2 border-t border-border">
+                <LanguageSwitcher />
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
