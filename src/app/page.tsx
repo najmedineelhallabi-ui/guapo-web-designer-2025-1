@@ -10,6 +10,7 @@ export default function Home() {
           <div className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">GUAPO</div>
           <div className="hidden md:flex gap-8">
             <a href="#accueil" className="hover:text-primary transition-colors">Accueil</a>
+            <a href="/about" className="hover:text-secondary transition-colors">À propos</a>
             <a href="#services" className="hover:text-secondary transition-colors">Services</a>
             <a href="#portfolio" className="hover:text-accent transition-colors">Portfolio</a>
             <a href="#contact" className="hover:text-primary transition-colors">Contact</a>
