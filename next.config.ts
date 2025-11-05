@@ -20,12 +20,14 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: false,
   },
   // Allow Orchids to load the site in development
-  allowedDevOrigins: [
-    'www.orchids.app',
-    'orchids.app',
-    '*.orchids.app',
-    '*.proxy.daytona.works',
-  ],
+  experimental: {
+    allowedOrigins: [
+      'www.orchids.app',
+      'orchids.app',
+      '*.orchids.app',
+      '*.proxy.daytona.works',
+    ],
+  },
   // En-têtes de sécurité HTTPS
   async headers() {
     return [
@@ -74,4 +76,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-// Orchids restart: 1762384925271
+// Orchids restart: 1762386022250
