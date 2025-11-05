@@ -142,13 +142,10 @@ export default function Home() {
                 {t("about.heading")}
               </h3>
               <p className="text-lg text-foreground/80 leading-relaxed">
-                {t("about.intro")} <span className="text-primary font-semibold">{t("about.intro.highlight")}</span>{t("about.intro.text")}
+                {t("about.intro")}
               </p>
               <p className="text-foreground/70 leading-relaxed">
                 {t("about.p1")}
-              </p>
-              <p className="text-foreground/70 leading-relaxed">
-                {t("about.p2.prefix")} <span className="text-accent font-semibold">{t("about.p2.creativity")}</span>, <span className="text-primary font-semibold">{t("about.p2.innovation")}</span> {t("about.p2.excellence")} {t("about.p2.suffix")}
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
                 <div className="px-4 py-2 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/30 text-sm">
