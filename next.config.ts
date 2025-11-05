@@ -1,8 +1,4 @@
 import type { NextConfig } from "next";
-import path from "node:path";
-
-const LOADER = path.resolve(__dirname, 'src/visual-edits/component-tagger-loader.js');
-
 
 const nextConfig: NextConfig = {
   images: {
@@ -20,12 +16,14 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: false,
   },
   // Allow Orchids to load the site in development
-  allowedDevOrigins: [
-    'www.orchids.app',
-    'orchids.app',
-    '*.orchids.app',
-    '*.proxy.daytona.works',
-  ],
+  experimental: {
+    allowedOrigins: [
+      'www.orchids.app',
+      'orchids.app',
+      '*.orchids.app',
+      '*.proxy.daytona.works',
+    ],
+  },
   // En-têtes de sécurité HTTPS
   async headers() {
     return [
@@ -64,14 +62,6 @@ const nextConfig: NextConfig = {
       }
     ]
   },
-  turbopack: {
-    rules: {
-      "*.{jsx,tsx}": {
-        loaders: [LOADER]
-      }
-    }
-  }
 };
 
 export default nextConfig;
-// Orchids restart: 1762384925271
