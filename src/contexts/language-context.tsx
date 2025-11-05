@@ -21,11 +21,11 @@ const translations = {
     
     // Hero
     "hero.badge": "Guapo Web Designer",
-    "hero.title": "If you can imagine it, I can",
+    "hero.title": "If you can imagine it, we can",
     "hero.title.highlight": "design it.",
     "hero.subtitle": "Des sites web conçus pour améliorer votre visibilité et professionnaliser votre entreprise",
-    "hero.cta.projects": "Voir mes projets",
-    "hero.cta.contact": "Me contacter",
+    "hero.cta.projects": "Voir nos projets",
+    "hero.cta.contact": "Nous contacter",
     
     // About
     "about.title": "À propos de Guapo",
@@ -38,7 +38,7 @@ const translations = {
     "about.values.creativity": "Créativité",
     "about.values.creativity.desc": "Des designs uniques et mémorables",
     "about.heading": "Créateur passionné",
-    "about.intro": "Passionné par le design et les nouvelles technologies, je crée des sites web modernes, élégants et performants. Mon approche combine créativité, expertise technique et attention aux détails pour donner vie à vos projets digitaux.",
+    "about.intro": "Passionnés par le design et les nouvelles technologies, nous créons des sites web modernes, élégants et performants. Notre approche combine créativité, expertise technique et attention aux détails pour donner vie à vos projets digitaux.",
     "about.intro.highlight": "",
     "about.intro.text": "",
     "about.p1": "Chaque projet est unique et mérite une attention particulière.",
@@ -70,9 +70,9 @@ const translations = {
     "services.cta.button": "Discutons de votre projet 💬",
     
     // Services
-    "services.title": "Mes",
+    "services.title": "Nos",
     "services.title.highlight": "Services",
-    "services.subtitle": "Ce que je peux faire pour vous",
+    "services.subtitle": "Ce que nous pouvons faire pour vous",
     "services.design.title": "Design UI/UX",
     "services.design.desc": "Création d'interfaces utilisateur intuitives et attrayantes avec une expérience optimale.",
     "services.dev.title": "Développement Web",
@@ -81,12 +81,12 @@ const translations = {
     // Portfolio
     "portfolio.title.prefix": "Port",
     "portfolio.title.highlight": "folio",
-    "portfolio.subtitle": "Mes projets récents",
+    "portfolio.subtitle": "Nos projets récents",
     
     // Contact
     "contact.title": "Travaillons",
     "contact.title.highlight": "Ensemble",
-    "contact.subtitle": "Vous avez un projet en tête ? Contactez-moi et discutons de vos besoins.",
+    "contact.subtitle": "Vous avez un projet en tête ? Contactez-nous et discutons de vos besoins.",
     
     // Contact Page
     "contact.page.title": "Contactez-nous",
@@ -126,10 +126,10 @@ const translations = {
     
     // Hero
     "hero.badge": "Guapo Web Designer",
-    "hero.title": "Als je het kunt bedenken, kan ik het",
+    "hero.title": "Als je het kunt bedenken, kunnen wij het",
     "hero.title.highlight": "ontwerpen.",
     "hero.subtitle": "Websites ontworpen om uw zichtbaarheid te verbeteren en uw bedrijf te professionaliseren",
-    "hero.cta.projects": "Bekijk mijn projecten",
+    "hero.cta.projects": "Bekijk onze projecten",
     "hero.cta.contact": "Neem contact op",
     
     // About
@@ -143,7 +143,7 @@ const translations = {
     "about.values.creativity": "Creativiteit",
     "about.values.creativity.desc": "Unieke en gedenkwaardige ontwerpen",
     "about.heading": "Gepassioneerde maker",
-    "about.intro": "Gepassioneerd door design en nieuwe technologieën, creëer ik moderne, elegante en krachtige websites. Mijn aanpak combineert creativiteit, technische expertise en aandacht voor detail om uw digitale projecten tot leven te brengen.",
+    "about.intro": "Gepassioneerd door design en nieuwe technologieën, creëren wij moderne, elegante en krachtige websites. Onze aanpak combineert creativiteit, technische expertise en aandacht voor detail om uw digitale projecten tot leven te brengen.",
     "about.intro.highlight": "",
     "about.intro.text": "",
     "about.p1": "Elk project is uniek en verdient bijzondere aandacht.",
@@ -175,9 +175,9 @@ const translations = {
     "services.cta.button": "Laten we praten over uw project 💬",
     
     // Services
-    "services.title": "Mijn",
+    "services.title": "Onze",
     "services.title.highlight": "Diensten",
-    "services.subtitle": "Wat ik voor u kan doen",
+    "services.subtitle": "Wat wij voor u kunnen doen",
     "services.design.title": "UI/UX Design",
     "services.design.desc": "Creatie van intuïtieve en aantrekkelijke gebruikersinterfaces met een optimale ervaring.",
     "services.dev.title": "Web Ontwikkeling",
@@ -186,12 +186,12 @@ const translations = {
     // Portfolio
     "portfolio.title.prefix": "Port",
     "portfolio.title.highlight": "folio",
-    "portfolio.subtitle": "Mijn recente projecten",
+    "portfolio.subtitle": "Onze recente projecten",
     
     // Contact
     "contact.title": "Laten we",
     "contact.title.highlight": "Samenwerken",
-    "contact.subtitle": "Heeft u een project in gedachten? Neem contact met mij op en laten we uw behoeften bespreken.",
+    "contact.subtitle": "Heeft u een project in gedachten? Neem contact met ons op en laten we uw behoeften bespreken.",
     
     // Contact Page
     "contact.page.title": "Neem contact op",
@@ -230,11 +230,11 @@ const translations = {
     
     // Hero
     "hero.badge": "Guapo Web Designer",
-    "hero.title": "If you can imagine it, I can",
+    "hero.title": "If you can imagine it, we can",
     "hero.title.highlight": "design it.",
     "hero.subtitle": "Websites designed to improve your visibility and professionalize your business",
-    "hero.cta.projects": "View my projects",
-    "hero.cta.contact": "Contact me",
+    "hero.cta.projects": "View our projects",
+    "hero.cta.contact": "Contact us",
     
     // About
     "about.title": "About Guapo",
@@ -247,7 +247,7 @@ const translations = {
     "about.values.creativity": "Creativity",
     "about.values.creativity.desc": "Unique and memorable designs",
     "about.heading": "Passionate creator",
-    "about.intro": "Passionate about design and new technologies, I create modern, elegant and powerful websites. My approach combines creativity, technical expertise and attention to detail to bring your digital projects to life.",
+    "about.intro": "Passionate about design and new technologies, we create modern, elegant and powerful websites. Our approach combines creativity, technical expertise and attention to detail to bring your digital projects to life.",
     "about.intro.highlight": "",
     "about.intro.text": "",
     "about.p1": "Each project is unique and deserves special attention.",
@@ -279,9 +279,9 @@ const translations = {
     "services.cta.button": "Let's discuss your project 💬",
     
     // Services
-    "services.title": "My",
+    "services.title": "Our",
     "services.title.highlight": "Services",
-    "services.subtitle": "What I can do for you",
+    "services.subtitle": "What we can do for you",
     "services.design.title": "UI/UX Design",
     "services.design.desc": "Creation of intuitive and attractive user interfaces with an optimal experience.",
     "services.dev.title": "Web Development",
@@ -290,12 +290,12 @@ const translations = {
     // Portfolio
     "portfolio.title.prefix": "Port",
     "portfolio.title.highlight": "folio",
-    "portfolio.subtitle": "My recent projects",
+    "portfolio.subtitle": "Our recent projects",
     
     // Contact
     "contact.title": "Let's Work",
     "contact.title.highlight": "Together",
-    "contact.subtitle": "Have a project in mind? Contact me and let's discuss your needs.",
+    "contact.subtitle": "Have a project in mind? Contact us and let's discuss your needs.",
     
     // Contact Page
     "contact.page.title": "Contact Us",
