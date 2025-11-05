@@ -19,6 +19,13 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
+  // Allow Orchids to load the site in development
+  allowedDevOrigins: [
+    'www.orchids.app',
+    'orchids.app',
+    '*.orchids.app',
+    '*.proxy.daytona.works',
+  ],
   // En-têtes de sécurité HTTPS
   async headers() {
     return [
