@@ -3,6 +3,9 @@ import "./globals.css";
 import { LanguageProvider } from "@/contexts/language-context";
 import { Toaster } from "@/components/ui/sonner";
 
+import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
+import ErrorReporter from "@/components/ErrorReporter";
+import Script from "next/script";
 export const metadata: Metadata = {
   title: "GUAPO Web Designer | Sites Web Modernes & Professionnels",
   description: "Création de sites web modernes, élégants et performants. Design UI/UX, développement responsive, identité visuelle. Services en Belgique - FR, NL, EN.",
@@ -22,6 +25,11 @@ export const metadata: Metadata = {
   creator: "GUAPO Web Designer",
   publisher: "GUAPO Web Designer",
   metadataBase: new URL("https://guapowebdesigner.com"),
+  icons: {
+    icon: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/13f861ea-80b2-46df-bf59-2c79771ac155/generated_images/simple-modern-favicon-logo-for-guapo-web-522ceb6d-20251106074939.jpg",
+    shortcut: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/13f861ea-80b2-46df-bf59-2c79771ac155/generated_images/simple-modern-favicon-logo-for-guapo-web-522ceb6d-20251106074939.jpg",
+    apple: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/13f861ea-80b2-46df-bf59-2c79771ac155/generated_images/simple-modern-favicon-logo-for-guapo-web-522ceb6d-20251106074939.jpg",
+  },
   alternates: {
     canonical: "/",
     languages: {
@@ -113,10 +121,23 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
+        <ErrorReporter />
+        <Script
+          src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts//route-messenger.js"
+          strategy="afterInteractive"
+          data-target-origin="*"
+          data-message-type="ROUTE_CHANGE"
+          data-include-search-params="true"
+          data-only-in-iframe="true"
+          data-debug="true"
+          data-custom-data='{"appName": "YourApp", "version": "1.0.0", "greeting": "hi"}'
+        />
         <LanguageProvider>
           {children}
           <Toaster />
         </LanguageProvider>
+      
+        <VisualEditsMessenger />
       </body>
     </html>
   );
