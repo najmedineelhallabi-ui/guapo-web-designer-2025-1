@@ -18,14 +18,6 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
-  experimental: {
-    allowedDevOrigins: [
-      'www.orchids.app',
-      'orchids.app',
-      '*.orchids.app',
-      '*.proxy.daytona.works',
-    ],
-  },
   turbopack: {
     rules: {
       "*.{jsx,tsx}": {
