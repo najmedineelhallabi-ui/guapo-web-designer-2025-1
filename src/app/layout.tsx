@@ -4,6 +4,7 @@ import { LanguageProvider } from "@/contexts/language-context";
 import { Toaster } from "@/components/ui/sonner";
 import Script from "next/script";
 
+import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 export const metadata: Metadata = {
   title: "GUAPO Web Designer | Sites Web Modernes & Professionnels",
   description: "Création de sites web modernes, élégants et performants. Design UI/UX, développement responsive, identité visuelle. Services en Belgique - FR, NL, EN.",
@@ -128,6 +129,8 @@ export default function RootLayout({
           {children}
           <Toaster />
         </LanguageProvider>
+      
+        <VisualEditsMessenger />
       </body>
     </html>
   );
