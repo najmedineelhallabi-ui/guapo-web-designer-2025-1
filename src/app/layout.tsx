@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/language-context";
 import { Toaster } from "@/components/ui/sonner";
-
-import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
-import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
+
 export const metadata: Metadata = {
   title: "GUAPO Web Designer | Sites Web Modernes & Professionnels",
   description: "Création de sites web modernes, élégants et performants. Design UI/UX, développement responsive, identité visuelle. Services en Belgique - FR, NL, EN.",
@@ -88,7 +86,7 @@ export default function RootLayout({
         <link rel="alternate" hrefLang="en" href="https://guapowebdesigner.com" />
         <link rel="alternate" hrefLang="x-default" href="https://guapowebdesigner.com" />
         
-        {/* Favicon */}
+        {/* Favicon - using PNG logo */}
         <link rel="icon" type="image/png" href="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=32&height=32&resize=contain" />
         
         {/* JSON-LD Schema Markup */}
@@ -121,7 +119,6 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <ErrorReporter />
         <Script
           src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts//route-messenger.js"
           strategy="afterInteractive"
@@ -136,8 +133,6 @@ export default function RootLayout({
           {children}
           <Toaster />
         </LanguageProvider>
-      
-        <VisualEditsMessenger />
       </body>
     </html>
   );
