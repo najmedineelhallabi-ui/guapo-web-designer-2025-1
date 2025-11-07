@@ -28,7 +28,7 @@ export default function Home() {
           <a href="#accueil" className="flex items-center">
             <Image 
               src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
-              alt="GUAPO Web Designer Logo"
+              alt="Guapo Web Designer - Webdesigner Belgique"
               width={120}
               height={60}
               className="h-12 w-auto object-contain"
@@ -119,13 +119,13 @@ export default function Home() {
           <div className="flex flex-col items-center text-center gap-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/30 text-sm border border-primary/50 backdrop-blur-sm">
               <Sparkles className="w-4 h-4 text-primary" />
-              <span>{t("hero.badge")}</span>
+              <span>Webdesigner Belgique - Guapo Designer</span>
             </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight max-w-4xl">
-              {t("hero.title")} <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">{t("hero.title.highlight")}</span>
+              Guapo Web Designer - <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Création de Sites Web</span>
             </h1>
             <p className="text-xl text-foreground/90 max-w-2xl">
-              {t("hero.subtitle")}
+              Webdesigner professionnel en Belgique spécialisé en création de sites web, sites vitrines et design moderne. Guapo Web pour tous vos projets digitaux.
             </p>
             <div className="flex gap-4 mt-4">
               <a 
@@ -159,7 +159,7 @@ export default function Home() {
             <div className="flex items-center justify-center gap-4 mb-6">
               <Sparkles className="w-8 h-8 text-primary animate-pulse" />
               <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                {t("about.title")}
+                Guapo Designer - Votre Web Designer en Belgique
               </h2>
               <Sparkles className="w-8 h-8 text-accent animate-pulse" />
             </div>
@@ -207,11 +207,12 @@ export default function Home() {
 
             {/* Text Content */}
             <div className="relative z-10 space-y-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Création de Sites Web Professionnels</h3>
               <p className="text-lg text-gray-800 leading-relaxed">
-                {t("about.intro")}
+                <strong>Guapo Web Designer</strong> est votre partenaire pour la <strong>création de sites web</strong> en Belgique. Nous sommes spécialisés dans le design de <strong>sites vitrines</strong> modernes et performants.
               </p>
               <p className="text-gray-700 leading-relaxed">
-                {t("about.p1")}
+                En tant que <strong>webdesigner professionnel</strong>, nous créons des <strong>sites web</strong> sur mesure qui reflètent votre identité et captivent vos visiteurs. Notre expertise en <strong>web design</strong> garantit des résultats exceptionnels.
               </p>
             </div>
 
@@ -225,7 +226,7 @@ export default function Home() {
                 <div className="relative w-64 h-64 bg-white rounded-2xl shadow-2xl shadow-primary/20 flex items-center justify-center border-4 border-gray-100 p-4">
                   <Image 
                     src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
-                    alt="GUAPO Web Designer"
+                    alt="Guapo Web Designer - Création de sites web Belgique"
                     width={240}
                     height={240}
                     className="w-full h-full object-contain"
@@ -249,8 +250,8 @@ export default function Home() {
         
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">{t("portfolio.title.prefix")}<span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">{t("portfolio.title.highlight")}</span></h2>
-            <p className="text-foreground/80 text-lg">{t("portfolio.subtitle")}</p>
+            <h2 className="text-4xl font-bold mb-4">Nos Réalisations en <span className="bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent">Création de Sites Web</span></h2>
+            <p className="text-foreground/80 text-lg">Découvrez nos projets de sites vitrines et sites web professionnels</p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -259,13 +260,13 @@ export default function Home() {
               <div className="aspect-video bg-white backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg flex items-center justify-center p-8">
                 <Image 
                   src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Capture-d-ecran-2025-10-24-124300-1762369451856.png?width=8000&height=8000&resize=contain"
-                  alt="Fiscand Business Logo"
+                  alt="Fiscand Business - Site vitrine créé par Guapo Web Designer"
                   width={400}
                   height={200}
                   className="w-full h-full object-contain group-hover:scale-105 transition-transform"
                 />
               </div>
-              <h3 className="font-semibold mb-2 text-lg">Fiscand Business</h3>
+              <h3 className="font-semibold mb-2 text-lg">Fiscand Business - Site Vitrine</h3>
               <p className="text-sm text-foreground/60">www.fiscand.business</p>
             </a>
 
@@ -274,13 +275,13 @@ export default function Home() {
               <div className="aspect-video bg-white backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg flex items-center justify-center p-8">
                 <Image 
                   src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/LOGO-SALARYBUSINESS-1762369466889.jpg?width=8000&height=8000&resize=contain"
-                  alt="Salary Business Logo"
+                  alt="Salary Business - Site web professionnel par Guapo Designer"
                   width={400}
                   height={200}
                   className="w-full h-full object-contain group-hover:scale-105 transition-transform"
                 />
               </div>
-              <h3 className="font-semibold mb-2 text-lg">Salary Business</h3>
+              <h3 className="font-semibold mb-2 text-lg">Salary Business - Site Web</h3>
               <p className="text-sm text-foreground/60">www.salarybusiness.be</p>
             </a>
           </div>
@@ -296,8 +297,8 @@ export default function Home() {
         
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-gray-900">{t("services.title")} <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{t("services.title.highlight")}</span></h2>
-            <p className="text-gray-700 text-lg">{t("services.subtitle")}</p>
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Services de <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Web Designer en Belgique</span></h2>
+            <p className="text-gray-700 text-lg">Création de sites web professionnels et sites vitrines sur mesure</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -305,9 +306,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Monitor className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">{t("services.desktop.title")}</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Sites Web Desktop</h3>
               <p className="text-gray-700">
-                {t("services.desktop.desc")}
+                Création de sites web optimisés pour ordinateurs avec un design professionnel et moderne.
               </p>
             </div>
 
@@ -315,9 +316,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Tablet className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">{t("services.tablet.title")}</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Sites Tablettes</h3>
               <p className="text-gray-700">
-                {t("services.tablet.desc")}
+                Design responsive adapté aux tablettes pour une expérience utilisateur optimale.
               </p>
             </div>
 
@@ -325,9 +326,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Smartphone className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">{t("services.mobile.title")}</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Sites Mobile</h3>
               <p className="text-gray-700">
-                {t("services.mobile.desc")}
+                Sites web mobile-first pour une navigation parfaite sur smartphones.
               </p>
             </div>
 
@@ -335,9 +336,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Monitor className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">{t("services.responsive.title")}</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Design Responsive</h3>
               <p className="text-gray-700">
-                {t("services.responsive.desc")}
+                Création de sites qui s'adaptent automatiquement à tous les écrans et appareils.
               </p>
             </div>
 
@@ -345,9 +346,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Palette className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">{t("services.branding.title")}</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Identité Visuelle</h3>
               <p className="text-gray-700">
-                {t("services.branding.desc")}
+                Création de votre identité de marque et design graphique pour sites vitrines.
               </p>
             </div>
 
@@ -355,9 +356,9 @@ export default function Home() {
               <div className="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-lg flex items-center justify-center mb-4 shadow-lg">
                 <Zap className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">{t("services.performance.title")}</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Performance Web</h3>
               <p className="text-gray-700">
-                {t("services.performance.desc")}
+                Optimisation SEO et performances pour des sites web rapides et bien référencés.
               </p>
             </div>
           </div>
@@ -380,16 +381,16 @@ export default function Home() {
             <div className="absolute inset-0 rounded-3xl border-2 border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
             
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
-              {t("services.cta.title")}
+              Prêt pour votre Projet de Site Web ?
             </h2>
             <p className="text-xl text-foreground/90 mb-8 leading-relaxed max-w-2xl mx-auto">
-              {t("services.cta.desc")}
+              Contactez Guapo Web Designer pour la création de votre site vitrine ou site web professionnel en Belgique.
             </p>
             <a 
-              href="/contact"
+              href="#contact"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary via-secondary to-accent text-white rounded-xl hover:opacity-90 hover:scale-110 transition-all duration-300 shadow-lg shadow-primary/40 hover:shadow-secondary/50 text-lg font-semibold group/btn"
             >
-              {t("services.cta.button")}
+              Demander un Devis
               <Sparkles className="w-5 h-5 group-hover/btn:rotate-12 transition-transform" />
             </a>
           </div>
@@ -406,13 +407,13 @@ export default function Home() {
         
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-            Contactez-nous
+            Contactez Guapo Web Designer
           </h2>
           <h3 className="text-2xl font-semibold text-foreground mb-6">
-            Transformons vos idées en réalité digitale
+            Webdesigner Belgique - Création de Sites Web
           </h3>
           <p className="text-lg text-foreground/90 mb-12 leading-relaxed max-w-2xl mx-auto">
-            Un projet en tête ? N'hésitez pas à nous contacter pour en discuter. Nous serons ravis de vous accompagner dans la création de votre site web.
+            Un projet de site web ou site vitrine ? Contactez notre agence de web design en Belgique pour discuter de votre projet digital.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
@@ -446,7 +447,7 @@ export default function Home() {
                 Guapo Web Designer
               </h3>
               <p className="text-foreground/80 text-sm leading-relaxed">
-                Nous créons des designs colorés et joyeux qui donnent vie à vos projets digitaux.
+                Webdesigner professionnel en Belgique. Création de sites web, sites vitrines et design moderne pour tous vos projets digitaux.
               </p>
             </div>
 
@@ -490,7 +491,7 @@ export default function Home() {
           {/* Copyright */}
           <div className="pt-8 border-t border-border text-center">
             <p className="text-foreground/80 text-sm">
-              © 2025 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer. {t("footer.rights")}
+              © 2025 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer - Webdesigner Belgique - Création de Sites Web. {t("footer.rights")}
             </p>
           </div>
         </div>
