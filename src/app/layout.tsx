@@ -7,31 +7,23 @@ import Script from "next/script";
 import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 import ErrorReporter from "@/components/ErrorReporter";
 export const metadata: Metadata = {
-  title: "Guapo Web Designer | Création de Sites Web en Belgique | Webdesigner Professionnel",
-  description: "Guapo Web Designer - Agence de création de sites web en Belgique. Webdesigner professionnel spécialisé en sites vitrines, sites web modernes et design UI/UX. Guapo Designer pour tous vos projets digitaux.",
+  title: "GUAPO Web Designer | Sites Web Modernes & Professionnels",
+  description: "Création de sites web modernes, élégants et performants. Design UI/UX, développement responsive, identité visuelle. Services en Belgique - FR, NL, EN.",
   keywords: [
-    "guapo web",
-    "guapo designer",
-    "guapo web designer",
     "web designer",
-    "webdesigner belgique",
-    "creation de sites",
-    "sites web",
-    "site vitrine",
-    "création site web belgique",
+    "création site web",
     "design web belgique",
+    "site vitrine",
     "développement web",
     "UI/UX design",
     "site responsive",
     "GUAPO",
     "webdesigner professionnel",
-    "identité visuelle",
-    "agence web belgique",
-    "designer web professionnel"
+    "identité visuelle"
   ],
-  authors: [{ name: "Guapo Web Designer" }],
-  creator: "Guapo Web Designer",
-  publisher: "Guapo Web Designer",
+  authors: [{ name: "GUAPO Web Designer" }],
+  creator: "GUAPO Web Designer",
+  publisher: "GUAPO Web Designer",
   metadataBase: new URL("https://guapowebdesigner.com"),
   alternates: {
     canonical: "/",
@@ -46,22 +38,22 @@ export const metadata: Metadata = {
     locale: "fr_FR",
     alternateLocale: ["nl_BE", "en_US"],
     url: "https://guapowebdesigner.com",
-    title: "Guapo Web Designer | Création de Sites Web en Belgique | Webdesigner Professionnel",
-    description: "Guapo Web Designer - Webdesigner professionnel en Belgique. Création de sites web, sites vitrines et design UI/UX moderne. Guapo Designer pour votre projet digital.",
-    siteName: "Guapo Web Designer",
+    title: "GUAPO Web Designer | Sites Web Modernes & Professionnels",
+    description: "Création de sites web modernes, élégants et performants. Design UI/UX, développement responsive, identité visuelle.",
+    siteName: "GUAPO Web Designer",
     images: [
       {
         url: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=1200&height=630&resize=contain",
         width: 1200,
         height: 630,
-        alt: "Guapo Web Designer - Logo Webdesigner Belgique",
+        alt: "GUAPO Web Designer Logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Guapo Web Designer | Création de Sites Web en Belgique",
-    description: "Guapo Web Designer - Webdesigner professionnel en Belgique. Création de sites web, sites vitrines et design UI/UX moderne.",
+    title: "GUAPO Web Designer | Sites Web Modernes & Professionnels",
+    description: "Création de sites web modernes, élégants et performants. Design UI/UX, développement responsive, identité visuelle.",
     images: ["https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=1200&height=630&resize=contain"],
   },
   robots: {
