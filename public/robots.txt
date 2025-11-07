@@ -1,0 +1,26 @@
+# robots.txt pour Guapo Web Designer
+# https://guapowebdesigner.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://guapowebdesigner.com/sitemap.xml
+
+# Disallow admin and API routes
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Crawl-delay
+Crawl-delay: 0
+
+# Popular search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
