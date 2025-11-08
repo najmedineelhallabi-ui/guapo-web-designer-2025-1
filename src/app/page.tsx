@@ -424,13 +424,13 @@ export default function Home() {
               info@guapowebdesigner.com
             </a>
             <a 
-              href="https://www.instagram.com/guapo.webdesigner/" 
+              href="https://www.instagram.com/guapo_webdesigner/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-accent to-secondary text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg shadow-accent/40 hover:shadow-secondary/50 text-lg font-semibold"
             >
               <Instagram className="w-5 h-5" />
-              @guapo.webdesigner
+              @guapo_webdesigner
             </a>
           </div>
         </div>
@@ -476,7 +476,7 @@ export default function Home() {
             <div>
               <h3 className="font-semibold text-base mb-3">Suivez-nous</h3>
               <a 
-                href="https://www.instagram.com/guapo.webdesigner/" 
+                href="https://www.instagram.com/guapo_webdesigner/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2"
