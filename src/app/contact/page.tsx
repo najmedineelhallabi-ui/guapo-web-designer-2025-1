@@ -119,17 +119,17 @@ export default function ContactPage() {
                 <div className="mb-6">
                   <div className="text-4xl mb-3">📸</div>
                   <a 
-                    href="https://www.instagram.com/guapo.webdesigner/"
+                    href="https://www.instagram.com/guapo_webdesigner/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-lg font-medium block hover:text-[#4BE3C1] transition-colors"
                   >
-                    @guapo.webdesigner
+                    @guapo_webdesigner
                   </a>
                 </div>
                 
                 <button
-                  onClick={() => copyToClipboard("@guapo.webdesigner", "instagram")}
+                  onClick={() => copyToClipboard("@guapo_webdesigner", "instagram")}
                   className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#4BE3C1] to-[#00D1FF] text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg shadow-[#4BE3C1]/40 hover:shadow-[#00D1FF]/50 font-semibold"
                 >
                   <Copy className="w-4 h-4" />
