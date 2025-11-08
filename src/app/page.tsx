@@ -270,7 +270,7 @@ export default function Home() {
             </a>
 
             {/* Salary Business */}
-            <a href="https://www.salarybusiness.be" target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
+            <a href="https://salarybusiness.be/" target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
               <div className="aspect-video bg-white backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg flex items-center justify-center p-8">
                 <Image 
                   src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/LOGO-SALARYBUSINESS-1762369466889.jpg?width=8000&height=8000&resize=contain"
@@ -281,7 +281,7 @@ export default function Home() {
                 />
               </div>
               <h3 className="font-semibold mb-2 text-lg">Salary Business</h3>
-              <p className="text-sm text-foreground/60">www.salarybusiness.be</p>
+              <p className="text-sm text-foreground/60">salarybusiness.be</p>
             </a>
           </div>
         </div>
