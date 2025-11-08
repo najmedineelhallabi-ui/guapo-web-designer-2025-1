@@ -254,18 +254,18 @@ export default function Home() {
           </div>
           
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Fiscand Business */}
+            {/* Fisc & Business */}
             <a href="https://www.fiscand.business" target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
               <div className="aspect-video bg-white backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg flex items-center justify-center p-8">
                 <Image 
                   src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Capture-d-ecran-2025-10-24-124300-1762369451856.png?width=8000&height=8000&resize=contain"
-                  alt="Fiscand Business Logo"
+                  alt="Fisc & Business Logo"
                   width={400}
                   height={200}
                   className="w-full h-full object-contain group-hover:scale-105 transition-transform"
                 />
               </div>
-              <h3 className="font-semibold mb-2 text-lg">Fiscand Business</h3>
+              <h3 className="font-semibold mb-2 text-lg">Fisc & Business</h3>
               <p className="text-sm text-foreground/60">www.fiscand.business</p>
             </a>
 
