@@ -1,3 +1,10 @@
+/* Updated: 2025-11-10T10:49:20.207Z */
+/* Updated: 2025-11-09T17:26:21.572Z */
+/* Updated: 2025-11-09T17:12:48.892Z */
+/* Updated: 2025-11-08T13:31:41.426Z */
+/* Updated: 2025-11-08T13:28:36.634Z */
+/* Updated: 2025-11-08T10:05:26.829Z */
+/* Updated: 2025-11-08T10:00:58.388Z */
 /* Updated: 2025-11-06T07:04:34.144Z */
 /* Updated: 2025-11-06T06:54:44.196Z */
 /* Updated: 2025-11-06T06:27:30.623Z */
@@ -136,6 +143,15 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* Force blur rendering on all devices including tablets */
+  .blur-3xl, .blur-2xl, .blur-xl {
+    -webkit-filter: blur(var(--tw-blur));
+    filter: blur(var(--tw-blur));
+    will-change: filter;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
 }
 
