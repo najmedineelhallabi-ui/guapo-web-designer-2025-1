@@ -16,6 +16,9 @@ interface QuoteEmailProps {
   projectType: string;
   budget?: string;
   deadline?: string;
+  domain: string;
+  hosting: string;
+  features?: string[];
   message: string;
 }
 
@@ -25,7 +28,10 @@ export function QuoteEmail({
   phone, 
   projectType, 
   budget, 
-  deadline, 
+  deadline,
+  domain,
+  hosting,
+  features,
   message 
 }: QuoteEmailProps) {
   return (
@@ -80,7 +86,29 @@ export function QuoteEmail({
                   <strong>Date souhaitée:</strong> {deadline}
                 </Text>
               )}
+              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
+                <strong>Nom de domaine:</strong> {domain}
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
+                <strong>Hébergement:</strong> {hosting}
+              </Text>
             </Section>
+
+            {features && features.length > 0 && (
+              <>
+                <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
+                <Section style={{ marginBottom: '20px' }}>
+                  <Text style={{ fontWeight: 'bold', marginBottom: '10px', color: '#374151' }}>
+                    ✨ Fonctionnalités souhaitées
+                  </Text>
+                  {features.map((feature, index) => (
+                    <Text key={index} style={{ margin: '5px 0 5px 15px', color: '#6b7280' }}>
+                      • {feature}
+                    </Text>
+                  ))}
+                </Section>
+              </>
+            )}
 
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
 
