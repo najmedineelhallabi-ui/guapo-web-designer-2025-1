@@ -11,6 +11,9 @@ const quoteSchema = z.object({
   projectType: z.string().min(1, 'Veuillez sélectionner un type de projet'),
   budget: z.string().optional(),
   deadline: z.string().optional(),
+  domain: z.string().min(1, 'Veuillez sélectionner une option pour le nom de domaine'),
+  hosting: z.string().min(1, 'Veuillez sélectionner une option pour l\'hébergement'),
+  features: z.array(z.string()).optional(),
   message: z.string().min(10, 'Le message doit contenir au moins 10 caractères').max(5000),
 });
 
@@ -33,6 +36,9 @@ export async function sendQuoteAction(
       projectType: formData.get('projectType'),
       budget: formData.get('budget') || undefined,
       deadline: formData.get('deadline') || undefined,
+      domain: formData.get('domain'),
+      hosting: formData.get('hosting'),
+      features: formData.getAll('features') as string[],
       message: formData.get('message'),
     };
 
@@ -51,6 +57,9 @@ export async function sendQuoteAction(
         projectType: validatedData.projectType,
         budget: validatedData.budget,
         deadline: validatedData.deadline,
+        domain: validatedData.domain,
+        hosting: validatedData.hosting,
+        features: validatedData.features,
         message: validatedData.message,
       }),
     });
