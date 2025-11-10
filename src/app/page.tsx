@@ -42,6 +42,7 @@ export default function Home() {
             <a href="#about" className="hover:text-secondary transition-colors">{t("nav.about")}</a>
             <a href="#portfolio" className="hover:text-accent transition-colors">{t("nav.portfolio")}</a>
             <a href="#services" className="hover:text-secondary transition-colors">{t("nav.services")}</a>
+            <a href="/devis" className="hover:text-accent transition-colors font-semibold">Devis gratuit</a>
             <a href="#contact" className="hover:text-primary transition-colors">{t("nav.contact")}</a>
             <LanguageSwitcher />
           </div>
@@ -91,6 +92,13 @@ export default function Home() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {t("nav.services")}
+              </a>
+              <a 
+                href="/devis" 
+                className="hover:text-accent transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Devis gratuit
               </a>
               <a 
                 href="#contact" 
