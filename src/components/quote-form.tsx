@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect } from 'react';
 import { sendQuoteAction, QuoteFormState } from '@/app/actions/sendQuote';
-import { Mail, Phone, User, Briefcase, DollarSign, Calendar, MessageSquare, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 
 export function QuoteForm() {
@@ -90,22 +90,6 @@ export function QuoteForm() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {/* Phone field */}
-          <div>
-            <label htmlFor="phone" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
-              <Phone className="w-4 h-4 text-secondary" />
-              Téléphone
-            </label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all"
-              placeholder="+32 XXX XX XX XX"
-              disabled={isPending}
-            />
-          </div>
-
           {/* Project Type field */}
           <div>
             <label htmlFor="projectType" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
@@ -135,29 +119,6 @@ export function QuoteForm() {
               </p>
             )}
           </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Budget field */}
-          <div>
-            <label htmlFor="budget" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
-              <DollarSign className="w-4 h-4 text-accent" />
-              Budget estimé
-            </label>
-            <select
-              id="budget"
-              name="budget"
-              className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
-              disabled={isPending}
-            >
-              <option value="">Sélectionnez...</option>
-              <option value="< 1000€">Moins de 1000€</option>
-              <option value="1000€ - 3000€">1000€ - 3000€</option>
-              <option value="3000€ - 5000€">3000€ - 5000€</option>
-              <option value="5000€ - 10000€">5000€ - 10000€</option>
-              <option value="> 10000€">Plus de 10000€</option>
-            </select>
-          </div>
 
           {/* Deadline field */}
           <div>
@@ -172,6 +133,60 @@ export function QuoteForm() {
               className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all"
               disabled={isPending}
             />
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Domain field */}
+          <div>
+            <label htmlFor="domain" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+              <Globe className="w-4 h-4 text-accent" />
+              Nom de domaine *
+            </label>
+            <select
+              id="domain"
+              name="domain"
+              required
+              className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
+              disabled={isPending}
+            >
+              <option value="">Sélectionnez...</option>
+              <option value="J'ai déjà un domaine">J'ai déjà un domaine</option>
+              <option value="Je souhaite en acheter un">Je souhaite en acheter un</option>
+              <option value="Besoin de conseil">Besoin de conseil</option>
+            </select>
+            {state.errors?.domain && (
+              <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                <AlertCircle className="w-3 h-3" />
+                {state.errors.domain[0]}
+              </p>
+            )}
+          </div>
+
+          {/* Hosting field */}
+          <div>
+            <label htmlFor="hosting" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+              <Server className="w-4 h-4 text-secondary" />
+              Hébergement *
+            </label>
+            <select
+              id="hosting"
+              name="hosting"
+              required
+              className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all"
+              disabled={isPending}
+            >
+              <option value="">Sélectionnez...</option>
+              <option value="J'ai déjà un hébergement">J'ai déjà un hébergement</option>
+              <option value="Je souhaite en acheter un">Je souhaite en acheter un</option>
+              <option value="Besoin de conseil">Besoin de conseil</option>
+            </select>
+            {state.errors?.hosting && (
+              <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                <AlertCircle className="w-3 h-3" />
+                {state.errors.hosting[0]}
+              </p>
+            )}
           </div>
         </div>
 
