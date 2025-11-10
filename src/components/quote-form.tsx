@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect } from 'react';
 import { sendQuoteAction, QuoteFormState } from '@/app/actions/sendQuote';
-import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server } from 'lucide-react';
+import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 
 export function QuoteForm() {
@@ -182,6 +182,67 @@ export function QuoteForm() {
                 {state.errors.hosting[0]}
               </p>
             )}
+          </div>
+        </div>
+
+        {/* Features Section */}
+        <div className="bg-gradient-to-br from-primary/5 to-secondary/5 border-2 border-primary/20 rounded-xl p-6">
+          <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-4">
+            <CheckSquare className="w-5 h-5 text-primary" />
+            Fonctionnalités souhaitées
+          </label>
+          <div className="space-y-3">
+            <label className="flex items-center gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                name="features"
+                value="Système de prise de rendez-vous en ligne"
+                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                disabled={isPending}
+              />
+              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                Système de prise de rendez-vous en ligne
+              </span>
+            </label>
+
+            <label className="flex items-center gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                name="features"
+                value="Envoi automatique d'e-mails au client + à l'entreprise"
+                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                disabled={isPending}
+              />
+              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                Envoi automatique d'e-mails au client + à l'entreprise
+              </span>
+            </label>
+
+            <label className="flex items-center gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                name="features"
+                value="Formulaire de demande de devis"
+                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                disabled={isPending}
+              />
+              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                Formulaire de demande de devis
+              </span>
+            </label>
+
+            <label className="flex items-center gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                name="features"
+                value="Sécurisation SSL + RGPD"
+                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                disabled={isPending}
+              />
+              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                Sécurisation SSL + RGPD
+              </span>
+            </label>
           </div>
         </div>
 
