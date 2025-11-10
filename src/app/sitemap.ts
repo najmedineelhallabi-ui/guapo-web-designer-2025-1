@@ -18,6 +18,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
     },
     {
+      url: `${baseUrl}/devis`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+      alternates: {
+        languages: {
+          fr: `${baseUrl}/devis`,
+          nl: `${baseUrl}/devis`,
+          en: `${baseUrl}/devis`,
+        },
+      },
+    },
+    {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
