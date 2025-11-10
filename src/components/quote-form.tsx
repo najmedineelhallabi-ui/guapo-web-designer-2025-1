@@ -105,11 +105,6 @@ export function QuoteForm() {
             >
               <option value="">Sélectionnez...</option>
               <option value="Site vitrine">Site vitrine</option>
-              <option value="Site e-commerce">Site e-commerce</option>
-              <option value="Application web">Application web</option>
-              <option value="Refonte de site">Refonte de site</option>
-              <option value="Identité visuelle">Identité visuelle</option>
-              <option value="Maintenance">Maintenance</option>
               <option value="Autre">Autre</option>
             </select>
             {state.errors?.projectType && (
