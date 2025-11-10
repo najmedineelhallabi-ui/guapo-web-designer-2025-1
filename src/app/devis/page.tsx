@@ -1,14 +1,112 @@
-import { QuoteForm } from '@/components/quote-form';
-import { Sparkles, FileText } from 'lucide-react';
+'use client';
 
-export const metadata = {
-  title: 'Demande de Devis | GUAPO Web Designer',
-  description: 'Demandez un devis gratuit pour votre projet de site web. Création de sites modernes, élégants et performants en Belgique.',
-};
+import { QuoteForm } from '@/components/quote-form';
+import { Sparkles, FileText, Menu, X } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { LanguageSwitcher } from '@/components/language-switcher';
+import { useLanguage } from '@/contexts/language-context';
+import { useState } from 'react';
 
 export default function DevisPage() {
+  const { t } = useLanguage();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-background">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="flex items-center">
+            <Image 
+              src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
+              alt="GUAPO Web Designer Logo"
+              width={120}
+              height={60}
+              className="h-12 w-auto object-contain"
+              priority
+            />
+          </Link>
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex gap-8 items-center">
+            <Link href="/#accueil" className="hover:text-primary transition-colors">{t("nav.home")}</Link>
+            <Link href="/#about" className="hover:text-secondary transition-colors">{t("nav.about")}</Link>
+            <Link href="/#portfolio" className="hover:text-accent transition-colors">{t("nav.portfolio")}</Link>
+            <Link href="/#services" className="hover:text-secondary transition-colors">{t("nav.services")}</Link>
+            <Link href="/devis" className="hover:text-accent transition-colors font-semibold text-accent">Devis gratuit</Link>
+            <Link href="/#contact" className="hover:text-primary transition-colors">{t("nav.contact")}</Link>
+            <LanguageSwitcher />
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 hover:bg-primary/10 rounded-lg transition-colors"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6 text-primary" />
+            ) : (
+              <Menu className="w-6 h-6 text-primary" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-md border-b border-border shadow-lg">
+            <div className="flex flex-col gap-4 px-6 py-6">
+              <Link 
+                href="/#accueil" 
+                className="hover:text-primary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.home")}
+              </Link>
+              <Link 
+                href="/#about" 
+                className="hover:text-secondary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.about")}
+              </Link>
+              <Link 
+                href="/#portfolio" 
+                className="hover:text-accent transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.portfolio")}
+              </Link>
+              <Link 
+                href="/#services" 
+                className="hover:text-secondary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.services")}
+              </Link>
+              <Link 
+                href="/devis" 
+                className="hover:text-accent transition-colors py-2 font-semibold text-accent"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Devis gratuit
+              </Link>
+              <Link 
+                href="/#contact" 
+                className="hover:text-primary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.contact")}
+              </Link>
+              <div className="pt-2 border-t border-border">
+                <LanguageSwitcher />
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
+
       {/* Laser Lines Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="laser-line" style={{ left: '10%', animationDelay: '0s' }}></div>
