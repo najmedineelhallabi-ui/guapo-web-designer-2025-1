@@ -27,7 +27,7 @@ export function QuoteForm() {
           <div className="bg-gradient-to-r from-primary/20 to-secondary/20 border-2 border-primary/50 text-foreground px-6 py-4 rounded-xl flex items-start gap-3 animate-fade-in shadow-lg">
             <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-lg">Merci pour votre demande !</p>
+              <p className="font-semibold text-lg">{t('quote.success.title')}</p>
               <p className="text-sm text-foreground/80 mt-1">{state.message}</p>
             </div>
           </div>
@@ -41,18 +41,18 @@ export function QuoteForm() {
           </div>
         )}
 
-        {/* 1️⃣ Informations Client */}
+        {/* Informations */}
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <User className="w-6 h-6 text-primary" />
-            Informations
+            {t('quote.info.title')}
           </h3>
           
           <div className="space-y-4">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label htmlFor="firstName" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
-                  Prénom *
+                  {t('quote.info.firstName')} *
                 </label>
                 <input
                   type="text"
@@ -60,7 +60,7 @@ export function QuoteForm() {
                   name="firstName"
                   required
                   className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                  placeholder="Votre prénom"
+                  placeholder={t('quote.info.firstNamePlaceholder')}
                   disabled={isPending}
                 />
                 {state.errors?.firstName && (
@@ -73,7 +73,7 @@ export function QuoteForm() {
 
               <div>
                 <label htmlFor="lastName" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
-                  Nom *
+                  {t('quote.info.lastName')} *
                 </label>
                 <input
                   type="text"
@@ -81,7 +81,7 @@ export function QuoteForm() {
                   name="lastName"
                   required
                   className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                  placeholder="Votre nom"
+                  placeholder={t('quote.info.lastNamePlaceholder')}
                   disabled={isPending}
                 />
                 {state.errors?.lastName && (
@@ -96,7 +96,7 @@ export function QuoteForm() {
             <div>
               <label htmlFor="email" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
                 <Mail className="w-4 h-4 text-primary" />
-                Email *
+                {t('quote.info.email')} *
               </label>
               <input
                 type="email"
@@ -104,7 +104,7 @@ export function QuoteForm() {
                 name="email"
                 required
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                placeholder="votre@email.com"
+                placeholder={t('quote.info.emailPlaceholder')}
                 disabled={isPending}
               />
               {state.errors?.email && (
@@ -118,7 +118,7 @@ export function QuoteForm() {
             <div>
               <label htmlFor="company" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
                 <Building className="w-4 h-4 text-primary" />
-                Nom de l'entreprise / Projet *
+                {t('quote.info.company')} *
               </label>
               <input
                 type="text"
@@ -126,7 +126,7 @@ export function QuoteForm() {
                 name="company"
                 required
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                placeholder="Nom de votre entreprise ou projet"
+                placeholder={t('quote.info.companyPlaceholder')}
                 disabled={isPending}
               />
               {state.errors?.company && (
@@ -140,25 +140,25 @@ export function QuoteForm() {
             <div>
               <label htmlFor="sector" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
                 <Briefcase className="w-4 h-4 text-primary" />
-                Secteur d'activité (facultatif)
+                {t('quote.info.sector')}
               </label>
               <input
                 type="text"
                 id="sector"
                 name="sector"
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                placeholder="Ex: Restauration, Services, etc."
+                placeholder={t('quote.info.sectorPlaceholder')}
                 disabled={isPending}
               />
             </div>
           </div>
         </div>
 
-        {/* 2️⃣ Type de Site */}
+        {/* Type de Site */}
         <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <Globe className="w-6 h-6 text-secondary" />
-            Type de Site
+            {t('quote.siteType.title')}
           </h3>
           
           <div className="space-y-3">
@@ -172,8 +172,8 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <div>
-                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Site vitrine simple (1 à 5 pages)</span>
-                <p className="text-sm text-foreground/70 mt-1">Idéal pour présenter votre activité avec les pages essentielles</p>
+                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.simple')}</span>
+                <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.simpleDesc')}</p>
               </div>
             </label>
 
@@ -186,8 +186,8 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <div>
-                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Site vitrine avancé (5 à 10 pages)</span>
-                <p className="text-sm text-foreground/70 mt-1">Pour une présence web complète avec plus de contenu</p>
+                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.advanced')}</span>
+                <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.advancedDesc')}</p>
               </div>
             </label>
 
@@ -200,8 +200,8 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <div>
-                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Portfolio / site personnel</span>
-                <p className="text-sm text-foreground/70 mt-1">Mettez en valeur vos réalisations et votre expertise</p>
+                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.portfolio')}</span>
+                <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.portfolioDesc')}</p>
               </div>
             </label>
           </div>
@@ -213,27 +213,27 @@ export function QuoteForm() {
           )}
         </div>
 
-        {/* 3️⃣ Design & Contenu */}
+        {/* Design & Contenu */}
         <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <Palette className="w-6 h-6 text-accent" />
-            Design & Contenu
+            {t('quote.design.title')}
           </h3>
           
           <div className="space-y-4">
             <div className="flex items-center gap-3 p-4 bg-accent/5 border border-accent/20 rounded-lg">
               <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-              <span className="text-foreground/90"><strong>Design sur mesure</strong> (UX/UI personnalisé) - Inclus</span>
+              <span className="text-foreground/90">{t('quote.design.custom')}</span>
             </div>
 
             <div className="flex items-center gap-3 p-4 bg-accent/5 border border-accent/20 rounded-lg">
               <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-              <span className="text-foreground/90"><strong>Responsive</strong> (mobile + tablette + ordinateur) - Inclus</span>
+              <span className="text-foreground/90">{t('quote.design.responsive')}</span>
             </div>
 
             <div>
               <label htmlFor="pageCount" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
-                Nombre de pages prévues *
+                {t('quote.design.pageCount')} *
               </label>
               <input
                 type="number"
@@ -243,7 +243,7 @@ export function QuoteForm() {
                 min="1"
                 max="50"
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
-                placeholder="Ex: 5"
+                placeholder={t('quote.design.pageCountPlaceholder')}
                 disabled={isPending}
               />
               {state.errors?.pageCount && (
@@ -256,11 +256,11 @@ export function QuoteForm() {
           </div>
         </div>
 
-        {/* 4️⃣ Fonctionnalités / Modules */}
+        {/* Fonctionnalités / Modules */}
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <Zap className="w-6 h-6 text-primary" />
-            Fonctionnalités / Modules
+            {t('quote.features.title')}
           </h3>
           
           <div className="space-y-3">
@@ -273,7 +273,7 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                Formulaire de contact simple
+                {t('quote.features.contactForm')}
               </span>
             </label>
 
@@ -286,7 +286,7 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                Formulaire de demande de devis
+                {t('quote.features.quoteForm')}
               </span>
             </label>
 
@@ -299,7 +299,7 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                Système de prise de rendez-vous en ligne
+                {t('quote.features.booking')}
               </span>
             </label>
 
@@ -312,7 +312,7 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                Envoi automatique d'emails client + entreprise (pour rendez-vous)
+                {t('quote.features.autoEmails')}
               </span>
             </label>
 
@@ -325,7 +325,7 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                Intégration calendrier (Google Calendar, etc.)
+                {t('quote.features.calendar')}
               </span>
             </label>
 
@@ -338,7 +338,7 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                Newsletter / inscription mailing
+                {t('quote.features.newsletter')}
               </span>
             </label>
 
@@ -351,17 +351,17 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                Multilingue
+                {t('quote.features.multilingual')}
               </span>
             </label>
           </div>
         </div>
 
-        {/* 5️⃣ Optimisation & Sécurité */}
+        {/* Optimisation & Sécurité */}
         <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <Lock className="w-6 h-6 text-secondary" />
-            Optimisation & Sécurité
+            {t('quote.optimization.title')}
           </h3>
           
           <div className="space-y-3">
@@ -374,7 +374,7 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                SEO de base (balises, titres, URLs)
+                {t('quote.optimization.seo')}
               </span>
             </label>
 
@@ -387,7 +387,7 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                Optimisation vitesse / performance
+                {t('quote.optimization.performance')}
               </span>
             </label>
 
@@ -400,7 +400,7 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                Certificat SSL / HTTPS
+                {t('quote.optimization.ssl')}
               </span>
             </label>
 
@@ -413,24 +413,24 @@ export function QuoteForm() {
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                RGPD / conformité légale
+                {t('quote.optimization.gdpr')}
               </span>
             </label>
           </div>
         </div>
 
-        {/* 6️⃣ Hébergement & Maintenance */}
+        {/* Hébergement */}
         <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <Wrench className="w-6 h-6 text-accent" />
-            Hébergement & Maintenance
+            {t('quote.hosting.title')}
           </h3>
           
           <div className="space-y-4">
             <div>
               <label htmlFor="hosting" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
                 <Server className="w-4 h-4 text-accent" />
-                Hébergement *
+                {t('quote.hosting.hosting')} *
               </label>
               <select
                 id="hosting"
@@ -439,10 +439,10 @@ export function QuoteForm() {
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                 disabled={isPending}
               >
-                <option value="">Sélectionnez une option</option>
-                <option value="Inclus dans le projet">Inclus dans le projet</option>
-                <option value="Fourni par le client">Fourni par le client</option>
-                <option value="À discuter">À discuter</option>
+                <option value="">{t('quote.hosting.selectOption')}</option>
+                <option value="Inclus dans le projet">{t('quote.hosting.included')}</option>
+                <option value="Fourni par le client">{t('quote.hosting.clientProvided')}</option>
+                <option value="À discuter">{t('quote.hosting.toDiscuss')}</option>
               </select>
               {state.errors?.hosting && (
                 <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
@@ -455,7 +455,7 @@ export function QuoteForm() {
             <div>
               <label htmlFor="domain" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
                 <Globe className="w-4 h-4 text-accent" />
-                Nom de domaine *
+                {t('quote.hosting.domain')} *
               </label>
               <select
                 id="domain"
@@ -464,10 +464,10 @@ export function QuoteForm() {
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                 disabled={isPending}
               >
-                <option value="">Sélectionnez une option</option>
-                <option value="Inclus dans le projet">Inclus dans le projet</option>
-                <option value="Fourni par le client">Fourni par le client</option>
-                <option value="À discuter">À discuter</option>
+                <option value="">{t('quote.hosting.selectOption')}</option>
+                <option value="Inclus dans le projet">{t('quote.hosting.included')}</option>
+                <option value="Fourni par le client">{t('quote.hosting.clientProvided')}</option>
+                <option value="À discuter">{t('quote.hosting.toDiscuss')}</option>
               </select>
               {state.errors?.domain && (
                 <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
@@ -476,37 +476,19 @@ export function QuoteForm() {
                 </p>
               )}
             </div>
-
-            <div>
-              <label htmlFor="maintenance" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
-                Maintenance mensuelle
-              </label>
-              <select
-                id="maintenance"
-                name="maintenance"
-                className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
-                disabled={isPending}
-              >
-                <option value="">Sélectionnez une option</option>
-                <option value="Oui, avec mises à jour et sauvegardes">Oui, avec mises à jour et sauvegardes</option>
-                <option value="Oui, avec support inclus">Oui, avec support inclus</option>
-                <option value="Non merci">Non merci</option>
-                <option value="À discuter">À discuter</option>
-              </select>
-            </div>
           </div>
         </div>
 
-        {/* 8️⃣ Champs libres / Commentaires */}
+        {/* Champs libres / Commentaires */}
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <MessageSquare className="w-6 h-6 text-primary" />
-            Remarques spécifiques / Besoins particuliers
+            {t('quote.message.title')}
           </h3>
           
           <div>
             <label htmlFor="message" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
-              Description détaillée de votre projet *
+              {t('quote.message.label')} *
             </label>
             <textarea
               id="message"
@@ -514,7 +496,7 @@ export function QuoteForm() {
               required
               rows={8}
               className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none"
-              placeholder="Décrivez votre projet en détail : vos objectifs, votre audience cible, vos besoins spécifiques, exemples de sites que vous aimez, contraintes particulières, etc."
+              placeholder={t('quote.message.placeholder')}
               disabled={isPending}
             />
             {state.errors?.message && (
@@ -539,18 +521,16 @@ export function QuoteForm() {
             <div className="space-y-2">
               <span className="text-foreground/90 group-hover:text-foreground transition-colors flex items-center gap-2">
                 <Shield className="w-4 h-4 text-primary" />
-                <strong>Consentement RGPD *</strong>
+                <strong>{t('quote.gdpr.title')} *</strong>
               </span>
               <p className="text-sm text-foreground/70">
-                J'accepte que mes données personnelles soient collectées et traitées par GUAPO Web Designer 
-                dans le but de traiter ma demande de devis. Mes données ne seront jamais vendues à des tiers. 
-                Je peux exercer mes droits (accès, rectification, suppression) en contactant{' '}
+                {t('quote.gdpr.text')}{' '}
                 <a href="mailto:info@guapowebdesigner.com" className="text-primary hover:underline">
                   info@guapowebdesigner.com
                 </a>
-                . Pour plus d'informations, consultez notre{' '}
+                . {t('quote.gdpr.moreInfo')}{' '}
                 <Link href="/politique-confidentialite" className="text-primary hover:underline font-semibold">
-                  politique de confidentialité
+                  {t('quote.gdpr.privacyPolicy')}
                 </Link>
                 .
               </p>
@@ -573,18 +553,18 @@ export function QuoteForm() {
           {isPending ? (
             <>
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              Envoi en cours...
+              {t('quote.submit.sending')}
             </>
           ) : (
             <>
               <Send className="w-5 h-5" />
-              Envoyer ma demande de devis
+              {t('quote.submit.button')}
             </>
           )}
         </button>
 
         <p className="text-center text-sm text-foreground/60">
-          * Champs obligatoires
+          {t('quote.submit.required')}
         </p>
       </form>
     </div>
