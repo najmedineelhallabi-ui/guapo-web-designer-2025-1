@@ -143,8 +143,51 @@ export default function ContactPage() {
 
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-border bg-gradient-to-r from-[#6C63FF]/10 via-[#00D1FF]/10 to-[#4BE3C1]/10 backdrop-blur-sm mt-20">
-        <div className="max-w-7xl mx-auto text-center text-foreground/70">
-          <p>© 2025 <span className="bg-gradient-to-r from-[#6C63FF] via-[#00D1FF] to-[#4BE3C1] bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer. Tous droits réservés.</p>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+            {/* Column 1: Brand */}
+            <div>
+              <p className="text-foreground/70 text-sm">
+                © 2025 <span className="bg-gradient-to-r from-[#6C63FF] via-[#00D1FF] to-[#4BE3C1] bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer.
+              </p>
+            </div>
+
+            {/* Column 2: Quick Links */}
+            <div>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/#portfolio" className="text-foreground/70 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                    <span>→</span> Portfolio
+                  </a>
+                </li>
+                <li>
+                  <a href="/#services" className="text-foreground/70 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                    <span>→</span> Services
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 3: Legal */}
+            <div>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/politique-confidentialite" className="text-foreground/70 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                    <span>→</span> Politique de confidentialité
+                  </a>
+                </li>
+                <li>
+                  <a href="/mentions-legales" className="text-foreground/70 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                    <span>→</span> Mentions légales
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="text-center text-foreground/70 text-xs pt-6 border-t border-border">
+            Tous droits réservés.
+          </div>
         </div>
       </footer>
     </div>
