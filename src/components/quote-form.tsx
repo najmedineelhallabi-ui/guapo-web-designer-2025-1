@@ -2,8 +2,9 @@
 
 import { useActionState, useEffect } from 'react';
 import { sendQuoteAction, QuoteFormState } from '@/app/actions/sendQuote';
-import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare } from 'lucide-react';
+import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare, Shield } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
+import Link from 'next/link';
 
 export function QuoteForm() {
   const { t } = useLanguage();
@@ -265,6 +266,44 @@ export function QuoteForm() {
             <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
               <AlertCircle className="w-3 h-3" />
               {state.errors.message[0]}
+            </p>
+          )}
+        </div>
+
+        {/* RGPD Consent */}
+        <div className="bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-xl p-6">
+          <label className="flex items-start gap-3 cursor-pointer group">
+            <input
+              type="checkbox"
+              name="rgpdConsent"
+              required
+              className="w-5 h-5 mt-0.5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer flex-shrink-0"
+              disabled={isPending}
+            />
+            <div className="space-y-2">
+              <span className="text-foreground/90 group-hover:text-foreground transition-colors flex items-center gap-2">
+                <Shield className="w-4 h-4 text-primary" />
+                <strong>Consentement RGPD *</strong>
+              </span>
+              <p className="text-sm text-foreground/70">
+                J'accepte que mes données personnelles soient collectées et traitées par GUAPO Web Designer 
+                dans le but de traiter ma demande de devis. Mes données ne seront jamais vendues à des tiers. 
+                Je peux exercer mes droits (accès, rectification, suppression) en contactant{' '}
+                <a href="mailto:info@guapowebdesigner.com" className="text-primary hover:underline">
+                  info@guapowebdesigner.com
+                </a>
+                . Pour plus d'informations, consultez notre{' '}
+                <Link href="/politique-confidentialite" className="text-primary hover:underline font-semibold">
+                  politique de confidentialité
+                </Link>
+                .
+              </p>
+            </div>
+          </label>
+          {state.errors?.rgpdConsent && (
+            <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+              <AlertCircle className="w-3 h-3" />
+              {state.errors.rgpdConsent[0]}
             </p>
           )}
         </div>

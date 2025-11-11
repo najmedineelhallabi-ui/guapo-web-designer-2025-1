@@ -3,6 +3,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/contexts/language-context";
 import { Toaster } from "@/components/ui/sonner";
 import Script from "next/script";
+import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 
 import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
 import ErrorReporter from "@/components/ErrorReporter";
@@ -161,6 +162,7 @@ export default function RootLayout({
         <LanguageProvider>
           {children}
           <Toaster />
+          <CookieConsentBanner />
         </LanguageProvider>
       
         <VisualEditsMessenger />

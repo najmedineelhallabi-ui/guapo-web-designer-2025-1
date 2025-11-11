@@ -447,7 +447,7 @@ export default function Home() {
       {/* Footer - DARK PURPLE */}
       <footer className="py-12 px-6 border-t border-border bg-card/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Column 1: Brand */}
             <div>
               <h3 className="font-bold text-lg mb-3 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
@@ -480,7 +480,24 @@ export default function Home() {
               </ul>
             </div>
 
-            {/* Column 3: Social */}
+            {/* Column 3: Legal */}
+            <div>
+              <h3 className="font-semibold text-base mb-3">Informations légales</h3>
+              <ul className="space-y-2">
+                <li>
+                  <a href="/politique-confidentialite" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                    <span>→</span> Politique de confidentialité
+                  </a>
+                </li>
+                <li>
+                  <a href="/mentions-legales" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                    <span>→</span> Mentions légales
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 4: Social */}
             <div>
               <h3 className="font-semibold text-base mb-3">Suivez-nous</h3>
               <a 
