@@ -34,7 +34,7 @@ export default function DevisPage() {
             <Link href="/#about" className="hover:text-secondary transition-colors">{t("nav.about")}</Link>
             <Link href="/#portfolio" className="hover:text-accent transition-colors">{t("nav.portfolio")}</Link>
             <Link href="/#services" className="hover:text-secondary transition-colors">{t("nav.services")}</Link>
-            <Link href="/devis" className="hover:text-accent transition-colors font-semibold text-accent">Devis gratuit</Link>
+            <Link href="/devis" className="hover:text-accent transition-colors font-semibold text-accent">{t("nav.quote")}</Link>
             <Link href="/#contact" className="hover:text-primary transition-colors">{t("nav.contact")}</Link>
             <LanguageSwitcher />
           </div>
@@ -90,7 +90,7 @@ export default function DevisPage() {
                 className="hover:text-accent transition-colors py-2 font-semibold text-accent"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Devis gratuit
+                {t("nav.quote")}
               </Link>
               <Link 
                 href="/#contact" 
@@ -128,15 +128,15 @@ export default function DevisPage() {
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/30 text-sm border border-primary/50 backdrop-blur-sm mb-6">
             <FileText className="w-4 h-4 text-primary" />
-            <span>Devis gratuit sous 48h</span>
+            <span>{t("quote.page.badge")}</span>
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">
-            Demande de <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">Devis</span>
+            {t("quote.page.title")} <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">{t("quote.page.title.highlight")}</span>
           </h1>
           
           <p className="text-xl text-foreground/90 max-w-2xl mx-auto leading-relaxed">
-            Parlez-nous de votre projet et recevez un devis personnalisé adapté à vos besoins et votre budget.
+            {t("quote.page.subtitle")}
           </p>
         </div>
       </section>
@@ -150,24 +150,24 @@ export default function DevisPage() {
               <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
-              <h3 className="font-semibold mb-2">Réponse rapide</h3>
-              <p className="text-sm text-foreground/70">Devis sous 48h maximum</p>
+              <h3 className="font-semibold mb-2">{t("quote.page.card1.title")}</h3>
+              <p className="text-sm text-foreground/70">{t("quote.page.card1.desc")}</p>
             </div>
 
             <div className="bg-card/50 backdrop-blur-sm border-2 border-secondary/30 rounded-xl p-6 text-center hover:scale-105 transition-transform">
               <div className="w-12 h-12 bg-gradient-to-r from-secondary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
                 <FileText className="w-6 h-6 text-white" />
               </div>
-              <h3 className="font-semibold mb-2">Devis gratuit</h3>
-              <p className="text-sm text-foreground/70">Sans engagement</p>
+              <h3 className="font-semibold mb-2">{t("quote.page.card2.title")}</h3>
+              <p className="text-sm text-foreground/70">{t("quote.page.card2.desc")}</p>
             </div>
 
             <div className="bg-card/50 backdrop-blur-sm border-2 border-accent/30 rounded-xl p-6 text-center hover:scale-105 transition-transform">
               <div className="w-12 h-12 bg-gradient-to-r from-accent to-primary rounded-full flex items-center justify-center mx-auto mb-4">
                 <Sparkles className="w-6 h-6 text-white" />
               </div>
-              <h3 className="font-semibold mb-2">Sur mesure</h3>
-              <p className="text-sm text-foreground/70">Adapté à vos besoins</p>
+              <h3 className="font-semibold mb-2">{t("quote.page.card3.title")}</h3>
+              <p className="text-sm text-foreground/70">{t("quote.page.card3.desc")}</p>
             </div>
           </div>
 
@@ -187,10 +187,10 @@ export default function DevisPage() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Des questions avant de faire votre demande ?
+            {t("quote.page.cta.title")}
           </h2>
           <p className="text-lg text-foreground/80 mb-8">
-            N'hésitez pas à nous contacter directement par email ou sur Instagram
+            {t("quote.page.cta.desc")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -221,27 +221,27 @@ export default function DevisPage() {
                 Guapo Web Designer
               </h3>
               <p className="text-foreground/80 text-sm leading-relaxed">
-                Nous créons des designs colorés et joyeux qui donnent vie à vos projets digitaux.
+                {t("footer.description")}
               </p>
             </div>
 
             {/* Column 2: Quick Links */}
             <div>
-              <h3 className="font-semibold text-base mb-3">Liens rapides</h3>
+              <h3 className="font-semibold text-base mb-3">{t("footer.links")}</h3>
               <ul className="space-y-2">
                 <li>
                   <Link href="/#portfolio" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> Portfolio
+                    <span>→</span> {t("nav.portfolio")}
                   </Link>
                 </li>
                 <li>
                   <Link href="/#services" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> Services
+                    <span>→</span> {t("nav.services")}
                   </Link>
                 </li>
                 <li>
                   <Link href="/#contact" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> Contact
+                    <span>→</span> {t("nav.contact")}
                   </Link>
                 </li>
               </ul>
@@ -266,7 +266,7 @@ export default function DevisPage() {
 
             {/* Column 4: Social */}
             <div>
-              <h3 className="font-semibold text-base mb-3">Suivez-nous</h3>
+              <h3 className="font-semibold text-base mb-3">{t("footer.social")}</h3>
               <a 
                 href="https://www.instagram.com/guapo_webdesigner/" 
                 target="_blank" 
@@ -282,7 +282,7 @@ export default function DevisPage() {
           {/* Copyright */}
           <div className="pt-8 border-t border-border text-center">
             <p className="text-foreground/80 text-sm">
-              © 2025 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer. Tous droits réservés.
+              © 2025 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer. {t("footer.rights")}
             </p>
           </div>
         </div>
