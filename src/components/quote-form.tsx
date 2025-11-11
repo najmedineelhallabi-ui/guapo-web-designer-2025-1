@@ -45,7 +45,7 @@ export function QuoteForm() {
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <User className="w-6 h-6 text-primary" />
-            1️⃣ Informations Client
+            Informations
           </h3>
           
           <div className="space-y-4">
@@ -147,7 +147,7 @@ export function QuoteForm() {
                 id="sector"
                 name="sector"
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
-                placeholder="Ex: E-commerce, Restauration, Services, etc."
+                placeholder="Ex: Restauration, Services, etc."
                 disabled={isPending}
               />
             </div>
@@ -158,7 +158,7 @@ export function QuoteForm() {
         <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <Globe className="w-6 h-6 text-secondary" />
-            2️⃣ Type de Site
+            Type de Site
           </h3>
           
           <div className="space-y-3">
@@ -217,7 +217,7 @@ export function QuoteForm() {
         <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <Palette className="w-6 h-6 text-accent" />
-            3️⃣ Design & Contenu
+            Design & Contenu
           </h3>
           
           <div className="space-y-4">
@@ -260,7 +260,7 @@ export function QuoteForm() {
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <Zap className="w-6 h-6 text-primary" />
-            4️⃣ Fonctionnalités / Modules
+            Fonctionnalités / Modules
           </h3>
           
           <div className="space-y-3">
@@ -361,7 +361,7 @@ export function QuoteForm() {
         <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <Lock className="w-6 h-6 text-secondary" />
-            5️⃣ Optimisation & Sécurité
+            Optimisation & Sécurité
           </h3>
           
           <div className="space-y-3">
@@ -423,7 +423,7 @@ export function QuoteForm() {
         <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <Wrench className="w-6 h-6 text-accent" />
-            6️⃣ Hébergement & Maintenance
+            Hébergement & Maintenance
           </h3>
           
           <div className="space-y-4">
@@ -501,7 +501,7 @@ export function QuoteForm() {
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-6">
           <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
             <MessageSquare className="w-6 h-6 text-primary" />
-            8️⃣ Remarques spécifiques / Besoins particuliers
+            Remarques spécifiques / Besoins particuliers
           </h3>
           
           <div>
