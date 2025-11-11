@@ -15,6 +15,9 @@ const quoteSchema = z.object({
   hosting: z.string().min(1, 'Veuillez sélectionner une option pour l\'hébergement'),
   features: z.array(z.string()).optional(),
   message: z.string().min(10, 'Le message doit contenir au moins 10 caractères').max(5000),
+  rgpdConsent: z.string().refine((val) => val === 'on', {
+    message: 'Vous devez accepter la politique de confidentialité pour continuer',
+  }),
 });
 
 export type QuoteFormState = {
@@ -40,6 +43,7 @@ export async function sendQuoteAction(
       hosting: formData.get('hosting'),
       features: formData.getAll('features') as string[],
       message: formData.get('message'),
+      rgpdConsent: formData.get('rgpdConsent'),
     };
 
     const validatedData = quoteSchema.parse(rawData);
