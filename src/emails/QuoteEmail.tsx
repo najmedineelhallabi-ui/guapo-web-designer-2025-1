@@ -10,33 +10,39 @@ import {
 } from '@react-email/components';
 
 interface QuoteEmailProps {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  phone?: string;
-  projectType: string;
-  budget?: string;
-  deadline?: string;
-  domain: string;
-  hosting: string;
+  company: string;
+  sector?: string;
+  siteType: string;
+  pageCount: string;
   features?: string[];
+  optimization?: string[];
+  hosting: string;
+  domain: string;
+  maintenance?: string;
   message: string;
 }
 
 export function QuoteEmail({ 
-  name, 
-  email, 
-  phone, 
-  projectType, 
-  budget, 
-  deadline,
-  domain,
-  hosting,
+  firstName,
+  lastName,
+  email,
+  company,
+  sector,
+  siteType,
+  pageCount,
   features,
+  optimization,
+  hosting,
+  domain,
+  maintenance,
   message 
 }: QuoteEmailProps) {
   return (
     <Html>
-      <Preview>Nouvelle demande de devis de {name}</Preview>
+      <Preview>Nouvelle demande de devis de {firstName} {lastName} - {company}</Preview>
       <Body style={{ fontFamily: 'sans-serif', backgroundColor: '#f9fafb' }}>
         <Container style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
           <Section style={{ backgroundColor: '#ffffff', borderRadius: '8px', padding: '30px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
@@ -51,18 +57,21 @@ export function QuoteEmail({
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
             
             <Section style={{ marginBottom: '20px' }}>
-              <Text style={{ fontWeight: 'bold', marginBottom: '5px', color: '#374151' }}>
-                Informations du client
+              <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
+                1️⃣ Informations du client
               </Text>
               <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                <strong>Nom:</strong> {name}
+                <strong>Nom complet:</strong> {firstName} {lastName}
               </Text>
               <Text style={{ margin: '5px 0', color: '#6b7280' }}>
                 <strong>Email:</strong> {email}
               </Text>
-              {phone && (
+              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
+                <strong>Entreprise / Projet:</strong> {company}
+              </Text>
+              {sector && (
                 <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                  <strong>Téléphone:</strong> {phone}
+                  <strong>Secteur d'activité:</strong> {sector}
                 </Text>
               )}
             </Section>
@@ -70,27 +79,28 @@ export function QuoteEmail({
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
 
             <Section style={{ marginBottom: '20px' }}>
-              <Text style={{ fontWeight: 'bold', marginBottom: '5px', color: '#374151' }}>
-                Détails du projet
+              <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
+                2️⃣ Type de site
               </Text>
               <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                <strong>Type de projet:</strong> {projectType}
+                <strong>Type:</strong> {siteType}
               </Text>
-              {budget && (
-                <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                  <strong>Budget estimé:</strong> {budget}
-                </Text>
-              )}
-              {deadline && (
-                <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                  <strong>Date souhaitée:</strong> {deadline}
-                </Text>
-              )}
-              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                <strong>Nom de domaine:</strong> {domain}
+            </Section>
+
+            <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
+
+            <Section style={{ marginBottom: '20px' }}>
+              <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
+                3️⃣ Design & Contenu
               </Text>
               <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                <strong>Hébergement:</strong> {hosting}
+                ✓ Design sur mesure (UX/UI personnalisé)
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
+                ✓ Responsive (mobile + tablette + ordinateur)
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
+                <strong>Nombre de pages prévues:</strong> {pageCount}
               </Text>
             </Section>
 
@@ -98,8 +108,8 @@ export function QuoteEmail({
               <>
                 <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
                 <Section style={{ marginBottom: '20px' }}>
-                  <Text style={{ fontWeight: 'bold', marginBottom: '10px', color: '#374151' }}>
-                    ✨ Fonctionnalités souhaitées
+                  <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
+                    4️⃣ Fonctionnalités / Modules
                   </Text>
                   {features.map((feature, index) => (
                     <Text key={index} style={{ margin: '5px 0 5px 15px', color: '#6b7280' }}>
@@ -110,11 +120,46 @@ export function QuoteEmail({
               </>
             )}
 
+            {optimization && optimization.length > 0 && (
+              <>
+                <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
+                <Section style={{ marginBottom: '20px' }}>
+                  <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
+                    5️⃣ Optimisation & Sécurité
+                  </Text>
+                  {optimization.map((opt, index) => (
+                    <Text key={index} style={{ margin: '5px 0 5px 15px', color: '#6b7280' }}>
+                      • {opt}
+                    </Text>
+                  ))}
+                </Section>
+              </>
+            )}
+
+            <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
+
+            <Section style={{ marginBottom: '20px' }}>
+              <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
+                6️⃣ Hébergement & Maintenance
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
+                <strong>Hébergement:</strong> {hosting}
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
+                <strong>Nom de domaine:</strong> {domain}
+              </Text>
+              {maintenance && (
+                <Text style={{ margin: '5px 0', color: '#6b7280' }}>
+                  <strong>Maintenance mensuelle:</strong> {maintenance}
+                </Text>
+              )}
+            </Section>
+
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
 
             <Section>
-              <Text style={{ fontWeight: 'bold', marginBottom: '10px', color: '#374151' }}>
-                Message / Description
+              <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
+                8️⃣ Remarques spécifiques / Besoins particuliers
               </Text>
               <Section style={{ 
                 backgroundColor: '#f3f4f6', 
