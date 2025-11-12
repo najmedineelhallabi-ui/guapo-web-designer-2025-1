@@ -2,6 +2,7 @@
 
 import { resend } from '@/lib/resend';
 import { QuoteEmail } from '@/emails/QuoteEmail';
+import { QuoteConfirmationEmail } from '@/emails/QuoteConfirmationEmail';
 import { z } from 'zod';
 
 const quoteSchema = z.object({
@@ -54,8 +55,8 @@ export async function sendQuoteAction(
 
     const validatedData = quoteSchema.parse(rawData);
 
-    // Send email via Resend
-    const { data, error } = await resend.emails.send({
+    // Send email to company via Resend
+    const { data: companyEmailData, error: companyEmailError } = await resend.emails.send({
       from: 'GUAPO Web Designer <onboarding@resend.dev>',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: validatedData.email,
@@ -77,17 +78,35 @@ export async function sendQuoteAction(
       }),
     });
 
-    if (error) {
-      console.error('Resend error:', error);
+    if (companyEmailError) {
+      console.error('Resend error (company email):', companyEmailError);
       return {
         success: false,
         message: 'Échec de l\'envoi de la demande. Veuillez réessayer.',
       };
     }
 
+    // Send confirmation email to client
+    const { data: clientEmailData, error: clientEmailError } = await resend.emails.send({
+      from: 'GUAPO Web Designer <onboarding@resend.dev>',
+      to: validatedData.email,
+      subject: '✅ Confirmation de votre demande de devis - GUAPO Web Designer',
+      react: QuoteConfirmationEmail({
+        firstName: validatedData.firstName,
+        lastName: validatedData.lastName,
+        company: validatedData.company,
+        siteType: validatedData.siteType,
+      }),
+    });
+
+    if (clientEmailError) {
+      console.error('Resend error (client confirmation email):', clientEmailError);
+      // Don't fail the whole process if client email fails, company already received the quote
+    }
+
     return {
       success: true,
-      message: 'Votre demande de devis a été envoyée avec succès ! Nous vous répondrons dans les plus brefs délais.',
+      message: 'Votre demande de devis a été envoyée avec succès ! Nous vous répondrons dans les plus brefs délais. Un email de confirmation vous a été envoyé.',
     };
   } catch (error) {
     if (error instanceof z.ZodError) {
