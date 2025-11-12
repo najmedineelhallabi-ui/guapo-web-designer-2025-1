@@ -456,7 +456,7 @@ export function QuoteForm() {
                 id="hosting"
                 name="hosting"
                 required
-                defaultValue={state.formData?.hosting || ''}
+                defaultValue={state.formData?.hosting || 'Inclus dans le projet'}
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                 disabled={isPending}
               >
@@ -482,7 +482,7 @@ export function QuoteForm() {
                 id="domain"
                 name="domain"
                 required
-                defaultValue={state.formData?.domain || ''}
+                defaultValue={state.formData?.domain || 'Inclus dans le projet'}
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                 disabled={isPending}
               >
