@@ -28,6 +28,21 @@ export type QuoteFormState = {
   success?: boolean;
   message?: string;
   errors?: Record<string, string[]>;
+  formData?: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    company?: string;
+    sector?: string;
+    siteType?: string;
+    pageCount?: string;
+    features?: string[];
+    optimization?: string[];
+    hosting?: string;
+    domain?: string;
+    message?: string;
+    rgpdConsent?: string;
+  };
 };
 
 export async function sendQuoteAction(
@@ -83,6 +98,20 @@ export async function sendQuoteAction(
       return {
         success: false,
         message: 'Échec de l\'envoi de la demande. Veuillez réessayer.',
+        formData: {
+          firstName: validatedData.firstName,
+          lastName: validatedData.lastName,
+          email: validatedData.email,
+          company: validatedData.company,
+          sector: validatedData.sector,
+          siteType: validatedData.siteType,
+          pageCount: validatedData.pageCount,
+          features: validatedData.features,
+          optimization: validatedData.optimization,
+          hosting: validatedData.hosting,
+          domain: validatedData.domain,
+          message: validatedData.message,
+        },
       };
     }
 
@@ -110,9 +139,25 @@ export async function sendQuoteAction(
     };
   } catch (error) {
     if (error instanceof z.ZodError) {
+      // Keep form data in case of validation errors
       return {
         success: false,
         errors: error.flatten().fieldErrors as Record<string, string[]>,
+        formData: {
+          firstName: formData.get('firstName') as string,
+          lastName: formData.get('lastName') as string,
+          email: formData.get('email') as string,
+          company: formData.get('company') as string,
+          sector: formData.get('sector') as string,
+          siteType: formData.get('siteType') as string,
+          pageCount: formData.get('pageCount') as string,
+          features: formData.getAll('features') as string[],
+          optimization: formData.getAll('optimization') as string[],
+          hosting: formData.get('hosting') as string,
+          domain: formData.get('domain') as string,
+          message: formData.get('message') as string,
+          rgpdConsent: formData.get('rgpdConsent') as string,
+        },
       };
     }
 
