@@ -447,30 +447,20 @@ export function QuoteForm() {
           </h3>
           
           <div className="space-y-4">
+            {/* Hébergement - Always included, no choice */}
             <div>
-              <label htmlFor="hosting" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+              <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
                 <Server className="w-4 h-4 text-accent" />
-                {t('quote.hosting.hosting')} *
+                {t('quote.hosting.hosting')}
               </label>
-              <select
-                id="hosting"
-                name="hosting"
-                required
-                defaultValue={state.formData?.hosting || 'Inclus dans le projet'}
-                className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
-                disabled={isPending}
-              >
-                <option value="">{t('quote.hosting.selectOption')}</option>
-                <option value="Inclus dans le projet">{t('quote.hosting.included')}</option>
-                <option value="Fourni par le client">{t('quote.hosting.clientProvided')}</option>
-                <option value="À discuter">{t('quote.hosting.toDiscuss')}</option>
-              </select>
-              {state.errors?.hosting && (
-                <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" />
-                  {state.errors.hosting[0]}
-                </p>
-              )}
+              <input type="hidden" name="hosting" value="Inclus dans le projet" />
+              <div className="flex items-center gap-3 p-4 bg-accent/10 border-2 border-accent/40 rounded-lg">
+                <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
+                <span className="text-foreground font-semibold">{t('quote.hosting.included')}</span>
+              </div>
+              <p className="text-sm text-foreground/70 mt-2">
+                L'hébergement est automatiquement inclus dans votre projet.
+              </p>
             </div>
 
             <div>
