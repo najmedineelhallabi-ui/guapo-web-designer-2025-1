@@ -59,6 +59,7 @@ export function QuoteForm() {
                   id="firstName"
                   name="firstName"
                   required
+                  defaultValue={state.formData?.firstName || ''}
                   className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                   placeholder={t('quote.info.firstNamePlaceholder')}
                   disabled={isPending}
@@ -80,6 +81,7 @@ export function QuoteForm() {
                   id="lastName"
                   name="lastName"
                   required
+                  defaultValue={state.formData?.lastName || ''}
                   className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                   placeholder={t('quote.info.lastNamePlaceholder')}
                   disabled={isPending}
@@ -103,6 +105,7 @@ export function QuoteForm() {
                 id="email"
                 name="email"
                 required
+                defaultValue={state.formData?.email || ''}
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                 placeholder={t('quote.info.emailPlaceholder')}
                 disabled={isPending}
@@ -125,6 +128,7 @@ export function QuoteForm() {
                 id="company"
                 name="company"
                 required
+                defaultValue={state.formData?.company || ''}
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                 placeholder={t('quote.info.companyPlaceholder')}
                 disabled={isPending}
@@ -146,6 +150,7 @@ export function QuoteForm() {
                 type="text"
                 id="sector"
                 name="sector"
+                defaultValue={state.formData?.sector || ''}
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
                 placeholder={t('quote.info.sectorPlaceholder')}
                 disabled={isPending}
@@ -168,6 +173,7 @@ export function QuoteForm() {
                 name="siteType"
                 value="Site vitrine simple (1 à 5 pages)"
                 required
+                defaultChecked={state.formData?.siteType === "Site vitrine simple (1 à 5 pages)"}
                 className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 disabled={isPending}
               />
@@ -182,6 +188,7 @@ export function QuoteForm() {
                 type="radio"
                 name="siteType"
                 value="Site vitrine avancé (5 à 10 pages)"
+                defaultChecked={state.formData?.siteType === "Site vitrine avancé (5 à 10 pages)"}
                 className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 disabled={isPending}
               />
@@ -196,6 +203,7 @@ export function QuoteForm() {
                 type="radio"
                 name="siteType"
                 value="Portfolio / site personnel"
+                defaultChecked={state.formData?.siteType === "Portfolio / site personnel"}
                 className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 disabled={isPending}
               />
@@ -242,6 +250,7 @@ export function QuoteForm() {
                 required
                 min="1"
                 max="50"
+                defaultValue={state.formData?.pageCount || ''}
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                 placeholder={t('quote.design.pageCountPlaceholder')}
                 disabled={isPending}
@@ -269,6 +278,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="features"
                 value="Formulaire de contact simple"
+                defaultChecked={state.formData?.features?.includes("Formulaire de contact simple")}
                 className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
@@ -282,6 +292,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="features"
                 value="Formulaire de demande de devis"
+                defaultChecked={state.formData?.features?.includes("Formulaire de demande de devis")}
                 className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
@@ -295,6 +306,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="features"
                 value="Système de prise de rendez-vous en ligne"
+                defaultChecked={state.formData?.features?.includes("Système de prise de rendez-vous en ligne")}
                 className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
@@ -308,6 +320,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="features"
                 value="Envoi automatique d'emails client + entreprise (pour rendez-vous)"
+                defaultChecked={state.formData?.features?.includes("Envoi automatique d'emails client + entreprise (pour rendez-vous)")}
                 className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
@@ -321,6 +334,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="features"
                 value="Intégration calendrier (Google Calendar, etc.)"
+                defaultChecked={state.formData?.features?.includes("Intégration calendrier (Google Calendar, etc.)")}
                 className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
@@ -334,6 +348,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="features"
                 value="Newsletter / inscription mailing"
+                defaultChecked={state.formData?.features?.includes("Newsletter / inscription mailing")}
                 className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
@@ -347,6 +362,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="features"
                 value="Multilingue"
+                defaultChecked={state.formData?.features?.includes("Multilingue")}
                 className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
@@ -370,6 +386,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="optimization"
                 value="SEO de base (balises, titres, URLs)"
+                defaultChecked={state.formData?.optimization?.includes("SEO de base (balises, titres, URLs)")}
                 className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 disabled={isPending}
               />
@@ -383,6 +400,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="optimization"
                 value="Optimisation vitesse / performance"
+                defaultChecked={state.formData?.optimization?.includes("Optimisation vitesse / performance")}
                 className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 disabled={isPending}
               />
@@ -396,6 +414,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="optimization"
                 value="Certificat SSL / HTTPS"
+                defaultChecked={state.formData?.optimization?.includes("Certificat SSL / HTTPS")}
                 className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 disabled={isPending}
               />
@@ -409,6 +428,7 @@ export function QuoteForm() {
                 type="checkbox"
                 name="optimization"
                 value="RGPD / conformité légale"
+                defaultChecked={state.formData?.optimization?.includes("RGPD / conformité légale")}
                 className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 disabled={isPending}
               />
@@ -436,6 +456,7 @@ export function QuoteForm() {
                 id="hosting"
                 name="hosting"
                 required
+                defaultValue={state.formData?.hosting || ''}
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                 disabled={isPending}
               >
@@ -461,6 +482,7 @@ export function QuoteForm() {
                 id="domain"
                 name="domain"
                 required
+                defaultValue={state.formData?.domain || ''}
                 className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
                 disabled={isPending}
               >
@@ -495,6 +517,7 @@ export function QuoteForm() {
               name="message"
               required
               rows={8}
+              defaultValue={state.formData?.message || ''}
               className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none"
               placeholder={t('quote.message.placeholder')}
               disabled={isPending}
@@ -515,6 +538,7 @@ export function QuoteForm() {
               type="checkbox"
               name="rgpdConsent"
               required
+              defaultChecked={state.formData?.rgpdConsent === 'on'}
               className="w-5 h-5 mt-0.5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer flex-shrink-0"
               disabled={isPending}
             />
