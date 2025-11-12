@@ -72,7 +72,7 @@ export async function sendQuoteAction(
 
     // Send email to company via Resend
     const { data: companyEmailData, error: companyEmailError } = await resend.emails.send({
-      from: 'GUAPO Web Designer <onboarding@resend.dev>',
+      from: 'GUAPO Web Designer <noreply@guapowebdesigner.com>',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: validatedData.email,
       subject: `Demande de devis - ${validatedData.firstName} ${validatedData.lastName} (${validatedData.company})`,
@@ -117,7 +117,7 @@ export async function sendQuoteAction(
 
     // Send confirmation email to client
     const { data: clientEmailData, error: clientEmailError } = await resend.emails.send({
-      from: 'GUAPO Web Designer <onboarding@resend.dev>',
+      from: 'GUAPO Web Designer <noreply@guapowebdesigner.com>',
       to: validatedData.email,
       subject: '✅ Confirmation de votre demande de devis - GUAPO Web Designer',
       react: QuoteConfirmationEmail({
