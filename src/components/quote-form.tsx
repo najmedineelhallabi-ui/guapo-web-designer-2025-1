@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect } from 'react';
 import { sendQuoteAction, QuoteFormState } from '@/app/actions/sendQuote';
-import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare, Shield, Palette, Zap, Lock, Wrench, Building } from 'lucide-react';
+import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare, Shield, Palette, Zap, Lock, Wrench, Building, ShoppingCart } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import Link from 'next/link';
 
@@ -212,6 +212,24 @@ export function QuoteForm() {
                 <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.portfolioDesc')}</p>
               </div>
             </label>
+
+            <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+              <input
+                type="radio"
+                name="siteType"
+                value="Site e-commerce"
+                defaultChecked={state.formData?.siteType === "Site e-commerce"}
+                className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                disabled={isPending}
+              />
+              <div className="flex items-start gap-2">
+                <ShoppingCart className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
+                <div>
+                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.ecommerce')}</span>
+                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.ecommerceDesc')}</p>
+                </div>
+              </div>
+            </label>
           </div>
           {state.errors?.siteType && (
             <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
@@ -370,6 +388,100 @@ export function QuoteForm() {
                 {t('quote.features.multilingual')}
               </span>
             </label>
+
+            {/* E-commerce Features */}
+            <div className="pt-3 mt-3 border-t border-border">
+              <p className="text-sm font-semibold text-foreground/70 mb-3 flex items-center gap-2">
+                <ShoppingCart className="w-4 h-4" />
+                Fonctionnalités E-commerce
+              </p>
+              
+              <div className="space-y-3">
+                <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="features"
+                    value="Catalogue de produits"
+                    defaultChecked={state.formData?.features?.includes("Catalogue de produits")}
+                    className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    {t('quote.features.productCatalog')}
+                  </span>
+                </label>
+
+                <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="features"
+                    value="Panier d'achat"
+                    defaultChecked={state.formData?.features?.includes("Panier d'achat")}
+                    className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    {t('quote.features.shoppingCart')}
+                  </span>
+                </label>
+
+                <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="features"
+                    value="Passerelle de paiement (Stripe, PayPal, etc.)"
+                    defaultChecked={state.formData?.features?.includes("Passerelle de paiement (Stripe, PayPal, etc.)")}
+                    className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    {t('quote.features.paymentGateway')}
+                  </span>
+                </label>
+
+                <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="features"
+                    value="Gestion des commandes"
+                    defaultChecked={state.formData?.features?.includes("Gestion des commandes")}
+                    className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    {t('quote.features.orderManagement')}
+                  </span>
+                </label>
+
+                <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="features"
+                    value="Gestion des stocks"
+                    defaultChecked={state.formData?.features?.includes("Gestion des stocks")}
+                    className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    {t('quote.features.inventoryManagement')}
+                  </span>
+                </label>
+
+                <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="features"
+                    value="Comptes clients"
+                    defaultChecked={state.formData?.features?.includes("Comptes clients")}
+                    className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    {t('quote.features.customerAccounts')}
+                  </span>
+                </label>
+              </div>
+            </div>
           </div>
         </div>
 
