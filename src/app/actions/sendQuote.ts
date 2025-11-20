@@ -1,8 +1,6 @@
 'use server';
 
-import { resend } from '@/lib/resend';
-import { QuoteEmail } from '@/emails/QuoteEmail';
-import { QuoteConfirmationEmail } from '@/emails/QuoteConfirmationEmail';
+import { sendQuoteEmail } from '@/lib/email';
 import { z } from 'zod';
 
 const quoteSchema = z.object({
@@ -12,12 +10,13 @@ const quoteSchema = z.object({
   company: z.string().min(2, 'Le nom de l\'entreprise/projet doit contenir au moins 2 caractères'),
   sector: z.string().optional(),
   siteType: z.string().min(1, 'Veuillez sélectionner un type de site'),
-  pageCount: z.string().min(1, 'Veuillez indiquer le nombre de pages'),
+  pageCount: z.coerce.number().int().positive().optional(),
   features: z.array(z.string()).optional(),
+  languages: z.array(z.string()).optional(),
+  otherLanguages: z.string().optional(),
   optimization: z.array(z.string()).optional(),
-  hosting: z.string().min(1, 'Veuillez sélectionner une option pour l\'hébergement'),
+  hosting: z.string().optional(),
   domain: z.string().min(1, 'Veuillez sélectionner une option pour le nom de domaine'),
-  maintenance: z.string().optional(),
   message: z.string().min(10, 'Le message doit contenir au moins 10 caractères').max(5000),
   rgpdConsent: z.string().refine((val) => val === 'on', {
     message: 'Vous devez accepter la politique de confidentialité pour continuer',
@@ -35,8 +34,10 @@ export type QuoteFormState = {
     company?: string;
     sector?: string;
     siteType?: string;
-    pageCount?: string;
+    pageCount?: number;
     features?: string[];
+    languages?: string[];
+    otherLanguages?: string;
     optimization?: string[];
     hosting?: string;
     domain?: string;
@@ -58,84 +59,40 @@ export async function sendQuoteAction(
       company: formData.get('company'),
       sector: formData.get('sector') || undefined,
       siteType: formData.get('siteType'),
-      pageCount: formData.get('pageCount'),
+      pageCount: formData.get('pageCount') ? Number(formData.get('pageCount')) : undefined,
       features: formData.getAll('features') as string[],
+      languages: formData.getAll('languages') as string[],
+      otherLanguages: formData.get('otherLanguages') as string || undefined,
       optimization: formData.getAll('optimization') as string[],
-      hosting: formData.get('hosting'),
+      hosting: formData.get('hosting') as string || undefined,
       domain: formData.get('domain'),
-      maintenance: formData.get('maintenance') || undefined,
       message: formData.get('message'),
       rgpdConsent: formData.get('rgpdConsent'),
     };
 
     const validatedData = quoteSchema.parse(rawData);
 
-    // Send email to company via Resend
-    const { data: companyEmailData, error: companyEmailError } = await resend.emails.send({
-      from: 'GUAPO Web Designer <noreply@guapowebdesigner.com>',
-      to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
-      replyTo: validatedData.email,
-      subject: `Demande de devis - ${validatedData.firstName} ${validatedData.lastName} (${validatedData.company})`,
-      react: QuoteEmail({
-        firstName: validatedData.firstName,
-        lastName: validatedData.lastName,
-        email: validatedData.email,
-        company: validatedData.company,
-        sector: validatedData.sector,
-        siteType: validatedData.siteType,
-        pageCount: validatedData.pageCount,
-        features: validatedData.features,
-        optimization: validatedData.optimization,
-        hosting: validatedData.hosting,
-        domain: validatedData.domain,
-        maintenance: validatedData.maintenance,
-        message: validatedData.message,
-      }),
+    // Send email using the centralized email function (includes pricing)
+    await sendQuoteEmail({
+      firstName: validatedData.firstName,
+      lastName: validatedData.lastName,
+      email: validatedData.email,
+      company: validatedData.company,
+      sector: validatedData.sector,
+      siteType: validatedData.siteType,
+      pageCount: validatedData.pageCount,
+      features: validatedData.features,
+      languages: validatedData.languages,
+      otherLanguages: validatedData.otherLanguages,
+      optimization: validatedData.optimization,
+      hosting: validatedData.hosting,
+      domain: validatedData.domain,
+      message: validatedData.message,
     });
-
-    if (companyEmailError) {
-      console.error('Resend error (company email):', companyEmailError);
-      return {
-        success: false,
-        message: 'Échec de l\'envoi de la demande. Veuillez réessayer.',
-        formData: {
-          firstName: validatedData.firstName,
-          lastName: validatedData.lastName,
-          email: validatedData.email,
-          company: validatedData.company,
-          sector: validatedData.sector,
-          siteType: validatedData.siteType,
-          pageCount: validatedData.pageCount,
-          features: validatedData.features,
-          optimization: validatedData.optimization,
-          hosting: validatedData.hosting,
-          domain: validatedData.domain,
-          message: validatedData.message,
-        },
-      };
-    }
-
-    // Send confirmation email to client
-    const { data: clientEmailData, error: clientEmailError } = await resend.emails.send({
-      from: 'GUAPO Web Designer <noreply@guapowebdesigner.com>',
-      to: validatedData.email,
-      subject: '✅ Confirmation de votre demande de devis - GUAPO Web Designer',
-      react: QuoteConfirmationEmail({
-        firstName: validatedData.firstName,
-        lastName: validatedData.lastName,
-        company: validatedData.company,
-        siteType: validatedData.siteType,
-      }),
-    });
-
-    if (clientEmailError) {
-      console.error('Resend error (client confirmation email):', clientEmailError);
-      // Don't fail the whole process if client email fails, company already received the quote
-    }
 
     return {
       success: true,
-      message: 'Votre demande de devis a été envoyée avec succès ! Nous vous répondrons dans les plus brefs délais. Un email de confirmation vous a été envoyé.',
+      message: 'Votre demande de devis a été envoyée avec succès ! Nous vous répondrons dans les plus brefs délais.',
     };
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -150,8 +107,10 @@ export async function sendQuoteAction(
           company: formData.get('company') as string,
           sector: formData.get('sector') as string,
           siteType: formData.get('siteType') as string,
-          pageCount: formData.get('pageCount') as string,
+          pageCount: formData.get('pageCount') ? Number(formData.get('pageCount')) : undefined,
           features: formData.getAll('features') as string[],
+          languages: formData.getAll('languages') as string[],
+          otherLanguages: formData.get('otherLanguages') as string,
           optimization: formData.getAll('optimization') as string[],
           hosting: formData.get('hosting') as string,
           domain: formData.get('domain') as string,
@@ -164,7 +123,7 @@ export async function sendQuoteAction(
     console.error('Unexpected error:', error);
     return {
       success: false,
-      message: 'Une erreur inattendue s\'est produite',
+      message: 'Une erreur inattendue s\'est produite. Veuillez réessayer ou nous contacter directement.',
     };
   }
 }
