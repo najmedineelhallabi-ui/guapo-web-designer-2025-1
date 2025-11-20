@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useState } from 'react';
 import { sendQuoteAction, QuoteFormState } from '@/app/actions/sendQuote';
-import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare, Shield, Palette, Zap, Lock, Wrench, Building, ShoppingCart, Edit2 } from 'lucide-react';
+import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare, Shield, Palette, Zap, Lock, Wrench, Building, ShoppingCart, Edit2, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import Link from 'next/link';
 
@@ -12,6 +12,8 @@ export function QuoteForm() {
     sendQuoteAction,
     {}
   );
+  const [step, setStep] = useState<'type' | 'questions'>(state.formData?.siteType ? 'questions' : 'type');
+  const [projectType, setProjectType] = useState<'vitrine' | 'ecommerce' | ''>('');
   const [isEcommerce, setIsEcommerce] = useState(false);
   const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
   const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
@@ -24,15 +26,28 @@ export function QuoteForm() {
     }
   }, [state.success]);
 
+  const handleProjectTypeSelect = (type: 'vitrine' | 'ecommerce') => {
+    setProjectType(type);
+    setIsEcommerce(type === 'ecommerce');
+    setStep('questions');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToTypeSelection = () => {
+    setStep('type');
+    setProjectType('');
+    setIsEcommerce(false);
+    setSelectedSiteType('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleSiteTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setIsEcommerce(value === "Site e-commerce");
     setSelectedSiteType(value);
   };
 
   const handleResetSiteType = () => {
     setSelectedSiteType('');
-    setIsEcommerce(false);
   };
 
   const handleQuoteFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,9 +62,167 @@ export function QuoteForm() {
     setAllInclusiveOptimization(e.target.checked);
   };
 
+  // Step 1: Project Type Selection
+  if (step === 'type') {
+    return (
+      <div className="max-w-4xl mx-auto">
+        {/* Success message */}
+        {state.success && (
+          <div className="bg-gradient-to-r from-primary/20 to-secondary/20 border-2 border-primary/50 text-foreground px-6 py-4 rounded-xl flex items-start gap-3 animate-fade-in shadow-lg mb-8">
+            <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-semibold text-lg">{t('quote.success.title')}</p>
+              <p className="text-sm text-foreground/80 mt-1">{state.message}</p>
+            </div>
+          </div>
+        )}
+
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            Quel type de projet souhaitez-vous ?
+          </h2>
+          <p className="text-lg text-foreground/80">
+            Choisissez le type de site qui correspond à vos besoins
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* Site Vitrine Card */}
+          <button
+            type="button"
+            onClick={() => handleProjectTypeSelect('vitrine')}
+            className="group relative bg-gradient-to-br from-primary/20 to-secondary/20 hover:from-primary/30 hover:to-secondary/30 border-2 border-primary/40 hover:border-primary/60 rounded-2xl p-8 text-left transition-all hover:scale-105 hover:shadow-2xl shadow-lg"
+          >
+            <div className="absolute top-4 right-4">
+              <Globe className="w-12 h-12 text-primary opacity-20 group-hover:opacity-40 transition-opacity" />
+            </div>
+            
+            <div className="relative z-10">
+              <div className="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                <Globe className="w-8 h-8 text-white" />
+              </div>
+              
+              <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">
+                Site Vitrine
+              </h3>
+              
+              <p className="text-foreground/80 mb-6 leading-relaxed">
+                Site web de présentation pour votre entreprise, portfolio, ou activité professionnelle
+              </p>
+              
+              <div className="space-y-2 mb-6">
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span>Présentation d'entreprise</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span>Portfolio professionnel</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span>Formulaires de contact</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                  <span>Design sur-mesure</span>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 text-primary font-semibold">
+                <span>Commencer</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              </div>
+            </div>
+          </button>
+
+          {/* Site E-commerce Card */}
+          <button
+            type="button"
+            onClick={() => handleProjectTypeSelect('ecommerce')}
+            className="group relative bg-gradient-to-br from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30 border-2 border-secondary/40 hover:border-secondary/60 rounded-2xl p-8 text-left transition-all hover:scale-105 hover:shadow-2xl shadow-lg"
+          >
+            <div className="absolute top-4 right-4">
+              <ShoppingCart className="w-12 h-12 text-secondary opacity-20 group-hover:opacity-40 transition-opacity" />
+            </div>
+            
+            <div className="relative z-10">
+              <div className="w-16 h-16 bg-gradient-to-r from-secondary to-accent rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                <ShoppingCart className="w-8 h-8 text-white" />
+              </div>
+              
+              <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-secondary transition-colors">
+                Site E-commerce
+              </h3>
+              
+              <p className="text-foreground/80 mb-6 leading-relaxed">
+                Boutique en ligne complète pour vendre vos produits ou services sur internet
+              </p>
+              
+              <div className="space-y-2 mb-6">
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
+                  <span>Catalogue produits</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
+                  <span>Panier & paiement en ligne</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
+                  <span>Gestion des commandes</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
+                  <span>Comptes clients</span>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 text-secondary font-semibold">
+                <span>Commencer</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Step 2: Questions Form
   return (
     <div className="max-w-4xl mx-auto">
+      {/* Back button */}
+      <button
+        type="button"
+        onClick={handleBackToTypeSelection}
+        className="mb-6 flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors group"
+      >
+        <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
+        <span>Retour au choix du type de projet</span>
+      </button>
+
+      {/* Project type indicator */}
+      <div className="mb-8 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          {projectType === 'vitrine' ? (
+            <Globe className="w-6 h-6 text-primary" />
+          ) : (
+            <ShoppingCart className="w-6 h-6 text-secondary" />
+          )}
+          <div>
+            <p className="text-sm text-foreground/70">Type de projet sélectionné :</p>
+            <p className="font-bold text-lg">
+              {projectType === 'vitrine' ? 'Site Vitrine' : 'Site E-commerce'}
+            </p>
+          </div>
+        </div>
+      </div>
+
       <form action={formAction} className="space-y-8">
+        {/* Hidden field for project type */}
+        <input type="hidden" name="projectType" value={projectType} />
+
         {/* Success message */}
         {state.success && (
           <div className="bg-gradient-to-r from-primary/20 to-secondary/20 border-2 border-primary/50 text-foreground px-6 py-4 rounded-xl flex items-start gap-3 animate-fade-in shadow-lg">
@@ -187,165 +360,198 @@ export function QuoteForm() {
           </div>
         </div>
 
-        {/* Type de Site */}
-        <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
-            <Globe className="w-6 h-6 text-secondary" />
-            {t('quote.siteType.title')}
-          </h3>
-          
-          {!selectedSiteType ? (
-            // Show all options when nothing is selected
+        {/* Type de Site - Only for Vitrine */}
+        {projectType === 'vitrine' && (
+          <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
+            <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
+              <Globe className="w-6 h-6 text-secondary" />
+              Nombre de pages du site vitrine
+            </h3>
+            
+            {!selectedSiteType ? (
+              <div className="space-y-3">
+                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                  <input
+                    type="radio"
+                    name="siteType"
+                    value="Site vitrine simple (1 à 3 pages)"
+                    required
+                    onChange={handleSiteTypeChange}
+                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div>
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.simple')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.simpleDesc')}</p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                  <input
+                    type="radio"
+                    name="siteType"
+                    value="Site vitrine standard (4 à 5 pages)"
+                    onChange={handleSiteTypeChange}
+                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div>
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.standard')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.standardDesc')}</p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                  <input
+                    type="radio"
+                    name="siteType"
+                    value="Site vitrine avancé (6 à 8 pages)"
+                    onChange={handleSiteTypeChange}
+                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div>
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.advanced')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.advancedDesc')}</p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                  <input
+                    type="radio"
+                    name="siteType"
+                    value="Site vitrine premium (9 à 12 pages)"
+                    onChange={handleSiteTypeChange}
+                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div>
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.premium')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.premiumDesc')}</p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                  <input
+                    type="radio"
+                    name="siteType"
+                    value="Portfolio / site personnel"
+                    onChange={handleSiteTypeChange}
+                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div>
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.portfolio')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.portfolioDesc')}</p>
+                  </div>
+                </label>
+              </div>
+            ) : (
+              <div className="space-y-4 animate-fade-in">
+                <div className="p-5 bg-gradient-to-r from-secondary/20 to-accent/20 border-2 border-secondary/50 rounded-xl">
+                  <input type="hidden" name="siteType" value={selectedSiteType} />
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm font-semibold text-foreground/70">Type sélectionné :</span>
+                    <button
+                      type="button"
+                      onClick={handleResetSiteType}
+                      disabled={isPending}
+                      className="flex items-center gap-2 px-3 py-1.5 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      <Edit2 className="w-3.5 h-3.5" />
+                      Modifier
+                    </button>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-secondary flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-bold text-lg text-foreground">{selectedSiteType}</p>
+                      {selectedSiteType === "Site vitrine simple (1 à 3 pages)" && (
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.simpleDesc')}</p>
+                      )}
+                      {selectedSiteType === "Site vitrine standard (4 à 5 pages)" && (
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.standardDesc')}</p>
+                      )}
+                      {selectedSiteType === "Site vitrine avancé (6 à 8 pages)" && (
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.advancedDesc')}</p>
+                      )}
+                      {selectedSiteType === "Site vitrine premium (9 à 12 pages)" && (
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.premiumDesc')}</p>
+                      )}
+                      {selectedSiteType === "Portfolio / site personnel" && (
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.portfolioDesc')}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {state.errors?.siteType && (
+              <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                <AlertCircle className="w-3 h-3" />
+                {state.errors.siteType[0]}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* E-commerce size - Only for e-commerce */}
+        {projectType === 'ecommerce' && (
+          <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
+            <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
+              <ShoppingCart className="w-6 h-6 text-secondary" />
+              Taille de votre boutique e-commerce
+            </h3>
+            
+            <input type="hidden" name="siteType" value="Site e-commerce" />
+            
             <div className="space-y-3">
               <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
                 <input
                   type="radio"
-                  name="siteType"
-                  value="Site vitrine simple (1 à 3 pages)"
+                  name="ecommerceSize"
+                  value="Petite boutique (1-20 produits)"
                   required
-                  onChange={handleSiteTypeChange}
                   className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                   disabled={isPending}
                 />
                 <div>
-                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.simple')}</span>
-                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.simpleDesc')}</p>
+                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Petite boutique (1-20 produits)</span>
+                  <p className="text-sm text-foreground/70 mt-1">Idéal pour démarrer avec une sélection limitée</p>
                 </div>
               </label>
 
               <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
                 <input
                   type="radio"
-                  name="siteType"
-                  value="Site vitrine standard (4 à 5 pages)"
-                  onChange={handleSiteTypeChange}
+                  name="ecommerceSize"
+                  value="Boutique moyenne (21-100 produits)"
                   className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                   disabled={isPending}
                 />
                 <div>
-                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.standard')}</span>
-                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.standardDesc')}</p>
+                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Boutique moyenne (21-100 produits)</span>
+                  <p className="text-sm text-foreground/70 mt-1">Pour une gamme de produits diversifiée</p>
                 </div>
               </label>
 
               <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
                 <input
                   type="radio"
-                  name="siteType"
-                  value="Site vitrine avancé (6 à 8 pages)"
-                  onChange={handleSiteTypeChange}
+                  name="ecommerceSize"
+                  value="Grande boutique (100+ produits)"
                   className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                   disabled={isPending}
                 />
                 <div>
-                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.advanced')}</span>
-                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.advancedDesc')}</p>
-                </div>
-              </label>
-
-              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-                <input
-                  type="radio"
-                  name="siteType"
-                  value="Site vitrine premium (9 à 12 pages)"
-                  onChange={handleSiteTypeChange}
-                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                  disabled={isPending}
-                />
-                <div>
-                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.premium')}</span>
-                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.premiumDesc')}</p>
-                </div>
-              </label>
-
-              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-                <input
-                  type="radio"
-                  name="siteType"
-                  value="Portfolio / site personnel"
-                  onChange={handleSiteTypeChange}
-                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                  disabled={isPending}
-                />
-                <div>
-                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.portfolio')}</span>
-                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.portfolioDesc')}</p>
-                </div>
-              </label>
-
-              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-                <input
-                  type="radio"
-                  name="siteType"
-                  value="Site e-commerce"
-                  onChange={handleSiteTypeChange}
-                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                  disabled={isPending}
-                />
-                <div className="flex items-start gap-2">
-                  <ShoppingCart className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.ecommerce')}</span>
-                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.ecommerceDesc')}</p>
-                  </div>
+                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Grande boutique (100+ produits)</span>
+                  <p className="text-sm text-foreground/70 mt-1">Catalogue complet avec gestion avancée</p>
                 </div>
               </label>
             </div>
-          ) : (
-            // Show only selected option with change button
-            <div className="space-y-4 animate-fade-in">
-              <div className="p-5 bg-gradient-to-r from-secondary/20 to-accent/20 border-2 border-secondary/50 rounded-xl">
-                <input type="hidden" name="siteType" value={selectedSiteType} />
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-semibold text-foreground/70">Type sélectionné :</span>
-                  <button
-                    type="button"
-                    onClick={handleResetSiteType}
-                    disabled={isPending}
-                    className="flex items-center gap-2 px-3 py-1.5 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
-                  >
-                    <Edit2 className="w-3.5 h-3.5" />
-                    Modifier
-                  </button>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="w-6 h-6 text-secondary flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-bold text-lg text-foreground">{selectedSiteType}</p>
-                    {selectedSiteType === "Site vitrine simple (1 à 3 pages)" && (
-                      <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.simpleDesc')}</p>
-                    )}
-                    {selectedSiteType === "Site vitrine standard (4 à 5 pages)" && (
-                      <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.standardDesc')}</p>
-                    )}
-                    {selectedSiteType === "Site vitrine avancé (6 à 8 pages)" && (
-                      <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.advancedDesc')}</p>
-                    )}
-                    {selectedSiteType === "Site vitrine premium (9 à 12 pages)" && (
-                      <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.premiumDesc')}</p>
-                    )}
-                    {selectedSiteType === "Portfolio / site personnel" && (
-                      <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.portfolioDesc')}</p>
-                    )}
-                    {selectedSiteType === "Site e-commerce" && (
-                      <p className="text-sm text-foreground/70 mt-1 flex items-center gap-2">
-                        <ShoppingCart className="w-4 h-4" />
-                        {t('quote.siteType.ecommerceDesc')}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {state.errors?.siteType && (
-            <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
-              <AlertCircle className="w-3 h-3" />
-              {state.errors.siteType[0]}
-            </p>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Design & Contenu */}
         <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-6">
