@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Globe } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 
-type Language = "fr" | "nl" | "en";
+type Language = "fr" | "nl" | "en" | "es" | "de" | "it" | "pt";
 
 export function LanguageSwitcher() {
   const { language: currentLanguage, setLanguage } = useLanguage();
@@ -13,7 +13,11 @@ export function LanguageSwitcher() {
   const languages = {
     fr: "FR",
     nl: "NL",
-    en: "EN"
+    en: "EN",
+    es: "ES",
+    de: "DE",
+    it: "IT",
+    pt: "PT"
   };
 
   const handleLanguageChange = (lang: Language) => {
@@ -38,7 +42,7 @@ export function LanguageSwitcher() {
             className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="absolute right-0 mt-2 w-32 bg-background/95 backdrop-blur-md border border-border rounded-lg shadow-lg z-50 overflow-hidden">
+          <div className="absolute right-0 mt-2 w-32 bg-background/95 backdrop-blur-md border border-border rounded-lg shadow-lg z-50 overflow-hidden max-h-64 overflow-y-auto">
             {Object.entries(languages).map(([code, label]) => (
               <button
                 key={code}
