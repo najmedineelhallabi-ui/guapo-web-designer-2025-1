@@ -6,7 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { firstName, lastName, email, company, siteType, minPrice, maxPrice } = body;
+    const { firstName, lastName, email, company, siteType, minPrice, maxPrice, maintenanceType } = body;
 
     console.log('📧 Sending confirmation email from client to owner...');
 
@@ -103,6 +103,25 @@ export async function POST(request: NextRequest) {
               font-weight: 700;
               color: #8b5cf6;
             }
+            .maintenance-box {
+              background: #fef3c7;
+              border: 2px solid #fbbf24;
+              border-radius: 10px;
+              padding: 20px;
+              margin: 20px 0;
+              text-align: center;
+            }
+            .maintenance-title {
+              font-size: 16px;
+              color: #92400e;
+              font-weight: 600;
+              margin-bottom: 10px;
+            }
+            .maintenance-value {
+              font-size: 18px;
+              font-weight: 700;
+              color: #78350f;
+            }
             .cta-button {
               display: inline-block;
               background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
@@ -161,6 +180,13 @@ export async function POST(request: NextRequest) {
               <div class="price-title">💰 Estimation confirmée</div>
               <div class="price-value">${minPrice}€ - ${maxPrice}€</div>
             </div>
+
+            ${maintenanceType ? `
+            <div class="maintenance-box">
+              <div class="maintenance-title">🔧 Maintenance choisie par le client</div>
+              <div class="maintenance-value">${escapeHtml(maintenanceType)}</div>
+            </div>
+            ` : ''}
 
             <p style="font-size: 15px; color: #1f2937; text-align: center;">
               <strong style="color: #16a34a;">Action requise :</strong><br>

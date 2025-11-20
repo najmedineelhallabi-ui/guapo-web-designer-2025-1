@@ -18,6 +18,7 @@ function ConfirmQuoteContent() {
   const siteType = searchParams.get("siteType") || "";
   const minPrice = searchParams.get("minPrice") || "";
   const maxPrice = searchParams.get("maxPrice") || "";
+  const maintenanceType = searchParams.get("maintenanceType") || "";
 
   useEffect(() => {
     const sendConfirmation = async () => {
@@ -35,6 +36,7 @@ function ConfirmQuoteContent() {
             siteType,
             minPrice,
             maxPrice,
+            maintenanceType,
           }),
         });
 
@@ -60,7 +62,7 @@ function ConfirmQuoteContent() {
       setStatus("error");
       setMessage("Informations manquantes. Veuillez nous contacter directement.");
     }
-  }, [firstName, lastName, email, company, siteType, minPrice, maxPrice]);
+  }, [firstName, lastName, email, company, siteType, minPrice, maxPrice, maintenanceType]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/20 to-secondary/20 flex items-center justify-center p-6">
@@ -117,6 +119,11 @@ function ConfirmQuoteContent() {
               <p className="text-sm text-gray-600">
                 <strong>Estimation :</strong> {minPrice}€ - {maxPrice}€
               </p>
+              {maintenanceType && (
+                <p className="text-sm text-gray-600 mt-2">
+                  <strong>Maintenance choisie :</strong> {maintenanceType}
+                </p>
+              )}
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
