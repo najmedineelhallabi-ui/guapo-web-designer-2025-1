@@ -170,7 +170,7 @@ export async function sendQuoteEmail(data: {
     return acc;
   }, {} as Record<string, { item: string; price: string }[]>);
 
-  // EMAIL 1: Pour le propriétaire (avec tous les détails)
+  // EMAIL 1: Pour le propriétaire (VERSION SIMPLIFIÉE)
   const ownerEmailHtml = `
     <!DOCTYPE html>
     <html>
@@ -178,10 +178,10 @@ export async function sendQuoteEmail(data: {
         <meta charset="utf-8">
         <style>
           body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 700px;
+            max-width: 650px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f8f9fa;
@@ -189,276 +189,208 @@ export async function sendQuoteEmail(data: {
           .header {
             background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 10px 10px 0 0;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
           }
           .header h1 {
             margin: 0;
-            font-size: 28px;
-          }
-          .urgent-badge {
-            display: inline-block;
-            background: #7c3aed;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 2px 4px rgba(124, 58, 237, 0.4);
+            font-size: 24px;
           }
           .content {
-            background: #ffffff;
+            background: white;
             border: 2px solid #e2e8f0;
             border-radius: 0 0 10px 10px;
-            padding: 30px;
+            padding: 25px;
           }
-          .section {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
+          .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
           }
-          .section:last-child {
-            border-bottom: none;
+          .info-item {
+            padding: 10px;
           }
-          .section-title {
-            font-size: 18px;
+          .info-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+          }
+          .info-value {
+            font-size: 15px;
+            color: #1f2937;
             font-weight: 600;
-            color: #8b5cf6;
-            margin-bottom: 12px;
-          }
-          .info-row {
-            margin-bottom: 10px;
-          }
-          .label {
-            font-weight: 600;
-            color: #4a5568;
-          }
-          .value {
-            color: #2d3748;
           }
           .price-section {
             background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-            border: 3px solid #8b5cf6;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 25px 0;
-            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.2);
+            border: 2px solid #8b5cf6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
           }
           .price-title {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
             color: #6d28d9;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
           }
-          .price-breakdown {
+          .price-grid {
             background: white;
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
           }
-          .price-category {
-            font-size: 16px;
-            font-weight: 600;
-            color: #8b5cf6;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #e9d5ff;
-          }
-          .price-item {
+          .price-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 10px 0;
             border-bottom: 1px solid #f3f4f6;
           }
-          .price-item:last-child {
+          .price-row:last-child {
             border-bottom: none;
           }
-          .price-item-name {
-            flex: 1;
-            color: #374151;
-          }
-          .price-item-value {
+          .price-category {
+            font-size: 14px;
             font-weight: 600;
             color: #8b5cf6;
-            margin-left: 15px;
-            white-space: nowrap;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #e9d5ff;
+          }
+          .price-category:first-child {
+            margin-top: 0;
+          }
+          .price-label {
+            color: #374151;
+            font-size: 14px;
+          }
+          .price-value {
+            font-weight: 600;
+            color: #8b5cf6;
+            font-size: 14px;
           }
           .price-total {
             background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: 700;
-            margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
-          }
-          .price-note {
-            text-align: center;
-            font-size: 13px;
-            color: #6d28d9;
-            margin-top: 15px;
-            font-style: italic;
-          }
-          .hosting-note {
-            background: #dcfce7;
-            border: 2px solid #86efac;
-            border-radius: 8px;
             padding: 15px;
-            margin-top: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
           }
-          .hosting-note strong {
-            color: #15803d;
+          .message-box {
+            background: #f9fafb;
+            border-left: 4px solid #8b5cf6;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
           }
-          .features-list {
-            list-style: none;
-            padding: 0;
-          }
-          .features-list li {
-            padding: 5px 0 5px 20px;
-            position: relative;
-          }
-          .features-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
+          .message-title {
+            font-size: 14px;
+            font-weight: 600;
             color: #8b5cf6;
-            font-weight: bold;
+            margin-bottom: 10px;
+          }
+          .message-text {
+            color: #4b5563;
+            font-size: 14px;
+            line-height: 1.6;
           }
           .cta-button {
             display: inline-block;
             background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
-            padding: 12px 30px;
+            padding: 12px 25px;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
-            margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
+            margin-top: 15px;
           }
           .footer {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
+            margin-top: 20px;
+            padding-top: 15px;
             border-top: 1px solid #e2e8f0;
-            color: #718096;
-            font-size: 14px;
+            color: #9ca3af;
+            font-size: 12px;
           }
         </style>
       </head>
       <body>
         <div class="header">
-          <div class="urgent-badge">🆕 NOUVEAU</div>
-          <h1>📋 Nouvelle Demande de Devis</h1>
+          <h1>🆕 Nouvelle Demande de Devis</h1>
         </div>
         <div class="content">
-          <div class="section">
-            <div class="section-title">👤 Informations du Client</div>
-            <div class="info-row">
-              <span class="label">Nom complet:</span> 
-              <span class="value">${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</span>
+          <!-- Grille d'informations client -->
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">Client</div>
+              <div class="info-value">${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</div>
             </div>
-            <div class="info-row">
-              <span class="label">Email:</span> 
-              <span class="value">${escapeHtml(data.email)}</span>
+            <div class="info-item">
+              <div class="info-label">Email</div>
+              <div class="info-value">${escapeHtml(data.email)}</div>
             </div>
             ${data.company ? `
-            <div class="info-row">
-              <span class="label">Entreprise:</span> 
-              <span class="value">${escapeHtml(data.company)}</span>
+            <div class="info-item">
+              <div class="info-label">Entreprise</div>
+              <div class="info-value">${escapeHtml(data.company)}</div>
             </div>
             ` : ''}
             ${data.sector ? `
-            <div class="info-row">
-              <span class="label">Secteur d'activité:</span> 
-              <span class="value">${escapeHtml(data.sector)}</span>
+            <div class="info-item">
+              <div class="info-label">Secteur</div>
+              <div class="info-value">${escapeHtml(data.sector)}</div>
+            </div>
+            ` : ''}
+            <div class="info-item">
+              <div class="info-label">Type de site</div>
+              <div class="info-value">${escapeHtml(data.siteType)}</div>
+            </div>
+            ${data.pageCount ? `
+            <div class="info-item">
+              <div class="info-label">Pages</div>
+              <div class="info-value">${escapeHtml(data.pageCount.toString())}</div>
             </div>
             ` : ''}
           </div>
 
-          <!-- PRIX ESTIMÉ -->
+          <!-- Estimation tarifaire -->
           <div class="price-section">
-            <div class="price-title">💰 Estimation Tarifaire</div>
+            <div class="price-title">💰 Estimation</div>
             
-            <div class="price-breakdown">
+            <div class="price-grid">
               ${Object.entries(groupedBreakdown).map(([category, items]) => `
-                <div style="margin-bottom: 20px;">
-                  <div class="price-category">${category}</div>
-                  ${items.map(({ item, price }) => `
-                    <div class="price-item">
-                      <span class="price-item-name">${escapeHtml(item)}</span>
-                      <span class="price-item-value">${escapeHtml(price)}</span>
-                    </div>
-                  `).join('')}
-                </div>
+                <div class="price-category">${category}</div>
+                ${items.map(({ item, price }) => `
+                  <div class="price-row">
+                    <span class="price-label">${escapeHtml(item)}</span>
+                    <span class="price-value">${escapeHtml(price)}</span>
+                  </div>
+                `).join('')}
               `).join('')}
             </div>
 
             <div class="price-total">
-              Estimation: ${pricing.minTotal}€ - ${pricing.maxTotal}€
-            </div>
-
-            <div class="hosting-note">
-              <strong>✅ Hébergement inclus:</strong> L'hébergement du site est automatiquement inclus dans le forfait (hébergement haute performance avec SSL).
-            </div>
-
-            <div class="price-note">
-              ⚠️ Cette estimation est indicative et peut varier selon les spécifications exactes du projet.<br>
-              Un devis détaillé et personnalisé sera établi après discussion.
+              ${pricing.minTotal}€ - ${pricing.maxTotal}€
             </div>
           </div>
 
-          <div class="section">
-            <div class="section-title">🎯 Détails du Projet</div>
-            <div class="info-row">
-              <span class="label">Type de site:</span> 
-              <span class="value">${escapeHtml(data.siteType)}</span>
-            </div>
-            ${data.pageCount ? `
-            <div class="info-row">
-              <span class="label">Nombre de pages:</span> 
-              <span class="value">${escapeHtml(data.pageCount.toString())} pages</span>
-            </div>
-            ` : ''}
-            <div class="info-row">
-              <span class="label">Hébergement:</span> 
-              <span class="value">${data.hosting || 'Inclus dans le projet'}</span>
-            </div>
-            <div class="info-row">
-              <span class="label">Nom de domaine:</span> 
-              <span class="value">${data.domain || 'À discuter'}</span>
-            </div>
-          </div>
-
-          ${data.features && data.features.length > 0 ? `
-          <div class="section">
-            <div class="section-title">✨ Fonctionnalités Souhaitées</div>
-            <ul class="features-list">
-              ${data.features.map(feature => `<li>${escapeHtml(feature)}</li>`).join('')}
-            </ul>
+          <!-- Message du client -->
+          ${data.message ? `
+          <div class="message-box">
+            <div class="message-title">💬 Message du client</div>
+            <div class="message-text">${escapeHtml(data.message).replace(/\n/g, '<br>')}</div>
           </div>
           ` : ''}
-
-          ${data.optimization && data.optimization.length > 0 ? `
-          <div class="section">
-            <div class="section-title">🔒 Optimisation & Sécurité</div>
-            <ul class="features-list">
-              ${data.optimization.map(opt => `<li>${escapeHtml(opt)}</li>`).join('')}
-            </ul>
-          </div>
-          ` : ''}
-
-          <div class="section">
-            <div class="section-title">📝 Description du Projet</div>
-            <p class="value">${escapeHtml(data.message).replace(/\n/g, '<br>')}</p>
-          </div>
 
           <div style="text-align: center;">
             <a href="mailto:${escapeHtml(data.email)}" class="cta-button">
@@ -468,14 +400,13 @@ export async function sendQuoteEmail(data: {
         </div>
 
         <div class="footer">
-          <p>Cette demande a été envoyée depuis le formulaire de devis de GUAPO Web Designer</p>
-          <p style="margin-top: 10px;">© 2025 GUAPO Web Designer</p>
+          © 2025 GUAPO Web Designer
         </div>
       </body>
     </html>
   `;
 
-  // EMAIL 2: Pour le client (confirmation avec prix)
+  // EMAIL 2: Pour le client (AVEC CONFIRMATION)
   const clientEmailHtml = `
     <!DOCTYPE html>
     <html>
@@ -483,10 +414,10 @@ export async function sendQuoteEmail(data: {
         <meta charset="utf-8">
         <style>
           body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 700px;
+            max-width: 650px;
             margin: 0 auto;
             padding: 20px;
             background-color: #f8f9fa;
@@ -494,135 +425,177 @@ export async function sendQuoteEmail(data: {
           .header {
             background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 10px 10px 0 0;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
           }
           .header h1 {
             margin: 0;
-            font-size: 28px;
-          }
-          .success-badge {
-            display: inline-block;
-            background: #16a34a;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 2px 4px rgba(22, 163, 74, 0.4);
+            font-size: 24px;
           }
           .content {
-            background: #ffffff;
+            background: white;
             border: 2px solid #e2e8f0;
             border-radius: 0 0 10px 10px;
-            padding: 30px;
+            padding: 25px;
           }
           .greeting {
-            font-size: 18px;
+            font-size: 16px;
             color: #1f2937;
             margin-bottom: 20px;
           }
-          .section {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
+          .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 8px;
           }
-          .section:last-child {
-            border-bottom: none;
+          .info-item {
+            padding: 10px;
+          }
+          .info-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+          }
+          .info-value {
+            font-size: 15px;
+            color: #1f2937;
+            font-weight: 600;
           }
           .price-section {
             background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-            border: 3px solid #8b5cf6;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 25px 0;
-            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.2);
+            border: 2px solid #8b5cf6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
           }
           .price-title {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: 700;
             color: #6d28d9;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
           }
-          .price-breakdown {
+          .price-grid {
             background: white;
             border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
           }
-          .price-category {
-            font-size: 16px;
-            font-weight: 600;
-            color: #8b5cf6;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #e9d5ff;
-          }
-          .price-item {
+          .price-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 10px 0;
             border-bottom: 1px solid #f3f4f6;
           }
-          .price-item:last-child {
+          .price-row:last-child {
             border-bottom: none;
           }
-          .price-item-name {
-            flex: 1;
-            color: #374151;
-          }
-          .price-item-value {
+          .price-category {
+            font-size: 14px;
             font-weight: 600;
             color: #8b5cf6;
-            margin-left: 15px;
-            white-space: nowrap;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #e9d5ff;
+          }
+          .price-category:first-child {
+            margin-top: 0;
+          }
+          .price-label {
+            color: #374151;
+            font-size: 14px;
+          }
+          .price-value {
+            font-weight: 600;
+            color: #8b5cf6;
+            font-size: 14px;
           }
           .price-total {
             background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
-            padding: 20px;
+            padding: 15px;
             border-radius: 8px;
             text-align: center;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
-            margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
           }
-          .price-note {
-            text-align: center;
-            font-size: 13px;
-            color: #6d28d9;
-            margin-top: 15px;
-            font-style: italic;
-          }
-          .hosting-note {
+          .note-box {
             background: #dcfce7;
             border: 2px solid #86efac;
             border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-          }
-          .hosting-note strong {
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 13px;
             color: #15803d;
+            text-align: center;
+          }
+          .confirmation-box {
+            background: #fef3c7;
+            border: 3px solid #fbbf24;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+          }
+          .confirmation-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #92400e;
+            margin-bottom: 15px;
+          }
+          .confirmation-text {
+            font-size: 15px;
+            color: #78350f;
+            margin-bottom: 20px;
+            line-height: 1.6;
+          }
+          .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+          }
+          .btn-confirm {
+            display: inline-block;
+            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+            color: white;
+            padding: 14px 28px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
+          }
+          .btn-comment {
+            display: inline-block;
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            color: white;
+            padding: 14px 28px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 15px;
           }
           .next-steps {
-            background: #fef2f2;
+            background: #f9fafb;
             border-left: 4px solid #8b5cf6;
             border-radius: 8px;
             padding: 20px;
             margin: 20px 0;
           }
           .next-steps-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             color: #6d28d9;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
           }
           .next-steps ul {
             list-style: none;
@@ -630,8 +603,9 @@ export async function sendQuoteEmail(data: {
             margin: 0;
           }
           .next-steps li {
-            padding: 8px 0;
+            padding: 6px 0;
             color: #4b5563;
+            font-size: 14px;
           }
           .next-steps li:before {
             content: "✓";
@@ -640,109 +614,130 @@ export async function sendQuoteEmail(data: {
             margin-right: 10px;
           }
           .contact-info {
-            background: #f3e8ff;
-            border: 2px solid #c4b5fd;
-            border-radius: 8px;
-            padding: 20px;
             text-align: center;
-            margin: 25px 0;
+            padding: 15px;
+            background: #f3e8ff;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 14px;
           }
           .contact-info strong {
             color: #8b5cf6;
           }
           .footer {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
+            margin-top: 20px;
+            padding-top: 15px;
             border-top: 1px solid #e2e8f0;
-            color: #718096;
-            font-size: 14px;
+            color: #9ca3af;
+            font-size: 12px;
           }
         </style>
       </head>
       <body>
         <div class="header">
-          <div class="success-badge">✅ CONFIRMÉ</div>
-          <h1>✅ Demande de Devis Reçue</h1>
+          <h1>✅ Demande Reçue</h1>
         </div>
         <div class="content">
           <div class="greeting">
             Bonjour ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)},
           </div>
 
-          <p style="font-size: 16px; color: #1f2937; line-height: 1.6;">
-            Merci d'avoir fait confiance à <strong style="color: #8b5cf6;">GUAPO Web Designer</strong> pour votre projet !
+          <p style="font-size: 15px; color: #1f2937;">
+            Merci d'avoir fait confiance à <strong style="color: #8b5cf6;">GUAPO Web Designer</strong> ! 
+            Nous avons bien reçu votre demande pour <strong>${escapeHtml(data.company || 'votre projet')}</strong>.
           </p>
 
-          <p style="font-size: 16px; color: #1f2937; line-height: 1.6;">
-            Nous avons bien reçu votre demande de devis pour <strong style="color: #8b5cf6;">${escapeHtml(data.company || 'votre projet')}</strong> 
-            concernant un <strong style="color: #8b5cf6;">${escapeHtml(data.siteType)}</strong>.
-          </p>
+          <!-- Récapitulatif -->
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">Type de site</div>
+              <div class="info-value">${escapeHtml(data.siteType)}</div>
+            </div>
+            ${data.pageCount ? `
+            <div class="info-item">
+              <div class="info-label">Pages prévues</div>
+              <div class="info-value">${escapeHtml(data.pageCount.toString())}</div>
+            </div>
+            ` : ''}
+            ${data.domain ? `
+            <div class="info-item">
+              <div class="info-label">Domaine</div>
+              <div class="info-value">${escapeHtml(data.domain)}</div>
+            </div>
+            ` : ''}
+            <div class="info-item">
+              <div class="info-label">Hébergement</div>
+              <div class="info-value">Inclus ✓</div>
+            </div>
+          </div>
 
-          <!-- ESTIMATION TARIFAIRE POUR LE CLIENT -->
+          <!-- Estimation -->
           <div class="price-section">
             <div class="price-title">💰 Votre Estimation</div>
             
-            <div class="price-breakdown">
+            <div class="price-grid">
               ${Object.entries(groupedBreakdown).map(([category, items]) => `
-                <div style="margin-bottom: 20px;">
-                  <div class="price-category">${category}</div>
-                  ${items.map(({ item, price }) => `
-                    <div class="price-item">
-                      <span class="price-item-name">${escapeHtml(item)}</span>
-                      <span class="price-item-value">${escapeHtml(price)}</span>
-                    </div>
-                  `).join('')}
-                </div>
+                <div class="price-category">${category}</div>
+                ${items.map(({ item, price }) => `
+                  <div class="price-row">
+                    <span class="price-label">${escapeHtml(item)}</span>
+                    <span class="price-value">${escapeHtml(price)}</span>
+                  </div>
+                `).join('')}
               `).join('')}
             </div>
 
             <div class="price-total">
-              Estimation: ${pricing.minTotal}€ - ${pricing.maxTotal}€
+              ${pricing.minTotal}€ - ${pricing.maxTotal}€
             </div>
 
-            <div class="hosting-note">
-              <strong>✅ Hébergement inclus:</strong> L'hébergement haute performance avec certificat SSL est automatiquement inclus dans votre forfait.
-            </div>
-
-            <div class="price-note">
-              ℹ️ Cette estimation est indicative et basée sur les informations que vous nous avez fournies.<br>
-              Nous vous enverrons un devis détaillé et personnalisé sous 24-48 heures.
+            <div class="note-box">
+              ✅ <strong>Hébergement inclus</strong> - SSL et performances optimales
             </div>
           </div>
 
+          <!-- SECTION CONFIRMATION -->
+          <div class="confirmation-box">
+            <div class="confirmation-title">📋 Cette estimation vous convient ?</div>
+            <div class="confirmation-text">
+              Confirmez votre intérêt ou ajoutez un commentaire pour préciser vos besoins. 
+              Nous vous répondrons avec un devis détaillé sous 24-48h.
+            </div>
+            <div class="button-group">
+              <a href="mailto:info@guapowebdesigner.com?subject=Confirmation%20devis%20-%20${encodeURIComponent(data.firstName + ' ' + data.lastName)}&body=Bonjour%2C%0A%0AJe%20confirme%20mon%20int%C3%A9r%C3%AAt%20pour%20l'estimation%20re%C3%A7ue%20(${pricing.minTotal}%E2%82%AC%20-%20${pricing.maxTotal}%E2%82%AC).%0A%0AMon%20projet%3A%20${encodeURIComponent(data.company || 'Non spécifié')}%0AType%20de%20site%3A%20${encodeURIComponent(data.siteType)}%0A%0A%E2%9C%85%20Je%20suis%20d'accord%20pour%20continuer%0A%0ACommentaire%20(optionnel)%3A%0A%0A%0ACordialement%2C%0A${encodeURIComponent(data.firstName + ' ' + data.lastName)}" class="btn-confirm">
+                ✅ Confirmer mon intérêt
+              </a>
+              <a href="mailto:info@guapowebdesigner.com?subject=Question%20sur%20devis%20-%20${encodeURIComponent(data.firstName + ' ' + data.lastName)}&body=Bonjour%2C%0A%0AJ'ai%20re%C3%A7u%20l'estimation%20pour%20mon%20projet%20(${pricing.minTotal}%E2%82%AC%20-%20${pricing.maxTotal}%E2%82%AC).%0A%0AMon%20projet%3A%20${encodeURIComponent(data.company || 'Non spécifié')}%0AType%20de%20site%3A%20${encodeURIComponent(data.siteType)}%0A%0AJ'aimerais%20discuter%20des%20points%20suivants%3A%0A%0A%0A%0ACordialement%2C%0A${encodeURIComponent(data.firstName + ' ' + data.lastName)}" class="btn-comment">
+                💬 Ajouter un commentaire
+              </a>
+            </div>
+          </div>
+
+          <!-- Prochaines étapes -->
           <div class="next-steps">
             <div class="next-steps-title">📋 Prochaines Étapes</div>
             <ul>
-              <li>Notre équipe étudie attentivement votre demande</li>
-              <li>Vous recevrez un <strong style="color: #8b5cf6;">devis détaillé sous 24-48 heures</strong></li>
-              <li>Nous vous contacterons pour discuter de votre projet</li>
-              <li>Nous répondrons à toutes vos questions</li>
+              <li>Notre équipe étudie votre demande</li>
+              <li>Devis détaillé sous 24-48 heures</li>
+              <li>Discussion de votre projet</li>
+              <li>Réponse à vos questions</li>
             </ul>
           </div>
 
-          <p style="font-size: 16px; color: #1f2937; line-height: 1.6;">
-            En attendant, n'hésitez pas à nous contacter si vous avez des questions ou des informations complémentaires à nous transmettre.
-          </p>
-
           <div class="contact-info">
-            <p style="margin: 5px 0;">
-              📧 <strong>Email:</strong> info@guapowebdesigner.com
-            </p>
-            <p style="margin: 5px 0;">
-              📱 <strong>Instagram:</strong> @guapo_webdesigner
-            </p>
+            📧 <strong>info@guapowebdesigner.com</strong><br>
+            📱 <strong>@guapo_webdesigner</strong>
           </div>
 
-          <p style="font-size: 16px; color: #1f2937; line-height: 1.6; margin-top: 25px;">
+          <p style="font-size: 15px; color: #1f2937; margin-top: 20px;">
             À très bientôt,<br>
-            <strong style="color: #8b5cf6;">L'équipe GUAPO Web Designer</strong>
+            <strong style="color: #8b5cf6;">L'équipe GUAPO</strong>
           </p>
         </div>
 
         <div class="footer">
-          <p>© 2025 GUAPO Web Designer</p>
-          <p style="margin-top: 10px;">Cet email a été envoyé en réponse à votre demande de devis</p>
+          © 2025 GUAPO Web Designer
         </div>
       </body>
     </html>
@@ -757,7 +752,7 @@ export async function sendQuoteEmail(data: {
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: data.email,
-      subject: `🎨 Nouvelle demande de devis - ${data.firstName} ${data.lastName} - Estimation: ${pricing.minTotal}€-${pricing.maxTotal}€`,
+      subject: `🎨 Nouvelle demande - ${data.firstName} ${data.lastName} - ${pricing.minTotal}€-${pricing.maxTotal}€`,
       html: ownerEmailHtml,
     });
     console.log('✅ 1/2 - Owner email sent successfully!', ownerResult);
@@ -768,7 +763,7 @@ export async function sendQuoteEmail(data: {
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: data.email,
       replyTo: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
-      subject: `✅ Confirmation de votre demande de devis - GUAPO Web Designer`,
+      subject: `✅ Votre estimation - GUAPO Web Designer`,
       html: clientEmailHtml,
     });
     console.log('✅ 2/2 - Client email sent successfully!', clientResult);
