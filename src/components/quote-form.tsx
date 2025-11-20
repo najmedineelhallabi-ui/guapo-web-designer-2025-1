@@ -14,6 +14,8 @@ export function QuoteForm() {
   );
   const [isEcommerce, setIsEcommerce] = useState(false);
   const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
+  const [selectedSiteType, setSelectedSiteType] = useState<string>('');
+  const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
 
   useEffect(() => {
     if (state.success) {
@@ -22,11 +24,22 @@ export function QuoteForm() {
   }, [state.success]);
 
   const handleSiteTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsEcommerce(e.target.value === "Site e-commerce");
+    const value = e.target.value;
+    setIsEcommerce(value === "Site e-commerce");
+    setSelectedSiteType(value);
+  };
+
+  const handleResetSiteType = () => {
+    setSelectedSiteType('');
+    setIsEcommerce(false);
   };
 
   const handleQuoteFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsQuoteFormSelected(e.target.checked);
+  };
+
+  const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAllInclusiveOptimization(e.target.checked);
   };
 
   return (
