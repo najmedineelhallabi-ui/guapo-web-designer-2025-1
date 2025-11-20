@@ -505,52 +505,88 @@ export function QuoteForm() {
               Taille de votre boutique e-commerce
             </h3>
             
-            <input type="hidden" name="siteType" value="Site e-commerce" />
-            
-            <div className="space-y-3">
-              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-                <input
-                  type="radio"
-                  name="ecommerceSize"
-                  value="Petite boutique (1-20 produits)"
-                  required
-                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                  disabled={isPending}
-                />
-                <div className="flex-1">
-                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Petite boutique (1-20 produits)</span>
-                  <p className="text-sm text-foreground/70 mt-1">Idéal pour démarrer avec une sélection limitée</p>
-                </div>
-              </label>
+            {!selectedSiteType ? (
+              <div className="space-y-3">
+                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                  <input
+                    type="radio"
+                    name="siteType"
+                    value="Petite boutique (1-20 produits)"
+                    required
+                    onChange={handleSiteTypeChange}
+                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Petite boutique (1-20 produits)</span>
+                    <p className="text-sm text-foreground/70 mt-1">Idéal pour démarrer avec une sélection limitée</p>
+                  </div>
+                </label>
 
-              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-                <input
-                  type="radio"
-                  name="ecommerceSize"
-                  value="Boutique moyenne (21-100 produits)"
-                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                  disabled={isPending}
-                />
-                <div className="flex-1">
-                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Boutique moyenne (21-100 produits)</span>
-                  <p className="text-sm text-foreground/70 mt-1">Pour une gamme de produits diversifiée</p>
-                </div>
-              </label>
+                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                  <input
+                    type="radio"
+                    name="siteType"
+                    value="Boutique moyenne (21-100 produits)"
+                    onChange={handleSiteTypeChange}
+                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Boutique moyenne (21-100 produits)</span>
+                    <p className="text-sm text-foreground/70 mt-1">Pour une gamme de produits diversifiée</p>
+                  </div>
+                </label>
 
-              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-                <input
-                  type="radio"
-                  name="ecommerceSize"
-                  value="Grande boutique (100+ produits)"
-                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                  disabled={isPending}
-                />
-                <div className="flex-1">
-                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Grande boutique (100+ produits)</span>
-                  <p className="text-sm text-foreground/70 mt-1">Catalogue complet avec gestion avancée</p>
+                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                  <input
+                    type="radio"
+                    name="siteType"
+                    value="Grande boutique (100+ produits)"
+                    onChange={handleSiteTypeChange}
+                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Grande boutique (100+ produits)</span>
+                    <p className="text-sm text-foreground/70 mt-1">Catalogue complet avec gestion avancée</p>
+                  </div>
+                </label>
+              </div>
+            ) : (
+              <div className="space-y-4 animate-fade-in">
+                <div className="p-5 bg-gradient-to-r from-secondary/20 to-accent/20 border-2 border-secondary/50 rounded-xl">
+                  <input type="hidden" name="siteType" value={selectedSiteType} />
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm font-semibold text-foreground/70">Taille sélectionnée :</span>
+                    <button
+                      type="button"
+                      onClick={handleResetSiteType}
+                      disabled={isPending}
+                      className="flex items-center gap-2 px-3 py-1.5 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      <Edit2 className="w-3.5 h-3.5" />
+                      Modifier
+                    </button>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-secondary flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="font-bold text-lg text-foreground">{selectedSiteType}</p>
+                      {selectedSiteType === "Petite boutique (1-20 produits)" && (
+                        <p className="text-sm text-foreground/70 mt-1">Idéal pour démarrer avec une sélection limitée</p>
+                      )}
+                      {selectedSiteType === "Boutique moyenne (21-100 produits)" && (
+                        <p className="text-sm text-foreground/70 mt-1">Pour une gamme de produits diversifiée</p>
+                      )}
+                      {selectedSiteType === "Grande boutique (100+ produits)" && (
+                        <p className="text-sm text-foreground/70 mt-1">Catalogue complet avec gestion avancée</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </label>
-            </div>
+              </div>
+            )}
 
             <div className="mt-4 p-4 bg-accent/10 border border-accent/30 rounded-lg">
               <p className="text-sm text-foreground/70 flex items-start gap-2">
@@ -558,6 +594,13 @@ export function QuoteForm() {
                 <span>Le prix final dépendra des fonctionnalités e-commerce sélectionnées ci-dessous</span>
               </p>
             </div>
+
+            {state.errors?.siteType && (
+              <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                <AlertCircle className="w-3 h-3" />
+                {state.errors.siteType[0]}
+              </p>
+            )}
           </div>
         )}
 
