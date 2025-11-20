@@ -42,7 +42,7 @@ export function QuoteEmail({
   message 
 }: QuoteEmailProps) {
   // Calculate pricing estimate
-  const estimate = calculateEstimate({ siteType, pageCount, features, optimization, domain });
+  const estimate = calculateEstimate({ siteType, features, optimization, domain });
   const siteTypePrice = PRICING.siteTypes[siteType as keyof typeof PRICING.siteTypes];
   
   // Calculate additional pages
