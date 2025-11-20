@@ -147,6 +147,11 @@ export async function sendQuoteEmail(data: {
   domain?: string;
   message: string;
 }) {
+  console.log('🚀 Starting email send process...');
+  console.log('📧 Email FROM:', process.env.EMAIL_FROM || 'onboarding@resend.dev');
+  console.log('📧 Email TO:', process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com');
+  console.log('📧 Reply TO:', data.email);
+  
   // Calculer les prix
   const pricing = calculatePricing({
     siteType: data.siteType,
@@ -157,6 +162,8 @@ export async function sendQuoteEmail(data: {
     optimization: data.optimization,
     domain: data.domain
   });
+
+  console.log('💰 Pricing calculated:', `${pricing.minTotal}€ - ${pricing.maxTotal}€`);
 
   // Grouper les éléments par catégorie
   const groupedBreakdown = pricing.breakdown.reduce((acc, item) => {
@@ -454,6 +461,8 @@ export async function sendQuoteEmail(data: {
   `;
 
   try {
+    console.log('📨 Attempting to send email via Resend...');
+    
     const result = await resend.emails.send({
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
@@ -463,12 +472,20 @@ export async function sendQuoteEmail(data: {
     });
 
     if (result.error) {
+      console.error('❌ Resend API returned an error:', result.error);
       throw new Error(`Resend error: ${result.error.message}`);
     }
 
+    console.log('✅ Email sent successfully!');
+    console.log('📬 Email ID:', result.data?.id);
     return result;
   } catch (error) {
-    console.error('Email sending failed:', error);
+    console.error('❌ Email sending failed with exception:', error);
+    console.error('Error details:', {
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined
+    });
     throw error;
   }
 }
