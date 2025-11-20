@@ -762,18 +762,21 @@ export async function sendQuoteEmail(data: {
     });
     console.log('✅ 1/2 - Owner email sent successfully!', ownerResult);
 
-    // Envoyer EMAIL 2: Au client
-    console.log('📧 2/2 - Sending confirmation email to client...');
+    // Envoyer EMAIL 2: Au client (TEMPORAIRE: envoyé au propriétaire aussi car domaine non vérifié)
+    // Une fois le domaine vérifié dans Resend, changer 'to:' pour utiliser data.email
+    console.log('📧 2/2 - Sending confirmation email to client (TEMP: sent to owner)...');
     const clientResult = await resend.emails.send({
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
-      to: data.email,
+      to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com', // TEMPORAIRE: devrait être data.email
       replyTo: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
-      subject: `✅ Confirmation de votre demande de devis - GUAPO Web Designer`,
+      subject: `✅ [COPIE CLIENT - ${data.email}] Confirmation de votre demande de devis - GUAPO Web Designer`,
       html: clientEmailHtml,
     });
     console.log('✅ 2/2 - Client email sent successfully!', clientResult);
 
     console.log('🎉 Email process completed with Resend!');
+    console.log('⚠️ IMPORTANT: Le domaine Resend n\'est pas encore vérifié. L\'email de confirmation du client est envoyé à votre adresse.');
+    console.log('📝 Pour envoyer directement aux clients: Vérifiez votre domaine sur resend.com/domains');
     return { success: true };
   } catch (error) {
     console.error('❌ Email sending failed:', error);
