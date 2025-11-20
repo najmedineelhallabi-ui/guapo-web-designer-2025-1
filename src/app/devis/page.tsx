@@ -171,6 +171,23 @@ export default function DevisPage() {
             </div>
           </div>
 
+          {/* Special Offer Banner */}
+          <div className="mb-12 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 rounded-2xl blur-xl"></div>
+            <div className="relative bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 border-2 border-primary/40 rounded-2xl p-8 text-center backdrop-blur-sm">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/30 text-sm border border-primary/50 backdrop-blur-sm mb-4">
+                <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+                <span className="font-semibold">Offre Spéciale</span>
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                🎁 1 Mois de Maintenance Offert
+              </h3>
+              <p className="text-foreground/80 text-lg">
+                Profitez d'un mois de maintenance gratuite pour assurer le bon fonctionnement de votre site web après sa mise en ligne.
+              </p>
+            </div>
+          </div>
+
           {/* Form */}
           <div className="bg-card/30 backdrop-blur-sm border-2 border-border rounded-2xl p-8 md:p-12 shadow-2xl">
             <QuoteForm />
