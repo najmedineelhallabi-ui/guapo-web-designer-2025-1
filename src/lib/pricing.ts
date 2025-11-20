@@ -31,11 +31,11 @@ export const PRICING = {
 
   // Optimisation & Sécurité
   optimization: {
-    "Pack Tout Inclus (SEO + Performance + SSL + RGPD)": 600,
-    "SEO de base (balises, titres, URLs)": 300,
-    "Optimisation vitesse / performance": 250,
+    "Pack Tout Inclus (SEO + Performance + SSL + RGPD)": 300,
+    "SEO de base (balises, titres, URLs)": 100,
+    "Optimisation vitesse / performance": 100,
     "Certificat SSL / HTTPS": 0, // Inclus gratuit
-    "RGPD / conformité légale": 200,
+    "RGPD / conformité légale": 100,
   },
 
   // Hébergement & Domaine
