@@ -697,6 +697,183 @@ export async function sendQuoteEmail(data: {
             </div>
           </div>
 
+          ${data.siteType.toLowerCase().includes('vitrine') ? `
+          <!-- MAINTENANCE OPTIONS - SITES VITRINES -->
+          <div style="background: #f0f9ff; border: 2px solid #7c3aed; border-radius: 10px; padding: 20px; margin: 20px 0;">
+            <h3 style="color: #7c3aed; font-size: 18px; font-weight: 700; margin-top: 0; margin-bottom: 15px;">
+              🔧 Maintenance – Sites vitrines
+            </h3>
+
+            <!-- Option 1: Forfait annuel limité -->
+            <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #e0e7ff;">
+              <h4 style="color: #7c3aed; font-size: 15px; font-weight: 700; margin-top: 0; margin-bottom: 10px;">
+                📦 Forfait annuel limité - 300€/an
+              </h4>
+              
+              <p style="margin: 5px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
+                Inclus :
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Jusqu'à 6 interventions par an
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Mises à jour mineures (texte, images)
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Corrections simples
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Sécurité & sauvegardes
+              </p>
+              
+              <p style="margin: 10px 0 5px 0; color: #4b5563; font-size: 14px;">
+                <strong>Interventions supplémentaires :</strong> 100€/intervention
+              </p>
+              <p style="margin: 5px 0; color: #4b5563; font-size: 14px;">
+                <strong>Délai :</strong> 48h ouvrées
+              </p>
+            </div>
+
+            <!-- Option 2: Paiement à l'intervention -->
+            <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #e0e7ff;">
+              <h4 style="color: #7c3aed; font-size: 15px; font-weight: 700; margin-top: 0; margin-bottom: 10px;">
+                💳 Paiement à l'intervention - 100€/intervention
+              </h4>
+              
+              <p style="margin: 5px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
+                Chaque intervention comprend :
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Mise à jour mineure
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Correction ou modification simple
+              </p>
+              
+              <p style="margin: 10px 0 5px 0; color: #4b5563; font-size: 14px;">
+                <strong>Délai :</strong> 48h ouvrées
+              </p>
+            </div>
+
+            <!-- Notes explicatives -->
+            <hr style="border: none; border-top: 1px solid #c7d2fe; margin: 15px 0;" />
+            
+            <h4 style="color: #5b21b6; font-size: 14px; font-weight: 700; margin-top: 0; margin-bottom: 8px;">
+              📝 Notes importantes :
+            </h4>
+            
+            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
+              • <strong>Interventions incluses :</strong> modifications de texte ou images, corrections mineures, mises à jour simples, sécurité et sauvegardes.
+            </p>
+            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
+              • <strong>Interventions supplémentaires :</strong> facturées 100€/intervention si dépassement du forfait annuel.
+            </p>
+            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
+              • <strong>Délai de traitement :</strong> 48h ouvrées, sauf urgence à discuter.
+            </p>
+            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
+              • Convient à tous les sites vitrines, quelle que soit leur taille ou le nombre de pages.
+            </p>
+
+            <!-- Astuce commerciale -->
+            <div style="background: #fef3c7; padding: 12px; border-radius: 6px; margin-top: 15px; border: 1px solid #fbbf24;">
+              <p style="margin: 0; color: #78350f; font-size: 13px; line-height: 1.6; text-align: center;">
+                💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site, afin de tester nos services avant de souscrire au forfait annuel.
+              </p>
+            </div>
+          </div>
+          ` : ''}
+
+          ${data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
+          <!-- MAINTENANCE OPTIONS - E-COMMERCE -->
+          <div style="background: #fef3f4; border: 2px solid #dc2626; border-radius: 10px; padding: 20px; margin: 20px 0;">
+            <h3 style="color: #dc2626; font-size: 18px; font-weight: 700; margin-top: 0; margin-bottom: 15px;">
+              🛒 Maintenance – Sites e-commerce
+            </h3>
+
+            <!-- Option 1: Forfait annuel limité -->
+            <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #fecaca;">
+              <h4 style="color: #dc2626; font-size: 15px; font-weight: 700; margin-top: 0; margin-bottom: 10px;">
+                📦 Forfait annuel limité - 700€/an
+              </h4>
+              
+              <p style="margin: 5px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
+                Inclus :
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Jusqu'à 12 interventions par an
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Mises à jour du site et des plugins
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Corrections mineures (texte, images, prix)
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Gestion sécurité & sauvegardes
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Vérification régulière des passerelles de paiement et suivi des commandes
+              </p>
+              
+              <p style="margin: 10px 0 5px 0; color: #4b5563; font-size: 14px;">
+                <strong>Interventions supplémentaires :</strong> 150€/intervention
+              </p>
+              <p style="margin: 5px 0; color: #4b5563; font-size: 14px;">
+                <strong>Délai :</strong> 48h ouvrées
+              </p>
+            </div>
+
+            <!-- Option 2: Paiement à l'intervention -->
+            <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #fecaca;">
+              <h4 style="color: #dc2626; font-size: 15px; font-weight: 700; margin-top: 0; margin-bottom: 10px;">
+                💳 Paiement à l'intervention - 150€/intervention
+              </h4>
+              
+              <p style="margin: 5px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
+                Chaque intervention comprend :
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Mise à jour ou correction mineure
+              </p>
+              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+                • Sécurité et sauvegardes
+              </p>
+              
+              <p style="margin: 10px 0 5px 0; color: #4b5563; font-size: 14px;">
+                <strong>Délai :</strong> 48h ouvrées
+              </p>
+            </div>
+
+            <!-- Notes explicatives -->
+            <hr style="border: none; border-top: 1px solid #fecaca; margin: 15px 0;" />
+            
+            <h4 style="color: #991b1b; font-size: 14px; font-weight: 700; margin-top: 0; margin-bottom: 8px;">
+              📝 Notes importantes :
+            </h4>
+            
+            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
+              • <strong>Interventions incluses :</strong> corrections de textes/images, mises à jour produits, vérification des paiements, sécurité, sauvegardes.
+            </p>
+            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
+              • <strong>Interventions supplémentaires :</strong> facturées 150€/intervention si dépassement du forfait annuel.
+            </p>
+            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
+              • <strong>Délai de traitement :</strong> 48h ouvrées, sauf urgence à discuter.
+            </p>
+            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
+              • Convient à toutes les boutiques e-commerce, quelle que soit la taille du catalogue.
+            </p>
+
+            <!-- Astuce commerciale -->
+            <div style="background: #fef3c7; padding: 12px; border-radius: 6px; margin-top: 15px; border: 1px solid #fbbf24;">
+              <p style="margin: 0; color: #78350f; font-size: 13px; line-height: 1.6; text-align: center;">
+                💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site e-commerce, afin de tester nos services avant de souscrire au forfait annuel.
+              </p>
+            </div>
+          </div>
+          ` : ''}
+
           <!-- SECTION CONFIRMATION -->
           <div class="confirmation-box">
             <div class="confirmation-title">📋 Cette estimation vous convient ?</div>
