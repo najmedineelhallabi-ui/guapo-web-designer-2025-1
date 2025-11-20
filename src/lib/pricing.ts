@@ -16,10 +16,9 @@ export const PRICING = {
   features: {
     "Formulaire de contact simple": 150,
     "Formulaire de demande de devis": 200,
-    "Système de prise de rendez-vous en ligne": 500,
-    "Envoi automatique d'emails client + entreprise (pour rendez-vous)": 300,
+    "Envoi automatique d'emails de confirmation (pour devis)": 300,
+    "Système de prise de rendez-vous en ligne (avec emails automatiques)": 800,
     "Intégration calendrier (Google Calendar, etc.)": 400,
-    "Newsletter / inscription mailing": 250,
     "Multilingue": 400,
     // Fonctionnalités E-commerce
     "Catalogue de produits": 800,
@@ -32,6 +31,7 @@ export const PRICING = {
 
   // Optimisation & Sécurité
   optimization: {
+    "Pack Tout Inclus (SEO + Performance + SSL + RGPD)": 600,
     "SEO de base (balises, titres, URLs)": 300,
     "Optimisation vitesse / performance": 250,
     "Certificat SSL / HTTPS": 0, // Inclus gratuit
