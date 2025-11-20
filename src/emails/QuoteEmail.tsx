@@ -169,120 +169,168 @@ export function QuoteEmail({
 
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
 
-            {/* PRICING SECTION - Only visible in email */}
+            {/* MAINTENANCE OPTIONS SECTION */}
             <Section style={{ 
-              backgroundColor: '#fef3c7', 
+              backgroundColor: '#f0f9ff', 
               padding: '20px', 
               borderRadius: '8px',
-              border: '2px solid #fbbf24',
+              border: '2px solid #7c3aed',
               marginBottom: '20px'
             }}>
               <Text style={{ 
                 fontWeight: 'bold', 
                 fontSize: '18px', 
                 marginBottom: '15px', 
-                color: '#92400e',
+                color: '#7c3aed',
                 marginTop: 0
               }}>
-                💰 Estimation Tarifaire
+                🔧 Maintenance – Sites vitrines
+              </Text>
+
+              {/* Option 1: Forfait annuel limité */}
+              <Section style={{ 
+                backgroundColor: '#ffffff', 
+                padding: '15px', 
+                borderRadius: '6px',
+                marginBottom: '15px',
+                border: '1px solid #e0e7ff'
+              }}>
+                <Text style={{ 
+                  fontWeight: 'bold', 
+                  fontSize: '15px', 
+                  color: '#7c3aed',
+                  marginTop: 0,
+                  marginBottom: '10px'
+                }}>
+                  📦 Forfait annuel limité - 300€/an
+                </Text>
+                
+                <Text style={{ 
+                  margin: '5px 0', 
+                  color: '#4b5563',
+                  fontSize: '14px',
+                  fontWeight: 'bold'
+                }}>
+                  Inclus :
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Jusqu'à 6 interventions par an
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Mises à jour mineures (texte, images)
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Corrections simples
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Sécurité & sauvegardes
+                </Text>
+                
+                <Text style={{ 
+                  margin: '10px 0 5px 0', 
+                  color: '#4b5563',
+                  fontSize: '14px'
+                }}>
+                  <strong>Interventions supplémentaires :</strong> 100€/intervention
+                </Text>
+                <Text style={{ 
+                  margin: '5px 0', 
+                  color: '#4b5563',
+                  fontSize: '14px'
+                }}>
+                  <strong>Délai :</strong> 48h ouvrées
+                </Text>
+              </Section>
+
+              {/* Option 2: Paiement à l'intervention */}
+              <Section style={{ 
+                backgroundColor: '#ffffff', 
+                padding: '15px', 
+                borderRadius: '6px',
+                marginBottom: '15px',
+                border: '1px solid #e0e7ff'
+              }}>
+                <Text style={{ 
+                  fontWeight: 'bold', 
+                  fontSize: '15px', 
+                  color: '#7c3aed',
+                  marginTop: 0,
+                  marginBottom: '10px'
+                }}>
+                  💳 Paiement à l'intervention - 100€/intervention
+                </Text>
+                
+                <Text style={{ 
+                  margin: '5px 0', 
+                  color: '#4b5563',
+                  fontSize: '14px',
+                  fontWeight: 'bold'
+                }}>
+                  Chaque intervention comprend :
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Mise à jour mineure
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Correction ou modification simple
+                </Text>
+                
+                <Text style={{ 
+                  margin: '10px 0 5px 0', 
+                  color: '#4b5563',
+                  fontSize: '14px'
+                }}>
+                  <strong>Délai :</strong> 48h ouvrées
+                </Text>
+              </Section>
+
+              {/* Notes explicatives */}
+              <Hr style={{ borderColor: '#c7d2fe', margin: '15px 0' }} />
+              
+              <Text style={{ 
+                fontWeight: 'bold', 
+                fontSize: '14px', 
+                color: '#5b21b6',
+                marginTop: 0,
+                marginBottom: '8px'
+              }}>
+                📝 Notes importantes :
               </Text>
               
-              {/* Site Type Price */}
-              <Text style={{ margin: '8px 0', color: '#78350f', fontSize: '14px' }}>
-                <strong>Type de site:</strong> {siteType}
-                <br />
-                <span style={{ color: '#92400e', fontWeight: 'bold' }}>
-                  → {siteTypePrice?.min}€ - {siteTypePrice?.max}€
-                </span>
+              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
+                • <strong>Interventions incluses :</strong> modifications de texte ou images, corrections mineures, mises à jour simples, sécurité et sauvegardes.
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
+                • <strong>Interventions supplémentaires :</strong> facturées 100€/intervention si dépassement du forfait annuel.
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
+                • <strong>Délai de traitement :</strong> 48h ouvrées, sauf urgence à discuter.
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
+                • Convient à tous les sites vitrines, quelle que soit leur taille ou le nombre de pages.
               </Text>
 
-              {/* Features Prices */}
-              {features && features.length > 0 && (
-                <Section style={{ marginTop: '12px', marginBottom: '12px' }}>
-                  <Text style={{ margin: '5px 0', color: '#78350f', fontSize: '14px', fontWeight: 'bold' }}>
-                    Fonctionnalités sélectionnées:
-                  </Text>
-                  {features.map((feature, index) => {
-                    const price = PRICING.features[feature as keyof typeof PRICING.features];
-                    return (
-                      <Text key={index} style={{ margin: '3px 0 3px 15px', color: '#78350f', fontSize: '13px' }}>
-                        • {feature}
-                        <br />
-                        <span style={{ color: '#92400e', fontWeight: 'bold', marginLeft: '10px' }}>
-                          → {price}€
-                        </span>
-                      </Text>
-                    );
-                  })}
-                </Section>
-              )}
-
-              {/* Optimization Prices */}
-              {optimization && optimization.length > 0 && (
-                <Section style={{ marginTop: '12px', marginBottom: '12px' }}>
-                  <Text style={{ margin: '5px 0', color: '#78350f', fontSize: '14px', fontWeight: 'bold' }}>
-                    Optimisations sélectionnées:
-                  </Text>
-                  {optimization.map((opt, index) => {
-                    const price = PRICING.optimization[opt as keyof typeof PRICING.optimization];
-                    return (
-                      <Text key={index} style={{ margin: '3px 0 3px 15px', color: '#78350f', fontSize: '13px' }}>
-                        • {opt}
-                        <br />
-                        <span style={{ color: '#92400e', fontWeight: 'bold', marginLeft: '10px' }}>
-                          → {price === 0 ? 'Inclus' : `${price}€`}
-                        </span>
-                      </Text>
-                    );
-                  })}
-                </Section>
-              )}
-
-              {/* Additional Pages */}
-              {additionalPagesCount > 0 && (
-                <Text style={{ margin: '8px 0', color: '#78350f', fontSize: '14px' }}>
-                  <strong>Pages supplémentaires:</strong> {additionalPagesCount} page(s) au-delà du forfait
-                  <br />
-                  <span style={{ color: '#92400e', fontWeight: 'bold' }}>
-                    → {additionalPagesCount * PRICING.additionalPages.pricePerPage}€ ({PRICING.additionalPages.pricePerPage}€/page)
-                  </span>
-                </Text>
-              )}
-
-              {/* Domain Price */}
-              {PRICING.domain[domain as keyof typeof PRICING.domain] > 0 && (
-                <Text style={{ margin: '8px 0', color: '#78350f', fontSize: '14px' }}>
-                  <strong>Nom de domaine:</strong> {domain}
-                  <br />
-                  <span style={{ color: '#92400e', fontWeight: 'bold' }}>
-                    → {PRICING.domain[domain as keyof typeof PRICING.domain]}€
-                  </span>
-                </Text>
-              )}
-
-              <Hr style={{ borderColor: '#fbbf24', margin: '15px 0' }} />
-
-              {/* Total Estimate */}
-              <Text style={{ 
-                margin: '10px 0 0 0', 
-                color: '#78350f', 
-                fontSize: '16px',
-                fontWeight: 'bold',
-                textAlign: 'center'
+              {/* Astuce commerciale */}
+              <Section style={{ 
+                backgroundColor: '#fef3c7', 
+                padding: '12px', 
+                borderRadius: '6px',
+                marginTop: '15px',
+                border: '1px solid #fbbf24'
               }}>
-                💵 ESTIMATION TOTALE: {estimate.minTotal}€ - {estimate.maxTotal}€
-              </Text>
-              
-              <Text style={{ 
-                margin: '10px 0 0 0', 
-                color: '#92400e', 
-                fontSize: '12px',
-                textAlign: 'center',
-                fontStyle: 'italic'
-              }}>
-                ℹ️ L'hébergement est automatiquement inclus dans le projet
-              </Text>
+                <Text style={{ 
+                  margin: 0,
+                  color: '#78350f',
+                  fontSize: '13px',
+                  lineHeight: '1.6',
+                  textAlign: 'center'
+                }}>
+                  💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site, afin de tester nos services avant de souscrire au forfait annuel.
+                </Text>
+              </Section>
             </Section>
+
+            <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
 
             <Section>
               <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
