@@ -4,8 +4,10 @@
 export const PRICING = {
   // Types de site
   siteTypes: {
-    "Site vitrine simple (1 à 5 pages)": { min: 800, max: 1500 },
-    "Site vitrine avancé (5 à 10 pages)": { min: 1500, max: 2500 },
+    "Site vitrine simple (1 à 3 pages)": { min: 800, max: 1200 },
+    "Site vitrine standard (4 à 5 pages)": { min: 1200, max: 1800 },
+    "Site vitrine avancé (6 à 8 pages)": { min: 1800, max: 2500 },
+    "Site vitrine premium (9 à 12 pages)": { min: 2500, max: 3500 },
     "Portfolio / site personnel": { min: 600, max: 1200 },
     "Site e-commerce": { min: 3000, max: 8000 },
   },
@@ -36,15 +38,6 @@ export const PRICING = {
     "RGPD / conformité légale": 200,
   },
 
-  // Pages supplémentaires (au-delà du forfait de base)
-  additionalPages: {
-    pricePerPage: 100,
-    includedInSimple: 5,
-    includedInAdvanced: 10,
-    includedInPortfolio: 5,
-    includedInEcommerce: 10,
-  },
-
   // Hébergement & Domaine
   hosting: {
     "Inclus dans le projet": 0, // Toujours inclus
@@ -62,7 +55,6 @@ export const PRICING = {
 // Fonction pour calculer l'estimation totale
 export function calculateEstimate(data: {
   siteType: string;
-  pageCount: string;
   features?: string[];
   optimization?: string[];
   domain: string;
@@ -97,19 +89,6 @@ export function calculateEstimate(data: {
         maxTotal += optPrice;
       }
     });
-  }
-
-  // Pages supplémentaires
-  const pageCount = parseInt(data.pageCount);
-  let includedPages = 5;
-  if (data.siteType === "Site vitrine avancé (5 à 10 pages)") includedPages = 10;
-  if (data.siteType === "Site e-commerce") includedPages = 10;
-  
-  if (pageCount > includedPages) {
-    const additionalPagesCount = pageCount - includedPages;
-    const additionalPagesCost = additionalPagesCount * PRICING.additionalPages.pricePerPage;
-    minTotal += additionalPagesCost;
-    maxTotal += additionalPagesCost;
   }
 
   // Nom de domaine
