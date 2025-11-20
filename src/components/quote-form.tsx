@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useState } from 'react';
 import { sendQuoteAction, QuoteFormState } from '@/app/actions/sendQuote';
-import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare, Shield, Palette, Zap, Lock, Wrench, Building, ShoppingCart } from 'lucide-react';
+import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare, Shield, Palette, Zap, Lock, Wrench, Building, ShoppingCart, Edit2 } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import Link from 'next/link';
 
@@ -14,6 +14,8 @@ export function QuoteForm() {
   );
   const [isEcommerce, setIsEcommerce] = useState(false);
   const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
+  const [selectedSiteType, setSelectedSiteType] = useState<string>('');
+  const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
 
   useEffect(() => {
     if (state.success) {
@@ -22,11 +24,22 @@ export function QuoteForm() {
   }, [state.success]);
 
   const handleSiteTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsEcommerce(e.target.value === "Site e-commerce");
+    const value = e.target.value;
+    setIsEcommerce(value === "Site e-commerce");
+    setSelectedSiteType(value);
+  };
+
+  const handleResetSiteType = () => {
+    setSelectedSiteType('');
+    setIsEcommerce(false);
   };
 
   const handleQuoteFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsQuoteFormSelected(e.target.checked);
+  };
+
+  const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAllInclusiveOptimization(e.target.checked);
   };
 
   return (
@@ -176,107 +189,151 @@ export function QuoteForm() {
             {t('quote.siteType.title')}
           </h3>
           
-          <div className="space-y-3">
-            <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-              <input
-                type="radio"
-                name="siteType"
-                value="Site vitrine simple (1 à 3 pages)"
-                required
-                defaultChecked={state.formData?.siteType === "Site vitrine simple (1 à 3 pages)"}
-                onChange={handleSiteTypeChange}
-                className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <div>
-                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.simple')}</span>
-                <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.simpleDesc')}</p>
-              </div>
-            </label>
-
-            <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-              <input
-                type="radio"
-                name="siteType"
-                value="Site vitrine standard (4 à 5 pages)"
-                defaultChecked={state.formData?.siteType === "Site vitrine standard (4 à 5 pages)"}
-                onChange={handleSiteTypeChange}
-                className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <div>
-                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.standard')}</span>
-                <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.standardDesc')}</p>
-              </div>
-            </label>
-
-            <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-              <input
-                type="radio"
-                name="siteType"
-                value="Site vitrine avancé (6 à 8 pages)"
-                defaultChecked={state.formData?.siteType === "Site vitrine avancé (6 à 8 pages)"}
-                onChange={handleSiteTypeChange}
-                className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <div>
-                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.advanced')}</span>
-                <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.advancedDesc')}</p>
-              </div>
-            </label>
-
-            <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-              <input
-                type="radio"
-                name="siteType"
-                value="Site vitrine premium (9 à 12 pages)"
-                defaultChecked={state.formData?.siteType === "Site vitrine premium (9 à 12 pages)"}
-                onChange={handleSiteTypeChange}
-                className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <div>
-                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.premium')}</span>
-                <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.premiumDesc')}</p>
-              </div>
-            </label>
-
-            <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-              <input
-                type="radio"
-                name="siteType"
-                value="Portfolio / site personnel"
-                defaultChecked={state.formData?.siteType === "Portfolio / site personnel"}
-                onChange={handleSiteTypeChange}
-                className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <div>
-                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.portfolio')}</span>
-                <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.portfolioDesc')}</p>
-              </div>
-            </label>
-
-            <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
-              <input
-                type="radio"
-                name="siteType"
-                value="Site e-commerce"
-                defaultChecked={state.formData?.siteType === "Site e-commerce"}
-                onChange={handleSiteTypeChange}
-                className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <div className="flex items-start gap-2">
-                <ShoppingCart className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
+          {!selectedSiteType ? (
+            // Show all options when nothing is selected
+            <div className="space-y-3">
+              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="siteType"
+                  value="Site vitrine simple (1 à 3 pages)"
+                  required
+                  onChange={handleSiteTypeChange}
+                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  disabled={isPending}
+                />
                 <div>
-                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.ecommerce')}</span>
-                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.ecommerceDesc')}</p>
+                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.simple')}</span>
+                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.simpleDesc')}</p>
+                </div>
+              </label>
+
+              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="siteType"
+                  value="Site vitrine standard (4 à 5 pages)"
+                  onChange={handleSiteTypeChange}
+                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  disabled={isPending}
+                />
+                <div>
+                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.standard')}</span>
+                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.standardDesc')}</p>
+                </div>
+              </label>
+
+              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="siteType"
+                  value="Site vitrine avancé (6 à 8 pages)"
+                  onChange={handleSiteTypeChange}
+                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  disabled={isPending}
+                />
+                <div>
+                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.advanced')}</span>
+                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.advancedDesc')}</p>
+                </div>
+              </label>
+
+              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="siteType"
+                  value="Site vitrine premium (9 à 12 pages)"
+                  onChange={handleSiteTypeChange}
+                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  disabled={isPending}
+                />
+                <div>
+                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.premium')}</span>
+                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.premiumDesc')}</p>
+                </div>
+              </label>
+
+              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="siteType"
+                  value="Portfolio / site personnel"
+                  onChange={handleSiteTypeChange}
+                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  disabled={isPending}
+                />
+                <div>
+                  <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.portfolio')}</span>
+                  <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.portfolioDesc')}</p>
+                </div>
+              </label>
+
+              <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="siteType"
+                  value="Site e-commerce"
+                  onChange={handleSiteTypeChange}
+                  className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  disabled={isPending}
+                />
+                <div className="flex items-start gap-2">
+                  <ShoppingCart className="w-5 h-5 text-secondary mt-0.5 flex-shrink-0" />
+                  <div>
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.ecommerce')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.ecommerceDesc')}</p>
+                  </div>
+                </div>
+              </label>
+            </div>
+          ) : (
+            // Show only selected option with change button
+            <div className="space-y-4 animate-fade-in">
+              <div className="p-5 bg-gradient-to-r from-secondary/20 to-accent/20 border-2 border-secondary/50 rounded-xl">
+                <input type="hidden" name="siteType" value={selectedSiteType} />
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm font-semibold text-foreground/70">Type sélectionné :</span>
+                  <button
+                    type="button"
+                    onClick={handleResetSiteType}
+                    disabled={isPending}
+                    className="flex items-center gap-2 px-3 py-1.5 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                    Modifier
+                  </button>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-6 h-6 text-secondary flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-bold text-lg text-foreground">{selectedSiteType}</p>
+                    {selectedSiteType === "Site vitrine simple (1 à 3 pages)" && (
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.simpleDesc')}</p>
+                    )}
+                    {selectedSiteType === "Site vitrine standard (4 à 5 pages)" && (
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.standardDesc')}</p>
+                    )}
+                    {selectedSiteType === "Site vitrine avancé (6 à 8 pages)" && (
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.advancedDesc')}</p>
+                    )}
+                    {selectedSiteType === "Site vitrine premium (9 à 12 pages)" && (
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.premiumDesc')}</p>
+                    )}
+                    {selectedSiteType === "Portfolio / site personnel" && (
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.portfolioDesc')}</p>
+                    )}
+                    {selectedSiteType === "Site e-commerce" && (
+                      <p className="text-sm text-foreground/70 mt-1 flex items-center gap-2">
+                        <ShoppingCart className="w-4 h-4" />
+                        {t('quote.siteType.ecommerceDesc')}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </label>
-          </div>
+            </div>
+          )}
+          
           {state.errors?.siteType && (
             <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
               <AlertCircle className="w-3 h-3" />
@@ -510,62 +567,128 @@ export function QuoteForm() {
             {t('quote.optimization.title')}
           </h3>
           
-          <div className="space-y-3">
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="optimization"
-                value="SEO de base (balises, titres, URLs)"
-                defaultChecked={state.formData?.optimization?.includes("SEO de base (balises, titres, URLs)")}
-                className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.optimization.seo')}
-              </span>
-            </label>
+          <div className="space-y-4">
+            {/* Pack Tout Inclus - RECOMMANDÉ */}
+            <div className="relative">
+              <div className="absolute -top-3 left-4 z-10">
+                <span className="px-3 py-1 bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold rounded-full shadow-lg">
+                  ⭐ RECOMMANDÉ
+                </span>
+              </div>
+              <label className="flex items-start gap-3 cursor-pointer group p-5 rounded-xl border-2 border-primary/50 bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/15 hover:to-secondary/15 transition-all">
+                <input
+                  type="checkbox"
+                  name="optimization"
+                  value="Pack Tout Inclus (SEO + Performance + SSL + RGPD)"
+                  checked={allInclusiveOptimization}
+                  onChange={handleAllInclusiveChange}
+                  className="w-6 h-6 mt-0.5 rounded border-2 border-primary text-primary focus:ring-2 focus:ring-primary cursor-pointer flex-shrink-0"
+                  disabled={isPending}
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Shield className="w-5 h-5 text-primary" />
+                    <span className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">
+                      Pack Tout Inclus
+                    </span>
+                  </div>
+                  <p className="text-sm text-foreground/80 mb-3">
+                    Inclut toutes les optimisations essentielles pour un site professionnel et performant
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div className="flex items-center gap-2 text-sm text-foreground/70">
+                      <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>SEO de base</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-foreground/70">
+                      <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>Optimisation vitesse</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-foreground/70">
+                      <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>Certificat SSL/HTTPS</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-foreground/70">
+                      <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                      <span>Conformité RGPD</span>
+                    </div>
+                  </div>
+                </div>
+              </label>
+            </div>
 
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="optimization"
-                value="Optimisation vitesse / performance"
-                defaultChecked={state.formData?.optimization?.includes("Optimisation vitesse / performance")}
-                className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.optimization.performance')}
-              </span>
-            </label>
+            {/* Divider */}
+            {!allInclusiveOptimization && (
+              <div className="relative my-6">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border"></div>
+                </div>
+                <div className="relative flex justify-center text-xs">
+                  <span className="bg-card px-3 py-1 text-foreground/60 rounded-full border border-border">
+                    ou choisissez individuellement
+                  </span>
+                </div>
+              </div>
+            )}
 
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="optimization"
-                value="Certificat SSL / HTTPS"
-                defaultChecked={state.formData?.optimization?.includes("Certificat SSL / HTTPS")}
-                className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.optimization.ssl')}
-              </span>
-            </label>
+            {/* Individual Options - Disabled when all-inclusive is selected */}
+            <div className={`space-y-3 ${allInclusiveOptimization ? 'opacity-40 pointer-events-none' : ''}`}>
+              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                <input
+                  type="checkbox"
+                  name="optimization"
+                  value="SEO de base (balises, titres, URLs)"
+                  defaultChecked={state.formData?.optimization?.includes("SEO de base (balises, titres, URLs)")}
+                  disabled={allInclusiveOptimization || isPending}
+                  className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                />
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                  {t('quote.optimization.seo')}
+                </span>
+              </label>
 
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="optimization"
-                value="RGPD / conformité légale"
-                defaultChecked={state.formData?.optimization?.includes("RGPD / conformité légale")}
-                className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.optimization.gdpr')}
-              </span>
-            </label>
+              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                <input
+                  type="checkbox"
+                  name="optimization"
+                  value="Optimisation vitesse / performance"
+                  defaultChecked={state.formData?.optimization?.includes("Optimisation vitesse / performance")}
+                  disabled={allInclusiveOptimization || isPending}
+                  className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                />
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                  {t('quote.optimization.performance')}
+                </span>
+              </label>
+
+              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                <input
+                  type="checkbox"
+                  name="optimization"
+                  value="Certificat SSL / HTTPS"
+                  defaultChecked={state.formData?.optimization?.includes("Certificat SSL / HTTPS")}
+                  disabled={allInclusiveOptimization || isPending}
+                  className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                />
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                  {t('quote.optimization.ssl')}
+                </span>
+              </label>
+
+              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                <input
+                  type="checkbox"
+                  name="optimization"
+                  value="RGPD / conformité légale"
+                  defaultChecked={state.formData?.optimization?.includes("RGPD / conformité légale")}
+                  disabled={allInclusiveOptimization || isPending}
+                  className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                />
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                  {t('quote.optimization.gdpr')}
+                </span>
+              </label>
+            </div>
           </div>
         </div>
 
