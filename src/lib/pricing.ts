@@ -4,7 +4,7 @@
 export const PRICING = {
   // Types de site
   siteTypes: {
-    "Site vitrine simple (1 à 3 pages)": { min: 800, max: 1200 },
+    "Site vitrine simple (1 à 3 pages)": { min: 500, max: 500 },
     "Site vitrine standard (4 à 5 pages)": { min: 1200, max: 1800 },
     "Site vitrine avancé (6 à 8 pages)": { min: 1800, max: 2500 },
     "Site vitrine premium (9 à 12 pages)": { min: 2500, max: 3500 },
