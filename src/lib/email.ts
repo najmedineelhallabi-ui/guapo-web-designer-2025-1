@@ -191,15 +191,29 @@ export async function sendQuoteEmail(data: {
             background-color: #f8f9fa;
           }
           .header {
-            background: linear-gradient(135deg, #9f7aea 0%, #b794f4 100%);
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
             color: white;
             padding: 30px;
             border-radius: 10px 10px 0 0;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
           }
           .header h1 {
             margin: 0;
             font-size: 28px;
+          }
+          .urgent-badge {
+            display: inline-block;
+            background: #dc2626;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 4px rgba(220, 38, 38, 0.4);
           }
           .content {
             background: #ffffff;
@@ -218,7 +232,7 @@ export async function sendQuoteEmail(data: {
           .section-title {
             font-size: 18px;
             font-weight: 600;
-            color: #9f7aea;
+            color: #dc2626;
             margin-bottom: 12px;
           }
           .info-row {
@@ -232,16 +246,17 @@ export async function sendQuoteEmail(data: {
             color: #2d3748;
           }
           .price-section {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border: 3px solid #f59e0b;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 3px solid #dc2626;
             border-radius: 12px;
             padding: 25px;
             margin: 25px 0;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
           }
           .price-title {
             font-size: 22px;
             font-weight: 700;
-            color: #92400e;
+            color: #991b1b;
             text-align: center;
             margin-bottom: 20px;
           }
@@ -254,10 +269,10 @@ export async function sendQuoteEmail(data: {
           .price-category {
             font-size: 16px;
             font-weight: 600;
-            color: #7c3aed;
+            color: #dc2626;
             margin-bottom: 10px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #e9d5ff;
+            border-bottom: 2px solid #fecaca;
           }
           .price-item {
             display: flex;
@@ -274,12 +289,12 @@ export async function sendQuoteEmail(data: {
           }
           .price-item-value {
             font-weight: 600;
-            color: #059669;
+            color: #dc2626;
             margin-left: 15px;
             white-space: nowrap;
           }
           .price-total {
-            background: linear-gradient(135deg, #9f7aea 0%, #b794f4 100%);
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
             color: white;
             padding: 20px;
             border-radius: 8px;
@@ -287,11 +302,12 @@ export async function sendQuoteEmail(data: {
             font-size: 24px;
             font-weight: 700;
             margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
           }
           .price-note {
             text-align: center;
             font-size: 13px;
-            color: #92400e;
+            color: #991b1b;
             margin-top: 15px;
             font-style: italic;
           }
@@ -317,18 +333,19 @@ export async function sendQuoteEmail(data: {
             content: "✓";
             position: absolute;
             left: 0;
-            color: #9f7aea;
+            color: #dc2626;
             font-weight: bold;
           }
           .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #9f7aea 0%, #b794f4 100%);
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
             color: white;
             padding: 12px 30px;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
             margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
           }
           .footer {
             text-align: center;
@@ -342,6 +359,7 @@ export async function sendQuoteEmail(data: {
       </head>
       <body>
         <div class="header">
+          <div class="urgent-badge">🔴 NOUVEAU</div>
           <h1>📋 Nouvelle Demande de Devis</h1>
         </div>
         <div class="content">
@@ -478,15 +496,29 @@ export async function sendQuoteEmail(data: {
             background-color: #f8f9fa;
           }
           .header {
-            background: linear-gradient(135deg, #9f7aea 0%, #b794f4 100%);
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
             color: white;
             padding: 30px;
             border-radius: 10px 10px 0 0;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
           }
           .header h1 {
             margin: 0;
             font-size: 28px;
+          }
+          .success-badge {
+            display: inline-block;
+            background: #16a34a;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 4px rgba(22, 163, 74, 0.4);
           }
           .content {
             background: #ffffff;
@@ -508,16 +540,17 @@ export async function sendQuoteEmail(data: {
             border-bottom: none;
           }
           .price-section {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border: 3px solid #f59e0b;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border: 3px solid #dc2626;
             border-radius: 12px;
             padding: 25px;
             margin: 25px 0;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
           }
           .price-title {
             font-size: 22px;
             font-weight: 700;
-            color: #92400e;
+            color: #991b1b;
             text-align: center;
             margin-bottom: 20px;
           }
@@ -530,10 +563,10 @@ export async function sendQuoteEmail(data: {
           .price-category {
             font-size: 16px;
             font-weight: 600;
-            color: #7c3aed;
+            color: #dc2626;
             margin-bottom: 10px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #e9d5ff;
+            border-bottom: 2px solid #fecaca;
           }
           .price-item {
             display: flex;
@@ -550,12 +583,12 @@ export async function sendQuoteEmail(data: {
           }
           .price-item-value {
             font-weight: 600;
-            color: #059669;
+            color: #dc2626;
             margin-left: 15px;
             white-space: nowrap;
           }
           .price-total {
-            background: linear-gradient(135deg, #9f7aea 0%, #b794f4 100%);
+            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
             color: white;
             padding: 20px;
             border-radius: 8px;
@@ -563,11 +596,12 @@ export async function sendQuoteEmail(data: {
             font-size: 24px;
             font-weight: 700;
             margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
           }
           .price-note {
             text-align: center;
             font-size: 13px;
-            color: #92400e;
+            color: #991b1b;
             margin-top: 15px;
             font-style: italic;
           }
@@ -582,8 +616,8 @@ export async function sendQuoteEmail(data: {
             color: #15803d;
           }
           .next-steps {
-            background: #f3f4f6;
-            border-left: 4px solid #9f7aea;
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
             border-radius: 8px;
             padding: 20px;
             margin: 20px 0;
@@ -591,7 +625,7 @@ export async function sendQuoteEmail(data: {
           .next-steps-title {
             font-size: 18px;
             font-weight: 600;
-            color: #1f2937;
+            color: #991b1b;
             margin-bottom: 15px;
           }
           .next-steps ul {
@@ -605,19 +639,20 @@ export async function sendQuoteEmail(data: {
           }
           .next-steps li:before {
             content: "✓";
-            color: #9f7aea;
+            color: #dc2626;
             font-weight: bold;
             margin-right: 10px;
           }
           .contact-info {
-            background: #e9d5ff;
+            background: #fee2e2;
+            border: 2px solid #fca5a5;
             border-radius: 8px;
             padding: 20px;
             text-align: center;
             margin: 25px 0;
           }
           .contact-info strong {
-            color: #7c3aed;
+            color: #dc2626;
           }
           .footer {
             text-align: center;
@@ -631,6 +666,7 @@ export async function sendQuoteEmail(data: {
       </head>
       <body>
         <div class="header">
+          <div class="success-badge">✅ CONFIRMÉ</div>
           <h1>✅ Demande de Devis Reçue</h1>
         </div>
         <div class="content">
@@ -639,12 +675,12 @@ export async function sendQuoteEmail(data: {
           </div>
 
           <p style="font-size: 16px; color: #1f2937; line-height: 1.6;">
-            Merci d'avoir fait confiance à <strong style="color: #9f7aea;">GUAPO Web Designer</strong> pour votre projet !
+            Merci d'avoir fait confiance à <strong style="color: #dc2626;">GUAPO Web Designer</strong> pour votre projet !
           </p>
 
           <p style="font-size: 16px; color: #1f2937; line-height: 1.6;">
-            Nous avons bien reçu votre demande de devis pour <strong>${escapeHtml(data.company || 'votre projet')}</strong> 
-            concernant un <strong>${escapeHtml(data.siteType)}</strong>.
+            Nous avons bien reçu votre demande de devis pour <strong style="color: #dc2626;">${escapeHtml(data.company || 'votre projet')}</strong> 
+            concernant un <strong style="color: #dc2626;">${escapeHtml(data.siteType)}</strong>.
           </p>
 
           <!-- ESTIMATION TARIFAIRE POUR LE CLIENT -->
@@ -683,7 +719,7 @@ export async function sendQuoteEmail(data: {
             <div class="next-steps-title">📋 Prochaines Étapes</div>
             <ul>
               <li>Notre équipe étudie attentivement votre demande</li>
-              <li>Vous recevrez un <strong>devis détaillé sous 24-48 heures</strong></li>
+              <li>Vous recevrez un <strong style="color: #dc2626;">devis détaillé sous 24-48 heures</strong></li>
               <li>Nous vous contacterons pour discuter de votre projet</li>
               <li>Nous répondrons à toutes vos questions</li>
             </ul>
@@ -704,7 +740,7 @@ export async function sendQuoteEmail(data: {
 
           <p style="font-size: 16px; color: #1f2937; line-height: 1.6; margin-top: 25px;">
             À très bientôt,<br>
-            <strong style="color: #9f7aea;">L'équipe GUAPO Web Designer</strong>
+            <strong style="color: #dc2626;">L'équipe GUAPO Web Designer</strong>
           </p>
         </div>
 
