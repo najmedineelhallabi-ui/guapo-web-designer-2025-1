@@ -1,11 +1,14 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import { PRICING } from './pricing';
 
-if (!process.env.RESEND_API_KEY) {
-  console.warn('Missing RESEND_API_KEY environment variable');
-}
-
-export const resend = new Resend(process.env.RESEND_API_KEY || '');
+// Configuration Gmail SMTP
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 // Prix par page supplémentaire
 const PAGE_EXTRA_COST = 100;
@@ -147,8 +150,8 @@ export async function sendQuoteEmail(data: {
   domain?: string;
   message: string;
 }) {
-  console.log('🚀 Starting email send process...');
-  console.log('📧 Email FROM:', process.env.EMAIL_FROM || 'onboarding@resend.dev');
+  console.log('🚀 Starting email send process with Gmail SMTP...');
+  console.log('📧 Email FROM:', process.env.GMAIL_USER);
   console.log('📧 Owner Email TO:', process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com');
   console.log('📧 Client Email TO:', data.email);
   
@@ -191,12 +194,12 @@ export async function sendQuoteEmail(data: {
             background-color: #f8f9fa;
           }
           .header {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
             padding: 30px;
             border-radius: 10px 10px 0 0;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
           }
           .header h1 {
             margin: 0;
@@ -204,7 +207,7 @@ export async function sendQuoteEmail(data: {
           }
           .urgent-badge {
             display: inline-block;
-            background: #dc2626;
+            background: #7c3aed;
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
@@ -213,7 +216,7 @@ export async function sendQuoteEmail(data: {
             margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 2px 4px rgba(220, 38, 38, 0.4);
+            box-shadow: 0 2px 4px rgba(124, 58, 237, 0.4);
           }
           .content {
             background: #ffffff;
@@ -232,7 +235,7 @@ export async function sendQuoteEmail(data: {
           .section-title {
             font-size: 18px;
             font-weight: 600;
-            color: #dc2626;
+            color: #8b5cf6;
             margin-bottom: 12px;
           }
           .info-row {
@@ -246,17 +249,17 @@ export async function sendQuoteEmail(data: {
             color: #2d3748;
           }
           .price-section {
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            border: 3px solid #dc2626;
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+            border: 3px solid #8b5cf6;
             border-radius: 12px;
             padding: 25px;
             margin: 25px 0;
-            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.2);
           }
           .price-title {
             font-size: 22px;
             font-weight: 700;
-            color: #991b1b;
+            color: #6d28d9;
             text-align: center;
             margin-bottom: 20px;
           }
@@ -269,10 +272,10 @@ export async function sendQuoteEmail(data: {
           .price-category {
             font-size: 16px;
             font-weight: 600;
-            color: #dc2626;
+            color: #8b5cf6;
             margin-bottom: 10px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #fecaca;
+            border-bottom: 2px solid #e9d5ff;
           }
           .price-item {
             display: flex;
@@ -289,12 +292,12 @@ export async function sendQuoteEmail(data: {
           }
           .price-item-value {
             font-weight: 600;
-            color: #dc2626;
+            color: #8b5cf6;
             margin-left: 15px;
             white-space: nowrap;
           }
           .price-total {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
             padding: 20px;
             border-radius: 8px;
@@ -302,12 +305,12 @@ export async function sendQuoteEmail(data: {
             font-size: 24px;
             font-weight: 700;
             margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
           }
           .price-note {
             text-align: center;
             font-size: 13px;
-            color: #991b1b;
+            color: #6d28d9;
             margin-top: 15px;
             font-style: italic;
           }
@@ -333,19 +336,19 @@ export async function sendQuoteEmail(data: {
             content: "✓";
             position: absolute;
             left: 0;
-            color: #dc2626;
+            color: #8b5cf6;
             font-weight: bold;
           }
           .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
             padding: 12px 30px;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
             margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
           }
           .footer {
             text-align: center;
@@ -359,7 +362,7 @@ export async function sendQuoteEmail(data: {
       </head>
       <body>
         <div class="header">
-          <div class="urgent-badge">🔴 NOUVEAU</div>
+          <div class="urgent-badge">🆕 NOUVEAU</div>
           <h1>📋 Nouvelle Demande de Devis</h1>
         </div>
         <div class="content">
@@ -496,12 +499,12 @@ export async function sendQuoteEmail(data: {
             background-color: #f8f9fa;
           }
           .header {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
             padding: 30px;
             border-radius: 10px 10px 0 0;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
           }
           .header h1 {
             margin: 0;
@@ -540,17 +543,17 @@ export async function sendQuoteEmail(data: {
             border-bottom: none;
           }
           .price-section {
-            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-            border: 3px solid #dc2626;
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+            border: 3px solid #8b5cf6;
             border-radius: 12px;
             padding: 25px;
             margin: 25px 0;
-            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.2);
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.2);
           }
           .price-title {
             font-size: 22px;
             font-weight: 700;
-            color: #991b1b;
+            color: #6d28d9;
             text-align: center;
             margin-bottom: 20px;
           }
@@ -563,10 +566,10 @@ export async function sendQuoteEmail(data: {
           .price-category {
             font-size: 16px;
             font-weight: 600;
-            color: #dc2626;
+            color: #8b5cf6;
             margin-bottom: 10px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #fecaca;
+            border-bottom: 2px solid #e9d5ff;
           }
           .price-item {
             display: flex;
@@ -583,12 +586,12 @@ export async function sendQuoteEmail(data: {
           }
           .price-item-value {
             font-weight: 600;
-            color: #dc2626;
+            color: #8b5cf6;
             margin-left: 15px;
             white-space: nowrap;
           }
           .price-total {
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
             color: white;
             padding: 20px;
             border-radius: 8px;
@@ -596,12 +599,12 @@ export async function sendQuoteEmail(data: {
             font-size: 24px;
             font-weight: 700;
             margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
           }
           .price-note {
             text-align: center;
             font-size: 13px;
-            color: #991b1b;
+            color: #6d28d9;
             margin-top: 15px;
             font-style: italic;
           }
@@ -617,7 +620,7 @@ export async function sendQuoteEmail(data: {
           }
           .next-steps {
             background: #fef2f2;
-            border-left: 4px solid #dc2626;
+            border-left: 4px solid #8b5cf6;
             border-radius: 8px;
             padding: 20px;
             margin: 20px 0;
@@ -625,7 +628,7 @@ export async function sendQuoteEmail(data: {
           .next-steps-title {
             font-size: 18px;
             font-weight: 600;
-            color: #991b1b;
+            color: #6d28d9;
             margin-bottom: 15px;
           }
           .next-steps ul {
@@ -639,20 +642,20 @@ export async function sendQuoteEmail(data: {
           }
           .next-steps li:before {
             content: "✓";
-            color: #dc2626;
+            color: #8b5cf6;
             font-weight: bold;
             margin-right: 10px;
           }
           .contact-info {
-            background: #fee2e2;
-            border: 2px solid #fca5a5;
+            background: #f3e8ff;
+            border: 2px solid #c4b5fd;
             border-radius: 8px;
             padding: 20px;
             text-align: center;
             margin: 25px 0;
           }
           .contact-info strong {
-            color: #dc2626;
+            color: #8b5cf6;
           }
           .footer {
             text-align: center;
@@ -675,12 +678,12 @@ export async function sendQuoteEmail(data: {
           </div>
 
           <p style="font-size: 16px; color: #1f2937; line-height: 1.6;">
-            Merci d'avoir fait confiance à <strong style="color: #dc2626;">GUAPO Web Designer</strong> pour votre projet !
+            Merci d'avoir fait confiance à <strong style="color: #8b5cf6;">GUAPO Web Designer</strong> pour votre projet !
           </p>
 
           <p style="font-size: 16px; color: #1f2937; line-height: 1.6;">
-            Nous avons bien reçu votre demande de devis pour <strong style="color: #dc2626;">${escapeHtml(data.company || 'votre projet')}</strong> 
-            concernant un <strong style="color: #dc2626;">${escapeHtml(data.siteType)}</strong>.
+            Nous avons bien reçu votre demande de devis pour <strong style="color: #8b5cf6;">${escapeHtml(data.company || 'votre projet')}</strong> 
+            concernant un <strong style="color: #8b5cf6;">${escapeHtml(data.siteType)}</strong>.
           </p>
 
           <!-- ESTIMATION TARIFAIRE POUR LE CLIENT -->
@@ -719,7 +722,7 @@ export async function sendQuoteEmail(data: {
             <div class="next-steps-title">📋 Prochaines Étapes</div>
             <ul>
               <li>Notre équipe étudie attentivement votre demande</li>
-              <li>Vous recevrez un <strong style="color: #dc2626;">devis détaillé sous 24-48 heures</strong></li>
+              <li>Vous recevrez un <strong style="color: #8b5cf6;">devis détaillé sous 24-48 heures</strong></li>
               <li>Nous vous contacterons pour discuter de votre projet</li>
               <li>Nous répondrons à toutes vos questions</li>
             </ul>
@@ -740,7 +743,7 @@ export async function sendQuoteEmail(data: {
 
           <p style="font-size: 16px; color: #1f2937; line-height: 1.6; margin-top: 25px;">
             À très bientôt,<br>
-            <strong style="color: #dc2626;">L'équipe GUAPO Web Designer</strong>
+            <strong style="color: #8b5cf6;">L'équipe GUAPO Web Designer</strong>
           </p>
         </div>
 
@@ -753,51 +756,34 @@ export async function sendQuoteEmail(data: {
   `;
 
   try {
-    console.log('📨 Sending emails...');
+    console.log('📨 Sending emails via Gmail SMTP...');
     
     // Envoyer EMAIL 1: Au propriétaire
     console.log('📧 1/2 - Sending email to owner...');
-    const ownerResult = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+    await transporter.sendMail({
+      from: `"GUAPO Web Designer" <${process.env.GMAIL_USER}>`,
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: data.email,
       subject: `🎨 Nouvelle demande de devis - ${data.firstName} ${data.lastName} - Estimation: ${pricing.minTotal}€-${pricing.maxTotal}€`,
       html: ownerEmailHtml,
     });
-
-    if (ownerResult.error) {
-      console.error('❌ Owner email failed:', ownerResult.error);
-      throw new Error(`Owner email error: ${ownerResult.error.message}`);
-    }
-    console.log('✅ 1/2 - Owner email sent successfully! ID:', ownerResult.data?.id);
+    console.log('✅ 1/2 - Owner email sent successfully!');
 
     // Envoyer EMAIL 2: Au client
     console.log('📧 2/2 - Sending confirmation email to client...');
-    const clientResult = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+    await transporter.sendMail({
+      from: `"GUAPO Web Designer" <${process.env.GMAIL_USER}>`,
       to: data.email,
       replyTo: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       subject: `✅ Confirmation de votre demande de devis - GUAPO Web Designer`,
       html: clientEmailHtml,
     });
+    console.log('✅ 2/2 - Client email sent successfully!');
 
-    if (clientResult.error) {
-      console.error('❌ Client email failed:', clientResult.error);
-      // Ne pas throw ici car l'email propriétaire est déjà envoyé
-      console.warn('⚠️ Owner email was sent but client email failed');
-    } else {
-      console.log('✅ 2/2 - Client email sent successfully! ID:', clientResult.data?.id);
-    }
-
-    console.log('🎉 Email process completed!');
-    return { ownerResult, clientResult };
+    console.log('🎉 Email process completed with Gmail SMTP!');
+    return { success: true };
   } catch (error) {
-    console.error('❌ Email sending failed with exception:', error);
-    console.error('Error details:', {
-      name: error instanceof Error ? error.name : 'Unknown',
-      message: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined
-    });
+    console.error('❌ Email sending failed:', error);
     throw error;
   }
 }
