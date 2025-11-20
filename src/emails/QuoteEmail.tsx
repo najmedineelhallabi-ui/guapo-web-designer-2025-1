@@ -8,6 +8,7 @@ import {
   Hr,
   Preview,
 } from '@react-email/components';
+import { PRICING, calculateEstimate } from '@/lib/pricing';
 
 interface QuoteEmailProps {
   firstName: string;
@@ -40,6 +41,17 @@ export function QuoteEmail({
   maintenance,
   message 
 }: QuoteEmailProps) {
+  // Calculate pricing estimate
+  const estimate = calculateEstimate({ siteType, pageCount, features, optimization, domain });
+  const siteTypePrice = PRICING.siteTypes[siteType as keyof typeof PRICING.siteTypes];
+  
+  // Calculate additional pages
+  const pageCountNum = parseInt(pageCount);
+  let includedPages = 5;
+  if (siteType === "Site vitrine avancé (5 à 10 pages)") includedPages = 10;
+  if (siteType === "Site e-commerce") includedPages = 10;
+  const additionalPagesCount = Math.max(0, pageCountNum - includedPages);
+
   return (
     <Html>
       <Preview>Nouvelle demande de devis de {firstName} {lastName} - {company}</Preview>
@@ -143,7 +155,7 @@ export function QuoteEmail({
                 6️⃣ Hébergement & Maintenance
               </Text>
               <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                <strong>Hébergement:</strong> {hosting}
+                <strong>Hébergement:</strong> {hosting} (Inclus dans le projet)
               </Text>
               <Text style={{ margin: '5px 0', color: '#6b7280' }}>
                 <strong>Nom de domaine:</strong> {domain}
@@ -156,6 +168,121 @@ export function QuoteEmail({
             </Section>
 
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
+
+            {/* PRICING SECTION - Only visible in email */}
+            <Section style={{ 
+              backgroundColor: '#fef3c7', 
+              padding: '20px', 
+              borderRadius: '8px',
+              border: '2px solid #fbbf24',
+              marginBottom: '20px'
+            }}>
+              <Text style={{ 
+                fontWeight: 'bold', 
+                fontSize: '18px', 
+                marginBottom: '15px', 
+                color: '#92400e',
+                marginTop: 0
+              }}>
+                💰 Estimation Tarifaire
+              </Text>
+              
+              {/* Site Type Price */}
+              <Text style={{ margin: '8px 0', color: '#78350f', fontSize: '14px' }}>
+                <strong>Type de site:</strong> {siteType}
+                <br />
+                <span style={{ color: '#92400e', fontWeight: 'bold' }}>
+                  → {siteTypePrice?.min}€ - {siteTypePrice?.max}€
+                </span>
+              </Text>
+
+              {/* Features Prices */}
+              {features && features.length > 0 && (
+                <Section style={{ marginTop: '12px', marginBottom: '12px' }}>
+                  <Text style={{ margin: '5px 0', color: '#78350f', fontSize: '14px', fontWeight: 'bold' }}>
+                    Fonctionnalités sélectionnées:
+                  </Text>
+                  {features.map((feature, index) => {
+                    const price = PRICING.features[feature as keyof typeof PRICING.features];
+                    return (
+                      <Text key={index} style={{ margin: '3px 0 3px 15px', color: '#78350f', fontSize: '13px' }}>
+                        • {feature}
+                        <br />
+                        <span style={{ color: '#92400e', fontWeight: 'bold', marginLeft: '10px' }}>
+                          → {price}€
+                        </span>
+                      </Text>
+                    );
+                  })}
+                </Section>
+              )}
+
+              {/* Optimization Prices */}
+              {optimization && optimization.length > 0 && (
+                <Section style={{ marginTop: '12px', marginBottom: '12px' }}>
+                  <Text style={{ margin: '5px 0', color: '#78350f', fontSize: '14px', fontWeight: 'bold' }}>
+                    Optimisations sélectionnées:
+                  </Text>
+                  {optimization.map((opt, index) => {
+                    const price = PRICING.optimization[opt as keyof typeof PRICING.optimization];
+                    return (
+                      <Text key={index} style={{ margin: '3px 0 3px 15px', color: '#78350f', fontSize: '13px' }}>
+                        • {opt}
+                        <br />
+                        <span style={{ color: '#92400e', fontWeight: 'bold', marginLeft: '10px' }}>
+                          → {price === 0 ? 'Inclus' : `${price}€`}
+                        </span>
+                      </Text>
+                    );
+                  })}
+                </Section>
+              )}
+
+              {/* Additional Pages */}
+              {additionalPagesCount > 0 && (
+                <Text style={{ margin: '8px 0', color: '#78350f', fontSize: '14px' }}>
+                  <strong>Pages supplémentaires:</strong> {additionalPagesCount} page(s) au-delà du forfait
+                  <br />
+                  <span style={{ color: '#92400e', fontWeight: 'bold' }}>
+                    → {additionalPagesCount * PRICING.additionalPages.pricePerPage}€ ({PRICING.additionalPages.pricePerPage}€/page)
+                  </span>
+                </Text>
+              )}
+
+              {/* Domain Price */}
+              {PRICING.domain[domain as keyof typeof PRICING.domain] > 0 && (
+                <Text style={{ margin: '8px 0', color: '#78350f', fontSize: '14px' }}>
+                  <strong>Nom de domaine:</strong> {domain}
+                  <br />
+                  <span style={{ color: '#92400e', fontWeight: 'bold' }}>
+                    → {PRICING.domain[domain as keyof typeof PRICING.domain]}€
+                  </span>
+                </Text>
+              )}
+
+              <Hr style={{ borderColor: '#fbbf24', margin: '15px 0' }} />
+
+              {/* Total Estimate */}
+              <Text style={{ 
+                margin: '10px 0 0 0', 
+                color: '#78350f', 
+                fontSize: '16px',
+                fontWeight: 'bold',
+                textAlign: 'center'
+              }}>
+                💵 ESTIMATION TOTALE: {estimate.minTotal}€ - {estimate.maxTotal}€
+              </Text>
+              
+              <Text style={{ 
+                margin: '10px 0 0 0', 
+                color: '#92400e', 
+                fontSize: '12px',
+                textAlign: 'center',
+                fontStyle: 'italic'
+              }}>
+                ℹ️ L'hébergement est automatiquement inclus dans le projet
+              </Text>
+            </Section>
 
             <Section>
               <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
