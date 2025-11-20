@@ -14,6 +14,7 @@ export function QuoteForm() {
   );
   const [isEcommerce, setIsEcommerce] = useState(false);
   const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
+  const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
   const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
 
@@ -36,6 +37,10 @@ export function QuoteForm() {
 
   const handleQuoteFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsQuoteFormSelected(e.target.checked);
+  };
+
+  const handleMultilingualChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsMultilingualSelected(e.target.checked);
   };
 
   const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -448,19 +453,97 @@ export function QuoteForm() {
               </span>
             </label>
 
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="features"
-                value="Multilingue"
-                defaultChecked={state.formData?.features?.includes("Multilingue")}
-                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.features.multilingual')}
-              </span>
-            </label>
+            {/* Multilingue with language selection */}
+            <div className="space-y-2">
+              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
+                <input
+                  type="checkbox"
+                  name="features"
+                  value="Multilingue"
+                  defaultChecked={state.formData?.features?.includes("Multilingue")}
+                  onChange={handleMultilingualChange}
+                  className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                  disabled={isPending}
+                />
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                  {t('quote.features.multilingual')}
+                </span>
+              </label>
+
+              {/* Language selection - appears when Multilingue is checked */}
+              {isMultilingualSelected && (
+                <div className="ml-11 animate-fade-in space-y-2">
+                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                    <p className="text-sm font-semibold text-foreground/80 mb-3 flex items-center gap-2">
+                      <Globe className="w-4 h-4" />
+                      {t('quote.features.selectLanguages')}
+                    </p>
+                    
+                    <div className="space-y-2">
+                      <label className="flex items-center gap-3 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                        <input
+                          type="checkbox"
+                          name="languages"
+                          value="Français (FR)"
+                          defaultChecked={state.formData?.languages?.includes("Français (FR)")}
+                          className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                          disabled={isPending}
+                        />
+                        <span className="text-sm text-foreground/90">Français (FR)</span>
+                      </label>
+
+                      <label className="flex items-center gap-3 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                        <input
+                          type="checkbox"
+                          name="languages"
+                          value="Nederlands (NL)"
+                          defaultChecked={state.formData?.languages?.includes("Nederlands (NL)")}
+                          className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                          disabled={isPending}
+                        />
+                        <span className="text-sm text-foreground/90">Nederlands (NL)</span>
+                      </label>
+
+                      <label className="flex items-center gap-3 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                        <input
+                          type="checkbox"
+                          name="languages"
+                          value="English (ENG)"
+                          defaultChecked={state.formData?.languages?.includes("English (ENG)")}
+                          className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                          disabled={isPending}
+                        />
+                        <span className="text-sm text-foreground/90">English (ENG)</span>
+                      </label>
+
+                      {/* Other language option with text field */}
+                      <div className="space-y-2 pt-2 border-t border-border/50">
+                        <label className="flex items-center gap-3 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                          <input
+                            type="checkbox"
+                            name="languages"
+                            value="Autre"
+                            defaultChecked={state.formData?.languages?.includes("Autre")}
+                            className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                            disabled={isPending}
+                          />
+                          <span className="text-sm text-foreground/90">{t('quote.features.otherLanguage')}</span>
+                        </label>
+                        
+                        <input
+                          type="text"
+                          name="otherLanguages"
+                          placeholder={t('quote.features.otherLanguagePlaceholder')}
+                          defaultValue={state.formData?.otherLanguages || ''}
+                          className="w-full px-3 py-2 bg-card/50 backdrop-blur-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all text-sm"
+                          disabled={isPending}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* E-commerce Features - Only show when e-commerce is selected */}
             {isEcommerce && (
