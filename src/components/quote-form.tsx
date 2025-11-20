@@ -13,6 +13,7 @@ export function QuoteForm() {
     {}
   );
   const [isEcommerce, setIsEcommerce] = useState(false);
+  const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
 
   useEffect(() => {
     if (state.success) {
@@ -22,6 +23,10 @@ export function QuoteForm() {
 
   const handleSiteTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsEcommerce(e.target.value === "Site e-commerce");
+  };
+
+  const handleQuoteFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsQuoteFormSelected(e.target.checked);
   };
 
   return (
@@ -322,45 +327,53 @@ export function QuoteForm() {
               </span>
             </label>
 
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="features"
-                value="Formulaire de demande de devis"
-                defaultChecked={state.formData?.features?.includes("Formulaire de demande de devis")}
-                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.features.quoteForm')}
-              </span>
-            </label>
+            <div className="space-y-2">
+              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
+                <input
+                  type="checkbox"
+                  name="features"
+                  value="Formulaire de demande de devis"
+                  defaultChecked={state.formData?.features?.includes("Formulaire de demande de devis")}
+                  onChange={handleQuoteFormChange}
+                  className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                  disabled={isPending}
+                />
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                  {t('quote.features.quoteForm')}
+                </span>
+              </label>
+
+              {/* Sub-option: Auto emails for quote form */}
+              {isQuoteFormSelected && (
+                <div className="ml-11 animate-fade-in">
+                  <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors bg-primary/5 border border-primary/20">
+                    <input
+                      type="checkbox"
+                      name="features"
+                      value="Envoi automatique d'emails de confirmation (pour devis)"
+                      defaultChecked={state.formData?.features?.includes("Envoi automatique d'emails de confirmation (pour devis)")}
+                      className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-sm">
+                      {t('quote.features.autoEmailsQuote')}
+                    </span>
+                  </label>
+                </div>
+              )}
+            </div>
 
             <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
               <input
                 type="checkbox"
                 name="features"
-                value="Système de prise de rendez-vous en ligne"
-                defaultChecked={state.formData?.features?.includes("Système de prise de rendez-vous en ligne")}
+                value="Système de prise de rendez-vous en ligne (avec emails automatiques)"
+                defaultChecked={state.formData?.features?.includes("Système de prise de rendez-vous en ligne (avec emails automatiques)")}
                 className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
                 {t('quote.features.booking')}
-              </span>
-            </label>
-
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="features"
-                value="Envoi automatique d'emails client + entreprise (pour rendez-vous)"
-                defaultChecked={state.formData?.features?.includes("Envoi automatique d'emails client + entreprise (pour rendez-vous)")}
-                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.features.autoEmails')}
               </span>
             </label>
 
@@ -375,20 +388,6 @@ export function QuoteForm() {
               />
               <span className="text-foreground/90 group-hover:text-foreground transition-colors">
                 {t('quote.features.calendar')}
-              </span>
-            </label>
-
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="features"
-                value="Newsletter / inscription mailing"
-                defaultChecked={state.formData?.features?.includes("Newsletter / inscription mailing")}
-                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.features.newsletter')}
               </span>
             </label>
 
