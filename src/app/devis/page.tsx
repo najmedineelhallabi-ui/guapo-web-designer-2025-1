@@ -180,7 +180,7 @@ export default function DevisPage() {
                 <span className="font-semibold">Offre Spéciale</span>
               </div>
               <h3 className="text-2xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                🎁 1 Mois de Maintenance Offert
+                🎁 Le Premier Mois de Maintenance Offert
               </h3>
               <p className="text-foreground/80 text-lg">
                 Profitez d'un mois de maintenance gratuite pour assurer le bon fonctionnement de votre site web après sa mise en ligne.
