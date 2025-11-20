@@ -1,4 +1,5 @@
 import { Resend } from 'resend';
+import { PRICING } from './pricing';
 
 if (!process.env.RESEND_API_KEY) {
   console.warn('Missing RESEND_API_KEY environment variable');
@@ -6,41 +7,8 @@ if (!process.env.RESEND_API_KEY) {
 
 export const resend = new Resend(process.env.RESEND_API_KEY || '');
 
-// Prix cachés (non visibles sur le site, uniquement dans l'email)
-const PRICING = {
-  siteTypes: {
-    'Site vitrine simple (1 à 5 pages)': { min: 800, max: 1500 },
-    'Site vitrine avancé (5 à 10 pages)': { min: 1500, max: 3000 },
-    'Portfolio / site personnel': { min: 600, max: 1200 },
-    'Site e-commerce': { min: 3000, max: 8000 }
-  },
-  features: {
-    'Formulaire de contact simple': 150,
-    'Formulaire de demande de devis': 200,
-    "Envoi automatique d'emails de confirmation (pour devis)": 300,
-    'Système de prise de rendez-vous en ligne (avec emails automatiques)': 800,
-    'Intégration calendrier (Google Calendar, etc.)': 400,
-    'Multilingue': 400,
-    'Catalogue de produits': 800,
-    'Panier d\'achat': 500,
-    'Passerelle de paiement (Stripe, PayPal, etc.)': 600,
-    'Gestion des commandes': 400,
-    'Gestion des stocks': 350,
-    'Comptes clients': 450
-  },
-  optimization: {
-    'SEO de base (balises, titres, URLs)': 300,
-    'Optimisation vitesse / performance': 250,
-    'Certificat SSL / HTTPS': 0, // Inclus
-    'RGPD / conformité légale': 200
-  },
-  domain: {
-    'Inclus dans le projet': 50,
-    'Fourni par le client': 0,
-    'À discuter': 0
-  },
-  pageExtra: 100 // Prix par page supplémentaire au-delà du forfait de base
-};
+// Prix par page supplémentaire
+const PAGE_EXTRA_COST = 100;
 
 function calculatePricing(data: {
   siteType: string;
@@ -48,6 +16,8 @@ function calculatePricing(data: {
   features?: string[];
   optimization?: string[];
   domain?: string;
+  languages?: string[];
+  otherLanguages?: string;
 }) {
   let minTotal = 0;
   let maxTotal = 0;
@@ -62,24 +32,30 @@ function calculatePricing(data: {
     breakdown.push({
       category: '🎨 Type de site',
       item: data.siteType,
-      price: `${siteTypePrice.min}€ - ${siteTypePrice.max}€`
+      price: siteTypePrice.min === siteTypePrice.max 
+        ? `${siteTypePrice.min}€` 
+        : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`
     });
   }
 
   // Pages supplémentaires
   if (data.pageCount) {
     const pageCount = parseInt(data.pageCount.toString());
-    let basePagesLimit = 5;
+    let basePagesLimit = 3;
     
-    if (data.siteType.includes('5 à 10 pages')) {
-      basePagesLimit = 10;
-    } else if (data.siteType.includes('1 à 5 pages')) {
+    if (data.siteType.includes('1 à 3 pages')) {
+      basePagesLimit = 3;
+    } else if (data.siteType.includes('4 à 5 pages')) {
       basePagesLimit = 5;
+    } else if (data.siteType.includes('6 à 8 pages')) {
+      basePagesLimit = 8;
+    } else if (data.siteType.includes('9 à 12 pages')) {
+      basePagesLimit = 12;
     }
     
     if (pageCount > basePagesLimit) {
       const extraPages = pageCount - basePagesLimit;
-      const extraCost = extraPages * PRICING.pageExtra;
+      const extraCost = extraPages * PAGE_EXTRA_COST;
       minTotal += extraCost;
       maxTotal += extraCost;
       breakdown.push({
@@ -104,6 +80,19 @@ function calculatePricing(data: {
           price: price > 0 ? `${price}€` : 'Inclus'
         });
       }
+    });
+  }
+
+  // Langues sélectionnées (si multilingue activé)
+  if (data.languages && data.languages.length > 0) {
+    const langList = [...data.languages];
+    if (data.otherLanguages) {
+      langList.push(`Autre: ${data.otherLanguages}`);
+    }
+    breakdown.push({
+      category: '🌐 Langues',
+      item: langList.join(', '),
+      price: 'Inclus dans Multilingue'
     });
   }
 
@@ -133,7 +122,7 @@ function calculatePricing(data: {
       maxTotal += price;
       breakdown.push({
         category: '🌐 Nom de domaine',
-        item: `${data.domain} (premier année)`,
+        item: `${data.domain} (première année)`,
         price: `${price}€`
       });
     }
@@ -151,6 +140,8 @@ export async function sendQuoteEmail(data: {
   siteType: string;
   pageCount?: number;
   features?: string[];
+  languages?: string[];
+  otherLanguages?: string;
   optimization?: string[];
   hosting?: string;
   domain?: string;
@@ -161,6 +152,8 @@ export async function sendQuoteEmail(data: {
     siteType: data.siteType,
     pageCount: data.pageCount,
     features: data.features,
+    languages: data.languages,
+    otherLanguages: data.otherLanguages,
     optimization: data.optimization,
     domain: data.domain
   });
