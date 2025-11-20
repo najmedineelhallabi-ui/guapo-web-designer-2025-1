@@ -171,9 +171,9 @@ export function QuoteForm() {
               <input
                 type="radio"
                 name="siteType"
-                value="Site vitrine simple (1 à 5 pages)"
+                value="Site vitrine simple (1 à 3 pages)"
                 required
-                defaultChecked={state.formData?.siteType === "Site vitrine simple (1 à 5 pages)"}
+                defaultChecked={state.formData?.siteType === "Site vitrine simple (1 à 3 pages)"}
                 className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 disabled={isPending}
               />
@@ -187,14 +187,44 @@ export function QuoteForm() {
               <input
                 type="radio"
                 name="siteType"
-                value="Site vitrine avancé (5 à 10 pages)"
-                defaultChecked={state.formData?.siteType === "Site vitrine avancé (5 à 10 pages)"}
+                value="Site vitrine standard (4 à 5 pages)"
+                defaultChecked={state.formData?.siteType === "Site vitrine standard (4 à 5 pages)"}
+                className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                disabled={isPending}
+              />
+              <div>
+                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.standard')}</span>
+                <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.standardDesc')}</p>
+              </div>
+            </label>
+
+            <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+              <input
+                type="radio"
+                name="siteType"
+                value="Site vitrine avancé (6 à 8 pages)"
+                defaultChecked={state.formData?.siteType === "Site vitrine avancé (6 à 8 pages)"}
                 className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 disabled={isPending}
               />
               <div>
                 <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.advanced')}</span>
                 <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.advancedDesc')}</p>
+              </div>
+            </label>
+
+            <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+              <input
+                type="radio"
+                name="siteType"
+                value="Site vitrine premium (9 à 12 pages)"
+                defaultChecked={state.formData?.siteType === "Site vitrine premium (9 à 12 pages)"}
+                className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                disabled={isPending}
+              />
+              <div>
+                <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.premium')}</span>
+                <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.premiumDesc')}</p>
               </div>
             </label>
 
@@ -255,30 +285,6 @@ export function QuoteForm() {
             <div className="flex items-center gap-3 p-4 bg-accent/5 border border-accent/20 rounded-lg">
               <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
               <span className="text-foreground/90">{t('quote.design.responsive')}</span>
-            </div>
-
-            <div>
-              <label htmlFor="pageCount" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
-                {t('quote.design.pageCount')} *
-              </label>
-              <input
-                type="number"
-                id="pageCount"
-                name="pageCount"
-                required
-                min="1"
-                max="50"
-                defaultValue={state.formData?.pageCount || ''}
-                className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
-                placeholder={t('quote.design.pageCountPlaceholder')}
-                disabled={isPending}
-              />
-              {state.errors?.pageCount && (
-                <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" />
-                  {state.errors.pageCount[0]}
-                </p>
-              )}
             </div>
           </div>
         </div>
