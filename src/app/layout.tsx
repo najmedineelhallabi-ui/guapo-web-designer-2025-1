@@ -6,7 +6,7 @@ import Script from "next/script";
 import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 
 import VisualEditsMessenger from "../visual-edits/VisualEditsMessenger";
-import ErrorReporter from "@/components/ErrorReporter";
+
 export const metadata: Metadata = {
   title: "GUAPO Web Designer | Sites Web Modernes & Professionnels",
   description: "Création de sites web modernes, élégants et performants. Design UI/UX, développement responsive, identité visuelle. Services en Belgique - FR, NL, EN.",
@@ -148,7 +148,6 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <ErrorReporter />
         <Script
           src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/scripts//route-messenger.js"
           strategy="afterInteractive"
