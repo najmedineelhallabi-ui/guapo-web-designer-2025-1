@@ -878,12 +878,65 @@ export async function sendQuoteEmail(data: {
           <div class="confirmation-box">
             <div class="confirmation-title">📋 Cette estimation vous convient ?</div>
             <div class="confirmation-text">
-              Confirmez votre intérêt en un clic ou contactez-nous pour discuter de vos besoins.
+              ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? 
+                'Choisissez votre formule de maintenance et confirmez votre intérêt en un clic.' :
+                'Confirmez votre intérêt en un clic ou contactez-nous pour discuter de vos besoins.'
+              }
             </div>
+            
+            ${data.siteType.toLowerCase().includes('vitrine') ? `
+            <!-- BOUTONS MAINTENANCE VITRINE -->
+            <div style="margin: 20px 0 15px 0; text-align: center;">
+              <p style="font-size: 14px; font-weight: 600; color: #5b21b6; margin-bottom: 12px;">
+                🔧 Choisissez votre formule de maintenance :
+              </p>
+            </div>
+            <div class="button-group">
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Forfait annuel limité - 300€/an')}" class="btn-confirm" style="min-width: 280px;">
+                ✅ Forfait annuel limité<br>
+                <span style="font-size: 13px; font-weight: 500;">300€/an (6 interventions)</span>
+              </a>
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Paiement à l\'intervention - 100€')}" class="btn-confirm" style="min-width: 280px;">
+                ✅ Paiement à l'intervention<br>
+                <span style="font-size: 13px; font-weight: 500;">100€ par intervention</span>
+              </a>
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Sans maintenance')}" class="btn-confirm" style="background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%); min-width: 280px;">
+                ✅ Sans maintenance<br>
+                <span style="font-size: 13px; font-weight: 500;">Gérer moi-même</span>
+              </a>
+            </div>
+            ` : data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
+            <!-- BOUTONS MAINTENANCE E-COMMERCE -->
+            <div style="margin: 20px 0 15px 0; text-align: center;">
+              <p style="font-size: 14px; font-weight: 600; color: #991b1b; margin-bottom: 12px;">
+                🛒 Choisissez votre formule de maintenance :
+              </p>
+            </div>
+            <div class="button-group">
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Forfait annuel limité - 700€/an')}" class="btn-confirm" style="min-width: 280px;">
+                ✅ Forfait annuel limité<br>
+                <span style="font-size: 13px; font-weight: 500;">700€/an (12 interventions)</span>
+              </a>
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Paiement à l\'intervention - 150€')}" class="btn-confirm" style="min-width: 280px;">
+                ✅ Paiement à l'intervention<br>
+                <span style="font-size: 13px; font-weight: 500;">150€ par intervention</span>
+              </a>
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Sans maintenance')}" class="btn-confirm" style="background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%); min-width: 280px;">
+                ✅ Sans maintenance<br>
+                <span style="font-size: 13px; font-weight: 500;">Gérer moi-même</span>
+              </a>
+            </div>
+            ` : `
+            <!-- BOUTON STANDARD SANS OPTIONS MAINTENANCE -->
             <div class="button-group">
               <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}" class="btn-confirm">
                 ✅ Confirmer mon intérêt
               </a>
+            </div>
+            `}
+            
+            <!-- BOUTON COMMENTAIRE (toujours présent) -->
+            <div style="margin-top: 15px;">
               <a href="mailto:info@guapowebdesigner.com?subject=Question%20sur%20devis%20-%20${encodeURIComponent(data.firstName + ' ' + data.lastName)}&body=Bonjour%2C%0A%0AJ'ai%20re%C3%A7u%20l'estimation%20pour%20mon%20projet%20(${pricing.minTotal}%E2%82%AC%20-%20${pricing.maxTotal}%E2%82%AC).%0A%0AMon%20projet%3A%20${encodeURIComponent(data.company || 'Non spécifié')}%0AType%20de%20site%3A%20${encodeURIComponent(data.siteType)}%0A%0AJ'aimerais%20discuter%20des%20points%20suivants%3A%0A%0A%0A%0ACordialement%2C%0A${encodeURIComponent(data.firstName + ' ' + data.lastName)}" class="btn-comment">
                 💬 Ajouter un commentaire
               </a>
