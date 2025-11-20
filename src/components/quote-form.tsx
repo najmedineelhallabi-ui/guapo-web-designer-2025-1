@@ -16,7 +16,6 @@ export function QuoteForm() {
   const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
   const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
-  const [showOtherLanguages, setShowOtherLanguages] = useState(false);
 
   useEffect(() => {
     if (state.success) {
@@ -41,10 +40,6 @@ export function QuoteForm() {
 
   const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAllInclusiveOptimization(e.target.checked);
-  };
-
-  const handleOtherLanguagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setShowOtherLanguages(e.target.checked);
   };
 
   return (
@@ -562,89 +557,6 @@ export function QuoteForm() {
                 </div>
               </div>
             )}
-          </div>
-        </div>
-
-        {/* Langues du site - NEW SECTION */}
-        <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
-            <Globe className="w-6 h-6 text-secondary" />
-            {t('quote.languages.title')}
-          </h3>
-          
-          <p className="text-foreground/80 mb-4">{t('quote.languages.desc')}</p>
-          
-          <div className="space-y-3">
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="siteLanguages"
-                value="Français (FR)"
-                defaultChecked={state.formData?.siteLanguages?.includes("Français (FR)")}
-                className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.languages.fr')}
-              </span>
-            </label>
-
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="siteLanguages"
-                value="Néerlandais (NL)"
-                defaultChecked={state.formData?.siteLanguages?.includes("Néerlandais (NL)")}
-                className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.languages.nl')}
-              </span>
-            </label>
-
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="siteLanguages"
-                value="Anglais (EN)"
-                defaultChecked={state.formData?.siteLanguages?.includes("Anglais (EN)")}
-                className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                {t('quote.languages.en')}
-              </span>
-            </label>
-
-            <div className="space-y-2">
-              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
-                <input
-                  type="checkbox"
-                  name="hasOtherLanguages"
-                  onChange={handleOtherLanguagesChange}
-                  defaultChecked={state.formData?.otherLanguages ? true : false}
-                  className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                  disabled={isPending}
-                />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
-                  {t('quote.languages.other')}
-                </span>
-              </label>
-
-              {showOtherLanguages && (
-                <div className="ml-11 animate-fade-in">
-                  <input
-                    type="text"
-                    name="otherLanguages"
-                    defaultValue={state.formData?.otherLanguages || ''}
-                    className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-secondary transition-all"
-                    placeholder={t('quote.languages.otherPlaceholder')}
-                    disabled={isPending}
-                  />
-                </div>
-              )}
-            </div>
           </div>
         </div>
 
