@@ -332,6 +332,172 @@ export function QuoteEmail({
 
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
 
+            {/* MAINTENANCE E-COMMERCE OPTIONS SECTION */}
+            <Section style={{ 
+              backgroundColor: '#fef3f4', 
+              padding: '20px', 
+              borderRadius: '8px',
+              border: '2px solid #dc2626',
+              marginBottom: '20px'
+            }}>
+              <Text style={{ 
+                fontWeight: 'bold', 
+                fontSize: '18px', 
+                marginBottom: '15px', 
+                color: '#dc2626',
+                marginTop: 0
+              }}>
+                🛒 Maintenance – Sites e-commerce
+              </Text>
+
+              {/* Option 1: Forfait annuel limité */}
+              <Section style={{ 
+                backgroundColor: '#ffffff', 
+                padding: '15px', 
+                borderRadius: '6px',
+                marginBottom: '15px',
+                border: '1px solid #fecaca'
+              }}>
+                <Text style={{ 
+                  fontWeight: 'bold', 
+                  fontSize: '15px', 
+                  color: '#dc2626',
+                  marginTop: 0,
+                  marginBottom: '10px'
+                }}>
+                  📦 Forfait annuel limité - 700€/an
+                </Text>
+                
+                <Text style={{ 
+                  margin: '5px 0', 
+                  color: '#4b5563',
+                  fontSize: '14px',
+                  fontWeight: 'bold'
+                }}>
+                  Inclus :
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Jusqu'à 12 interventions par an
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Mises à jour du site et des plugins
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Corrections mineures (texte, images, prix)
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Gestion sécurité & sauvegardes
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Vérification régulière des passerelles de paiement et suivi des commandes
+                </Text>
+                
+                <Text style={{ 
+                  margin: '10px 0 5px 0', 
+                  color: '#4b5563',
+                  fontSize: '14px'
+                }}>
+                  <strong>Interventions supplémentaires :</strong> 150€/intervention
+                </Text>
+                <Text style={{ 
+                  margin: '5px 0', 
+                  color: '#4b5563',
+                  fontSize: '14px'
+                }}>
+                  <strong>Délai :</strong> 48h ouvrées
+                </Text>
+              </Section>
+
+              {/* Option 2: Paiement à l'intervention */}
+              <Section style={{ 
+                backgroundColor: '#ffffff', 
+                padding: '15px', 
+                borderRadius: '6px',
+                marginBottom: '15px',
+                border: '1px solid #fecaca'
+              }}>
+                <Text style={{ 
+                  fontWeight: 'bold', 
+                  fontSize: '15px', 
+                  color: '#dc2626',
+                  marginTop: 0,
+                  marginBottom: '10px'
+                }}>
+                  💳 Paiement à l'intervention - 150€/intervention
+                </Text>
+                
+                <Text style={{ 
+                  margin: '5px 0', 
+                  color: '#4b5563',
+                  fontSize: '14px',
+                  fontWeight: 'bold'
+                }}>
+                  Chaque intervention comprend :
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Mise à jour ou correction mineure
+                </Text>
+                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                  • Sécurité et sauvegardes
+                </Text>
+                
+                <Text style={{ 
+                  margin: '10px 0 5px 0', 
+                  color: '#4b5563',
+                  fontSize: '14px'
+                }}>
+                  <strong>Délai :</strong> 48h ouvrées
+                </Text>
+              </Section>
+
+              {/* Notes explicatives */}
+              <Hr style={{ borderColor: '#fecaca', margin: '15px 0' }} />
+              
+              <Text style={{ 
+                fontWeight: 'bold', 
+                fontSize: '14px', 
+                color: '#991b1b',
+                marginTop: 0,
+                marginBottom: '8px'
+              }}>
+                📝 Notes importantes :
+              </Text>
+              
+              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
+                • <strong>Interventions incluses :</strong> corrections de textes/images, mises à jour produits, vérification des paiements, sécurité, sauvegardes.
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
+                • <strong>Interventions supplémentaires :</strong> facturées 150€/intervention si dépassement du forfait annuel.
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
+                • <strong>Délai de traitement :</strong> 48h ouvrées, sauf urgence à discuter.
+              </Text>
+              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
+                • Convient à toutes les boutiques e-commerce, quelle que soit la taille du catalogue.
+              </Text>
+
+              {/* Astuce commerciale */}
+              <Section style={{ 
+                backgroundColor: '#fef3c7', 
+                padding: '12px', 
+                borderRadius: '6px',
+                marginTop: '15px',
+                border: '1px solid #fbbf24'
+              }}>
+                <Text style={{ 
+                  margin: 0,
+                  color: '#78350f',
+                  fontSize: '13px',
+                  lineHeight: '1.6',
+                  textAlign: 'center'
+                }}>
+                  💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site e-commerce, afin de tester nos services avant de souscrire au forfait annuel.
+                </Text>
+              </Section>
+            </Section>
+
+            <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
+
             <Section>
               <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
                 8️⃣ Remarques spécifiques / Besoins particuliers
