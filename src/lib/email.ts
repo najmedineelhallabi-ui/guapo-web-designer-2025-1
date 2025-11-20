@@ -701,11 +701,10 @@ export async function sendQuoteEmail(data: {
           <div class="confirmation-box">
             <div class="confirmation-title">📋 Cette estimation vous convient ?</div>
             <div class="confirmation-text">
-              Confirmez votre intérêt ou ajoutez un commentaire pour préciser vos besoins. 
-              Nous vous répondrons avec un devis détaillé sous 24-48h.
+              Confirmez votre intérêt en un clic ou contactez-nous pour discuter de vos besoins.
             </div>
             <div class="button-group">
-              <a href="mailto:info@guapowebdesigner.com?subject=Confirmation%20devis%20-%20${encodeURIComponent(data.firstName + ' ' + data.lastName)}&body=Bonjour%2C%0A%0AJe%20confirme%20mon%20int%C3%A9r%C3%AAt%20pour%20l'estimation%20re%C3%A7ue%20(${pricing.minTotal}%E2%82%AC%20-%20${pricing.maxTotal}%E2%82%AC).%0A%0AMon%20projet%3A%20${encodeURIComponent(data.company || 'Non spécifié')}%0AType%20de%20site%3A%20${encodeURIComponent(data.siteType)}%0A%0A%E2%9C%85%20Je%20suis%20d'accord%20pour%20continuer%0A%0ACommentaire%20(optionnel)%3A%0A%0A%0ACordialement%2C%0A${encodeURIComponent(data.firstName + ' ' + data.lastName)}" class="btn-confirm">
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}" class="btn-confirm">
                 ✅ Confirmer mon intérêt
               </a>
               <a href="mailto:info@guapowebdesigner.com?subject=Question%20sur%20devis%20-%20${encodeURIComponent(data.firstName + ' ' + data.lastName)}&body=Bonjour%2C%0A%0AJ'ai%20re%C3%A7u%20l'estimation%20pour%20mon%20projet%20(${pricing.minTotal}%E2%82%AC%20-%20${pricing.maxTotal}%E2%82%AC).%0A%0AMon%20projet%3A%20${encodeURIComponent(data.company || 'Non spécifié')}%0AType%20de%20site%3A%20${encodeURIComponent(data.siteType)}%0A%0AJ'aimerais%20discuter%20des%20points%20suivants%3A%0A%0A%0A%0ACordialement%2C%0A${encodeURIComponent(data.firstName + ' ' + data.lastName)}" class="btn-comment">
@@ -718,10 +717,7 @@ export async function sendQuoteEmail(data: {
           <div class="next-steps">
             <div class="next-steps-title">📋 Prochaines Étapes</div>
             <ul>
-              <li>Notre équipe étudie votre demande</li>
-              <li>Devis détaillé sous 24-48 heures</li>
-              <li>Discussion de votre projet</li>
-              <li>Réponse à vos questions</li>
+              <li>Notre équipe attend votre réponse et nous vous contacterons ensuite pour des mises à jour</li>
             </ul>
           </div>
 
