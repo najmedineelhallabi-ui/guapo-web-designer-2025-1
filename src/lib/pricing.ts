@@ -24,12 +24,12 @@ export const PRICING = {
     "Intégration calendrier (Google Calendar, etc.)": 50,
     "Multilingue": 125,
     // Fonctionnalités E-commerce
-    "Catalogue de produits": 800,
-    "Panier d'achat": 500,
-    "Passerelle de paiement (Stripe, PayPal, etc.)": 600,
-    "Gestion des commandes": 700,
-    "Gestion des stocks": 500,
-    "Comptes clients": 400,
+    "Catalogue de produits": 300,
+    "Panier d'achat": 0,
+    "Passerelle de paiement (Stripe, PayPal, etc.)": 185,
+    "Gestion des commandes": 250,
+    "Gestion des stocks": 350,
+    "Comptes clients": 200,
   },
 
   // Optimisation & Sécurité
