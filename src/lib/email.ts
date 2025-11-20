@@ -149,8 +149,8 @@ export async function sendQuoteEmail(data: {
 }) {
   console.log('🚀 Starting email send process...');
   console.log('📧 Email FROM:', process.env.EMAIL_FROM || 'onboarding@resend.dev');
-  console.log('📧 Email TO:', process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com');
-  console.log('📧 Reply TO:', data.email);
+  console.log('📧 Owner Email TO:', process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com');
+  console.log('📧 Client Email TO:', data.email);
   
   // Calculer les prix
   const pricing = calculatePricing({
@@ -174,7 +174,8 @@ export async function sendQuoteEmail(data: {
     return acc;
   }, {} as Record<string, { item: string; price: string }[]>);
 
-  const emailHtml = `
+  // EMAIL 1: Pour le propriétaire (avec tous les détails)
+  const ownerEmailHtml = `
     <!DOCTYPE html>
     <html>
       <head>
@@ -368,7 +369,7 @@ export async function sendQuoteEmail(data: {
             ` : ''}
           </div>
 
-          <!-- PRIX ESTIMÉ (Visible uniquement dans l'email) -->
+          <!-- PRIX ESTIMÉ -->
           <div class="price-section">
             <div class="price-title">💰 Estimation Tarifaire</div>
             
@@ -460,25 +461,300 @@ export async function sendQuoteEmail(data: {
     </html>
   `;
 
+  // EMAIL 2: Pour le client (confirmation avec prix)
+  const clientEmailHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+          }
+          .header {
+            background: linear-gradient(135deg, #9f7aea 0%, #b794f4 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+          }
+          .header h1 {
+            margin: 0;
+            font-size: 28px;
+          }
+          .content {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 0 0 10px 10px;
+            padding: 30px;
+          }
+          .greeting {
+            font-size: 18px;
+            color: #1f2937;
+            margin-bottom: 20px;
+          }
+          .section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+          }
+          .section:last-child {
+            border-bottom: none;
+          }
+          .price-section {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 3px solid #f59e0b;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+          }
+          .price-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #92400e;
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          .price-breakdown {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+          }
+          .price-category {
+            font-size: 16px;
+            font-weight: 600;
+            color: #7c3aed;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e9d5ff;
+          }
+          .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+          }
+          .price-item:last-child {
+            border-bottom: none;
+          }
+          .price-item-name {
+            flex: 1;
+            color: #374151;
+          }
+          .price-item-value {
+            font-weight: 600;
+            color: #059669;
+            margin-left: 15px;
+            white-space: nowrap;
+          }
+          .price-total {
+            background: linear-gradient(135deg, #9f7aea 0%, #b794f4 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 20px;
+          }
+          .price-note {
+            text-align: center;
+            font-size: 13px;
+            color: #92400e;
+            margin-top: 15px;
+            font-style: italic;
+          }
+          .hosting-note {
+            background: #dcfce7;
+            border: 2px solid #86efac;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+          }
+          .hosting-note strong {
+            color: #15803d;
+          }
+          .next-steps {
+            background: #f3f4f6;
+            border-left: 4px solid #9f7aea;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+          }
+          .next-steps-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 15px;
+          }
+          .next-steps ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+          }
+          .next-steps li {
+            padding: 8px 0;
+            color: #4b5563;
+          }
+          .next-steps li:before {
+            content: "✓";
+            color: #9f7aea;
+            font-weight: bold;
+            margin-right: 10px;
+          }
+          .contact-info {
+            background: #e9d5ff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 25px 0;
+          }
+          .contact-info strong {
+            color: #7c3aed;
+          }
+          .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            color: #718096;
+            font-size: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>✅ Demande de Devis Reçue</h1>
+        </div>
+        <div class="content">
+          <div class="greeting">
+            Bonjour ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)},
+          </div>
+
+          <p style="font-size: 16px; color: #1f2937; line-height: 1.6;">
+            Merci d'avoir fait confiance à <strong style="color: #9f7aea;">GUAPO Web Designer</strong> pour votre projet !
+          </p>
+
+          <p style="font-size: 16px; color: #1f2937; line-height: 1.6;">
+            Nous avons bien reçu votre demande de devis pour <strong>${escapeHtml(data.company || 'votre projet')}</strong> 
+            concernant un <strong>${escapeHtml(data.siteType)}</strong>.
+          </p>
+
+          <!-- ESTIMATION TARIFAIRE POUR LE CLIENT -->
+          <div class="price-section">
+            <div class="price-title">💰 Votre Estimation</div>
+            
+            <div class="price-breakdown">
+              ${Object.entries(groupedBreakdown).map(([category, items]) => `
+                <div style="margin-bottom: 20px;">
+                  <div class="price-category">${category}</div>
+                  ${items.map(({ item, price }) => `
+                    <div class="price-item">
+                      <span class="price-item-name">${escapeHtml(item)}</span>
+                      <span class="price-item-value">${escapeHtml(price)}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="price-total">
+              Estimation: ${pricing.minTotal}€ - ${pricing.maxTotal}€
+            </div>
+
+            <div class="hosting-note">
+              <strong>✅ Hébergement inclus:</strong> L'hébergement haute performance avec certificat SSL est automatiquement inclus dans votre forfait.
+            </div>
+
+            <div class="price-note">
+              ℹ️ Cette estimation est indicative et basée sur les informations que vous nous avez fournies.<br>
+              Nous vous enverrons un devis détaillé et personnalisé sous 24-48 heures.
+            </div>
+          </div>
+
+          <div class="next-steps">
+            <div class="next-steps-title">📋 Prochaines Étapes</div>
+            <ul>
+              <li>Notre équipe étudie attentivement votre demande</li>
+              <li>Vous recevrez un <strong>devis détaillé sous 24-48 heures</strong></li>
+              <li>Nous vous contacterons pour discuter de votre projet</li>
+              <li>Nous répondrons à toutes vos questions</li>
+            </ul>
+          </div>
+
+          <p style="font-size: 16px; color: #1f2937; line-height: 1.6;">
+            En attendant, n'hésitez pas à nous contacter si vous avez des questions ou des informations complémentaires à nous transmettre.
+          </p>
+
+          <div class="contact-info">
+            <p style="margin: 5px 0;">
+              📧 <strong>Email:</strong> info@guapowebdesigner.com
+            </p>
+            <p style="margin: 5px 0;">
+              📱 <strong>Instagram:</strong> @guapo_webdesigner
+            </p>
+          </div>
+
+          <p style="font-size: 16px; color: #1f2937; line-height: 1.6; margin-top: 25px;">
+            À très bientôt,<br>
+            <strong style="color: #9f7aea;">L'équipe GUAPO Web Designer</strong>
+          </p>
+        </div>
+
+        <div class="footer">
+          <p>© 2025 GUAPO Web Designer</p>
+          <p style="margin-top: 10px;">Cet email a été envoyé en réponse à votre demande de devis</p>
+        </div>
+      </body>
+    </html>
+  `;
+
   try {
-    console.log('📨 Attempting to send email via Resend...');
+    console.log('📨 Sending emails...');
     
-    const result = await resend.emails.send({
+    // Envoyer EMAIL 1: Au propriétaire
+    console.log('📧 1/2 - Sending email to owner...');
+    const ownerResult = await resend.emails.send({
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: data.email,
       subject: `🎨 Nouvelle demande de devis - ${data.firstName} ${data.lastName} - Estimation: ${pricing.minTotal}€-${pricing.maxTotal}€`,
-      html: emailHtml,
+      html: ownerEmailHtml,
     });
 
-    if (result.error) {
-      console.error('❌ Resend API returned an error:', result.error);
-      throw new Error(`Resend error: ${result.error.message}`);
+    if (ownerResult.error) {
+      console.error('❌ Owner email failed:', ownerResult.error);
+      throw new Error(`Owner email error: ${ownerResult.error.message}`);
+    }
+    console.log('✅ 1/2 - Owner email sent successfully! ID:', ownerResult.data?.id);
+
+    // Envoyer EMAIL 2: Au client
+    console.log('📧 2/2 - Sending confirmation email to client...');
+    const clientResult = await resend.emails.send({
+      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+      to: data.email,
+      replyTo: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
+      subject: `✅ Confirmation de votre demande de devis - GUAPO Web Designer`,
+      html: clientEmailHtml,
+    });
+
+    if (clientResult.error) {
+      console.error('❌ Client email failed:', clientResult.error);
+      // Ne pas throw ici car l'email propriétaire est déjà envoyé
+      console.warn('⚠️ Owner email was sent but client email failed');
+    } else {
+      console.log('✅ 2/2 - Client email sent successfully! ID:', clientResult.data?.id);
     }
 
-    console.log('✅ Email sent successfully!');
-    console.log('📬 Email ID:', result.data?.id);
-    return result;
+    console.log('🎉 Email process completed!');
+    return { ownerResult, clientResult };
   } catch (error) {
     console.error('❌ Email sending failed with exception:', error);
     console.error('Error details:', {
