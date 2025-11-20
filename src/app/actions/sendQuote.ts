@@ -50,7 +50,11 @@ export async function sendQuoteAction(
   _prevState: QuoteFormState | undefined,
   formData: FormData
 ): Promise<QuoteFormState> {
+  console.log('🔵 [ACTION] sendQuoteAction called');
+  
   try {
+    console.log('🔵 [ACTION] Parsing form data...');
+    
     // Parse and validate form data
     const rawData = {
       firstName: formData.get('firstName'),
@@ -70,7 +74,13 @@ export async function sendQuoteAction(
       rgpdConsent: formData.get('rgpdConsent'),
     };
 
+    console.log('🔵 [ACTION] Raw data:', JSON.stringify(rawData, null, 2));
+    console.log('🔵 [ACTION] Validating data...');
+
     const validatedData = quoteSchema.parse(rawData);
+    
+    console.log('🔵 [ACTION] Data validated successfully');
+    console.log('🔵 [ACTION] Calling sendQuoteEmail...');
 
     // Send email using the centralized email function (includes pricing)
     await sendQuoteEmail({
@@ -90,12 +100,18 @@ export async function sendQuoteAction(
       message: validatedData.message,
     });
 
+    console.log('🔵 [ACTION] Email sent successfully!');
+
     return {
       success: true,
       message: 'Votre demande de devis a été envoyée avec succès ! Nous vous répondrons dans les plus brefs délais.',
     };
   } catch (error) {
+    console.error('🔴 [ACTION] Error occurred:', error);
+    
     if (error instanceof z.ZodError) {
+      console.error('🔴 [ACTION] Validation error:', error.flatten().fieldErrors);
+      
       // Keep form data in case of validation errors
       return {
         success: false,
@@ -120,7 +136,12 @@ export async function sendQuoteAction(
       };
     }
 
-    console.error('Unexpected error:', error);
+    console.error('🔴 [ACTION] Unexpected error details:', {
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined
+    });
+    
     return {
       success: false,
       message: 'Une erreur inattendue s\'est produite. Veuillez réessayer ou nous contacter directement.',
