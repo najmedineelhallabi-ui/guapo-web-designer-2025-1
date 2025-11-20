@@ -68,7 +68,7 @@ export function QuoteConfirmationEmail({
                 📋 Prochaines étapes :
               </Text>
               <Text style={{ fontSize: '14px', color: '#4b5563', margin: '8px 0', lineHeight: '1.6' }}>
-                • Notre équipe attend votre réponse
+                • Notre équipe attend votre réponse et nous vous contacterons ensuite pour des mises à jour
               </Text>
             </Section>
 
