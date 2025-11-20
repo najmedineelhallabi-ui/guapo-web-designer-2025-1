@@ -6,41 +6,174 @@ if (!process.env.RESEND_API_KEY) {
 
 export const resend = new Resend(process.env.RESEND_API_KEY || '');
 
+// Prix cachés (non visibles sur le site, uniquement dans l'email)
+const PRICING = {
+  siteTypes: {
+    'Site vitrine simple (1 à 5 pages)': { min: 800, max: 1500 },
+    'Site vitrine avancé (5 à 10 pages)': { min: 1500, max: 3000 },
+    'Portfolio / site personnel': { min: 600, max: 1200 },
+    'Site e-commerce': { min: 3000, max: 8000 }
+  },
+  features: {
+    'Formulaire de contact simple': 150,
+    'Formulaire de demande de devis': 200,
+    'Système de prise de rendez-vous en ligne': 500,
+    'Envoi automatique d\'emails client + entreprise (pour rendez-vous)': 300,
+    'Intégration calendrier (Google Calendar, etc.)': 400,
+    'Newsletter / inscription mailing': 250,
+    'Multilingue': 400,
+    'Catalogue de produits': 800,
+    'Panier d\'achat': 500,
+    'Passerelle de paiement (Stripe, PayPal, etc.)': 600,
+    'Gestion des commandes': 400,
+    'Gestion des stocks': 350,
+    'Comptes clients': 450
+  },
+  optimization: {
+    'SEO de base (balises, titres, URLs)': 300,
+    'Optimisation vitesse / performance': 250,
+    'Certificat SSL / HTTPS': 0, // Inclus
+    'RGPD / conformité légale': 200
+  },
+  domain: {
+    'Inclus dans le projet': 50,
+    'Fourni par le client': 0,
+    'À discuter': 0
+  },
+  pageExtra: 100 // Prix par page supplémentaire au-delà du forfait de base
+};
+
+function calculatePricing(data: {
+  siteType: string;
+  pageCount?: number;
+  features?: string[];
+  optimization?: string[];
+  domain?: string;
+}) {
+  let minTotal = 0;
+  let maxTotal = 0;
+  const breakdown: { category: string; item: string; price: string }[] = [];
+
+  // Type de site (prix de base)
+  const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
+  const siteTypePrice = PRICING.siteTypes[siteTypeKey];
+  if (siteTypePrice) {
+    minTotal += siteTypePrice.min;
+    maxTotal += siteTypePrice.max;
+    breakdown.push({
+      category: '🎨 Type de site',
+      item: data.siteType,
+      price: `${siteTypePrice.min}€ - ${siteTypePrice.max}€`
+    });
+  }
+
+  // Pages supplémentaires
+  if (data.pageCount) {
+    const pageCount = parseInt(data.pageCount.toString());
+    let basePagesLimit = 5;
+    
+    if (data.siteType.includes('5 à 10 pages')) {
+      basePagesLimit = 10;
+    } else if (data.siteType.includes('1 à 5 pages')) {
+      basePagesLimit = 5;
+    }
+    
+    if (pageCount > basePagesLimit) {
+      const extraPages = pageCount - basePagesLimit;
+      const extraCost = extraPages * PRICING.pageExtra;
+      minTotal += extraCost;
+      maxTotal += extraCost;
+      breakdown.push({
+        category: '📄 Pages supplémentaires',
+        item: `${extraPages} page(s) supplémentaire(s)`,
+        price: `${extraCost}€`
+      });
+    }
+  }
+
+  // Fonctionnalités
+  if (data.features && data.features.length > 0) {
+    data.features.forEach(feature => {
+      const featureKey = feature as keyof typeof PRICING.features;
+      const price = PRICING.features[featureKey];
+      if (price !== undefined) {
+        minTotal += price;
+        maxTotal += price;
+        breakdown.push({
+          category: '⚡ Fonctionnalités',
+          item: feature,
+          price: price > 0 ? `${price}€` : 'Inclus'
+        });
+      }
+    });
+  }
+
+  // Optimisation & Sécurité
+  if (data.optimization && data.optimization.length > 0) {
+    data.optimization.forEach(opt => {
+      const optKey = opt as keyof typeof PRICING.optimization;
+      const price = PRICING.optimization[optKey];
+      if (price !== undefined) {
+        minTotal += price;
+        maxTotal += price;
+        breakdown.push({
+          category: '🔒 Optimisation & Sécurité',
+          item: opt,
+          price: price > 0 ? `${price}€` : 'Inclus'
+        });
+      }
+    });
+  }
+
+  // Nom de domaine
+  if (data.domain) {
+    const domainKey = data.domain as keyof typeof PRICING.domain;
+    const price = PRICING.domain[domainKey];
+    if (price !== undefined && price > 0) {
+      minTotal += price;
+      maxTotal += price;
+      breakdown.push({
+        category: '🌐 Nom de domaine',
+        item: `${data.domain} (premier année)`,
+        price: `${price}€`
+      });
+    }
+  }
+
+  return { minTotal, maxTotal, breakdown };
+}
+
 export async function sendQuoteEmail(data: {
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
   company?: string;
-  websiteType: string;
-  budget: string;
-  timeline: string;
-  description: string;
+  sector?: string;
+  siteType: string;
+  pageCount?: number;
   features?: string[];
+  optimization?: string[];
+  hosting?: string;
+  domain?: string;
+  message: string;
 }) {
-  const websiteTypeLabels = {
-    vitrine: 'Site Vitrine',
-    ecommerce: 'Site E-commerce',
-    blog: 'Blog',
-    portfolio: 'Portfolio',
-    application: 'Application Web',
-    autre: 'Autre'
-  };
+  // Calculer les prix
+  const pricing = calculatePricing({
+    siteType: data.siteType,
+    pageCount: data.pageCount,
+    features: data.features,
+    optimization: data.optimization,
+    domain: data.domain
+  });
 
-  const budgetLabels = {
-    'moins-2000': 'Moins de 2000€',
-    '2000-5000': '2000€ - 5000€',
-    '5000-10000': '5000€ - 10000€',
-    'plus-10000': 'Plus de 10000€',
-    'a-discuter': 'À discuter'
-  };
-
-  const timelineLabels = {
-    urgent: 'Urgent (moins de 2 semaines)',
-    '1-mois': '1 mois',
-    '2-3-mois': '2-3 mois',
-    flexible: 'Flexible'
-  };
+  // Grouper les éléments par catégorie
+  const groupedBreakdown = pricing.breakdown.reduce((acc, item) => {
+    if (!acc[item.category]) {
+      acc[item.category] = [];
+    }
+    acc[item.category].push({ item: item.item, price: item.price });
+    return acc;
+  }, {} as Record<string, { item: string; price: string }[]>);
 
   const emailHtml = `
     <!DOCTYPE html>
@@ -52,9 +185,10 @@ export async function sendQuoteEmail(data: {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #f8f9fa;
           }
           .header {
             background: linear-gradient(135deg, #9f7aea 0%, #b794f4 100%);
@@ -96,6 +230,80 @@ export async function sendQuoteEmail(data: {
           }
           .value {
             color: #2d3748;
+          }
+          .price-section {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 3px solid #f59e0b;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+          }
+          .price-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #92400e;
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          .price-breakdown {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+          }
+          .price-category {
+            font-size: 16px;
+            font-weight: 600;
+            color: #7c3aed;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e9d5ff;
+          }
+          .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+          }
+          .price-item:last-child {
+            border-bottom: none;
+          }
+          .price-item-name {
+            flex: 1;
+            color: #374151;
+          }
+          .price-item-value {
+            font-weight: 600;
+            color: #059669;
+            margin-left: 15px;
+            white-space: nowrap;
+          }
+          .price-total {
+            background: linear-gradient(135deg, #9f7aea 0%, #b794f4 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 20px;
+          }
+          .price-note {
+            text-align: center;
+            font-size: 13px;
+            color: #92400e;
+            margin-top: 15px;
+            font-style: italic;
+          }
+          .hosting-note {
+            background: #dcfce7;
+            border: 2px solid #86efac;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+          }
+          .hosting-note strong {
+            color: #15803d;
           }
           .features-list {
             list-style: none;
@@ -147,31 +355,71 @@ export async function sendQuoteEmail(data: {
               <span class="label">Email:</span> 
               <span class="value">${escapeHtml(data.email)}</span>
             </div>
-            <div class="info-row">
-              <span class="label">Téléphone:</span> 
-              <span class="value">${escapeHtml(data.phone)}</span>
-            </div>
             ${data.company ? `
             <div class="info-row">
               <span class="label">Entreprise:</span> 
               <span class="value">${escapeHtml(data.company)}</span>
             </div>
             ` : ''}
+            ${data.sector ? `
+            <div class="info-row">
+              <span class="label">Secteur d'activité:</span> 
+              <span class="value">${escapeHtml(data.sector)}</span>
+            </div>
+            ` : ''}
+          </div>
+
+          <!-- PRIX ESTIMÉ (Visible uniquement dans l'email) -->
+          <div class="price-section">
+            <div class="price-title">💰 Estimation Tarifaire</div>
+            
+            <div class="price-breakdown">
+              ${Object.entries(groupedBreakdown).map(([category, items]) => `
+                <div style="margin-bottom: 20px;">
+                  <div class="price-category">${category}</div>
+                  ${items.map(({ item, price }) => `
+                    <div class="price-item">
+                      <span class="price-item-name">${escapeHtml(item)}</span>
+                      <span class="price-item-value">${escapeHtml(price)}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              `).join('')}
+            </div>
+
+            <div class="price-total">
+              Estimation: ${pricing.minTotal}€ - ${pricing.maxTotal}€
+            </div>
+
+            <div class="hosting-note">
+              <strong>✅ Hébergement inclus:</strong> L'hébergement du site est automatiquement inclus dans le forfait (hébergement haute performance avec SSL).
+            </div>
+
+            <div class="price-note">
+              ⚠️ Cette estimation est indicative et peut varier selon les spécifications exactes du projet.<br>
+              Un devis détaillé et personnalisé sera établi après discussion.
+            </div>
           </div>
 
           <div class="section">
             <div class="section-title">🎯 Détails du Projet</div>
             <div class="info-row">
               <span class="label">Type de site:</span> 
-              <span class="value">${websiteTypeLabels[data.websiteType as keyof typeof websiteTypeLabels]}</span>
+              <span class="value">${escapeHtml(data.siteType)}</span>
+            </div>
+            ${data.pageCount ? `
+            <div class="info-row">
+              <span class="label">Nombre de pages:</span> 
+              <span class="value">${escapeHtml(data.pageCount.toString())} pages</span>
+            </div>
+            ` : ''}
+            <div class="info-row">
+              <span class="label">Hébergement:</span> 
+              <span class="value">${data.hosting || 'Inclus dans le projet'}</span>
             </div>
             <div class="info-row">
-              <span class="label">Budget estimé:</span> 
-              <span class="value">${budgetLabels[data.budget as keyof typeof budgetLabels]}</span>
-            </div>
-            <div class="info-row">
-              <span class="label">Délai souhaité:</span> 
-              <span class="value">${timelineLabels[data.timeline as keyof typeof timelineLabels]}</span>
+              <span class="label">Nom de domaine:</span> 
+              <span class="value">${data.domain || 'À discuter'}</span>
             </div>
           </div>
 
@@ -184,9 +432,18 @@ export async function sendQuoteEmail(data: {
           </div>
           ` : ''}
 
+          ${data.optimization && data.optimization.length > 0 ? `
+          <div class="section">
+            <div class="section-title">🔒 Optimisation & Sécurité</div>
+            <ul class="features-list">
+              ${data.optimization.map(opt => `<li>${escapeHtml(opt)}</li>`).join('')}
+            </ul>
+          </div>
+          ` : ''}
+
           <div class="section">
             <div class="section-title">📝 Description du Projet</div>
-            <p class="value">${escapeHtml(data.description).replace(/\n/g, '<br>')}</p>
+            <p class="value">${escapeHtml(data.message).replace(/\n/g, '<br>')}</p>
           </div>
 
           <div style="text-align: center;">
@@ -209,7 +466,7 @@ export async function sendQuoteEmail(data: {
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: data.email,
-      subject: `🎨 Nouvelle demande de devis - ${data.firstName} ${data.lastName}`,
+      subject: `🎨 Nouvelle demande de devis - ${data.firstName} ${data.lastName} - Estimation: ${pricing.minTotal}€-${pricing.maxTotal}€`,
       html: emailHtml,
     });
 
