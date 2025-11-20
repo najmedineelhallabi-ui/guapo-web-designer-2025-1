@@ -73,9 +73,6 @@ export function QuoteConfirmationEmail({
               <Text style={{ fontSize: '14px', color: '#4b5563', margin: '8px 0', lineHeight: '1.6' }}>
                 • Nous vous répondrons sous <strong>24-48 heures</strong>
               </Text>
-              <Text style={{ fontSize: '14px', color: '#4b5563', margin: '8px 0', lineHeight: '1.6' }}>
-                • Vous recevrez un devis personnalisé et détaillé
-              </Text>
             </Section>
 
             <Text style={{ fontSize: '16px', color: '#1f2937', lineHeight: '1.6' }}>
