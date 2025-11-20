@@ -1,14 +1,7 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { PRICING } from './pricing';
 
-// Configuration Gmail SMTP
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Prix par page supplémentaire
 const PAGE_EXTRA_COST = 100;
@@ -150,8 +143,8 @@ export async function sendQuoteEmail(data: {
   domain?: string;
   message: string;
 }) {
-  console.log('🚀 Starting email send process with Gmail SMTP...');
-  console.log('📧 Email FROM:', process.env.GMAIL_USER);
+  console.log('🚀 Starting email send process with Resend...');
+  console.log('📧 Email FROM:', process.env.EMAIL_FROM || 'onboarding@resend.dev');
   console.log('📧 Owner Email TO:', process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com');
   console.log('📧 Client Email TO:', data.email);
   
@@ -756,31 +749,31 @@ export async function sendQuoteEmail(data: {
   `;
 
   try {
-    console.log('📨 Sending emails via Gmail SMTP...');
+    console.log('📨 Sending emails via Resend...');
     
     // Envoyer EMAIL 1: Au propriétaire
     console.log('📧 1/2 - Sending email to owner...');
-    await transporter.sendMail({
-      from: `"GUAPO Web Designer" <${process.env.GMAIL_USER}>`,
+    const ownerResult = await resend.emails.send({
+      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: data.email,
       subject: `🎨 Nouvelle demande de devis - ${data.firstName} ${data.lastName} - Estimation: ${pricing.minTotal}€-${pricing.maxTotal}€`,
       html: ownerEmailHtml,
     });
-    console.log('✅ 1/2 - Owner email sent successfully!');
+    console.log('✅ 1/2 - Owner email sent successfully!', ownerResult);
 
     // Envoyer EMAIL 2: Au client
     console.log('📧 2/2 - Sending confirmation email to client...');
-    await transporter.sendMail({
-      from: `"GUAPO Web Designer" <${process.env.GMAIL_USER}>`,
+    const clientResult = await resend.emails.send({
+      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: data.email,
       replyTo: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       subject: `✅ Confirmation de votre demande de devis - GUAPO Web Designer`,
       html: clientEmailHtml,
     });
-    console.log('✅ 2/2 - Client email sent successfully!');
+    console.log('✅ 2/2 - Client email sent successfully!', clientResult);
 
-    console.log('🎉 Email process completed with Gmail SMTP!');
+    console.log('🎉 Email process completed with Resend!');
     return { success: true };
   } catch (error) {
     console.error('❌ Email sending failed:', error);
