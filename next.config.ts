@@ -19,6 +19,13 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
+  // Allow cross-origin requests from Orchids iframe
+  allowedDevOrigins: [
+    'www.orchids.app',
+    '*.orchids.app',
+    '*.daytona.works',
+    '*.proxy.daytona.works',
+  ],
   turbopack: {
     rules: {
       "*.{jsx,tsx}": {
