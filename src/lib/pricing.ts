@@ -5,21 +5,21 @@ export const PRICING = {
   // Types de site
   siteTypes: {
     "Site vitrine simple (1 à 3 pages)": { min: 500, max: 500 },
-    "Site vitrine standard (4 à 5 pages)": { min: 1200, max: 1800 },
-    "Site vitrine avancé (6 à 8 pages)": { min: 1800, max: 2500 },
-    "Site vitrine premium (9 à 12 pages)": { min: 2500, max: 3500 },
+    "Site vitrine standard (4 à 5 pages)": { min: 700, max: 700 },
+    "Site vitrine avancé (6 à 8 pages)": { min: 1000, max: 1000 },
+    "Site vitrine premium (9 à 12 pages)": { min: 1300, max: 1300 },
     "Portfolio / site personnel": { min: 600, max: 1200 },
     "Site e-commerce": { min: 3000, max: 8000 },
   },
 
   // Fonctionnalités
   features: {
-    "Formulaire de contact simple": 150,
-    "Formulaire de demande de devis": 200,
-    "Envoi automatique d'emails de confirmation (pour devis)": 300,
-    "Système de prise de rendez-vous en ligne (avec emails automatiques)": 800,
-    "Intégration calendrier (Google Calendar, etc.)": 400,
-    "Multilingue": 400,
+    "Formulaire de contact simple": 70,
+    "Formulaire de demande de devis": 100,
+    "Envoi automatique d'emails de confirmation (pour devis)": 75,
+    "Système de prise de rendez-vous en ligne (avec emails automatiques)": 200,
+    "Intégration calendrier (Google Calendar, etc.)": 50,
+    "Multilingue": 125,
     // Fonctionnalités E-commerce
     "Catalogue de produits": 800,
     "Panier d'achat": 500,
