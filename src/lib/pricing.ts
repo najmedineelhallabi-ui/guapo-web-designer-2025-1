@@ -10,9 +10,9 @@ export const PRICING = {
     "Site vitrine premium (9 à 12 pages)": { min: 1300, max: 1300 },
     "Portfolio / site personnel": { min: 600, max: 1200 },
     // Sites e-commerce avec différentes tailles
-    "Petite boutique (1-20 produits)": { min: 3000, max: 3000 },
-    "Boutique moyenne (21-100 produits)": { min: 5000, max: 5000 },
-    "Grande boutique (100+ produits)": { min: 8000, max: 8000 },
+    "Petite boutique (1-20 produits)": { min: 2000, max: 2000 },
+    "Boutique moyenne (21-100 produits)": { min: 3000, max: 3000 },
+    "Grande boutique (100+ produits)": { min: 4000, max: 6000 },
   },
 
   // Fonctionnalités
