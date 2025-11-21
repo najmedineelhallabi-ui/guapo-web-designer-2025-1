@@ -13,7 +13,7 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show floating button when scrolled past hero section
+      // Show floating button when scrolled past hero section (always visible after 500px)
       setShowFloatingDevis(window.scrollY > 500);
     };
 
@@ -33,14 +33,15 @@ export default function Home() {
         <div className="laser-line laser-line-accent" style={{ left: '85%', animationDelay: '5s' }}></div>
       </div>
 
-      {/* Floating Devis Button */}
+      {/* Floating Devis Button - Always visible when scrolling */}
       {showFloatingDevis && (
         <a
           href="/devis"
-          className="fixed bottom-8 right-8 z-50 inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-accent via-secondary to-primary text-white rounded-full shadow-2xl shadow-accent/50 hover:scale-110 hover:rotate-3 transition-all duration-300 animate-bounce-slow font-semibold"
+          className="fixed bottom-8 right-8 z-[60] inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-accent via-secondary to-primary text-white rounded-full shadow-2xl shadow-accent/50 hover:scale-110 hover:rotate-3 transition-all duration-300 font-semibold animate-pulse"
         >
           <FileText className="w-5 h-5" />
-          <span>Devis Gratuit</span>
+          <span className="hidden sm:inline">Devis Gratuit</span>
+          <span className="sm:hidden">Devis</span>
         </a>
       )}
 
