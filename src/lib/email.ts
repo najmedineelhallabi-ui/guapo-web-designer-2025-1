@@ -503,6 +503,34 @@ export async function sendQuoteEmail(data: {
   `;
 
   // EMAIL 2: Pour le client (VERSION ULTRA-OPTIMISÉE - MAXIMUM COMPACT)
+  
+  // Créer un résumé du devis pour le bouton Question
+  const quoteSummary = `Bonjour,
+
+J'ai reçu mon estimation de devis et j'aurais une question concernant mon projet :
+
+--- RÉSUMÉ DE MON DEVIS ---
+Entreprise: ${data.company || 'Mon projet'}
+Type de site: ${data.siteType}
+Nombre de pages: ${data.pageCount || 'Non spécifié'}
+${data.features && data.features.length > 0 ? `Fonctionnalités: ${data.features.join(', ')}` : ''}
+${data.optimization && data.optimization.length > 0 ? `Optimisation: ${data.optimization.join(', ')}` : ''}
+${data.hosting ? `Hébergement: ${data.hosting}` : ''}
+${data.domain ? `Domaine: ${data.domain}` : ''}
+
+Estimation: ${pricing.minTotal === pricing.maxTotal ? `${pricing.minTotal}€` : `${pricing.minTotal}€ - ${pricing.maxTotal}€`} HT
+TTC: ${pricing.minTotal === pricing.maxTotal ? `${Math.round(pricing.minTotal * 1.21)}€` : `${Math.round(pricing.minTotal * 1.21)}€ - ${Math.round(pricing.maxTotal * 1.21)}€`}
+-----------------------
+
+Ma question:
+[Écrivez votre question ici]
+
+Cordialement,
+${data.firstName} ${data.lastName}
+${data.email}`;
+
+  const mailtoQuestionLink = `mailto:info@guapowebdesigner.com?subject=${encodeURIComponent(`Question concernant mon devis - ${data.company || data.firstName}`)}&body=${encodeURIComponent(quoteSummary)}`;
+
   const clientEmailHtml = `
 <!DOCTYPE html>
 <html>
@@ -600,9 +628,9 @@ ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase()
 <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}" class="btn">✅ Confirmer</a>
 `}
 <div style="margin-top:10px">
-<a href="mailto:info@guapowebdesigner.com?subject=Question%20devis%20${encodeURIComponent(data.firstName)}&body=Bonjour,%0D%0AQuestion%20pour%20${encodeURIComponent(data.company || 'mon projet')}%20:%0D%0A" class="btn btn-q">💬 Question</a>
+<a href="${mailtoQuestionLink}" class="btn btn-q">💬 Question avec Résumé</a>
 </div>
-<div style="font-size:10px;color:#78350f;margin-top:10px;font-style:italic">Cliquer "Confirmer" envoie email automatique</div>
+<div style="font-size:10px;color:#78350f;margin-top:10px;font-style:italic">Cliquer "Question" ouvre email pré-rempli avec votre résumé de devis</div>
 </div>
 
 <div style="background:#f9fafb;border-left:4px solid#8b5cf6;border-radius:6px;padding:10px;margin:12px 0">
