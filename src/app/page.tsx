@@ -14,21 +14,21 @@ export default function Home() {
 
   useEffect(() => {
     // Show announcement with bounce animation
-    const dismissed = localStorage.getItem('promo-banner-nov-2025');
+    const dismissed = localStorage.getItem('banner-promo-nov2025-v2');
     if (!dismissed) {
       // Small delay then bounce in
       setTimeout(() => {
         setShowAnnouncement(true);
       }, 300);
       
-      // Auto-hide after 5 seconds with animation
+      // Auto-hide after 8 seconds with animation
       const timer = setTimeout(() => {
         setIsAnimatingOut(true);
         setTimeout(() => {
           setShowAnnouncement(false);
-          localStorage.setItem('promo-banner-nov-2025', 'true');
+          localStorage.setItem('banner-promo-nov2025-v2', 'true');
         }, 600); // Wait for animation to complete
-      }, 5000);
+      }, 8000);
       
       return () => clearTimeout(timer);
     }
@@ -38,7 +38,7 @@ export default function Home() {
     setIsAnimatingOut(true);
     setTimeout(() => {
       setShowAnnouncement(false);
-      localStorage.setItem('promo-banner-nov-2025', 'true');
+      localStorage.setItem('banner-promo-nov2025-v2', 'true');
     }, 600);
   };
 
