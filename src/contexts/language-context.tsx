@@ -160,7 +160,7 @@ const translations = {
     "quote.features.quoteForm": "Formulaire de demande de devis",
     "quote.features.autoEmailsQuote": "Envoi automatique d'emails de confirmation (pour devis)",
     "quote.features.booking": "Système de prise de rendez-vous en ligne (avec emails automatiques)",
-    "quote.features.calendar": "Intégration calendrier (Google Calendar, etc.)",
+    "quote.features.calendar": "Ajouter au calendrier (Google Calendar, Outlook, ICS, etc.)",
     "quote.features.multilingual": "Multilingue",
     "quote.features.selectLanguages": "Sélectionnez les langues souhaitées :",
     "quote.features.otherLanguage": "Autre langue",
