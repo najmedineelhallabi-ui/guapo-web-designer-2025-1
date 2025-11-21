@@ -9,17 +9,6 @@ import { useState, useEffect } from "react";
 export default function Home() {
   const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showFloatingDevis, setShowFloatingDevis] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Show floating button when scrolled past hero section (always visible after 500px)
-      setShowFloatingDevis(window.scrollY > 500);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -32,18 +21,6 @@ export default function Home() {
         <div className="laser-line laser-line-secondary" style={{ left: '70%', animationDelay: '3s' }}></div>
         <div className="laser-line laser-line-accent" style={{ left: '85%', animationDelay: '5s' }}></div>
       </div>
-
-      {/* Floating Devis Button - Always visible when scrolling */}
-      {showFloatingDevis && (
-        <a
-          href="/devis"
-          className="fixed bottom-8 right-8 z-[60] inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-accent via-secondary to-primary text-white rounded-full shadow-2xl shadow-accent/50 hover:scale-110 hover:rotate-3 transition-all duration-300 font-semibold animate-pulse"
-        >
-          <FileText className="w-5 h-5" />
-          <span className="hidden sm:inline">Devis Gratuit</span>
-          <span className="sm:hidden">Devis</span>
-        </a>
-      )}
 
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg">
@@ -544,6 +521,13 @@ export default function Home() {
             >
               <Instagram className="w-5 h-5" />
               @guapo_webdesigner
+            </a>
+            <a 
+              href="/devis" 
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-secondary via-accent to-primary text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg shadow-secondary/40 hover:shadow-accent/50 text-lg font-semibold"
+            >
+              <FileText className="w-5 h-5" />
+              Devis Gratuit
             </a>
           </div>
         </div>
