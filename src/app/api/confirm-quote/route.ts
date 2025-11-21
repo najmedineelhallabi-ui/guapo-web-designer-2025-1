@@ -10,6 +10,31 @@ export async function POST(request: NextRequest) {
 
     console.log('📧 Sending confirmation email from client to owner...');
 
+    // Calculer la TVA (21%)
+    const minPriceNum = parseFloat(minPrice) || 0;
+    const maxPriceNum = parseFloat(maxPrice) || 0;
+    const tvaRate = 0.21;
+    
+    const minPriceTVA = Math.round(minPriceNum * tvaRate);
+    const maxPriceTVA = Math.round(maxPriceNum * tvaRate);
+    
+    const minPriceTTC = Math.round(minPriceNum * (1 + tvaRate));
+    const maxPriceTTC = Math.round(maxPriceNum * (1 + tvaRate));
+
+    // Calculer la TVA pour la maintenance si applicable
+    let maintenanceTTC = '';
+    if (maintenanceType) {
+      if (maintenanceType.includes('300€/an')) {
+        maintenanceTTC = '363€ TTC/an';
+      } else if (maintenanceType.includes('700€/an')) {
+        maintenanceTTC = '847€ TTC/an';
+      } else if (maintenanceType.includes('100€')) {
+        maintenanceTTC = '121€ TTC';
+      } else if (maintenanceType.includes('150€')) {
+        maintenanceTTC = '181.50€ TTC';
+      }
+    }
+
     // Email pour le propriétaire confirmant l'intérêt du client
     const ownerEmailHtml = `
       <!DOCTYPE html>
@@ -90,18 +115,41 @@ export async function POST(request: NextRequest) {
               border: 2px solid #8b5cf6;
               border-radius: 10px;
               padding: 20px;
-              text-align: center;
               margin: 20px 0;
             }
             .price-title {
-              font-size: 14px;
+              font-size: 16px;
               color: #6d28d9;
-              margin-bottom: 10px;
+              font-weight: 700;
+              text-align: center;
+              margin-bottom: 15px;
+            }
+            .price-row {
+              display: flex;
+              justify-content: space-between;
+              padding: 10px 15px;
+              background: white;
+              border-radius: 6px;
+              margin-bottom: 8px;
+            }
+            .price-label {
+              font-size: 14px;
+              color: #4b5563;
             }
             .price-value {
-              font-size: 28px;
-              font-weight: 700;
+              font-size: 14px;
+              font-weight: 600;
               color: #8b5cf6;
+            }
+            .price-total {
+              background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+              color: white;
+              padding: 15px;
+              border-radius: 8px;
+              text-align: center;
+              font-size: 20px;
+              font-weight: 700;
+              margin-top: 10px;
             }
             .maintenance-box {
               background: #fef3c7;
@@ -177,14 +225,28 @@ export async function POST(request: NextRequest) {
             </div>
 
             <div class="price-box">
-              <div class="price-title">💰 Estimation confirmée</div>
-              <div class="price-value">${minPrice}€ - ${maxPrice}€</div>
+              <div class="price-title">💰 Estimation confirmée avec TVA</div>
+              
+              <div class="price-row">
+                <span class="price-label">Total HT (Hors TVA)</span>
+                <span class="price-value">${minPriceNum === maxPriceNum ? `${minPriceNum}€` : `${minPriceNum}€ - ${maxPriceNum}€`}</span>
+              </div>
+              
+              <div class="price-row">
+                <span class="price-label">TVA (21%)</span>
+                <span class="price-value">${minPriceTVA === maxPriceTVA ? `${minPriceTVA}€` : `${minPriceTVA}€ - ${maxPriceTVA}€`}</span>
+              </div>
+
+              <div class="price-total">
+                Total TTC: ${minPriceTTC === maxPriceTTC ? `${minPriceTTC}€` : `${minPriceTTC}€ - ${maxPriceTTC}€`}
+              </div>
             </div>
 
             ${maintenanceType ? `
             <div class="maintenance-box">
               <div class="maintenance-title">🔧 Maintenance choisie par le client</div>
               <div class="maintenance-value">${escapeHtml(maintenanceType)}</div>
+              ${maintenanceTTC ? `<div style="font-size: 14px; color: #92400e; margin-top: 8px;">(${maintenanceTTC})</div>` : ''}
             </div>
             ` : ''}
 
@@ -211,7 +273,7 @@ export async function POST(request: NextRequest) {
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: email,
-      subject: `✅ CONFIRMATION CLIENT - ${firstName} ${lastName} - ${minPrice}€-${maxPrice}€`,
+      subject: `✅ CONFIRMATION CLIENT - ${firstName} ${lastName} - ${minPriceTTC}€-${maxPriceTTC}€ TTC`,
       html: ownerEmailHtml,
     });
 
