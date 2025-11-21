@@ -700,85 +700,69 @@ export async function sendQuoteEmail(data: {
           ${data.siteType.toLowerCase().includes('vitrine') ? `
           <!-- MAINTENANCE OPTIONS - SITES VITRINES -->
           <div style="background: #f0f9ff; border: 2px solid #7c3aed; border-radius: 10px; padding: 20px; margin: 20px 0;">
-            <h3 style="color: #7c3aed; font-size: 18px; font-weight: 700; margin-top: 0; margin-bottom: 15px;">
+            <h3 style="color: #7c3aed; font-size: 18px; font-weight: 700; margin-top: 0; margin-bottom: 15px; text-align: center;">
               🔧 Maintenance – Sites vitrines
             </h3>
 
-            <!-- Option 1: Forfait annuel limité -->
-            <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #e0e7ff;">
-              <h4 style="color: #7c3aed; font-size: 15px; font-weight: 700; margin-top: 0; margin-bottom: 10px;">
-                📦 Forfait annuel limité - 300€/an
+            <!-- Option 1: Abonnement annuel -->
+            <div style="background: white; padding: 18px; border-radius: 8px; margin-bottom: 12px; border: 2px solid #7c3aed; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15);">
+              <h4 style="color: #7c3aed; font-size: 16px; font-weight: 700; margin-top: 0; margin-bottom: 12px; text-align: center;">
+                📦 Abonnement Annuel - 300€/an
               </h4>
               
-              <p style="margin: 5px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
+              <p style="margin: 8px 0 6px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
                 Inclus :
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Jusqu'à 6 interventions par an
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Mises à jour mineures (texte, images)
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Corrections simples
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Sécurité & sauvegardes
               </p>
               
-              <p style="margin: 10px 0 5px 0; color: #4b5563; font-size: 14px;">
-                <strong>Interventions supplémentaires :</strong> 100€/intervention
+              <p style="margin: 12px 0 5px 0; color: #4b5563; font-size: 13px;">
+                <strong>Interventions supplémentaires :</strong> 100€
               </p>
-              <p style="margin: 5px 0; color: #4b5563; font-size: 14px;">
+              <p style="margin: 5px 0; color: #4b5563; font-size: 13px;">
                 <strong>Délai :</strong> 48h ouvrées
               </p>
             </div>
 
-            <!-- Option 2: Paiement à l'intervention -->
-            <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #e0e7ff;">
-              <h4 style="color: #7c3aed; font-size: 15px; font-weight: 700; margin-top: 0; margin-bottom: 10px;">
-                💳 Paiement à l'intervention - 100€/intervention
+            <!-- Option 2: Par intervention -->
+            <div style="background: white; padding: 18px; border-radius: 8px; margin-bottom: 12px; border: 2px solid #a78bfa; box-shadow: 0 2px 8px rgba(167, 139, 250, 0.15);">
+              <h4 style="color: #7c3aed; font-size: 16px; font-weight: 700; margin-top: 0; margin-bottom: 12px; text-align: center;">
+                💳 Par Intervention - 100€
               </h4>
               
-              <p style="margin: 5px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
+              <p style="margin: 8px 0 6px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
                 Chaque intervention comprend :
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
-                • Mise à jour mineure
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
+                • Mise à jour mineure (texte, images)
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Correction ou modification simple
               </p>
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
+                • Sans engagement
+              </p>
               
-              <p style="margin: 10px 0 5px 0; color: #4b5563; font-size: 14px;">
+              <p style="margin: 12px 0 5px 0; color: #4b5563; font-size: 13px;">
                 <strong>Délai :</strong> 48h ouvrées
               </p>
             </div>
 
-            <!-- Notes explicatives -->
-            <hr style="border: none; border-top: 1px solid #c7d2fe; margin: 15px 0;" />
-            
-            <h4 style="color: #5b21b6; font-size: 14px; font-weight: 700; margin-top: 0; margin-bottom: 8px;">
-              📝 Notes importantes :
-            </h4>
-            
-            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
-              • <strong>Interventions incluses :</strong> modifications de texte ou images, corrections mineures, mises à jour simples, sécurité et sauvegardes.
-            </p>
-            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
-              • <strong>Interventions supplémentaires :</strong> facturées 100€/intervention si dépassement du forfait annuel.
-            </p>
-            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
-              • <strong>Délai de traitement :</strong> 48h ouvrées, sauf urgence à discuter.
-            </p>
-            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
-              • Convient à tous les sites vitrines, quelle que soit leur taille ou le nombre de pages.
-            </p>
-
-            <!-- Astuce commerciale -->
-            <div style="background: #fef3c7; padding: 12px; border-radius: 6px; margin-top: 15px; border: 1px solid #fbbf24;">
-              <p style="margin: 0; color: #78350f; font-size: 13px; line-height: 1.6; text-align: center;">
-                💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site, afin de tester nos services avant de souscrire au forfait annuel.
+            <!-- Offre spéciale -->
+            <div style="background: #fef3c7; padding: 15px; border-radius: 8px; margin-top: 15px; border: 2px solid #fbbf24; text-align: center;">
+              <p style="margin: 0; color: #78350f; font-size: 14px; line-height: 1.6; font-weight: 600;">
+                <span style="font-size: 32px; display: inline-block; margin-right: 8px;">🎁</span>
+                <strong>Le Premier Mois de Maintenance Offert !</strong>
               </p>
             </div>
           </div>
@@ -787,88 +771,72 @@ export async function sendQuoteEmail(data: {
           ${data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
           <!-- MAINTENANCE OPTIONS - E-COMMERCE -->
           <div style="background: #fef3f4; border: 2px solid #dc2626; border-radius: 10px; padding: 20px; margin: 20px 0;">
-            <h3 style="color: #dc2626; font-size: 18px; font-weight: 700; margin-top: 0; margin-bottom: 15px;">
+            <h3 style="color: #dc2626; font-size: 18px; font-weight: 700; margin-top: 0; margin-bottom: 15px; text-align: center;">
               🛒 Maintenance – Sites e-commerce
             </h3>
 
-            <!-- Option 1: Forfait annuel limité -->
-            <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #fecaca;">
-              <h4 style="color: #dc2626; font-size: 15px; font-weight: 700; margin-top: 0; margin-bottom: 10px;">
-                📦 Forfait annuel limité - 700€/an
+            <!-- Option 1: Abonnement annuel -->
+            <div style="background: white; padding: 18px; border-radius: 8px; margin-bottom: 12px; border: 2px solid #dc2626; box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);">
+              <h4 style="color: #dc2626; font-size: 16px; font-weight: 700; margin-top: 0; margin-bottom: 12px; text-align: center;">
+                📦 Abonnement Annuel - 700€/an
               </h4>
               
-              <p style="margin: 5px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
+              <p style="margin: 8px 0 6px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
                 Inclus :
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Jusqu'à 12 interventions par an
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Mises à jour du site et des plugins
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Corrections mineures (texte, images, prix)
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Gestion sécurité & sauvegardes
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
-                • Vérification régulière des passerelles de paiement et suivi des commandes
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
+                • Vérification des passerelles de paiement
               </p>
               
-              <p style="margin: 10px 0 5px 0; color: #4b5563; font-size: 14px;">
-                <strong>Interventions supplémentaires :</strong> 150€/intervention
+              <p style="margin: 12px 0 5px 0; color: #4b5563; font-size: 13px;">
+                <strong>Interventions supplémentaires :</strong> 150€
               </p>
-              <p style="margin: 5px 0; color: #4b5563; font-size: 14px;">
+              <p style="margin: 5px 0; color: #4b5563; font-size: 13px;">
                 <strong>Délai :</strong> 48h ouvrées
               </p>
             </div>
 
-            <!-- Option 2: Paiement à l'intervention -->
-            <div style="background: white; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px solid #fecaca;">
-              <h4 style="color: #dc2626; font-size: 15px; font-weight: 700; margin-top: 0; margin-bottom: 10px;">
-                💳 Paiement à l'intervention - 150€/intervention
+            <!-- Option 2: Par intervention -->
+            <div style="background: white; padding: 18px; border-radius: 8px; margin-bottom: 12px; border: 2px solid #fca5a5; box-shadow: 0 2px 8px rgba(252, 165, 165, 0.15);">
+              <h4 style="color: #dc2626; font-size: 16px; font-weight: 700; margin-top: 0; margin-bottom: 12px; text-align: center;">
+                💳 Par Intervention - 150€
               </h4>
               
-              <p style="margin: 5px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
+              <p style="margin: 8px 0 6px 0; color: #4b5563; font-size: 14px; font-weight: 600;">
                 Chaque intervention comprend :
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Mise à jour ou correction mineure
               </p>
-              <p style="margin: 3px 0 3px 15px; color: #6b7280; font-size: 13px;">
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
                 • Sécurité et sauvegardes
               </p>
+              <p style="margin: 4px 0 4px 15px; color: #6b7280; font-size: 13px;">
+                • Sans engagement
+              </p>
               
-              <p style="margin: 10px 0 5px 0; color: #4b5563; font-size: 14px;">
+              <p style="margin: 12px 0 5px 0; color: #4b5563; font-size: 13px;">
                 <strong>Délai :</strong> 48h ouvrées
               </p>
             </div>
 
-            <!-- Notes explicatives -->
-            <hr style="border: none; border-top: 1px solid #fecaca; margin: 15px 0;" />
-            
-            <h4 style="color: #991b1b; font-size: 14px; font-weight: 700; margin-top: 0; margin-bottom: 8px;">
-              📝 Notes importantes :
-            </h4>
-            
-            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
-              • <strong>Interventions incluses :</strong> corrections de textes/images, mises à jour produits, vérification des paiements, sécurité, sauvegardes.
-            </p>
-            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
-              • <strong>Interventions supplémentaires :</strong> facturées 150€/intervention si dépassement du forfait annuel.
-            </p>
-            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
-              • <strong>Délai de traitement :</strong> 48h ouvrées, sauf urgence à discuter.
-            </p>
-            <p style="margin: 5px 0; color: #4b5563; font-size: 13px; line-height: 1.6;">
-              • Convient à toutes les boutiques e-commerce, quelle que soit la taille du catalogue.
-            </p>
-
-            <!-- Astuce commerciale -->
-            <div style="background: #fef3c7; padding: 12px; border-radius: 6px; margin-top: 15px; border: 1px solid #fbbf24;">
-              <p style="margin: 0; color: #78350f; font-size: 13px; line-height: 1.6; text-align: center;">
-                💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site e-commerce, afin de tester nos services avant de souscrire au forfait annuel.
+            <!-- Offre spéciale -->
+            <div style="background: #fef3c7; padding: 15px; border-radius: 8px; margin-top: 15px; border: 2px solid #fbbf24; text-align: center;">
+              <p style="margin: 0; color: #78350f; font-size: 14px; line-height: 1.6; font-weight: 600;">
+                <span style="font-size: 32px; display: inline-block; margin-right: 8px;">🎁</span>
+                <strong>Le Premier Mois de Maintenance Offert !</strong>
               </p>
             </div>
           </div>
@@ -879,56 +847,38 @@ export async function sendQuoteEmail(data: {
             <div class="confirmation-title">📋 Cette estimation vous convient ?</div>
             <div class="confirmation-text">
               ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? 
-                'Choisissez votre formule de maintenance et confirmez votre intérêt en un clic.' :
-                'Confirmez votre intérêt en un clic ou contactez-nous pour discuter de vos besoins.'
+                'Choisissez votre formule de maintenance préférée ci-dessous :' :
+                'Confirmez votre intérêt en un clic :'
               }
             </div>
             
             ${data.siteType.toLowerCase().includes('vitrine') ? `
-            <!-- BOUTONS MAINTENANCE VITRINE -->
-            <div style="margin: 20px 0 15px 0; text-align: center;">
-              <p style="font-size: 14px; font-weight: 600; color: #5b21b6; margin-bottom: 12px;">
-                🔧 Choisissez votre formule de maintenance :
-              </p>
-            </div>
-            <div class="button-group">
-              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Forfait annuel limité - 300€/an')}" class="btn-confirm" style="min-width: 280px;">
-                ✅ Forfait annuel limité<br>
+            <!-- BOUTONS MAINTENANCE VITRINE - 2 OPTIONS SEULEMENT -->
+            <div class="button-group" style="margin-top: 20px;">
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Abonnement Annuel - 300€/an')}" class="btn-confirm" style="min-width: 260px;">
+                📦 Abonnement Annuel<br>
                 <span style="font-size: 13px; font-weight: 500;">300€/an (6 interventions)</span>
               </a>
-              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Paiement à l\'intervention - 100€')}" class="btn-confirm" style="min-width: 280px;">
-                ✅ Paiement à l'intervention<br>
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Par Intervention - 100€')}" class="btn-confirm" style="min-width: 260px;">
+                💳 Par Intervention<br>
                 <span style="font-size: 13px; font-weight: 500;">100€ par intervention</span>
-              </a>
-              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Sans maintenance')}" class="btn-confirm" style="background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%); min-width: 280px;">
-                ✅ Sans maintenance<br>
-                <span style="font-size: 13px; font-weight: 500;">Gérer moi-même</span>
               </a>
             </div>
             ` : data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
-            <!-- BOUTONS MAINTENANCE E-COMMERCE -->
-            <div style="margin: 20px 0 15px 0; text-align: center;">
-              <p style="font-size: 14px; font-weight: 600; color: #991b1b; margin-bottom: 12px;">
-                🛒 Choisissez votre formule de maintenance :
-              </p>
-            </div>
-            <div class="button-group">
-              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Forfait annuel limité - 700€/an')}" class="btn-confirm" style="min-width: 280px;">
-                ✅ Forfait annuel limité<br>
+            <!-- BOUTONS MAINTENANCE E-COMMERCE - 2 OPTIONS SEULEMENT -->
+            <div class="button-group" style="margin-top: 20px;">
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Abonnement Annuel - 700€/an')}" class="btn-confirm" style="min-width: 260px;">
+                📦 Abonnement Annuel<br>
                 <span style="font-size: 13px; font-weight: 500;">700€/an (12 interventions)</span>
               </a>
-              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Paiement à l\'intervention - 150€')}" class="btn-confirm" style="min-width: 280px;">
-                ✅ Paiement à l'intervention<br>
+              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Par Intervention - 150€')}" class="btn-confirm" style="min-width: 260px;">
+                💳 Par Intervention<br>
                 <span style="font-size: 13px; font-weight: 500;">150€ par intervention</span>
-              </a>
-              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Sans maintenance')}" class="btn-confirm" style="background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%); min-width: 280px;">
-                ✅ Sans maintenance<br>
-                <span style="font-size: 13px; font-weight: 500;">Gérer moi-même</span>
               </a>
             </div>
             ` : `
             <!-- BOUTON STANDARD SANS OPTIONS MAINTENANCE -->
-            <div class="button-group">
+            <div class="button-group" style="margin-top: 20px;">
               <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}" class="btn-confirm">
                 ✅ Confirmer mon intérêt
               </a>
@@ -938,7 +888,7 @@ export async function sendQuoteEmail(data: {
             <!-- BOUTON COMMENTAIRE (toujours présent) -->
             <div style="margin-top: 15px;">
               <a href="mailto:info@guapowebdesigner.com?subject=Question%20sur%20devis%20-%20${encodeURIComponent(data.firstName + ' ' + data.lastName)}&body=Bonjour%2C%0A%0AJ'ai%20re%C3%A7u%20l'estimation%20pour%20mon%20projet%20(${pricing.minTotal}%E2%82%AC%20-%20${pricing.maxTotal}%E2%82%AC).%0A%0AMon%20projet%3A%20${encodeURIComponent(data.company || 'Non spécifié')}%0AType%20de%20site%3A%20${encodeURIComponent(data.siteType)}%0A%0AJ'aimerais%20discuter%20des%20points%20suivants%3A%0A%0A%0A%0ACordialement%2C%0A${encodeURIComponent(data.firstName + ' ' + data.lastName)}" class="btn-comment">
-                💬 Ajouter un commentaire
+                💬 Poser une question
               </a>
             </div>
           </div>
