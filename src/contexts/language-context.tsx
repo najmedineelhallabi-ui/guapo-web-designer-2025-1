@@ -538,7 +538,7 @@ const translations = {
     "quote.features.quoteForm": "Quote request form",
     "quote.features.autoEmailsQuote": "Automatic confirmation emails (for quotes)",
     "quote.features.booking": "Online booking system (with automatic emails)",
-    "quote.features.calendar": "Calendar integration (Google Calendar, etc.)",
+    "quote.features.calendar": "Add to calendar (Google Calendar, Outlook, ICS, etc.)",
     "quote.features.multilingual": "Multilingual",
     "quote.features.selectLanguages": "Select desired languages:",
     "quote.features.otherLanguage": "Other language",
