@@ -143,7 +143,7 @@ export default function DevisPage() {
 
       {/* Form Section */}
       <section className="py-20 px-6 relative z-10">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           {/* Info Cards */}
           <div className="grid md:grid-cols-3 gap-6 mb-16">
             <div className="bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-xl p-6 text-center hover:scale-105 transition-transform">
@@ -189,7 +189,7 @@ export default function DevisPage() {
           </div>
 
           {/* Form */}
-          <div className="bg-card/30 backdrop-blur-sm border-2 border-border rounded-2xl p-8 md:p-12 shadow-2xl">
+          <div className="bg-card/40 backdrop-blur-sm border-2 border-border rounded-3xl p-6 md:p-10 lg:p-16 shadow-2xl">
             <QuoteForm />
           </div>
         </div>
