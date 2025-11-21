@@ -10,35 +10,43 @@ export default function Home() {
   const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showAnnouncement, setShowAnnouncement] = useState(false);
-  const [isAnimatingOut, setIsAnimatingOut] = useState(false);
+  const [announcementPhase, setAnnouncementPhase] = useState<'fullscreen' | 'banner' | 'hidden'>('fullscreen');
 
   useEffect(() => {
-    // Show announcement with bounce animation
-    const dismissed = localStorage.getItem('banner-promo-nov2025-v2');
+    const dismissed = localStorage.getItem('banner-promo-nov2025-v3');
     if (!dismissed) {
-      // Small delay then bounce in
+      // Phase 1: Show fullscreen announcement
       setTimeout(() => {
         setShowAnnouncement(true);
+        setAnnouncementPhase('fullscreen');
       }, 300);
       
-      // Auto-hide after 8 seconds with animation
-      const timer = setTimeout(() => {
-        setIsAnimatingOut(true);
+      // Phase 2: Move to banner after 3 seconds
+      const bannerTimer = setTimeout(() => {
+        setAnnouncementPhase('banner');
+      }, 3500);
+      
+      // Phase 3: Hide completely after 8 more seconds
+      const hideTimer = setTimeout(() => {
+        setAnnouncementPhase('hidden');
         setTimeout(() => {
           setShowAnnouncement(false);
-          localStorage.setItem('banner-promo-nov2025-v2', 'true');
-        }, 600); // Wait for animation to complete
-      }, 8000);
+          localStorage.setItem('banner-promo-nov2025-v3', 'true');
+        }, 600);
+      }, 11500);
       
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(bannerTimer);
+        clearTimeout(hideTimer);
+      };
     }
   }, []);
 
   const dismissAnnouncement = () => {
-    setIsAnimatingOut(true);
+    setAnnouncementPhase('hidden');
     setTimeout(() => {
       setShowAnnouncement(false);
-      localStorage.setItem('banner-promo-nov2025-v2', 'true');
+      localStorage.setItem('banner-promo-nov2025-v3', 'true');
     }, 600);
   };
 
@@ -52,38 +60,72 @@ export default function Home() {
         />
       )}
 
-      {/* Announcement Banner with Bounce Animation */}
+      {/* Announcement - Fullscreen or Banner */}
       {showAnnouncement && (
-        <div 
-          className={`fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-accent via-secondary to-primary text-white py-4 px-6 shadow-lg ${
-            isAnimatingOut 
-              ? 'animate-out slide-out-to-top duration-500' 
-              : 'animate-in slide-in-from-top duration-700 bounce-in'
-          }`}
-          style={{
-            animation: isAnimatingOut 
-              ? 'slideOutTop 0.5s ease-in forwards' 
-              : 'bounceIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards'
-          }}
-        >
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 flex-1 justify-center">
-              <span className="text-2xl animate-bounce">🎁</span>
-              <p className="font-bold text-sm md:text-base text-center">
-                {t("announcement.offer")}
-              </p>
-              <span className="text-2xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
-            </div>
-            <button
-              onClick={dismissAnnouncement}
-              className="group flex items-center gap-2 px-3 py-2 hover:bg-white/20 rounded-lg transition-all flex-shrink-0 border border-white/30 hover:border-white/50"
-              aria-label="Fermer l'annonce"
+        <>
+          {/* Dark overlay for fullscreen phase */}
+          {announcementPhase === 'fullscreen' && (
+            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[59] animate-in fade-in duration-500" />
+          )}
+          
+          {/* Announcement content */}
+          <div 
+            className={`fixed z-[60] transition-all duration-700 ${
+              announcementPhase === 'fullscreen' 
+                ? 'inset-0 flex items-center justify-center p-6 scale-100 opacity-100' 
+                : announcementPhase === 'banner'
+                ? 'top-0 left-0 right-0 scale-100 opacity-100'
+                : 'top-0 left-0 right-0 -translate-y-full opacity-0'
+            }`}
+          >
+            <div 
+              className={`bg-gradient-to-r from-accent via-secondary to-primary text-white shadow-2xl transition-all duration-700 ${
+                announcementPhase === 'fullscreen'
+                  ? 'rounded-3xl p-12 max-w-2xl w-full animate-in zoom-in-95 duration-700'
+                  : 'rounded-none py-4 px-6 w-full'
+              }`}
             >
-              <span className="text-xs font-semibold hidden sm:inline">Fermer</span>
-              <X className="w-5 h-5 group-hover:rotate-90 transition-transform" />
-            </button>
+              <div className={`flex items-center gap-4 ${
+                announcementPhase === 'fullscreen' ? 'flex-col text-center' : 'justify-between'
+              }`}>
+                <div className={`flex items-center gap-3 flex-1 ${
+                  announcementPhase === 'fullscreen' ? 'flex-col' : 'justify-center'
+                }`}>
+                  <span className={`animate-bounce ${
+                    announcementPhase === 'fullscreen' ? 'text-6xl' : 'text-2xl'
+                  }`}>🎁</span>
+                  <p className={`font-bold ${
+                    announcementPhase === 'fullscreen' 
+                      ? 'text-2xl md:text-3xl leading-relaxed' 
+                      : 'text-sm md:text-base'
+                  }`}>
+                    {t("announcement.offer")}
+                  </p>
+                  {announcementPhase === 'fullscreen' && (
+                    <span className="text-6xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
+                  )}
+                  {announcementPhase === 'banner' && (
+                    <span className="text-2xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
+                  )}
+                </div>
+                <button
+                  onClick={dismissAnnouncement}
+                  className={`group flex items-center gap-2 hover:bg-white/20 rounded-lg transition-all flex-shrink-0 border border-white/30 hover:border-white/50 ${
+                    announcementPhase === 'fullscreen' ? 'px-6 py-3 mt-6' : 'px-3 py-2'
+                  }`}
+                  aria-label="Fermer l'annonce"
+                >
+                  <span className={`font-semibold ${
+                    announcementPhase === 'fullscreen' ? 'text-base' : 'text-xs hidden sm:inline'
+                  }`}>Fermer</span>
+                  <X className={`group-hover:rotate-90 transition-transform ${
+                    announcementPhase === 'fullscreen' ? 'w-6 h-6' : 'w-5 h-5'
+                  }`} />
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
+        </>
       )}
 
       {/* Laser Lines Background */}
@@ -97,7 +139,7 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className={`fixed w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg transition-all duration-300 ${showAnnouncement ? 'top-[52px]' : 'top-0'}`}>
+      <nav className={`fixed w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg transition-all duration-300 ${announcementPhase === 'banner' ? 'top-[52px]' : 'top-0'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="#accueil" className="flex items-center">
             <Image 
@@ -197,7 +239,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section - DARK PURPLE */}
-      <section id="accueil" className={`pt-32 pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 relative overflow-hidden ${showAnnouncement ? 'pt-[180px]' : 'pt-32'}`}>
+      <section id="accueil" className={`pt-32 pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 relative overflow-hidden ${announcementPhase === 'banner' ? 'pt-[180px]' : 'pt-32'}`}>
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Mobile circles (smaller, less blur) */}
           <div className="md:hidden absolute top-20 left-5 w-40 h-40 bg-primary/50 rounded-full blur-md"></div>
