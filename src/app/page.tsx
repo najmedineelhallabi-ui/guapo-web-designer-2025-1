@@ -363,7 +363,7 @@ export default function Home() {
               </a>
 
               {/* Discutons Ensemble */}
-              <a href="/devis" className="group relative">
+              <a href="#contact" className="group relative">
                 <div className="h-full p-8 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 backdrop-blur-sm border-2 border-secondary/30 shadow-lg hover:shadow-2xl hover:shadow-secondary/30 hover:scale-105 hover:-translate-y-2 transition-all duration-300">
                   <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-secondary to-primary">
                     <MessageCircle className="w-8 h-8 text-white" />
@@ -375,7 +375,7 @@ export default function Home() {
                     Vous avez un projet spécifique ? Parlons-en et créons ensemble la solution parfaite pour vos besoins.
                   </p>
                   <div className="flex items-center gap-2 text-accent font-semibold group-hover:gap-4 transition-all">
-                    <span>Obtenir un devis</span>
+                    <span>Nous contacter</span>
                     <ArrowRight className="w-5 h-5" />
                   </div>
                   <div className="absolute inset-0 rounded-2xl border-2 border-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
