@@ -125,10 +125,10 @@ export default function Home() {
       {/* Hero Section - DARK PURPLE */}
       <section id="accueil" className="pt-32 pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Mobile circles (smaller) */}
-          <div className="md:hidden absolute top-20 left-5 w-40 h-40 bg-primary/40 rounded-full blur-3xl"></div>
-          <div className="md:hidden absolute bottom-10 right-5 w-48 h-48 bg-secondary/40 rounded-full blur-3xl"></div>
-          <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-accent/30 rounded-full blur-3xl"></div>
+          {/* Mobile circles (smaller, less blur) */}
+          <div className="md:hidden absolute top-20 left-5 w-40 h-40 bg-primary/50 rounded-full blur-lg"></div>
+          <div className="md:hidden absolute bottom-10 right-5 w-48 h-48 bg-secondary/50 rounded-full blur-lg"></div>
+          <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-accent/40 rounded-full blur-lg"></div>
           
           {/* Tablet circles (medium) */}
           <div className="hidden md:block lg:hidden absolute top-20 left-10 w-72 h-72 bg-primary/40 rounded-full blur-3xl"></div>
