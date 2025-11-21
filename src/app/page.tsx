@@ -12,16 +12,16 @@ export default function Home() {
   const [showAnnouncement, setShowAnnouncement] = useState(false);
 
   useEffect(() => {
-    // Check if announcement was dismissed
-    const dismissed = localStorage.getItem('maintenance-announcement-dismissed');
+    // Show announcement - using unique key to ensure it displays
+    const dismissed = localStorage.getItem('promo-banner-nov-2025');
     if (!dismissed) {
       setShowAnnouncement(true);
       
-      // Auto-hide after 5 seconds
+      // Auto-hide after 8 seconds (increased visibility time)
       const timer = setTimeout(() => {
         setShowAnnouncement(false);
-        localStorage.setItem('maintenance-announcement-dismissed', 'true');
-      }, 5000);
+        localStorage.setItem('promo-banner-nov-2025', 'true');
+      }, 8000);
       
       // Cleanup timer on unmount
       return () => clearTimeout(timer);
@@ -30,7 +30,7 @@ export default function Home() {
 
   const dismissAnnouncement = () => {
     setShowAnnouncement(false);
-    localStorage.setItem('maintenance-announcement-dismissed', 'true');
+    localStorage.setItem('promo-banner-nov-2025', 'true');
   };
 
   return (
