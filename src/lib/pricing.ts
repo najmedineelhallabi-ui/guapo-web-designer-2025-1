@@ -21,7 +21,7 @@ export const PRICING = {
     "Formulaire de demande de devis": 100,
     "Envoi automatique d'emails de confirmation (pour devis)": 65,
     "Système de prise de rendez-vous en ligne (avec emails automatiques)": 150,
-    "Intégration calendrier (Google Calendar, etc.)": 50,
+    "Ajouter au calendrier (Google Calendar, Outlook, ICS, etc.)": 50,
     "Multilingue": 125,
     // Fonctionnalités E-commerce
     "Catalogue de produits": 300,
