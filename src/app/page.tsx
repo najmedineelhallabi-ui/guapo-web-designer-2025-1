@@ -45,7 +45,7 @@ export default function Home() {
 
       {/* Announcement Banner */}
       {showAnnouncement && (
-        <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-accent via-secondary to-primary text-white py-3 px-6 shadow-lg animate-in slide-in-from-top duration-500">
+        <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-accent via-secondary to-primary text-white py-4 px-6 shadow-lg animate-in slide-in-from-top duration-500">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 flex-1 justify-center">
               <span className="text-2xl animate-bounce">🎁</span>
@@ -56,10 +56,11 @@ export default function Home() {
             </div>
             <button
               onClick={dismissAnnouncement}
-              className="p-1 hover:bg-white/20 rounded-full transition-colors flex-shrink-0"
+              className="group flex items-center gap-2 px-3 py-2 hover:bg-white/20 rounded-lg transition-all flex-shrink-0 border border-white/30 hover:border-white/50"
               aria-label="Fermer l'annonce"
             >
-              <X className="w-5 h-5" />
+              <span className="text-xs font-semibold hidden sm:inline">Fermer</span>
+              <X className="w-5 h-5 group-hover:rotate-90 transition-transform" />
             </button>
           </div>
         </div>
