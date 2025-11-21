@@ -45,13 +45,6 @@ export function QuoteEmail({
   const estimate = calculateEstimate({ siteType, features, optimization, domain });
   const siteTypePrice = PRICING.siteTypes[siteType as keyof typeof PRICING.siteTypes];
   
-  // Calculate additional pages
-  const pageCountNum = parseInt(pageCount);
-  let includedPages = 5;
-  if (siteType === "Site vitrine avancé (5 à 10 pages)") includedPages = 10;
-  if (siteType === "Site e-commerce") includedPages = 10;
-  const additionalPagesCount = Math.max(0, pageCountNum - includedPages);
-
   return (
     <Html>
       <Preview>Nouvelle demande de devis de {firstName} {lastName} - {company}</Preview>
@@ -94,9 +87,29 @@ export function QuoteEmail({
               <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
                 2️⃣ Type de site
               </Text>
-              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                <strong>Type:</strong> {siteType}
-              </Text>
+              <Section style={{ 
+                backgroundColor: '#f0f9ff', 
+                padding: '15px', 
+                borderRadius: '8px',
+                border: '2px solid #7c3aed',
+                marginTop: '10px'
+              }}>
+                <Text style={{ margin: '5px 0', color: '#1f2937', fontSize: '15px' }}>
+                  <strong>{siteType}</strong>
+                </Text>
+                {siteTypePrice && (
+                  <Text style={{ 
+                    margin: '8px 0 0 0', 
+                    color: '#059669',
+                    fontSize: '18px',
+                    fontWeight: 'bold'
+                  }}>
+                    💰 {siteTypePrice.min === siteTypePrice.max 
+                      ? `${siteTypePrice.min}€`
+                      : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`}
+                  </Text>
+                )}
+              </Section>
             </Section>
 
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
@@ -123,11 +136,38 @@ export function QuoteEmail({
                   <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
                     4️⃣ Fonctionnalités / Modules
                   </Text>
-                  {features.map((feature, index) => (
-                    <Text key={index} style={{ margin: '5px 0 5px 15px', color: '#6b7280' }}>
-                      • {feature}
-                    </Text>
-                  ))}
+                  {features.map((feature, index) => {
+                    const featurePrice = PRICING.features[feature as keyof typeof PRICING.features];
+                    return (
+                      <Section key={index} style={{ 
+                        backgroundColor: '#f0fdf4', 
+                        padding: '12px', 
+                        borderRadius: '6px',
+                        marginBottom: '8px',
+                        border: '1px solid #86efac'
+                      }}>
+                        <Text style={{ 
+                          margin: 0, 
+                          color: '#1f2937',
+                          fontSize: '14px',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}>
+                          <span>• {feature}</span>
+                          {featurePrice !== undefined && (
+                            <strong style={{ 
+                              color: '#059669',
+                              fontSize: '15px',
+                              marginLeft: '10px'
+                            }}>
+                              {featurePrice === 0 ? 'Inclus' : `${featurePrice}€`}
+                            </strong>
+                          )}
+                        </Text>
+                      </Section>
+                    );
+                  })}
                 </Section>
               </>
             )}
@@ -139,11 +179,38 @@ export function QuoteEmail({
                   <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
                     5️⃣ Optimisation & Sécurité
                   </Text>
-                  {optimization.map((opt, index) => (
-                    <Text key={index} style={{ margin: '5px 0 5px 15px', color: '#6b7280' }}>
-                      • {opt}
-                    </Text>
-                  ))}
+                  {optimization.map((opt, index) => {
+                    const optPrice = PRICING.optimization[opt as keyof typeof PRICING.optimization];
+                    return (
+                      <Section key={index} style={{ 
+                        backgroundColor: '#fef3c7', 
+                        padding: '12px', 
+                        borderRadius: '6px',
+                        marginBottom: '8px',
+                        border: '1px solid #fbbf24'
+                      }}>
+                        <Text style={{ 
+                          margin: 0, 
+                          color: '#1f2937',
+                          fontSize: '14px',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}>
+                          <span>• {opt}</span>
+                          {optPrice !== undefined && (
+                            <strong style={{ 
+                              color: '#d97706',
+                              fontSize: '15px',
+                              marginLeft: '10px'
+                            }}>
+                              {optPrice === 0 ? 'Inclus' : `${optPrice}€`}
+                            </strong>
+                          )}
+                        </Text>
+                      </Section>
+                    );
+                  })}
                 </Section>
               </>
             )}
@@ -152,24 +219,77 @@ export function QuoteEmail({
 
             <Section style={{ marginBottom: '20px' }}>
               <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
-                6️⃣ Hébergement & Maintenance
+                6️⃣ Hébergement & Nom de domaine
               </Text>
-              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                <strong>Hébergement:</strong> {hosting} (Inclus dans le projet)
-              </Text>
-              <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                <strong>Nom de domaine:</strong> {domain}
-              </Text>
-              {maintenance && (
-                <Text style={{ margin: '5px 0', color: '#6b7280' }}>
-                  <strong>Maintenance mensuelle:</strong> {maintenance}
+              <Section style={{ 
+                backgroundColor: '#f0f9ff', 
+                padding: '12px', 
+                borderRadius: '6px',
+                marginBottom: '8px',
+                border: '1px solid #7c3aed'
+              }}>
+                <Text style={{ margin: 0, color: '#1f2937', fontSize: '14px' }}>
+                  <strong>Hébergement:</strong> {hosting}
+                  <strong style={{ color: '#059669', marginLeft: '10px' }}>Inclus</strong>
                 </Text>
-              )}
+              </Section>
+              <Section style={{ 
+                backgroundColor: '#f0f9ff', 
+                padding: '12px', 
+                borderRadius: '6px',
+                marginBottom: '8px',
+                border: '1px solid #7c3aed'
+              }}>
+                <Text style={{ margin: 0, color: '#1f2937', fontSize: '14px', display: 'flex', justifyContent: 'space-between' }}>
+                  <span><strong>Nom de domaine:</strong> {domain}</span>
+                  <strong style={{ color: '#059669' }}>
+                    {PRICING.domain[domain as keyof typeof PRICING.domain] === 0 ? 'Inclus' : `${PRICING.domain[domain as keyof typeof PRICING.domain]}€`}
+                  </strong>
+                </Text>
+              </Section>
             </Section>
 
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
 
-            {/* MAINTENANCE OPTIONS SECTION */}
+            <Section style={{ 
+              backgroundColor: '#ddd6fe', 
+              padding: '20px', 
+              borderRadius: '10px',
+              border: '3px solid #7c3aed',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              <Text style={{ 
+                fontWeight: 'bold', 
+                fontSize: '20px', 
+                color: '#5b21b6',
+                marginTop: 0,
+                marginBottom: '10px'
+              }}>
+                💰 ESTIMATION TOTALE DU PROJET
+              </Text>
+              <Text style={{ 
+                fontSize: '32px', 
+                fontWeight: 'bold',
+                color: '#7c3aed',
+                margin: '10px 0'
+              }}>
+                {estimate.minTotal === estimate.maxTotal 
+                  ? `${estimate.minTotal}€`
+                  : `${estimate.minTotal}€ - ${estimate.maxTotal}€`}
+              </Text>
+              <Text style={{ 
+                fontSize: '13px', 
+                color: '#6b7280',
+                margin: '10px 0 0 0',
+                fontStyle: 'italic'
+              }}>
+                (Hors maintenance mensuelle)
+              </Text>
+            </Section>
+
+            <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
+
             <Section style={{ 
               backgroundColor: '#f0f9ff', 
               padding: '20px', 
@@ -301,54 +421,10 @@ export function QuoteEmail({
                   <strong>Délai :</strong> 48h ouvrées
                 </Text>
               </Section>
-
-              {/* Notes explicatives */}
-              <Hr style={{ borderColor: '#c7d2fe', margin: '20px 0' }} />
-              
-              <Text style={{ 
-                fontWeight: 'bold', 
-                fontSize: '14px', 
-                color: '#5b21b6',
-                marginTop: 0,
-                marginBottom: '8px'
-              }}>
-                📝 Notes importantes :
-              </Text>
-              
-              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
-                • <strong>Interventions incluses :</strong> modifications de texte ou images, corrections mineures, mises à jour simples, sécurité et sauvegardes.
-              </Text>
-              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
-                • <strong>Délai de traitement :</strong> 48h ouvrées, sauf urgence à discuter.
-              </Text>
-              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
-                • Convient à tous les sites vitrines, quelle que soit leur taille ou le nombre de pages.
-              </Text>
-
-              {/* Astuce commerciale */}
-              <Section style={{ 
-                backgroundColor: '#fef3c7', 
-                padding: '15px', 
-                borderRadius: '8px',
-                marginTop: '15px',
-                border: '2px solid #fbbf24'
-              }}>
-                <Text style={{ 
-                  margin: 0,
-                  color: '#78350f',
-                  fontSize: '14px',
-                  lineHeight: '1.6',
-                  textAlign: 'center',
-                  fontWeight: '600'
-                }}>
-                  💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site !
-                </Text>
-              </Section>
             </Section>
 
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
 
-            {/* MAINTENANCE E-COMMERCE OPTIONS SECTION */}
             <Section style={{ 
               backgroundColor: '#fef3f4', 
               padding: '20px', 
@@ -483,56 +559,13 @@ export function QuoteEmail({
                   <strong>Délai :</strong> 48h ouvrées
                 </Text>
               </Section>
-
-              {/* Notes explicatives */}
-              <Hr style={{ borderColor: '#fecaca', margin: '20px 0' }} />
-              
-              <Text style={{ 
-                fontWeight: 'bold', 
-                fontSize: '14px', 
-                color: '#991b1b',
-                marginTop: 0,
-                marginBottom: '8px'
-              }}>
-                📝 Notes importantes :
-              </Text>
-              
-              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
-                • <strong>Interventions incluses :</strong> corrections de textes/images, mises à jour produits, vérification des paiements, sécurité, sauvegardes.
-              </Text>
-              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
-                • <strong>Délai de traitement :</strong> 48h ouvrées, sauf urgence à discuter.
-              </Text>
-              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
-                • Convient à toutes les boutiques e-commerce, quelle que soit la taille du catalogue.
-              </Text>
-
-              {/* Astuce commerciale */}
-              <Section style={{ 
-                backgroundColor: '#fef3c7', 
-                padding: '15px', 
-                borderRadius: '8px',
-                marginTop: '15px',
-                border: '2px solid #fbbf24'
-              }}>
-                <Text style={{ 
-                  margin: 0,
-                  color: '#78350f',
-                  fontSize: '14px',
-                  lineHeight: '1.6',
-                  textAlign: 'center',
-                  fontWeight: '600'
-                }}>
-                  💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site e-commerce !
-                </Text>
-              </Section>
             </Section>
 
             <Hr style={{ borderColor: '#e5e7eb', margin: '20px 0' }} />
 
             <Section>
               <Text style={{ fontWeight: 'bold', fontSize: '16px', marginBottom: '10px', color: '#7c3aed' }}>
-                8️⃣ Remarques spécifiques / Besoins particuliers
+                7️⃣ Remarques spécifiques / Besoins particuliers
               </Text>
               <Section style={{ 
                 backgroundColor: '#f3f4f6', 
