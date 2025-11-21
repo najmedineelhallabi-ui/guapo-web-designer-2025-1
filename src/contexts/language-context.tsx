@@ -28,6 +28,9 @@ const translations = {
     "hero.cta.projects": "Voir nos projets",
     "hero.cta.contact": "Nous contacter",
     
+    // Announcement Banner
+    "announcement.offer": "Offre Spéciale : Premier Mois de Maintenance Offert !",
+    
     // About
     "about.title": "À propos de Guapo",
     "about.values.passion": "Passion",
@@ -217,6 +220,9 @@ const translations = {
     "hero.cta.projects": "Bekijk onze projecten",
     "hero.cta.contact": "Neem contact op",
     
+    // Announcement Banner
+    "announcement.offer": "Speciale Aanbieding: Eerste Maand van Maintenance Gratis!",
+    
     // About
     "about.title": "Over Guapo",
     "about.values.passion": "Passie",
@@ -405,6 +411,9 @@ const translations = {
     "hero.subtitle": "Websites designed to improve your visibility and professionalize your business",
     "hero.cta.projects": "View our projects",
     "hero.cta.contact": "Contact us",
+    
+    // Announcement Banner
+    "announcement.offer": "Special Offer: First Month of Maintenance Free!",
     
     // About
     "about.title": "About Guapo",

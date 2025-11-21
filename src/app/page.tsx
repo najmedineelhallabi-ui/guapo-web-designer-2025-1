@@ -16,6 +16,15 @@ export default function Home() {
     const dismissed = localStorage.getItem('maintenance-announcement-dismissed');
     if (!dismissed) {
       setShowAnnouncement(true);
+      
+      // Auto-hide after 5 seconds
+      const timer = setTimeout(() => {
+        setShowAnnouncement(false);
+        localStorage.setItem('maintenance-announcement-dismissed', 'true');
+      }, 5000);
+      
+      // Cleanup timer on unmount
+      return () => clearTimeout(timer);
     }
   }, []);
 
@@ -41,7 +50,7 @@ export default function Home() {
             <div className="flex items-center gap-3 flex-1 justify-center">
               <span className="text-2xl animate-bounce">🎁</span>
               <p className="font-bold text-sm md:text-base text-center">
-                Offre Spéciale : Premier Mois de Maintenance Offert !
+                {t("announcement.offer")}
               </p>
               <span className="text-2xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
             </div>
