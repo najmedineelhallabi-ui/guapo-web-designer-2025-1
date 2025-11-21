@@ -585,7 +585,8 @@ export async function sendQuoteEmail(data: {
             background: #f9fafb;
             padding: 12px 15px;
             border-radius: 8px;
-            margin-top: 10px;
+            margin-top: 15px;
+            border: 2px solid #e5e7eb;
           }
           .price-total {
             background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
@@ -597,19 +598,26 @@ export async function sendQuoteEmail(data: {
             font-weight: 700;
             margin-top: 10px;
           }
+          .maintenance-explanation {
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+          }
           .maintenance-box {
-            background: #fef3f4;
+            background: white;
             border: 2px solid #8b5cf6;
             border-radius: 10px;
             padding: 20px;
             margin: 20px 0;
           }
           .option-card {
-            background: white;
+            background: #f9fafb;
             padding: 15px;
             border-radius: 8px;
-            margin: 10px 0;
-            border: 2px solid #8b5cf6;
+            margin: 12px 0;
+            border: 2px solid #e5e7eb;
           }
           .btn {
             display: inline-block;
@@ -620,6 +628,10 @@ export async function sendQuoteEmail(data: {
             border-radius: 8px;
             font-weight: 700;
             margin: 10px 5px;
+            font-size: 15px;
+          }
+          .btn-question {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
           }
           .gift-box {
             background: #fef3c7;
@@ -629,6 +641,15 @@ export async function sendQuoteEmail(data: {
             text-align: center;
             font-weight: 600;
             color: #78350f;
+            border: 2px solid #fbbf24;
+          }
+          .confirmation-box {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
           }
         </style>
       </head>
@@ -642,9 +663,9 @@ export async function sendQuoteEmail(data: {
           <p>Merci d'avoir fait confiance à <strong style="color: #8b5cf6;">GUAPO Web Designer</strong> ! 
           Nous avons bien reçu votre demande pour <strong>${escapeHtml(data.company || 'votre projet')}</strong>.</p>
 
-          <!-- Détails de l'estimation -->
+          <!-- 1. ESTIMATION DÉTAILLÉE AVEC OPTIONS SÉLECTIONNÉES -->
           <div class="price-section">
-            <div class="price-title">💰 Détails de votre estimation</div>
+            <div class="price-title">💰 Votre Estimation Personnalisée</div>
             
             <div class="price-grid">
               ${Object.entries(groupedBreakdown).map(([category, items]) => `
@@ -658,6 +679,7 @@ export async function sendQuoteEmail(data: {
               `).join('')}
             </div>
 
+            <!-- 2. TOTAL HT + TVA + TOTAL TTC -->
             <div class="price-subtotal">
               <div class="price-row">
                 <span class="price-label"><strong>Total HT (Hors TVA)</strong></span>
@@ -674,25 +696,55 @@ export async function sendQuoteEmail(data: {
             </div>
           </div>
 
+          <!-- 3. EXPLICATION DE LA MAINTENANCE -->
+          <div class="maintenance-explanation">
+            <h3 style="color: #0369a1; text-align: center; margin-top: 0; font-size: 18px;">
+              🔧 Pourquoi la Maintenance est Importante ?
+            </h3>
+            <p style="color: #475569; font-size: 14px; line-height: 1.7; text-align: center; margin-bottom: 15px;">
+              Un site web nécessite un entretien régulier pour rester <strong>sécurisé</strong>, <strong>performant</strong> et <strong>à jour</strong>. 
+              La maintenance garantit que votre site fonctionne toujours parfaitement et reste protégé contre les menaces.
+            </p>
+            
+            <div style="background: white; border-radius: 8px; padding: 15px; margin-top: 15px;">
+              <div style="font-size: 13px; color: #64748b; line-height: 1.8;">
+                ✅ <strong>Mises à jour de sécurité</strong> régulières<br>
+                ✅ <strong>Sauvegardes automatiques</strong> de vos données<br>
+                ✅ <strong>Optimisation des performances</strong><br>
+                ✅ <strong>Support technique</strong> rapide<br>
+                ✅ <strong>Corrections de bugs</strong> et améliorations
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. OPTIONS DE MAINTENANCE SELON LE TYPE DE SITE -->
           ${data.siteType.toLowerCase().includes('vitrine') ? `
-          <!-- MAINTENANCE VITRINE -->
           <div class="maintenance-box">
-            <h3 style="color: #8b5cf6; text-align: center; margin-top: 0;">🔧 Maintenance – Sites vitrines</h3>
+            <h3 style="color: #8b5cf6; text-align: center; margin-top: 0; font-size: 18px;">
+              🌐 Options de Maintenance – Sites Vitrines
+            </h3>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">📦 Abonnement Annuel - 300€/an HT (363€ TTC)</div>
-              <div style="font-size: 13px; color: #4b5563;">
-                • 6 interventions/an<br>
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px; font-size: 15px;">
+                📦 Abonnement Annuel - 300€/an HT (363€/an TTC)
+              </div>
+              <div style="font-size: 13px; color: #4b5563; line-height: 1.7;">
+                • <strong>6 interventions incluses par an</strong><br>
                 • Interventions supplémentaires : 100€ HT (121€ TTC)<br>
-                • Délai : 48h ouvrées
+                • Délai d'intervention : 48h ouvrées<br>
+                • Idéal pour un suivi régulier de votre site
               </div>
             </div>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">💳 Par Intervention - 100€ HT (121€ TTC)</div>
-              <div style="font-size: 13px; color: #4b5563;">
-                • Sans engagement<br>
-                • Délai : 48h ouvrées
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px; font-size: 15px;">
+                💳 Par Intervention - 100€ HT (121€ TTC)
+              </div>
+              <div style="font-size: 13px; color: #4b5563; line-height: 1.7;">
+                • <strong>Sans engagement</strong><br>
+                • Payez uniquement quand vous avez besoin<br>
+                • Délai d'intervention : 48h ouvrées<br>
+                • Parfait pour des besoins ponctuels
               </div>
             </div>
 
@@ -701,24 +753,32 @@ export async function sendQuoteEmail(data: {
             </div>
           </div>
           ` : data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
-          <!-- MAINTENANCE E-COMMERCE -->
           <div class="maintenance-box">
-            <h3 style="color: #8b5cf6; text-align: center; margin-top: 0;">🛒 Maintenance – Sites e-commerce</h3>
+            <h3 style="color: #8b5cf6; text-align: center; margin-top: 0; font-size: 18px;">
+              🛒 Options de Maintenance – Sites E-commerce
+            </h3>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">📦 Abonnement Annuel - 700€/an HT (847€ TTC)</div>
-              <div style="font-size: 13px; color: #4b5563;">
-                • 12 interventions/an<br>
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px; font-size: 15px;">
+                📦 Abonnement Annuel - 700€/an HT (847€/an TTC)
+              </div>
+              <div style="font-size: 13px; color: #4b5563; line-height: 1.7;">
+                • <strong>12 interventions incluses par an</strong><br>
                 • Interventions supplémentaires : 150€ HT (181.50€ TTC)<br>
-                • Délai : 48h ouvrées
+                • Délai d'intervention : 48h ouvrées<br>
+                • Support prioritaire pour votre boutique en ligne
               </div>
             </div>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">💳 Par Intervention - 150€ HT (181.50€ TTC)</div>
-              <div style="font-size: 13px; color: #4b5563;">
-                • Sans engagement<br>
-                • Délai : 48h ouvrées
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px; font-size: 15px;">
+                💳 Par Intervention - 150€ HT (181.50€ TTC)
+              </div>
+              <div style="font-size: 13px; color: #4b5563; line-height: 1.7;">
+                • <strong>Sans engagement</strong><br>
+                • Payez uniquement quand vous avez besoin<br>
+                • Délai d'intervention : 48h ouvrées<br>
+                • Flexibilité totale
               </div>
             </div>
 
@@ -728,23 +788,28 @@ export async function sendQuoteEmail(data: {
           </div>
           ` : ''}
 
-          <!-- CONFIRMATION -->
-          <div style="background: #fef3c7; border: 2px solid #fbbf24; border-radius: 10px; padding: 20px; margin: 20px 0; text-align: center;">
-            <div style="font-size: 18px; font-weight: 700; color: #92400e; margin-bottom: 15px;">📋 Cette estimation vous convient ?</div>
+          <!-- 5. BOUTONS DE CONFIRMATION -->
+          <div class="confirmation-box">
+            <div style="font-size: 18px; font-weight: 700; color: #92400e; margin-bottom: 15px;">
+              📋 Cette estimation vous convient ?
+            </div>
+            <div style="font-size: 14px; color: #78350f; margin-bottom: 20px;">
+              Choisissez votre option de maintenance ou posez-nous vos questions
+            </div>
             
             ${data.siteType.toLowerCase().includes('vitrine') ? `
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Abonnement Annuel - 300€/an')}" class="btn">
-              📦 Abonnement Annuel (363€ TTC/an)
+              📦 Confirmer avec Abonnement Annuel
             </a>
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Par Intervention - 100€')}" class="btn">
-              💳 Par Intervention (121€ TTC)
+              💳 Confirmer avec Paiement Par Intervention
             </a>
             ` : data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Abonnement Annuel - 700€/an')}" class="btn">
-              📦 Abonnement Annuel (847€ TTC/an)
+              📦 Confirmer avec Abonnement Annuel
             </a>
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Par Intervention - 150€')}" class="btn">
-              💳 Par Intervention (181.50€ TTC)
+              💳 Confirmer avec Paiement Par Intervention
             </a>
             ` : `
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}" class="btn">
@@ -753,16 +818,20 @@ export async function sendQuoteEmail(data: {
             `}
             
             <div style="margin-top: 15px;">
-              <a href="mailto:info@guapowebdesigner.com?subject=Question%20sur%20devis" class="btn" style="background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);">
-                💬 Poser une question
+              <a href="mailto:info@guapowebdesigner.com?subject=Question%20sur%20mon%20devis%20-%20${encodeURIComponent(data.firstName)}%20${encodeURIComponent(data.lastName)}&body=Bonjour,%0D%0A%0D%0AJ'ai%20une%20question%20concernant%20mon%20devis%20pour%20${encodeURIComponent(data.company || 'mon projet')}%20:%0D%0A%0D%0A" class="btn btn-question">
+                💬 Poser une Question
               </a>
+            </div>
+
+            <div style="font-size: 12px; color: #78350f; margin-top: 15px; font-style: italic;">
+              En cliquant sur "Confirmer", un email sera automatiquement envoyé à notre équipe
             </div>
           </div>
 
           <div style="background: #f9fafb; border-left: 4px solid #8b5cf6; border-radius: 8px; padding: 15px; margin: 20px 0;">
             <div style="font-weight: 600; color: #6d28d9; margin-bottom: 10px;">📋 Prochaines Étapes</div>
             <div style="font-size: 14px; color: #4b5563;">
-              Notre équipe attend votre réponse et nous vous contacterons ensuite pour des mises à jour.
+              Une fois votre confirmation reçue, notre équipe vous contactera sous <strong>24-48h</strong> pour finaliser les détails de votre projet.
             </div>
           </div>
 
