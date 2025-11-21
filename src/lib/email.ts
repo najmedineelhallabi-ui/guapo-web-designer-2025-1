@@ -502,155 +502,31 @@ export async function sendQuoteEmail(data: {
     </html>
   `;
 
-  // EMAIL 2: Pour le client (AVEC CONFIRMATION)
+  // EMAIL 2: Pour le client (VERSION OPTIMISÉE - COMPACTE)
   const clientEmailHtml = `
     <!DOCTYPE html>
     <html>
       <head>
         <meta charset="utf-8">
         <style>
-          body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 650px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f8f9fa;
-          }
-          .header {
-            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 10px 10px 0 0;
-            text-align: center;
-          }
-          .content {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 0 0 10px 10px;
-            padding: 25px;
-          }
-          .price-section {
-            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-            border: 2px solid #8b5cf6;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-          }
-          .price-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #6d28d9;
-            text-align: center;
-            margin-bottom: 15px;
-          }
-          .price-grid {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-          }
-          .price-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #f3f4f6;
-          }
-          .price-row:last-child {
-            border-bottom: none;
-          }
-          .price-category {
-            font-size: 14px;
-            font-weight: 600;
-            color: #8b5cf6;
-            margin-top: 15px;
-            margin-bottom: 8px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #e9d5ff;
-          }
-          .price-category:first-child {
-            margin-top: 0;
-          }
-          .price-label {
-            color: #374151;
-            font-size: 14px;
-          }
-          .price-value {
-            font-weight: 600;
-            color: #8b5cf6;
-            font-size: 14px;
-          }
-          .price-subtotal {
-            background: #f9fafb;
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            border: 2px solid #e5e7eb;
-          }
-          .price-total {
-            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: 700;
-            margin-top: 10px;
-          }
-          .maintenance-explanation {
-            background: #f0f9ff;
-            border: 2px solid #0ea5e9;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 25px 0;
-          }
-          .maintenance-box {
-            background: white;
-            border: 2px solid #8b5cf6;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-          }
-          .option-card {
-            background: #f9fafb;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 12px 0;
-            border: 2px solid #e5e7eb;
-          }
-          .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
-            color: white;
-            padding: 14px 28px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 700;
-            margin: 10px 5px;
-            font-size: 15px;
-          }
-          .btn-question {
-            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
-          }
-          .gift-box {
-            background: #fef3c7;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            text-align: center;
-            font-weight: 600;
-            color: #78350f;
-            border: 2px solid #fbbf24;
-          }
-          .confirmation-box {
-            background: #fef3c7;
-            border: 2px solid #fbbf24;
-            border-radius: 10px;
-            padding: 25px;
-            margin: 25px 0;
-            text-align: center;
-          }
+          body{font-family:Arial,sans-serif;line-height:1.6;color:#333;max-width:650px;margin:0 auto;padding:20px;background:#f8f9fa}
+          .header{background:linear-gradient(135deg,#8b5cf6 0%,#a855f7 100%);color:#fff;padding:25px;border-radius:10px 10px 0 0;text-align:center}
+          .content{background:#fff;border:2px solid #e2e8f0;border-radius:0 0 10px 10px;padding:25px}
+          .price-section{background:linear-gradient(135deg,#f3e8ff 0%,#e9d5ff 100%);border:2px solid #8b5cf6;border-radius:10px;padding:20px;margin:20px 0}
+          .price-title{font-size:18px;font-weight:700;color:#6d28d9;text-align:center;margin-bottom:15px}
+          .price-grid{background:#fff;border-radius:8px;padding:15px;margin-bottom:15px}
+          .price-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:14px}
+          .price-row:last-child{border-bottom:none}
+          .price-category{font-size:14px;font-weight:600;color:#8b5cf6;margin-top:12px;margin-bottom:6px;padding-bottom:4px;border-bottom:2px solid #e9d5ff}
+          .price-category:first-child{margin-top:0}
+          .price-subtotal{background:#f9fafb;padding:12px 15px;border-radius:8px;margin-top:15px;border:2px solid #e5e7eb}
+          .price-total{background:linear-gradient(135deg,#8b5cf6 0%,#a855f7 100%);color:#fff;padding:15px;border-radius:8px;text-align:center;font-size:20px;font-weight:700;margin-top:10px}
+          .maintenance-box{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:10px;padding:20px;margin:20px 0}
+          .option-card{background:#fff;padding:12px;border-radius:8px;margin:10px 0;border:2px solid #8b5cf6}
+          .btn{display:inline-block;background:linear-gradient(135deg,#16a34a 0%,#22c55e 100%);color:#fff;padding:14px 28px;text-decoration:none;border-radius:8px;font-weight:700;margin:10px 5px;font-size:15px}
+          .btn-question{background:linear-gradient(135deg,#8b5cf6 0%,#a855f7 100%)}
+          .gift{background:#fef3c7;padding:12px;border-radius:8px;margin:12px 0;text-align:center;font-weight:600;color:#78350f;border:2px solid #fbbf24}
+          .confirm-box{background:#fef3c7;border:2px solid #fbbf24;border-radius:10px;padding:20px;margin:20px 0;text-align:center}
         </style>
       </head>
       <body>
@@ -659,35 +535,30 @@ export async function sendQuoteEmail(data: {
         </div>
         <div class="content">
           <p>Bonjour ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)},</p>
+          <p>Merci d'avoir fait confiance à <strong style="color:#8b5cf6">GUAPO Web Designer</strong> ! Nous avons bien reçu votre demande pour <strong>${escapeHtml(data.company || 'votre projet')}</strong>.</p>
 
-          <p>Merci d'avoir fait confiance à <strong style="color: #8b5cf6;">GUAPO Web Designer</strong> ! 
-          Nous avons bien reçu votre demande pour <strong>${escapeHtml(data.company || 'votre projet')}</strong>.</p>
-
-          <!-- 1. ESTIMATION DÉTAILLÉE AVEC OPTIONS SÉLECTIONNÉES -->
           <div class="price-section">
-            <div class="price-title">💰 Votre Estimation Personnalisée</div>
-            
+            <div class="price-title">💰 Votre Estimation</div>
             <div class="price-grid">
               ${Object.entries(groupedBreakdown).map(([category, items]) => `
                 <div class="price-category">${category}</div>
                 ${items.map(({ item, price }) => `
                   <div class="price-row">
-                    <span class="price-label">${escapeHtml(item)}</span>
-                    <span class="price-value">${escapeHtml(price)}</span>
+                    <span>${escapeHtml(item)}</span>
+                    <strong style="color:#8b5cf6">${escapeHtml(price)}</strong>
                   </div>
                 `).join('')}
               `).join('')}
             </div>
 
-            <!-- 2. TOTAL HT + TVA + TOTAL TTC -->
             <div class="price-subtotal">
               <div class="price-row">
-                <span class="price-label"><strong>Total HT (Hors TVA)</strong></span>
-                <span class="price-value"><strong>${pricing.minTotal === pricing.maxTotal ? `${pricing.minTotal}€` : `${pricing.minTotal}€ - ${pricing.maxTotal}€`}</strong></span>
+                <span><strong>Total HT</strong></span>
+                <strong style="color:#8b5cf6">${pricing.minTotal === pricing.maxTotal ? `${pricing.minTotal}€` : `${pricing.minTotal}€ - ${pricing.maxTotal}€`}</strong>
               </div>
               <div class="price-row">
-                <span class="price-label">TVA (21%)</span>
-                <span class="price-value">${pricing.minTotal === pricing.maxTotal ? `${Math.round(pricing.minTotal * 0.21)}€` : `${Math.round(pricing.minTotal * 0.21)}€ - ${Math.round(pricing.maxTotal * 0.21)}€`}</span>
+                <span>TVA (21%)</span>
+                <strong style="color:#8b5cf6">${pricing.minTotal === pricing.maxTotal ? `${Math.round(pricing.minTotal * 0.21)}€` : `${Math.round(pricing.minTotal * 0.21)}€ - ${Math.round(pricing.maxTotal * 0.21)}€`}</strong>
               </div>
             </div>
 
@@ -696,154 +567,91 @@ export async function sendQuoteEmail(data: {
             </div>
           </div>
 
-          <!-- 3. EXPLICATION DE LA MAINTENANCE -->
-          <div class="maintenance-explanation">
-            <h3 style="color: #0369a1; text-align: center; margin-top: 0; font-size: 18px;">
-              🔧 Pourquoi la Maintenance est Importante ?
-            </h3>
-            <p style="color: #475569; font-size: 14px; line-height: 1.7; text-align: center; margin-bottom: 15px;">
-              Un site web nécessite un entretien régulier pour rester <strong>sécurisé</strong>, <strong>performant</strong> et <strong>à jour</strong>. 
-              La maintenance garantit que votre site fonctionne toujours parfaitement et reste protégé contre les menaces.
-            </p>
-            
-            <div style="background: white; border-radius: 8px; padding: 15px; margin-top: 15px;">
-              <div style="font-size: 13px; color: #64748b; line-height: 1.8;">
-                ✅ <strong>Mises à jour de sécurité</strong> régulières<br>
-                ✅ <strong>Sauvegardes automatiques</strong> de vos données<br>
-                ✅ <strong>Optimisation des performances</strong><br>
-                ✅ <strong>Support technique</strong> rapide<br>
-                ✅ <strong>Corrections de bugs</strong> et améliorations
-              </div>
+          <div class="maintenance-box">
+            <h3 style="color:#0369a1;text-align:center;margin-top:0;font-size:16px">🔧 Pourquoi la Maintenance ?</h3>
+            <p style="color:#475569;font-size:13px;text-align:center;margin-bottom:12px">Un site web nécessite un entretien régulier pour rester <strong>sécurisé</strong>, <strong>performant</strong> et <strong>à jour</strong>.</p>
+            <div style="background:#fff;border-radius:6px;padding:12px;font-size:12px;color:#64748b;line-height:1.6">
+              ✅ Mises à jour de sécurité<br>
+              ✅ Sauvegardes automatiques<br>
+              ✅ Optimisation performances<br>
+              ✅ Support technique rapide<br>
+              ✅ Corrections de bugs
             </div>
           </div>
 
-          <!-- 4. OPTIONS DE MAINTENANCE SELON LE TYPE DE SITE -->
           ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') ? `
-          <div class="maintenance-box">
-            <h3 style="color: #8b5cf6; text-align: center; margin-top: 0; font-size: 18px;">
-              🌐 Options de Maintenance – Sites Vitrines
-            </h3>
+          <div style="background:#fff;border:2px solid #8b5cf6;border-radius:10px;padding:15px;margin:20px 0">
+            <h3 style="color:#8b5cf6;text-align:center;margin-top:0;font-size:16px">🌐 Options Maintenance Vitrines</h3>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px; font-size: 15px;">
-                📦 Abonnement Annuel - 300€/an HT (363€/an TTC)
-              </div>
-              <div style="font-size: 13px; color: #4b5563; line-height: 1.7;">
-                • <strong>6 interventions incluses par an</strong><br>
-                • Interventions supplémentaires : 100€ HT (121€ TTC)<br>
-                • Délai d'intervention : 48h ouvrées<br>
-                • Idéal pour un suivi régulier de votre site
-              </div>
+              <div style="font-weight:700;color:#8b5cf6;margin-bottom:6px;font-size:14px">📦 Annuel - 300€ HT/an (363€ TTC)</div>
+              <div style="font-size:12px;color:#4b5563">• 6 interventions/an • Supp: 100€ HT (121€ TTC) • Délai 48h</div>
             </div>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px; font-size: 15px;">
-                💳 Par Intervention - 100€ HT (121€ TTC)
-              </div>
-              <div style="font-size: 13px; color: #4b5563; line-height: 1.7;">
-                • <strong>Sans engagement</strong><br>
-                • Payez uniquement quand vous avez besoin<br>
-                • Délai d'intervention : 48h ouvrées<br>
-                • Parfait pour des besoins ponctuels
-              </div>
+              <div style="font-weight:700;color:#8b5cf6;margin-bottom:6px;font-size:14px">💳 Par Intervention - 100€ HT (121€ TTC)</div>
+              <div style="font-size:12px;color:#4b5563">• Sans engagement • Paiement à la demande • Délai 48h</div>
             </div>
 
-            <div class="gift-box">
-              🎁 <strong>Le Premier Mois de Maintenance Offert !</strong>
-            </div>
+            <div class="gift">🎁 Premier Mois Offert !</div>
           </div>
           ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
-          <div class="maintenance-box">
-            <h3 style="color: #8b5cf6; text-align: center; margin-top: 0; font-size: 18px;">
-              🛒 Options de Maintenance – Sites E-commerce
-            </h3>
+          <div style="background:#fff;border:2px solid #8b5cf6;border-radius:10px;padding:15px;margin:20px 0">
+            <h3 style="color:#8b5cf6;text-align:center;margin-top:0;font-size:16px">🛒 Options Maintenance E-commerce</h3>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px; font-size: 15px;">
-                📦 Abonnement Annuel - 700€/an HT (847€/an TTC)
-              </div>
-              <div style="font-size: 13px; color: #4b5563; line-height: 1.7;">
-                • <strong>12 interventions incluses par an</strong><br>
-                • Interventions supplémentaires : 150€ HT (181.50€ TTC)<br>
-                • Délai d'intervention : 48h ouvrées<br>
-                • Support prioritaire pour votre boutique en ligne
-              </div>
+              <div style="font-weight:700;color:#8b5cf6;margin-bottom:6px;font-size:14px">📦 Annuel - 700€ HT/an (847€ TTC)</div>
+              <div style="font-size:12px;color:#4b5563">• 12 interventions/an • Supp: 150€ HT (181.50€ TTC) • Délai 48h</div>
             </div>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px; font-size: 15px;">
-                💳 Par Intervention - 150€ HT (181.50€ TTC)
-              </div>
-              <div style="font-size: 13px; color: #4b5563; line-height: 1.7;">
-                • <strong>Sans engagement</strong><br>
-                • Payez uniquement quand vous avez besoin<br>
-                • Délai d'intervention : 48h ouvrées<br>
-                • Flexibilité totale
-              </div>
+              <div style="font-weight:700;color:#8b5cf6;margin-bottom:6px;font-size:14px">💳 Par Intervention - 150€ HT (181.50€ TTC)</div>
+              <div style="font-size:12px;color:#4b5563">• Sans engagement • Paiement à la demande • Délai 48h</div>
             </div>
 
-            <div class="gift-box">
-              🎁 <strong>Le Premier Mois de Maintenance Offert !</strong>
-            </div>
+            <div class="gift">🎁 Premier Mois Offert !</div>
           </div>
           ` : ''}
 
-          <!-- 5. BOUTONS DE CONFIRMATION -->
-          <div class="confirmation-box">
-            <div style="font-size: 18px; font-weight: 700; color: #92400e; margin-bottom: 15px;">
-              📋 Cette estimation vous convient ?
-            </div>
-            <div style="font-size: 14px; color: #78350f; margin-bottom: 20px;">
-              Choisissez votre option de maintenance ou posez-nous vos questions
-            </div>
+          <div class="confirm-box">
+            <div style="font-size:16px;font-weight:700;color:#92400e;margin-bottom:12px">📋 Cette estimation vous convient ?</div>
+            <div style="font-size:13px;color:#78350f;margin-bottom:15px">Choisissez votre option maintenance ou posez vos questions</div>
             
             ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') ? `
-            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Abonnement Annuel - 300€/an')}" class="btn">
-              📦 Confirmer avec Abonnement Annuel
-            </a>
-            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Par Intervention - 100€')}" class="btn">
-              💳 Confirmer avec Paiement Par Intervention
-            </a>
+            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Annuel 300€/an')}" class="btn">📦 Confirmer Annuel</a>
+            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Intervention 100€')}" class="btn">💳 Confirmer Intervention</a>
             ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
-            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Abonnement Annuel - 700€/an')}" class="btn">
-              📦 Confirmer avec Abonnement Annuel
-            </a>
-            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Par Intervention - 150€')}" class="btn">
-              💳 Confirmer avec Paiement Par Intervention
-            </a>
+            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Annuel 700€/an')}" class="btn">📦 Confirmer Annuel</a>
+            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Intervention 150€')}" class="btn">💳 Confirmer Intervention</a>
             ` : `
-            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}" class="btn">
-              ✅ Confirmer mon intérêt
-            </a>
+            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}" class="btn">✅ Confirmer</a>
             `}
             
-            <div style="margin-top: 15px;">
-              <a href="mailto:info@guapowebdesigner.com?subject=Question%20sur%20mon%20devis%20-%20${encodeURIComponent(data.firstName)}%20${encodeURIComponent(data.lastName)}&body=Bonjour,%0D%0A%0D%0AJ'ai%20une%20question%20concernant%20mon%20devis%20pour%20${encodeURIComponent(data.company || 'mon projet')}%20:%0D%0A%0D%0A" class="btn btn-question">
-                💬 Poser une Question
-              </a>
+            <div style="margin-top:12px">
+              <a href="mailto:info@guapowebdesigner.com?subject=Question%20devis%20${encodeURIComponent(data.firstName)}&body=Bonjour,%0D%0AQuestion%20pour%20${encodeURIComponent(data.company || 'mon projet')}%20:%0D%0A" class="btn btn-question">💬 Question</a>
             </div>
 
-            <div style="font-size: 12px; color: #78350f; margin-top: 15px; font-style: italic;">
-              En cliquant sur "Confirmer", un email sera automatiquement envoyé à notre équipe
+            <div style="font-size:11px;color:#78350f;margin-top:12px;font-style:italic">
+              Cliquer "Confirmer" envoie un email automatique à notre équipe
             </div>
           </div>
 
-          <div style="background: #f9fafb; border-left: 4px solid #8b5cf6; border-radius: 8px; padding: 15px; margin: 20px 0;">
-            <div style="font-weight: 600; color: #6d28d9; margin-bottom: 10px;">📋 Prochaines Étapes</div>
-            <div style="font-size: 14px; color: #4b5563;">
-              Une fois votre confirmation reçue, notre équipe vous contactera sous <strong>24-48h</strong> pour finaliser les détails de votre projet.
+          <div style="background:#f9fafb;border-left:4px solid #8b5cf6;border-radius:8px;padding:12px;margin:15px 0">
+            <div style="font-weight:600;color:#6d28d9;margin-bottom:8px;font-size:14px">📋 Prochaines Étapes</div>
+            <div style="font-size:13px;color:#4b5563">
+              Après confirmation, contact sous <strong>24-48h</strong> pour finaliser votre projet.
             </div>
           </div>
 
-          <div style="text-align: center; padding: 15px; background: #f3e8ff; border-radius: 8px; margin: 20px 0; font-size: 14px;">
-            📧 <strong style="color: #8b5cf6;">info@guapowebdesigner.com</strong><br>
-            📱 <strong style="color: #8b5cf6;">@guapo_webdesigner</strong>
+          <div style="text-align:center;padding:12px;background:#f3e8ff;border-radius:8px;margin:15px 0;font-size:13px">
+            📧 <strong style="color:#8b5cf6">info@guapowebdesigner.com</strong><br>
+            📱 <strong style="color:#8b5cf6">@guapo_webdesigner</strong>
           </div>
 
-          <p>À très bientôt,<br><strong style="color: #8b5cf6;">L'équipe GUAPO</strong></p>
+          <p>À bientôt,<br><strong style="color:#8b5cf6">L'équipe GUAPO</strong></p>
         </div>
 
-        <div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0; color: #9ca3af; font-size: 12px;">
+        <div style="text-align:center;margin-top:15px;padding-top:12px;border-top:1px solid #e2e8f0;color:#9ca3af;font-size:11px">
           © 2025 GUAPO Web Designer
         </div>
       </body>
