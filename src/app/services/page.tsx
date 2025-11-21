@@ -1,8 +1,9 @@
 "use client";
 
-import { Monitor, Tablet, Smartphone, Palette, Zap, Sparkles } from "lucide-react";
+import { Monitor, Tablet, Smartphone, Palette, Zap, Sparkles, ShoppingCart, MessageCircle, Briefcase, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function ServicesPage() {
   const { t } = useLanguage();
@@ -52,6 +53,30 @@ export default function ServicesPage() {
     }
   ];
 
+  const siteTypes = [
+    {
+      icon: Briefcase,
+      title: "Site Vitrine",
+      description: "Un site élégant pour présenter votre entreprise, vos services et votre expertise professionnelle.",
+      gradient: "from-[#6C63FF] to-[#5A3BEF]",
+      href: "/devis"
+    },
+    {
+      icon: ShoppingCart,
+      title: "Site E-commerce",
+      description: "Une boutique en ligne complète pour vendre vos produits avec paiement sécurisé et gestion des commandes.",
+      gradient: "from-[#4BE3C1] to-[#00D1FF]",
+      href: "/devis"
+    },
+    {
+      icon: MessageCircle,
+      title: "Discutons Ensemble",
+      description: "Vous avez un projet spécifique ? Parlons-en et créons ensemble la solution parfaite pour vos besoins.",
+      gradient: "from-[#5A3BEF] to-[#4BE3C1]",
+      href: "/devis"
+    }
+  ];
+
   const handleScrollToContact = () => {
     const contactSection = document.getElementById("contact");
     if (contactSection) {
@@ -81,6 +106,69 @@ export default function ServicesPage() {
               </h1>
               <Sparkles className="w-10 h-10 text-[#00D1FF] animate-pulse" style={{ animationDelay: "0.5s" }} />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Site Types Section */}
+      <section className="py-20 px-6 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+          <div className="absolute top-20 left-20 w-96 h-96 bg-[#6C63FF]/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-[#4BE3C1]/20 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
+              Besoin d'un <span className="bg-gradient-to-r from-[#6C63FF] to-[#00D1FF] bg-clip-text text-transparent">Site Web ?</span>
+            </h2>
+            <p className="text-gray-700 text-lg max-w-2xl mx-auto">
+              Choisissez le type de site qui correspond à vos besoins et obtenez un devis personnalisé gratuit
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {siteTypes.map((type, index) => {
+              const Icon = type.icon;
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="group relative"
+                >
+                  <Link href={type.href}>
+                    <div className="h-full p-8 rounded-2xl bg-gradient-to-br from-gray-50 to-white backdrop-blur-sm border-2 border-[#00D1FF]/30 shadow-lg hover:shadow-2xl hover:shadow-[#00D1FF]/30 hover:scale-105 hover:-translate-y-2 transition-all duration-300">
+                      {/* Icon */}
+                      <div className={`w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br ${type.gradient}`}>
+                        <Icon className="w-8 h-8 text-white" />
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="text-2xl font-bold mb-3 text-gray-900 group-hover:text-[#6C63FF] transition-colors">
+                        {type.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-gray-700 leading-relaxed mb-6">
+                        {type.description}
+                      </p>
+
+                      {/* CTA */}
+                      <div className="flex items-center gap-2 text-[#00D1FF] font-semibold group-hover:gap-4 transition-all">
+                        <span>Obtenir un devis</span>
+                        <ArrowRight className="w-5 h-5" />
+                      </div>
+
+                      {/* Glow effect */}
+                      <div className="absolute inset-0 rounded-2xl border-2 border-[#6C63FF]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
