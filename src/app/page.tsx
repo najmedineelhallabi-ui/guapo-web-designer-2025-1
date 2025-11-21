@@ -316,8 +316,26 @@ export default function Home() {
             <p className="text-gray-700 text-lg mb-12">Choisissez la solution adaptée à vos besoins</p>
           </div>
 
-          {/* Cards Grid - 2 cards only */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-20">
+          {/* Cards Grid - 3 cards */}
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
+            {/* Site Vitrine */}
+            <a 
+              href="/devis"
+              className="group relative p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur-sm border-2 border-primary/30 shadow-lg hover:shadow-2xl hover:shadow-primary/20 hover:scale-105 transition-all duration-300 cursor-pointer"
+            >
+              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-primary to-secondary">
+                <Briefcase className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">Site Vitrine</h3>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Site professionnel pour présenter votre entreprise, vos services et votre expertise. Idéal pour restaurants, cabinets, PME et portfolios.
+              </p>
+              <div className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
+                Obtenir un devis
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </a>
+
             {/* Site E-commerce */}
             <a 
               href="/devis"
