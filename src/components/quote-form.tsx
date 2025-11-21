@@ -192,19 +192,19 @@ export function QuoteForm() {
 
   // Step 2: Questions Form
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-5xl mx-auto">
       {/* Back button */}
       <button
         type="button"
         onClick={handleBackToTypeSelection}
-        className="mb-6 flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors group"
+        className="mb-8 flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors group"
       >
         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
         <span>Retour au choix du type de projet</span>
       </button>
 
       {/* Project type indicator */}
-      <div className="mb-8 p-4 bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl flex items-center justify-between">
+      <div className="mb-10 p-6 bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl flex items-center justify-between">
         <div className="flex items-center gap-3">
           {projectType === 'vitrine' ? (
             <Globe className="w-6 h-6 text-primary" />
@@ -220,13 +220,13 @@ export function QuoteForm() {
         </div>
       </div>
 
-      <form action={formAction} className="space-y-8">
+      <form action={formAction} className="space-y-10">
         {/* Hidden field for project type */}
         <input type="hidden" name="projectType" value={projectType} />
 
         {/* Success message */}
         {state.success && (
-          <div className="bg-gradient-to-r from-primary/20 to-secondary/20 border-2 border-primary/50 text-foreground px-6 py-4 rounded-xl flex items-start gap-3 animate-fade-in shadow-lg">
+          <div className="bg-gradient-to-r from-primary/20 to-secondary/20 border-2 border-primary/50 text-foreground px-6 py-5 rounded-xl flex items-start gap-3 animate-fade-in shadow-lg">
             <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-lg">{t('quote.success.title')}</p>
@@ -237,23 +237,23 @@ export function QuoteForm() {
 
         {/* Error message */}
         {state.success === false && !state.errors && (
-          <div className="bg-red-50 border-2 border-red-200 text-red-800 px-6 py-4 rounded-xl flex items-start gap-3">
+          <div className="bg-red-50 border-2 border-red-200 text-red-800 px-6 py-5 rounded-xl flex items-start gap-3">
             <AlertCircle className="w-6 h-6 flex-shrink-0 mt-0.5" />
             <p>{state.message}</p>
           </div>
         )}
 
         {/* Informations */}
-        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
-            <User className="w-6 h-6 text-primary" />
+        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-8">
+          <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+            <User className="w-7 h-7 text-primary" />
             {t('quote.info.title')}
           </h3>
           
-          <div className="space-y-4">
-            <div className="grid md:grid-cols-2 gap-4">
+          <div className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="firstName" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+                <label htmlFor="firstName" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
                   {t('quote.info.firstName')} *
                 </label>
                 <input
@@ -262,12 +262,12 @@ export function QuoteForm() {
                   name="firstName"
                   required
                   defaultValue={state.formData?.firstName || ''}
-                  className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  className="w-full px-5 py-4 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all text-base"
                   placeholder={t('quote.info.firstNamePlaceholder')}
                   disabled={isPending}
                 />
                 {state.errors?.firstName && (
-                  <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                  <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
                     <AlertCircle className="w-3 h-3" />
                     {state.errors.firstName[0]}
                   </p>
@@ -275,7 +275,7 @@ export function QuoteForm() {
               </div>
 
               <div>
-                <label htmlFor="lastName" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+                <label htmlFor="lastName" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
                   {t('quote.info.lastName')} *
                 </label>
                 <input
@@ -284,12 +284,12 @@ export function QuoteForm() {
                   name="lastName"
                   required
                   defaultValue={state.formData?.lastName || ''}
-                  className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                  className="w-full px-5 py-4 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all text-base"
                   placeholder={t('quote.info.lastNamePlaceholder')}
                   disabled={isPending}
                 />
                 {state.errors?.lastName && (
-                  <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                  <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
                     <AlertCircle className="w-3 h-3" />
                     {state.errors.lastName[0]}
                   </p>
@@ -298,7 +298,7 @@ export function QuoteForm() {
             </div>
 
             <div>
-              <label htmlFor="email" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+              <label htmlFor="email" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
                 <Mail className="w-4 h-4 text-primary" />
                 {t('quote.info.email')} *
               </label>
@@ -308,12 +308,12 @@ export function QuoteForm() {
                 name="email"
                 required
                 defaultValue={state.formData?.email || ''}
-                className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                className="w-full px-5 py-4 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all text-base"
                 placeholder={t('quote.info.emailPlaceholder')}
                 disabled={isPending}
               />
               {state.errors?.email && (
-                <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" />
                   {state.errors.email[0]}
                 </p>
@@ -321,7 +321,7 @@ export function QuoteForm() {
             </div>
 
             <div>
-              <label htmlFor="company" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+              <label htmlFor="company" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
                 <Building className="w-4 h-4 text-primary" />
                 {t('quote.info.company')} *
               </label>
@@ -331,12 +331,12 @@ export function QuoteForm() {
                 name="company"
                 required
                 defaultValue={state.formData?.company || ''}
-                className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                className="w-full px-5 py-4 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all text-base"
                 placeholder={t('quote.info.companyPlaceholder')}
                 disabled={isPending}
               />
               {state.errors?.company && (
-                <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" />
                   {state.errors.company[0]}
                 </p>
@@ -344,7 +344,7 @@ export function QuoteForm() {
             </div>
 
             <div>
-              <label htmlFor="sector" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+              <label htmlFor="sector" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
                 <Briefcase className="w-4 h-4 text-primary" />
                 {t('quote.info.sector')}
               </label>
@@ -353,7 +353,7 @@ export function QuoteForm() {
                 id="sector"
                 name="sector"
                 defaultValue={state.formData?.sector || ''}
-                className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all"
+                className="w-full px-5 py-4 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all text-base"
                 placeholder={t('quote.info.sectorPlaceholder')}
                 disabled={isPending}
               />
@@ -363,101 +363,101 @@ export function QuoteForm() {
 
         {/* Type de Site - Only for Vitrine */}
         {projectType === 'vitrine' && (
-          <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
-            <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
-              <Globe className="w-6 h-6 text-secondary" />
+          <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-8">
+            <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+              <Globe className="w-7 h-7 text-secondary" />
               Nombre de pages du site vitrine
             </h3>
             
             {!selectedSiteType ? (
-              <div className="space-y-3">
-                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+              <div className="space-y-4">
+                <label className="flex items-start gap-4 p-5 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
                   <input
                     type="radio"
                     name="siteType"
                     value="Site vitrine simple (1 à 3 pages)"
                     required
                     onChange={handleSiteTypeChange}
-                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    className="w-5 h-5 mt-1 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                     disabled={isPending}
                   />
                   <div className="flex-1">
-                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.simple')}</span>
-                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.simpleDesc')}</p>
+                    <span className="font-semibold text-base text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.simple')}</span>
+                    <p className="text-sm text-foreground/70 mt-2">{t('quote.siteType.simpleDesc')}</p>
                   </div>
                 </label>
 
-                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <label className="flex items-start gap-4 p-5 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
                   <input
                     type="radio"
                     name="siteType"
                     value="Site vitrine standard (4 à 5 pages)"
                     onChange={handleSiteTypeChange}
-                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    className="w-5 h-5 mt-1 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                     disabled={isPending}
                   />
                   <div className="flex-1">
-                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.standard')}</span>
-                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.standardDesc')}</p>
+                    <span className="font-semibold text-base text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.standard')}</span>
+                    <p className="text-sm text-foreground/70 mt-2">{t('quote.siteType.standardDesc')}</p>
                   </div>
                 </label>
 
-                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <label className="flex items-start gap-4 p-5 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
                   <input
                     type="radio"
                     name="siteType"
                     value="Site vitrine avancé (6 à 8 pages)"
                     onChange={handleSiteTypeChange}
-                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    className="w-5 h-5 mt-1 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                     disabled={isPending}
                   />
                   <div className="flex-1">
-                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.advanced')}</span>
-                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.advancedDesc')}</p>
+                    <span className="font-semibold text-base text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.advanced')}</span>
+                    <p className="text-sm text-foreground/70 mt-2">{t('quote.siteType.advancedDesc')}</p>
                   </div>
                 </label>
 
-                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <label className="flex items-start gap-4 p-5 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
                   <input
                     type="radio"
                     name="siteType"
                     value="Site vitrine premium (9 à 12 pages)"
                     onChange={handleSiteTypeChange}
-                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    className="w-5 h-5 mt-1 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                     disabled={isPending}
                   />
                   <div className="flex-1">
-                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.premium')}</span>
-                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.premiumDesc')}</p>
+                    <span className="font-semibold text-base text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.premium')}</span>
+                    <p className="text-sm text-foreground/70 mt-2">{t('quote.siteType.premiumDesc')}</p>
                   </div>
                 </label>
 
-                <label className="flex items-start gap-3 p-4 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <label className="flex items-start gap-4 p-5 border-2 border-border rounded-lg hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
                   <input
                     type="radio"
                     name="siteType"
                     value="Portfolio / site personnel"
                     onChange={handleSiteTypeChange}
-                    className="w-5 h-5 mt-0.5 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                    className="w-5 h-5 mt-1 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                     disabled={isPending}
                   />
                   <div className="flex-1">
-                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.portfolio')}</span>
-                    <p className="text-sm text-foreground/70 mt-1">{t('quote.siteType.portfolioDesc')}</p>
+                    <span className="font-semibold text-base text-foreground group-hover:text-secondary transition-colors">{t('quote.siteType.portfolio')}</span>
+                    <p className="text-sm text-foreground/70 mt-2">{t('quote.siteType.portfolioDesc')}</p>
                   </div>
                 </label>
               </div>
             ) : (
               <div className="space-y-4 animate-fade-in">
-                <div className="p-5 bg-gradient-to-r from-secondary/20 to-accent/20 border-2 border-secondary/50 rounded-xl">
+                <div className="p-6 bg-gradient-to-r from-secondary/20 to-accent/20 border-2 border-secondary/50 rounded-xl">
                   <input type="hidden" name="siteType" value={selectedSiteType} />
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-4">
                     <span className="text-sm font-semibold text-foreground/70">Type sélectionné :</span>
                     <button
                       type="button"
                       onClick={handleResetSiteType}
                       disabled={isPending}
-                      className="flex items-center gap-2 px-3 py-1.5 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
+                      className="flex items-center gap-2 px-4 py-2 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
                     >
                       <Edit2 className="w-3.5 h-3.5" />
                       Modifier
@@ -489,7 +489,7 @@ export function QuoteForm() {
             )}
             
             {state.errors?.siteType && (
-              <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+              <p className="text-red-600 text-sm mt-3 flex items-center gap-1">
                 <AlertCircle className="w-3 h-3" />
                 {state.errors.siteType[0]}
               </p>
@@ -499,9 +499,9 @@ export function QuoteForm() {
 
         {/* E-commerce size - Only for e-commerce */}
         {projectType === 'ecommerce' && (
-          <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
-            <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
-              <ShoppingCart className="w-6 h-6 text-secondary" />
+          <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-8">
+            <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+              <ShoppingCart className="w-7 h-7 text-secondary" />
               Taille de votre boutique e-commerce
             </h3>
             
@@ -605,59 +605,59 @@ export function QuoteForm() {
         )}
 
         {/* Design & Contenu */}
-        <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
-            <Palette className="w-6 h-6 text-accent" />
+        <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
+          <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+            <Palette className="w-7 h-7 text-accent" />
             {t('quote.design.title')}
           </h3>
           
           <div className="space-y-4">
-            <div className="flex items-center gap-3 p-4 bg-accent/5 border border-accent/20 rounded-lg">
-              <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-              <span className="text-foreground/90">{t('quote.design.custom')}</span>
+            <div className="flex items-center gap-4 p-5 bg-accent/5 border border-accent/20 rounded-lg">
+              <CheckCircle className="w-6 h-6 text-accent flex-shrink-0" />
+              <span className="text-foreground/90 text-base">{t('quote.design.custom')}</span>
             </div>
 
-            <div className="flex items-center gap-3 p-4 bg-accent/5 border border-accent/20 rounded-lg">
-              <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-              <span className="text-foreground/90">{t('quote.design.responsive')}</span>
+            <div className="flex items-center gap-4 p-5 bg-accent/5 border border-accent/20 rounded-lg">
+              <CheckCircle className="w-6 h-6 text-accent flex-shrink-0" />
+              <span className="text-foreground/90 text-base">{t('quote.design.responsive')}</span>
             </div>
           </div>
         </div>
 
         {/* Fonctionnalités / Modules */}
-        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
-            <Zap className="w-6 h-6 text-primary" />
+        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-8">
+          <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+            <Zap className="w-7 h-7 text-primary" />
             {t('quote.features.title')}
           </h3>
           
-          <div className="space-y-3">
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
+          <div className="space-y-4">
+            <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
               <input
                 type="checkbox"
                 name="features"
                 value="Formulaire de contact simple"
                 defaultChecked={state.formData?.features?.includes("Formulaire de contact simple")}
-                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+              <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                 {t('quote.features.contactForm')}
               </span>
             </label>
 
             <div className="space-y-2">
-              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
+              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
                 <input
                   type="checkbox"
                   name="features"
                   value="Formulaire de demande de devis"
                   defaultChecked={state.formData?.features?.includes("Formulaire de demande de devis")}
                   onChange={handleQuoteFormChange}
-                  className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                  className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                   disabled={isPending}
                 />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                   {t('quote.features.quoteForm')}
                 </span>
               </label>
@@ -665,13 +665,13 @@ export function QuoteForm() {
               {/* Sub-option: Auto emails for quote form */}
               {isQuoteFormSelected && (
                 <div className="ml-11 animate-fade-in">
-                  <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors bg-primary/5 border border-primary/20">
+                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors bg-primary/5 border border-primary/20">
                     <input
                       type="checkbox"
                       name="features"
                       value="Envoi automatique d'emails de confirmation (pour devis)"
                       defaultChecked={state.formData?.features?.includes("Envoi automatique d'emails de confirmation (pour devis)")}
-                      className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                      className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                       disabled={isPending}
                     />
                     <span className="text-foreground/90 group-hover:text-foreground transition-colors text-sm">
@@ -682,47 +682,47 @@ export function QuoteForm() {
               )}
             </div>
 
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
+            <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
               <input
                 type="checkbox"
                 name="features"
                 value="Système de prise de rendez-vous en ligne (avec emails automatiques)"
                 defaultChecked={state.formData?.features?.includes("Système de prise de rendez-vous en ligne (avec emails automatiques)")}
-                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+              <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                 {t('quote.features.booking')}
               </span>
             </label>
 
-            <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
+            <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
               <input
                 type="checkbox"
                 name="features"
                 value="Intégration calendrier (Google Calendar, etc.)"
                 defaultChecked={state.formData?.features?.includes("Intégration calendrier (Google Calendar, etc.)")}
-                className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+              <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                 {t('quote.features.calendar')}
               </span>
             </label>
 
             {/* Multilingue with language selection */}
             <div className="space-y-2">
-              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-primary/5 transition-colors">
+              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
                 <input
                   type="checkbox"
                   name="features"
                   value="Multilingue"
                   defaultChecked={state.formData?.features?.includes("Multilingue")}
                   onChange={handleMultilingualChange}
-                  className="w-5 h-5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                  className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                   disabled={isPending}
                 />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                   {t('quote.features.multilingual')}
                 </span>
               </label>
@@ -737,7 +737,7 @@ export function QuoteForm() {
                     </p>
                     
                     <div className="space-y-2">
-                      <label className="flex items-center gap-3 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                      <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
                         <input
                           type="checkbox"
                           name="languages"
@@ -749,7 +749,7 @@ export function QuoteForm() {
                         <span className="text-sm text-foreground/90">Français (FR)</span>
                       </label>
 
-                      <label className="flex items-center gap-3 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                      <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
                         <input
                           type="checkbox"
                           name="languages"
@@ -761,7 +761,7 @@ export function QuoteForm() {
                         <span className="text-sm text-foreground/90">Nederlands (NL)</span>
                       </label>
 
-                      <label className="flex items-center gap-3 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                      <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
                         <input
                           type="checkbox"
                           name="languages"
@@ -775,7 +775,7 @@ export function QuoteForm() {
 
                       {/* Other language option with text field */}
                       <div className="space-y-2 pt-2 border-t border-border/50">
-                        <label className="flex items-center gap-3 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                        <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
                           <input
                             type="checkbox"
                             name="languages"
@@ -811,86 +811,86 @@ export function QuoteForm() {
                 </p>
                 
                 <div className="space-y-3">
-                  <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                     <input
                       type="checkbox"
                       name="features"
                       value="Catalogue de produits"
                       defaultChecked={state.formData?.features?.includes("Catalogue de produits")}
-                      className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                       {t('quote.features.productCatalog')}
                     </span>
                   </label>
 
-                  <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                     <input
                       type="checkbox"
                       name="features"
                       value="Panier d'achat"
                       defaultChecked={state.formData?.features?.includes("Panier d'achat")}
-                      className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                       {t('quote.features.shoppingCart')}
                     </span>
                   </label>
 
-                  <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                     <input
                       type="checkbox"
                       name="features"
                       value="Passerelle de paiement (Stripe, PayPal, etc.)"
                       defaultChecked={state.formData?.features?.includes("Passerelle de paiement (Stripe, PayPal, etc.)")}
-                      className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                       {t('quote.features.paymentGateway')}
                     </span>
                   </label>
 
-                  <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                     <input
                       type="checkbox"
                       name="features"
                       value="Gestion des commandes"
                       defaultChecked={state.formData?.features?.includes("Gestion des commandes")}
-                      className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                       {t('quote.features.orderManagement')}
                     </span>
                   </label>
 
-                  <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                     <input
                       type="checkbox"
                       name="features"
                       value="Gestion des stocks"
                       defaultChecked={state.formData?.features?.includes("Gestion des stocks")}
-                      className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                       {t('quote.features.inventoryManagement')}
                     </span>
                   </label>
 
-                  <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                     <input
                       type="checkbox"
                       name="features"
                       value="Comptes clients"
                       defaultChecked={state.formData?.features?.includes("Comptes clients")}
-                      className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                       {t('quote.features.customerAccounts')}
                     </span>
                   </label>
@@ -901,8 +901,8 @@ export function QuoteForm() {
         </div>
 
         {/* Optimisation & Sécurité */}
-        <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
+        <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-8">
+          <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
             <Lock className="w-6 h-6 text-secondary" />
             {t('quote.optimization.title')}
           </h3>
@@ -915,7 +915,7 @@ export function QuoteForm() {
                   ⭐ RECOMMANDÉ
                 </span>
               </div>
-              <label className="flex items-start gap-3 cursor-pointer group p-5 rounded-xl border-2 border-primary/50 bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/15 hover:to-secondary/15 transition-all">
+              <label className="flex items-start gap-4 cursor-pointer group p-6 rounded-xl border-2 border-primary/50 bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/15 hover:to-secondary/15 transition-all">
                 <input
                   type="checkbox"
                   name="optimization"
@@ -973,58 +973,58 @@ export function QuoteForm() {
 
             {/* Individual Options - Disabled when all-inclusive is selected */}
             <div className={`space-y-3 ${allInclusiveOptimization ? 'opacity-40 pointer-events-none' : ''}`}>
-              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                 <input
                   type="checkbox"
                   name="optimization"
                   value="SEO de base (balises, titres, URLs)"
                   defaultChecked={state.formData?.optimization?.includes("SEO de base (balises, titres, URLs)")}
                   disabled={allInclusiveOptimization || isPending}
-                  className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                   {t('quote.optimization.seo')}
                 </span>
               </label>
 
-              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                 <input
                   type="checkbox"
                   name="optimization"
                   value="Optimisation vitesse / performance"
                   defaultChecked={state.formData?.optimization?.includes("Optimisation vitesse / performance")}
                   disabled={allInclusiveOptimization || isPending}
-                  className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                   {t('quote.optimization.performance')}
                 </span>
               </label>
 
-              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                 <input
                   type="checkbox"
                   name="optimization"
                   value="Certificat SSL / HTTPS"
                   defaultChecked={state.formData?.optimization?.includes("Certificat SSL / HTTPS")}
                   disabled={allInclusiveOptimization || isPending}
-                  className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                   {t('quote.optimization.ssl')}
                 </span>
               </label>
 
-              <label className="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-secondary/5 transition-colors">
+              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                 <input
                   type="checkbox"
                   name="optimization"
                   value="RGPD / conformité légale"
                   defaultChecked={state.formData?.optimization?.includes("RGPD / conformité légale")}
                   disabled={allInclusiveOptimization || isPending}
-                  className="w-5 h-5 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                 />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors">
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                   {t('quote.optimization.gdpr')}
                 </span>
               </label>
@@ -1033,8 +1033,8 @@ export function QuoteForm() {
         </div>
 
         {/* Hébergement */}
-        <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
+        <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
+          <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
             <Wrench className="w-6 h-6 text-accent" />
             {t('quote.hosting.title')}
           </h3>
@@ -1066,7 +1066,7 @@ export function QuoteForm() {
                 name="domain"
                 required
                 defaultValue={state.formData?.domain || 'Inclus dans le projet'}
-                className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all"
+                className="w-full px-5 py-4 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all text-base"
                 disabled={isPending}
               >
                 <option value="">{t('quote.hosting.selectOption')}</option>
@@ -1075,7 +1075,7 @@ export function QuoteForm() {
                 <option value="À discuter">{t('quote.hosting.toDiscuss')}</option>
               </select>
               {state.errors?.domain && (
-                <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+                <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
                   <AlertCircle className="w-3 h-3" />
                   {state.errors.domain[0]}
                 </p>
@@ -1085,8 +1085,8 @@ export function QuoteForm() {
         </div>
 
         {/* Champs libres / Commentaires */}
-        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-6">
-          <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-3">
+        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-8">
+          <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
             <MessageSquare className="w-6 h-6 text-primary" />
             {t('quote.message.title')}
           </h3>
@@ -1101,12 +1101,12 @@ export function QuoteForm() {
               required
               rows={8}
               defaultValue={state.formData?.message || ''}
-              className="w-full px-4 py-3 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none"
+              className="w-full px-5 py-4 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all resize-none text-base"
               placeholder={t('quote.message.placeholder')}
               disabled={isPending}
             />
             {state.errors?.message && (
-              <p className="text-red-600 text-sm mt-1 flex items-center gap-1">
+              <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
                 <AlertCircle className="w-3 h-3" />
                 {state.errors.message[0]}
               </p>
@@ -1115,14 +1115,14 @@ export function QuoteForm() {
         </div>
 
         {/* RGPD Consent */}
-        <div className="bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-xl p-6">
-          <label className="flex items-start gap-3 cursor-pointer group">
+        <div className="bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-xl p-8">
+          <label className="flex items-start gap-4 cursor-pointer group">
             <input
               type="checkbox"
               name="rgpdConsent"
               required
               defaultChecked={state.formData?.rgpdConsent === 'on'}
-              className="w-5 h-5 mt-0.5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer flex-shrink-0"
+              className="w-6 h-6 mt-0.5 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer flex-shrink-0"
               disabled={isPending}
             />
             <div className="space-y-2">
@@ -1155,22 +1155,22 @@ export function QuoteForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full bg-gradient-to-r from-primary via-secondary to-accent hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-xl transition-all shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] flex items-center justify-center gap-3 text-lg"
+          className="w-full bg-gradient-to-r from-primary via-secondary to-accent hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-5 px-8 rounded-xl transition-all shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] flex items-center justify-center gap-3 text-lg"
         >
           {isPending ? (
             <>
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
               {t('quote.submit.sending')}
             </>
           ) : (
             <>
-              <Send className="w-5 h-5" />
+              <Send className="w-6 h-6" />
               {t('quote.submit.button')}
             </>
           )}
         </button>
 
-        <p className="text-center text-sm text-foreground/60">
+        <p className="text-center text-sm text-foreground/60 mt-4">
           {t('quote.submit.required')}
         </p>
       </form>
