@@ -250,6 +250,55 @@ export async function POST(request: NextRequest) {
             </div>
             ` : ''}
 
+            <div style="background: #f0f9ff; border: 2px solid #0ea5e9; border-radius: 10px; padding: 20px; margin: 20px 0;">
+              <h3 style="font-size: 16px; color: #0369a1; font-weight: 700; margin-bottom: 15px; text-align: center;">
+                📋 Options de Maintenance Disponibles
+              </h3>
+              
+              <div style="background: white; border-radius: 8px; padding: 15px; margin-bottom: 12px;">
+                <div style="font-weight: 600; color: #0c4a6e; margin-bottom: 8px;">
+                  🌐 Maintenance Basique - 300€ HT/an (363€ TTC/an)
+                </div>
+                <ul style="margin: 0; padding-left: 20px; color: #475569; font-size: 14px; line-height: 1.8;">
+                  <li>Mises à jour de sécurité</li>
+                  <li>Sauvegardes régulières</li>
+                  <li>Monitoring basique</li>
+                  <li>Support par email</li>
+                </ul>
+              </div>
+
+              <div style="background: white; border-radius: 8px; padding: 15px; margin-bottom: 12px;">
+                <div style="font-weight: 600; color: #0c4a6e; margin-bottom: 8px;">
+                  💼 Maintenance Premium - 700€ HT/an (847€ TTC/an)
+                </div>
+                <ul style="margin: 0; padding-left: 20px; color: #475569; font-size: 14px; line-height: 1.8;">
+                  <li>Tout de la maintenance basique</li>
+                  <li>Modifications de contenu illimitées</li>
+                  <li>Support prioritaire 24/7</li>
+                  <li>Optimisation SEO continue</li>
+                  <li>Rapports mensuels de performance</li>
+                </ul>
+              </div>
+
+              <div style="background: white; border-radius: 8px; padding: 15px;">
+                <div style="font-weight: 600; color: #0c4a6e; margin-bottom: 8px;">
+                  🔧 Interventions Ponctuelles
+                </div>
+                <ul style="margin: 0; padding-left: 20px; color: #475569; font-size: 14px; line-height: 1.8;">
+                  <li>Modifications simples: 100€ HT (121€ TTC)</li>
+                  <li>Modifications complexes: 150€ HT (181.50€ TTC)</li>
+                </ul>
+              </div>
+
+              ${!maintenanceType ? `
+              <div style="background: #fef3c7; border-radius: 6px; padding: 12px; margin-top: 12px; text-align: center;">
+                <span style="color: #92400e; font-size: 13px;">
+                  ⚠️ Le client n'a pas encore choisi d'option de maintenance
+                </span>
+              </div>
+              ` : ''}
+            </div>
+
             <p style="font-size: 15px; color: #1f2937; text-align: center;">
               <strong style="color: #16a34a;">Action requise :</strong><br>
               Préparez et envoyez le devis détaillé au client sous 24-48h.
