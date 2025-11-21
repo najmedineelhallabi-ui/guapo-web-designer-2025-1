@@ -12,15 +12,15 @@ export default function Home() {
   const [showAnnouncement, setShowAnnouncement] = useState(false);
 
   useEffect(() => {
-    // Check if announcement was dismissed
-    const dismissed = localStorage.getItem('maintenance-announcement-dismissed');
+    // Check if announcement was dismissed - updated key to show again
+    const dismissed = localStorage.getItem('offer-announcement-2025');
     if (!dismissed) {
       setShowAnnouncement(true);
       
       // Auto-hide after 5 seconds
       const timer = setTimeout(() => {
         setShowAnnouncement(false);
-        localStorage.setItem('maintenance-announcement-dismissed', 'true');
+        localStorage.setItem('offer-announcement-2025', 'true');
       }, 5000);
       
       // Cleanup timer on unmount
@@ -30,7 +30,7 @@ export default function Home() {
 
   const dismissAnnouncement = () => {
     setShowAnnouncement(false);
-    localStorage.setItem('maintenance-announcement-dismissed', 'true');
+    localStorage.setItem('offer-announcement-2025', 'true');
   };
 
   return (
