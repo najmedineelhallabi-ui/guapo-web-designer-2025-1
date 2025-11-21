@@ -2,32 +2,28 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Sparkles, Mail, Instagram, Copy, FileText } from "lucide-react";
+import { Sparkles, Mail, Instagram, Menu, X, FileText } from "lucide-react";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { useLanguage } from "@/contexts/language-context";
-import { toast } from "sonner";
 
 export default function ContactPage() {
   const { t } = useLanguage();
-
-  const copyToClipboard = (text: string, type: "email" | "instagram") => {
-    navigator.clipboard.writeText(text);
-    toast.success(
-      type === "email" ? "Email copié !" : "Handle Instagram copié !"
-    );
-  };
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#6C63FF]/10 via-[#00D1FF]/5 to-[#4BE3C1]/10 relative overflow-hidden">
-      {/* Animated background circles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-[#6C63FF]/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-40 right-20 w-96 h-96 bg-[#00D1FF]/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#4BE3C1]/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+    <div className="min-h-screen bg-background">
+      {/* Laser Lines Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="laser-line" style={{ left: '10%', animationDelay: '0s' }}></div>
+        <div className="laser-line laser-line-secondary" style={{ left: '25%', animationDelay: '2s' }}></div>
+        <div className="laser-line laser-line-accent" style={{ left: '40%', animationDelay: '4s' }}></div>
+        <div className="laser-line" style={{ left: '55%', animationDelay: '1s' }}></div>
+        <div className="laser-line laser-line-secondary" style={{ left: '70%', animationDelay: '3s' }}></div>
+        <div className="laser-line laser-line-accent" style={{ left: '85%', animationDelay: '5s' }}></div>
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-gradient-to-r from-[#6C63FF]/10 via-[#00D1FF]/10 to-[#4BE3C1]/10 backdrop-blur-md border-b border-white/20 z-50 shadow-lg shadow-[#00D1FF]/10">
+      <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="/" className="flex items-center">
             <Image 
@@ -39,161 +35,185 @@ export default function ContactPage() {
               priority
             />
           </a>
+          
+          {/* Desktop Navigation */}
           <div className="hidden md:flex gap-8 items-center">
-            <a href="/#accueil" className="hover:text-[#6C63FF] transition-colors">{t("nav.home")}</a>
-            <a href="/#about" className="hover:text-[#00D1FF] transition-colors">{t("nav.about")}</a>
-            <a href="/#portfolio" className="hover:text-[#4BE3C1] transition-colors">{t("nav.portfolio")}</a>
-            <a href="/#services" className="hover:text-[#00D1FF] transition-colors">{t("nav.services")}</a>
-            <a href="/#contact" className="text-[#6C63FF] font-semibold">{t("nav.contact")}</a>
+            <a href="/#accueil" className="hover:text-primary transition-colors">{t("nav.home")}</a>
+            <a href="/#about" className="hover:text-secondary transition-colors">{t("nav.about")}</a>
+            <a href="/#portfolio" className="hover:text-accent transition-colors">{t("nav.portfolio")}</a>
+            <a href="/#services" className="hover:text-secondary transition-colors">{t("nav.services")}</a>
+            <a 
+              href="/devis" 
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-accent via-secondary to-primary text-white rounded-lg hover:scale-105 hover:shadow-lg hover:shadow-accent/50 transition-all duration-300 font-semibold"
+            >
+              <FileText className="w-4 h-4" />
+              Devis gratuit
+            </a>
+            <a href="/#contact" className="text-primary font-semibold transition-colors">{t("nav.contact")}</a>
             <LanguageSwitcher />
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 hover:bg-primary/10 rounded-lg transition-colors"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="w-6 h-6 text-primary" />
+            ) : (
+              <Menu className="w-6 h-6 text-primary" />
+            )}
+          </button>
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-md border-b border-border shadow-lg">
+            <div className="flex flex-col gap-4 px-6 py-6">
+              <a 
+                href="/#accueil" 
+                className="hover:text-primary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.home")}
+              </a>
+              <a 
+                href="/#about" 
+                className="hover:text-secondary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.about")}
+              </a>
+              <a 
+                href="/#portfolio" 
+                className="hover:text-accent transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.portfolio")}
+              </a>
+              <a 
+                href="/#services" 
+                className="hover:text-secondary transition-colors py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.services")}
+              </a>
+              <a 
+                href="/devis" 
+                className="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-accent via-secondary to-primary text-white rounded-lg hover:scale-105 transition-all font-semibold justify-center"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <FileText className="w-4 h-4" />
+                Devis gratuit
+              </a>
+              <a 
+                href="/#contact" 
+                className="text-primary font-semibold py-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {t("nav.contact")}
+              </a>
+              <div className="pt-2 border-t border-border">
+                <LanguageSwitcher />
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* Main Content */}
-      <main className="pt-32 pb-20 px-6 relative z-10">
-        <div className="max-w-5xl mx-auto">
-          {/* Title Section */}
+      {/* Contact Section - DARK PURPLE */}
+      <section className="pt-32 pb-20 px-6 bg-gradient-to-br from-background via-secondary/20 to-accent/20 relative overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-1/4 w-72 h-72 bg-primary/50 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-secondary/50 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/40 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+        </div>
+        
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-[#6C63FF] via-[#5A3BEF] to-[#00D1FF] bg-clip-text text-transparent mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               Contactez-nous
-            </h1>
-            <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-6">
-              Transformons vos idées en réalité digitale
             </h2>
-            <p className="text-lg text-foreground/80 max-w-2xl mx-auto leading-relaxed">
+            <h3 className="text-2xl font-semibold text-foreground mb-6">
+              Transformons vos idées en réalité digitale
+            </h3>
+            <p className="text-lg text-foreground/90 mb-12 leading-relaxed max-w-2xl mx-auto">
               Un projet en tête ? N'hésitez pas à nous contacter pour en discuter. Nous serons ravis de vous accompagner dans la création de votre site web.
             </p>
           </div>
-
-          {/* Contact Boxes */}
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {/* Email Box */}
-            <div className="group relative p-8 rounded-3xl bg-gradient-to-br from-background/90 to-background/60 backdrop-blur-sm border-2 border-[#00D1FF]/50 shadow-2xl shadow-[#00D1FF]/30 hover:shadow-[#00D1FF]/50 hover:scale-105 hover:-translate-y-2 transition-all duration-500">
-              <div className="absolute inset-0 rounded-3xl border-2 border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-              
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#00D1FF]/30 to-[#4BE3C1]/30 rounded-bl-full blur-2xl group-hover:blur-3xl transition-all"></div>
-              
-              <div className="relative z-10 text-center">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#00D1FF] to-[#4BE3C1] flex items-center justify-center mb-6 shadow-lg shadow-[#00D1FF]/50 group-hover:rotate-6 transition-transform duration-300 mx-auto">
-                  <Mail className="w-10 h-10 text-white" />
-                </div>
-                
-                <h3 className="text-2xl font-bold mb-6 text-[#00D1FF]">Email</h3>
-                
-                <div className="mb-6">
-                  <div className="text-4xl mb-3">✉️</div>
-                  <a 
-                    href="mailto:info@guapowebdesigner.com"
-                    className="text-lg font-medium block hover:text-[#00D1FF] transition-colors"
-                  >
-                    info@guapowebdesigner.com
-                  </a>
-                </div>
-                
-                <button
-                  onClick={() => copyToClipboard("info@guapowebdesigner.com", "email")}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#00D1FF] to-[#4BE3C1] text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg shadow-[#00D1FF]/40 hover:shadow-[#4BE3C1]/50 font-semibold"
-                >
-                  <Copy className="w-4 h-4" />
-                  Copier
-                </button>
+          
+          {/* Contact Cards */}
+          <div className="grid md:grid-cols-3 gap-6">
+            <a 
+              href="mailto:info@guapowebdesigner.com" 
+              className="group p-8 bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur-sm border-2 border-primary/30 rounded-2xl hover:shadow-2xl hover:shadow-primary/20 hover:scale-105 transition-all"
+            >
+              <div className="w-16 h-16 rounded-xl mb-4 flex items-center justify-center shadow-lg bg-gradient-to-br from-primary to-secondary">
+                <Mail className="w-8 h-8 text-white" />
               </div>
-            </div>
+              <h3 className="text-xl font-bold mb-2 text-foreground">Email</h3>
+              <p className="text-primary font-semibold text-lg">info@guapowebdesigner.com</p>
+            </a>
 
-            {/* Instagram Box */}
-            <div className="group relative p-8 rounded-3xl bg-gradient-to-br from-background/90 to-background/60 backdrop-blur-sm border-2 border-[#4BE3C1]/50 shadow-2xl shadow-[#4BE3C1]/30 hover:shadow-[#4BE3C1]/50 hover:scale-105 hover:-translate-y-2 transition-all duration-500">
-              <div className="absolute inset-0 rounded-3xl border-2 border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-              
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#4BE3C1]/30 to-[#00D1FF]/30 rounded-bl-full blur-2xl group-hover:blur-3xl transition-all"></div>
-              
-              <div className="relative z-10 text-center">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#4BE3C1] to-[#00D1FF] flex items-center justify-center mb-6 shadow-lg shadow-[#4BE3C1]/50 group-hover:rotate-6 transition-transform duration-300 mx-auto">
-                  <Instagram className="w-10 h-10 text-white" />
-                </div>
-                
-                <h3 className="text-2xl font-bold mb-6 text-[#4BE3C1]">Instagram</h3>
-                
-                <div className="mb-6">
-                  <div className="text-4xl mb-3">📸</div>
-                  <a 
-                    href="https://www.instagram.com/guapo_webdesigner/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-lg font-medium block hover:text-[#4BE3C1] transition-colors"
-                  >
-                    @guapo_webdesigner
-                  </a>
-                </div>
-                
-                <button
-                  onClick={() => copyToClipboard("@guapo_webdesigner", "instagram")}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#4BE3C1] to-[#00D1FF] text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg shadow-[#4BE3C1]/40 hover:shadow-[#00D1FF]/50 font-semibold"
-                >
-                  <Copy className="w-4 h-4" />
-                  Copier
-                </button>
+            <a 
+              href="https://www.instagram.com/guapo_webdesigner/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group p-8 bg-gradient-to-br from-accent/10 to-accent/5 backdrop-blur-sm border-2 border-accent/30 rounded-2xl hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 transition-all"
+            >
+              <div className="w-16 h-16 rounded-xl mb-4 flex items-center justify-center shadow-lg bg-gradient-to-br from-accent to-secondary">
+                <Instagram className="w-8 h-8 text-white" />
               </div>
-            </div>
+              <h3 className="text-xl font-bold mb-2 text-foreground">Instagram</h3>
+              <p className="text-accent font-semibold text-lg">@guapo_webdesigner</p>
+            </a>
 
-            {/* Devis Box */}
-            <div className="group relative p-8 rounded-3xl bg-gradient-to-br from-background/90 to-background/60 backdrop-blur-sm border-2 border-[#6C63FF]/50 shadow-2xl shadow-[#6C63FF]/30 hover:shadow-[#6C63FF]/50 hover:scale-105 hover:-translate-y-2 transition-all duration-500">
-              <div className="absolute inset-0 rounded-3xl border-2 border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-              
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#6C63FF]/30 to-[#5A3BEF]/30 rounded-bl-full blur-2xl group-hover:blur-3xl transition-all"></div>
-              
-              <div className="relative z-10 text-center">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#6C63FF] to-[#5A3BEF] flex items-center justify-center mb-6 shadow-lg shadow-[#6C63FF]/50 group-hover:rotate-6 transition-transform duration-300 mx-auto">
-                  <FileText className="w-10 h-10 text-white" />
-                </div>
-                
-                <h3 className="text-2xl font-bold mb-6 text-[#6C63FF]">Devis Gratuit</h3>
-                
-                <div className="mb-6">
-                  <div className="text-4xl mb-3">📋</div>
-                  <p className="text-lg font-medium">
-                    Obtenez un devis personnalisé pour votre projet
-                  </p>
-                </div>
-                
-                <a
-                  href="/devis"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#6C63FF] to-[#5A3BEF] text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg shadow-[#6C63FF]/40 hover:shadow-[#5A3BEF]/50 font-semibold"
-                >
-                  <FileText className="w-4 h-4" />
-                  Demander un devis
-                </a>
+            <a 
+              href="/devis" 
+              className="group p-8 bg-gradient-to-br from-secondary/10 to-secondary/5 backdrop-blur-sm border-2 border-secondary/30 rounded-2xl hover:shadow-2xl hover:shadow-secondary/20 hover:scale-105 transition-all"
+            >
+              <div className="w-16 h-16 rounded-xl mb-4 flex items-center justify-center shadow-lg bg-gradient-to-br from-secondary via-accent to-primary">
+                <FileText className="w-8 h-8 text-white" />
               </div>
-            </div>
+              <h3 className="text-xl font-bold mb-2 text-foreground">Devis Gratuit</h3>
+              <p className="text-secondary font-semibold text-lg">Obtenez une estimation</p>
+            </a>
           </div>
         </div>
-      </main>
+      </section>
 
-      {/* Footer */}
-      <footer className="py-8 px-6 border-t border-border bg-gradient-to-r from-[#6C63FF]/10 via-[#00D1FF]/10 to-[#4BE3C1]/10 backdrop-blur-sm mt-20">
+      {/* Footer - DARK PURPLE */}
+      <footer className="py-12 px-6 border-t border-border bg-card/50 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             {/* Column 1: Brand */}
             <div>
-              <p className="text-foreground/70 text-sm">
-                © 2025 <span className="bg-gradient-to-r from-[#6C63FF] via-[#00D1FF] to-[#4BE3C1] bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer.
+              <h3 className="font-bold text-lg mb-3 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Guapo Web Designer
+              </h3>
+              <p className="text-foreground/80 text-sm leading-relaxed">
+                Nous créons des designs colorés et joyeux qui donnent vie à vos projets digitaux.
               </p>
             </div>
 
             {/* Column 2: Quick Links */}
             <div>
+              <h3 className="font-semibold text-base mb-3">Liens rapides</h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="/#portfolio" className="text-foreground/70 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                  <a href="/#portfolio" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
                     <span>→</span> Portfolio
                   </a>
                 </li>
                 <li>
-                  <a href="/#services" className="text-foreground/70 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                  <a href="/#services" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
                     <span>→</span> Services
+                  </a>
+                </li>
+                <li>
+                  <a href="/#contact" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                    <span>→</span> Contact
                   </a>
                 </li>
               </ul>
@@ -201,23 +221,41 @@ export default function ContactPage() {
 
             {/* Column 3: Legal */}
             <div>
+              <h3 className="font-semibold text-base mb-3">Informations légales</h3>
               <ul className="space-y-2">
                 <li>
-                  <a href="/politique-confidentialite" className="text-foreground/70 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                  <a href="/politique-confidentialite" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
                     <span>→</span> Politique de confidentialité
                   </a>
                 </li>
                 <li>
-                  <a href="/mentions-legales" className="text-foreground/70 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                  <a href="/mentions-legales" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
                     <span>→</span> Mentions légales
                   </a>
                 </li>
               </ul>
             </div>
+
+            {/* Column 4: Social */}
+            <div>
+              <h3 className="font-semibold text-base mb-3">Suivez-nous</h3>
+              <a 
+                href="https://www.instagram.com/guapo_webdesigner/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2"
+              >
+                <Instagram className="w-4 h-4" />
+                <span>Instagram</span>
+              </a>
+            </div>
           </div>
 
-          <div className="text-center text-foreground/70 text-xs pt-6 border-t border-border">
-            Tous droits réservés.
+          {/* Copyright */}
+          <div className="pt-8 border-t border-border text-center">
+            <p className="text-foreground/80 text-sm">
+              © 2025 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer. {t("footer.rights")}
+            </p>
           </div>
         </div>
       </footer>
