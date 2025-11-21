@@ -435,19 +435,71 @@ export async function sendQuoteEmail(data: {
             border-radius: 0 0 10px 10px;
             padding: 25px;
           }
-          .price-box {
+          .price-section {
             background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
             border: 2px solid #8b5cf6;
             border-radius: 10px;
             padding: 20px;
             margin: 20px 0;
-            text-align: center;
           }
-          .price-total {
-            font-size: 32px;
+          .price-title {
+            font-size: 18px;
             font-weight: 700;
             color: #6d28d9;
-            margin: 10px 0;
+            text-align: center;
+            margin-bottom: 15px;
+          }
+          .price-grid {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+          }
+          .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f3f4f6;
+          }
+          .price-row:last-child {
+            border-bottom: none;
+          }
+          .price-category {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b5cf6;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #e9d5ff;
+          }
+          .price-category:first-child {
+            margin-top: 0;
+          }
+          .price-label {
+            color: #374151;
+            font-size: 14px;
+          }
+          .price-value {
+            font-weight: 600;
+            color: #8b5cf6;
+            font-size: 14px;
+          }
+          .price-subtotal {
+            background: #f9fafb;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+          }
+          .price-total {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            margin-top: 10px;
           }
           .maintenance-box {
             background: #fef3f4;
@@ -494,13 +546,35 @@ export async function sendQuoteEmail(data: {
           <p>Merci d'avoir fait confiance à <strong style="color: #8b5cf6;">GUAPO Web Designer</strong> ! 
           Nous avons bien reçu votre demande pour <strong>${escapeHtml(data.company || 'votre projet')}</strong>.</p>
 
-          <!-- Estimation -->
-          <div class="price-box">
-            <div style="font-size: 18px; font-weight: 700; color: #6d28d9; margin-bottom: 10px;">💰 Votre Estimation</div>
-            <div class="price-total">${pricing.minTotal}€ - ${pricing.maxTotal}€</div>
-            <div style="font-size: 14px; color: #6b7280; margin-top: 10px;">
-              ${escapeHtml(data.siteType)}
-              ${data.pageCount ? ` • ${escapeHtml(data.pageCount.toString())} pages` : ''}
+          <!-- Détails de l'estimation -->
+          <div class="price-section">
+            <div class="price-title">💰 Détails de votre estimation</div>
+            
+            <div class="price-grid">
+              ${Object.entries(groupedBreakdown).map(([category, items]) => `
+                <div class="price-category">${category}</div>
+                ${items.map(({ item, price }) => `
+                  <div class="price-row">
+                    <span class="price-label">${escapeHtml(item)}</span>
+                    <span class="price-value">${escapeHtml(price)}</span>
+                  </div>
+                `).join('')}
+              `).join('')}
+            </div>
+
+            <div class="price-subtotal">
+              <div class="price-row">
+                <span class="price-label"><strong>Total HT (Hors TVA)</strong></span>
+                <span class="price-value"><strong>${pricing.minTotal === pricing.maxTotal ? `${pricing.minTotal}€` : `${pricing.minTotal}€ - ${pricing.maxTotal}€`}</strong></span>
+              </div>
+              <div class="price-row">
+                <span class="price-label">TVA (21%)</span>
+                <span class="price-value">${pricing.minTotal === pricing.maxTotal ? `${Math.round(pricing.minTotal * 0.21)}€` : `${Math.round(pricing.minTotal * 0.21)}€ - ${Math.round(pricing.maxTotal * 0.21)}€`}</span>
+              </div>
+            </div>
+
+            <div class="price-total">
+              Total TTC: ${pricing.minTotal === pricing.maxTotal ? `${Math.round(pricing.minTotal * 1.21)}€` : `${Math.round(pricing.minTotal * 1.21)}€ - ${Math.round(pricing.maxTotal * 1.21)}€`}
             </div>
           </div>
 
@@ -510,16 +584,16 @@ export async function sendQuoteEmail(data: {
             <h3 style="color: #8b5cf6; text-align: center; margin-top: 0;">🔧 Maintenance – Sites vitrines</h3>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">📦 Abonnement Annuel - 300€/an</div>
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">📦 Abonnement Annuel - 300€/an HT (363€ TTC)</div>
               <div style="font-size: 13px; color: #4b5563;">
                 • 6 interventions/an<br>
-                • Interventions supplémentaires : 100€<br>
+                • Interventions supplémentaires : 100€ HT (121€ TTC)<br>
                 • Délai : 48h ouvrées
               </div>
             </div>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">💳 Par Intervention - 100€</div>
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">💳 Par Intervention - 100€ HT (121€ TTC)</div>
               <div style="font-size: 13px; color: #4b5563;">
                 • Sans engagement<br>
                 • Délai : 48h ouvrées
@@ -536,16 +610,16 @@ export async function sendQuoteEmail(data: {
             <h3 style="color: #8b5cf6; text-align: center; margin-top: 0;">🛒 Maintenance – Sites e-commerce</h3>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">📦 Abonnement Annuel - 700€/an</div>
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">📦 Abonnement Annuel - 700€/an HT (847€ TTC)</div>
               <div style="font-size: 13px; color: #4b5563;">
                 • 12 interventions/an<br>
-                • Interventions supplémentaires : 150€<br>
+                • Interventions supplémentaires : 150€ HT (181.50€ TTC)<br>
                 • Délai : 48h ouvrées
               </div>
             </div>
 
             <div class="option-card">
-              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">💳 Par Intervention - 150€</div>
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">💳 Par Intervention - 150€ HT (181.50€ TTC)</div>
               <div style="font-size: 13px; color: #4b5563;">
                 • Sans engagement<br>
                 • Délai : 48h ouvrées
@@ -564,17 +638,17 @@ export async function sendQuoteEmail(data: {
             
             ${data.siteType.toLowerCase().includes('vitrine') ? `
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Abonnement Annuel - 300€/an')}" class="btn">
-              📦 Abonnement Annuel (300€/an)
+              📦 Abonnement Annuel (363€ TTC/an)
             </a>
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Par Intervention - 100€')}" class="btn">
-              💳 Par Intervention (100€)
+              💳 Par Intervention (121€ TTC)
             </a>
             ` : data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Abonnement Annuel - 700€/an')}" class="btn">
-              📦 Abonnement Annuel (700€/an)
+              📦 Abonnement Annuel (847€ TTC/an)
             </a>
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Par Intervention - 150€')}" class="btn">
-              💳 Par Intervention (150€)
+              💳 Par Intervention (181.50€ TTC)
             </a>
             ` : `
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}" class="btn">
