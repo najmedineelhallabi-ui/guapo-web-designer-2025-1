@@ -17,10 +17,10 @@ export const PRICING = {
 
   // Fonctionnalités
   features: {
-    "Formulaire de contact simple": 70,
+    "Formulaire de contact simple": 60,
     "Formulaire de demande de devis": 100,
-    "Envoi automatique d'emails de confirmation (pour devis)": 75,
-    "Système de prise de rendez-vous en ligne (avec emails automatiques)": 200,
+    "Envoi automatique d'emails de confirmation (pour devis)": 65,
+    "Système de prise de rendez-vous en ligne (avec emails automatiques)": 150,
     "Intégration calendrier (Google Calendar, etc.)": 50,
     "Multilingue": 125,
     // Fonctionnalités E-commerce
