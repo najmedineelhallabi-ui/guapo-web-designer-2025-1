@@ -180,54 +180,67 @@ export function QuoteEmail({
               <Text style={{ 
                 fontWeight: 'bold', 
                 fontSize: '18px', 
-                marginBottom: '15px', 
+                marginBottom: '10px', 
                 color: '#7c3aed',
-                marginTop: 0
+                marginTop: 0,
+                textAlign: 'center'
               }}>
                 🔧 Maintenance – Sites vitrines
               </Text>
+              
+              <Text style={{ 
+                fontSize: '14px', 
+                color: '#4b5563',
+                marginBottom: '20px',
+                textAlign: 'center',
+                fontWeight: '500'
+              }}>
+                Choisissez votre formule de maintenance :
+              </Text>
 
-              {/* Option 1: Forfait annuel limité */}
+              {/* Option 1: Abonnement annuel */}
               <Section style={{ 
                 backgroundColor: '#ffffff', 
-                padding: '15px', 
-                borderRadius: '6px',
+                padding: '20px', 
+                borderRadius: '8px',
                 marginBottom: '15px',
-                border: '1px solid #e0e7ff'
+                border: '2px solid #7c3aed',
+                boxShadow: '0 4px 6px rgba(124, 58, 237, 0.1)'
               }}>
                 <Text style={{ 
                   fontWeight: 'bold', 
-                  fontSize: '15px', 
+                  fontSize: '16px', 
                   color: '#7c3aed',
                   marginTop: 0,
-                  marginBottom: '10px'
+                  marginBottom: '12px',
+                  textAlign: 'center'
                 }}>
-                  📦 Forfait annuel limité - 300€/an
+                  📦 Abonnement Annuel - 300€/an
                 </Text>
                 
                 <Text style={{ 
-                  margin: '5px 0', 
+                  margin: '8px 0 5px 0', 
                   color: '#4b5563',
                   fontSize: '14px',
                   fontWeight: 'bold'
                 }}>
                   Inclus :
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Jusqu'à 6 interventions par an
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Mises à jour mineures (texte, images)
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Corrections simples
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Sécurité & sauvegardes
                 </Text>
                 
                 <Text style={{ 
-                  margin: '10px 0 5px 0', 
+                  margin: '12px 0 5px 0', 
                   color: '#4b5563',
                   fontSize: '14px'
                 }}>
@@ -242,41 +255,46 @@ export function QuoteEmail({
                 </Text>
               </Section>
 
-              {/* Option 2: Paiement à l'intervention */}
+              {/* Option 2: Paiement par intervention */}
               <Section style={{ 
                 backgroundColor: '#ffffff', 
-                padding: '15px', 
-                borderRadius: '6px',
+                padding: '20px', 
+                borderRadius: '8px',
                 marginBottom: '15px',
-                border: '1px solid #e0e7ff'
+                border: '2px solid #a78bfa',
+                boxShadow: '0 4px 6px rgba(167, 139, 250, 0.1)'
               }}>
                 <Text style={{ 
                   fontWeight: 'bold', 
-                  fontSize: '15px', 
+                  fontSize: '16px', 
                   color: '#7c3aed',
                   marginTop: 0,
-                  marginBottom: '10px'
+                  marginBottom: '12px',
+                  textAlign: 'center'
                 }}>
-                  💳 Paiement à l'intervention - 100€/intervention
+                  💳 Paiement par Intervention - 100€
                 </Text>
                 
                 <Text style={{ 
-                  margin: '5px 0', 
+                  margin: '8px 0 5px 0', 
                   color: '#4b5563',
                   fontSize: '14px',
                   fontWeight: 'bold'
                 }}>
                   Chaque intervention comprend :
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Mise à jour mineure
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Correction ou modification simple
+                </Text>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
+                  • Aucun engagement
                 </Text>
                 
                 <Text style={{ 
-                  margin: '10px 0 5px 0', 
+                  margin: '12px 0 5px 0', 
                   color: '#4b5563',
                   fontSize: '14px'
                 }}>
@@ -285,7 +303,7 @@ export function QuoteEmail({
               </Section>
 
               {/* Notes explicatives */}
-              <Hr style={{ borderColor: '#c7d2fe', margin: '15px 0' }} />
+              <Hr style={{ borderColor: '#c7d2fe', margin: '20px 0' }} />
               
               <Text style={{ 
                 fontWeight: 'bold', 
@@ -301,9 +319,6 @@ export function QuoteEmail({
                 • <strong>Interventions incluses :</strong> modifications de texte ou images, corrections mineures, mises à jour simples, sécurité et sauvegardes.
               </Text>
               <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
-                • <strong>Interventions supplémentaires :</strong> facturées 100€/intervention si dépassement du forfait annuel.
-              </Text>
-              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
                 • <strong>Délai de traitement :</strong> 48h ouvrées, sauf urgence à discuter.
               </Text>
               <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
@@ -313,19 +328,20 @@ export function QuoteEmail({
               {/* Astuce commerciale */}
               <Section style={{ 
                 backgroundColor: '#fef3c7', 
-                padding: '12px', 
-                borderRadius: '6px',
+                padding: '15px', 
+                borderRadius: '8px',
                 marginTop: '15px',
-                border: '1px solid #fbbf24'
+                border: '2px solid #fbbf24'
               }}>
                 <Text style={{ 
                   margin: 0,
                   color: '#78350f',
-                  fontSize: '13px',
+                  fontSize: '14px',
                   lineHeight: '1.6',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  fontWeight: '600'
                 }}>
-                  💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site, afin de tester nos services avant de souscrire au forfait annuel.
+                  💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site !
                 </Text>
               </Section>
             </Section>
@@ -343,57 +359,70 @@ export function QuoteEmail({
               <Text style={{ 
                 fontWeight: 'bold', 
                 fontSize: '18px', 
-                marginBottom: '15px', 
+                marginBottom: '10px', 
                 color: '#dc2626',
-                marginTop: 0
+                marginTop: 0,
+                textAlign: 'center'
               }}>
                 🛒 Maintenance – Sites e-commerce
               </Text>
+              
+              <Text style={{ 
+                fontSize: '14px', 
+                color: '#4b5563',
+                marginBottom: '20px',
+                textAlign: 'center',
+                fontWeight: '500'
+              }}>
+                Choisissez votre formule de maintenance :
+              </Text>
 
-              {/* Option 1: Forfait annuel limité */}
+              {/* Option 1: Abonnement annuel */}
               <Section style={{ 
                 backgroundColor: '#ffffff', 
-                padding: '15px', 
-                borderRadius: '6px',
+                padding: '20px', 
+                borderRadius: '8px',
                 marginBottom: '15px',
-                border: '1px solid #fecaca'
+                border: '2px solid #dc2626',
+                boxShadow: '0 4px 6px rgba(220, 38, 38, 0.1)'
               }}>
                 <Text style={{ 
                   fontWeight: 'bold', 
-                  fontSize: '15px', 
+                  fontSize: '16px', 
                   color: '#dc2626',
                   marginTop: 0,
-                  marginBottom: '10px'
+                  marginBottom: '12px',
+                  textAlign: 'center'
                 }}>
-                  📦 Forfait annuel limité - 700€/an
+                  📦 Abonnement Annuel - 700€/an
                 </Text>
                 
                 <Text style={{ 
-                  margin: '5px 0', 
+                  margin: '8px 0 5px 0', 
                   color: '#4b5563',
                   fontSize: '14px',
                   fontWeight: 'bold'
                 }}>
                   Inclus :
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Jusqu'à 12 interventions par an
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Mises à jour du site et des plugins
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Corrections mineures (texte, images, prix)
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Gestion sécurité & sauvegardes
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
-                  • Vérification régulière des passerelles de paiement et suivi des commandes
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
+                  • Vérification des passerelles de paiement
                 </Text>
                 
                 <Text style={{ 
-                  margin: '10px 0 5px 0', 
+                  margin: '12px 0 5px 0', 
                   color: '#4b5563',
                   fontSize: '14px'
                 }}>
@@ -408,41 +437,46 @@ export function QuoteEmail({
                 </Text>
               </Section>
 
-              {/* Option 2: Paiement à l'intervention */}
+              {/* Option 2: Paiement par intervention */}
               <Section style={{ 
                 backgroundColor: '#ffffff', 
-                padding: '15px', 
-                borderRadius: '6px',
+                padding: '20px', 
+                borderRadius: '8px',
                 marginBottom: '15px',
-                border: '1px solid #fecaca'
+                border: '2px solid #fca5a5',
+                boxShadow: '0 4px 6px rgba(252, 165, 165, 0.1)'
               }}>
                 <Text style={{ 
                   fontWeight: 'bold', 
-                  fontSize: '15px', 
+                  fontSize: '16px', 
                   color: '#dc2626',
                   marginTop: 0,
-                  marginBottom: '10px'
+                  marginBottom: '12px',
+                  textAlign: 'center'
                 }}>
-                  💳 Paiement à l'intervention - 150€/intervention
+                  💳 Paiement par Intervention - 150€
                 </Text>
                 
                 <Text style={{ 
-                  margin: '5px 0', 
+                  margin: '8px 0 5px 0', 
                   color: '#4b5563',
                   fontSize: '14px',
                   fontWeight: 'bold'
                 }}>
                   Chaque intervention comprend :
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Mise à jour ou correction mineure
                 </Text>
-                <Text style={{ margin: '3px 0 3px 15px', color: '#6b7280', fontSize: '13px' }}>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
                   • Sécurité et sauvegardes
+                </Text>
+                <Text style={{ margin: '4px 0 4px 15px', color: '#6b7280', fontSize: '14px' }}>
+                  • Aucun engagement
                 </Text>
                 
                 <Text style={{ 
-                  margin: '10px 0 5px 0', 
+                  margin: '12px 0 5px 0', 
                   color: '#4b5563',
                   fontSize: '14px'
                 }}>
@@ -451,7 +485,7 @@ export function QuoteEmail({
               </Section>
 
               {/* Notes explicatives */}
-              <Hr style={{ borderColor: '#fecaca', margin: '15px 0' }} />
+              <Hr style={{ borderColor: '#fecaca', margin: '20px 0' }} />
               
               <Text style={{ 
                 fontWeight: 'bold', 
@@ -467,9 +501,6 @@ export function QuoteEmail({
                 • <strong>Interventions incluses :</strong> corrections de textes/images, mises à jour produits, vérification des paiements, sécurité, sauvegardes.
               </Text>
               <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
-                • <strong>Interventions supplémentaires :</strong> facturées 150€/intervention si dépassement du forfait annuel.
-              </Text>
-              <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
                 • <strong>Délai de traitement :</strong> 48h ouvrées, sauf urgence à discuter.
               </Text>
               <Text style={{ margin: '5px 0', color: '#4b5563', fontSize: '13px', lineHeight: '1.6' }}>
@@ -479,19 +510,20 @@ export function QuoteEmail({
               {/* Astuce commerciale */}
               <Section style={{ 
                 backgroundColor: '#fef3c7', 
-                padding: '12px', 
-                borderRadius: '6px',
+                padding: '15px', 
+                borderRadius: '8px',
                 marginTop: '15px',
-                border: '1px solid #fbbf24'
+                border: '2px solid #fbbf24'
               }}>
                 <Text style={{ 
                   margin: 0,
                   color: '#78350f',
-                  fontSize: '13px',
+                  fontSize: '14px',
                   lineHeight: '1.6',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  fontWeight: '600'
                 }}>
-                  💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site e-commerce, afin de tester nos services avant de souscrire au forfait annuel.
+                  💡 <strong>Offre spéciale :</strong> 1 mois de maintenance offert pour tout nouveau site e-commerce !
                 </Text>
               </Section>
             </Section>
