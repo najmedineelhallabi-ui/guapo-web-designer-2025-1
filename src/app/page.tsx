@@ -10,27 +10,36 @@ export default function Home() {
   const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showAnnouncement, setShowAnnouncement] = useState(false);
+  const [isAnimatingOut, setIsAnimatingOut] = useState(false);
 
   useEffect(() => {
-    // Show announcement - using unique key to ensure it displays
-    const dismissed = localStorage.getItem('promo-banner-nov-2025');
+    // Show announcement with bounce animation
+    const dismissed = localStorage.getItem('banner-promo-nov2025-v2');
     if (!dismissed) {
-      setShowAnnouncement(true);
+      // Small delay then bounce in
+      setTimeout(() => {
+        setShowAnnouncement(true);
+      }, 300);
       
-      // Auto-hide after 8 seconds (increased visibility time)
+      // Auto-hide after 8 seconds with animation
       const timer = setTimeout(() => {
-        setShowAnnouncement(false);
-        localStorage.setItem('promo-banner-nov-2025', 'true');
+        setIsAnimatingOut(true);
+        setTimeout(() => {
+          setShowAnnouncement(false);
+          localStorage.setItem('banner-promo-nov2025-v2', 'true');
+        }, 600); // Wait for animation to complete
       }, 8000);
       
-      // Cleanup timer on unmount
       return () => clearTimeout(timer);
     }
   }, []);
 
   const dismissAnnouncement = () => {
-    setShowAnnouncement(false);
-    localStorage.setItem('promo-banner-nov-2025', 'true');
+    setIsAnimatingOut(true);
+    setTimeout(() => {
+      setShowAnnouncement(false);
+      localStorage.setItem('banner-promo-nov2025-v2', 'true');
+    }, 600);
   };
 
   return (
@@ -43,9 +52,20 @@ export default function Home() {
         />
       )}
 
-      {/* Announcement Banner */}
+      {/* Announcement Banner with Bounce Animation */}
       {showAnnouncement && (
-        <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-accent via-secondary to-primary text-white py-4 px-6 shadow-lg animate-in slide-in-from-top duration-500">
+        <div 
+          className={`fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-accent via-secondary to-primary text-white py-4 px-6 shadow-lg ${
+            isAnimatingOut 
+              ? 'animate-out slide-out-to-top duration-500' 
+              : 'animate-in slide-in-from-top duration-700 bounce-in'
+          }`}
+          style={{
+            animation: isAnimatingOut 
+              ? 'slideOutTop 0.5s ease-in forwards' 
+              : 'bounceIn 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards'
+          }}
+        >
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 flex-1 justify-center">
               <span className="text-2xl animate-bounce">🎁</span>

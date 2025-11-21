@@ -1,3 +1,52 @@
+/* Updated: 2025-11-21T22:45:55.001Z */
+/* Updated: 2025-11-21T22:43:56.631Z */
+/* Updated: 2025-11-21T22:41:54.548Z */
+/* Updated: 2025-11-21T22:31:44.336Z */
+/* Updated: 2025-11-21T22:25:40.924Z */
+/* Updated: 2025-11-21T21:30:46.704Z */
+/* Updated: 2025-11-21T21:29:35.079Z */
+/* Updated: 2025-11-21T21:27:03.111Z */
+/* Updated: 2025-11-21T21:17:15.371Z */
+/* Updated: 2025-11-21T21:15:48.601Z */
+/* Updated: 2025-11-21T20:40:29.925Z */
+/* Updated: 2025-11-21T15:22:28.010Z */
+/* Updated: 2025-11-21T14:34:34.609Z */
+/* Updated: 2025-11-21T14:32:25.236Z */
+/* Updated: 2025-11-21T10:54:32.086Z */
+/* Updated: 2025-11-21T10:51:34.532Z */
+/* Updated: 2025-11-21T10:49:58.773Z */
+/* Updated: 2025-11-21T10:46:57.619Z */
+/* Updated: 2025-11-21T10:44:16.742Z */
+/* Updated: 2025-11-21T10:05:09.860Z */
+/* Updated: 2025-11-21T01:38:33.894Z */
+/* Updated: 2025-11-21T01:32:16.335Z */
+/* Updated: 2025-11-21T01:24:33.797Z */
+/* Updated: 2025-11-21T01:17:56.765Z */
+/* Updated: 2025-11-21T01:13:18.400Z */
+/* Updated: 2025-11-21T00:59:01.401Z */
+/* Updated: 2025-11-21T00:54:56.371Z */
+/* Updated: 2025-11-21T00:52:26.879Z */
+/* Updated: 2025-11-21T00:50:41.884Z */
+/* Updated: 2025-11-21T00:47:47.199Z */
+/* Updated: 2025-11-21T00:47:14.227Z */
+/* Updated: 2025-11-21T00:38:47.201Z */
+/* Updated: 2025-11-21T00:34:04.563Z */
+/* Updated: 2025-11-21T00:31:14.040Z */
+/* Updated: 2025-11-21T00:30:12.850Z */
+/* Updated: 2025-11-21T00:26:07.772Z */
+/* Updated: 2025-11-21T00:23:16.026Z */
+/* Updated: 2025-11-21T00:15:51.080Z */
+/* Updated: 2025-11-21T00:11:49.640Z */
+/* Updated: 2025-11-21T00:08:41.562Z */
+/* Updated: 2025-11-20T23:59:08.752Z */
+/* Updated: 2025-11-20T23:45:49.978Z */
+/* Updated: 2025-11-20T23:37:52.045Z */
+/* Updated: 2025-11-20T23:31:13.785Z */
+/* Updated: 2025-11-20T23:24:01.845Z */
+/* Updated: 2025-11-20T23:22:27.334Z */
+/* Updated: 2025-11-20T21:50:19.136Z */
+/* Updated: 2025-11-20T21:19:39.697Z */
+/* Updated: 2025-11-20T21:17:56.247Z */
 /* Updated: 2025-11-20T17:49:53.964Z */
 /* Updated: 2025-11-17T21:16:44.645Z */
 /* Updated: 2025-11-17T21:10:00.426Z */
@@ -164,6 +213,43 @@
     will-change: filter;
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
+  }
+}
+
+/* Bounce In Animation for Announcement Banner */
+@keyframes bounceIn {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(10px);
+    opacity: 1;
+  }
+  65% {
+    transform: translateY(-5px);
+  }
+  80% {
+    transform: translateY(5px);
+  }
+  95% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Slide Out Top Animation for Announcement Banner */
+@keyframes slideOutTop {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-150%);
+    opacity: 0;
   }
 }
 
