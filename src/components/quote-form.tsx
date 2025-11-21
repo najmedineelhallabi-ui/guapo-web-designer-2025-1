@@ -1084,6 +1084,207 @@ export function QuoteForm() {
           </div>
         </div>
 
+        {/* Options de Maintenance */}
+        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-8">
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <h3 className="text-2xl font-bold text-foreground mb-2 flex items-center gap-3">
+                <Wrench className="w-7 h-7 text-primary" />
+                Options de Maintenance
+              </h3>
+              <p className="text-sm text-foreground/70">
+                Gardez votre site à jour et performant après sa mise en ligne
+              </p>
+            </div>
+            <div className="px-4 py-2 bg-gradient-to-r from-accent/20 to-secondary/20 border border-accent/40 rounded-lg">
+              <span className="text-sm font-bold text-accent">🎁 Premier mois offert !</span>
+            </div>
+          </div>
+          
+          {projectType === 'vitrine' ? (
+            <div className="space-y-4">
+              <p className="text-sm font-semibold text-foreground/80 mb-4">Choisissez votre formule de maintenance pour site vitrine :</p>
+              
+              {/* Abonnement Annuel - Vitrine */}
+              <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-primary/50 hover:bg-primary/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="maintenanceType"
+                  value="Abonnement Annuel - Site Vitrine (300€ HT/an - 363€ TTC/an)"
+                  defaultChecked={state.formData?.maintenanceType?.includes("Abonnement Annuel - Site Vitrine")}
+                  className="w-5 h-5 mt-1 text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                  disabled={isPending}
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-lg">📦</span>
+                    <span className="font-bold text-base text-foreground group-hover:text-primary transition-colors">
+                      Abonnement Annuel
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-primary">363€ TTC/an</span>
+                      <span className="text-sm text-foreground/60">(300€ HT)</span>
+                    </div>
+                    <ul className="text-sm text-foreground/70 space-y-1 ml-4">
+                      <li>✓ 6 interventions incluses par an</li>
+                      <li>✓ Interventions supplémentaires : 121€ TTC (100€ HT)</li>
+                      <li>✓ Délai d'intervention : 48h ouvrées</li>
+                      <li>✓ 🎁 Premier mois offert</li>
+                    </ul>
+                  </div>
+                </div>
+              </label>
+
+              {/* Par Intervention - Vitrine */}
+              <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-primary/50 hover:bg-primary/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="maintenanceType"
+                  value="Par Intervention - Site Vitrine (100€ HT - 121€ TTC)"
+                  defaultChecked={state.formData?.maintenanceType?.includes("Par Intervention - Site Vitrine")}
+                  className="w-5 h-5 mt-1 text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                  disabled={isPending}
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-lg">💳</span>
+                    <span className="font-bold text-base text-foreground group-hover:text-primary transition-colors">
+                      Par Intervention
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-primary">121€ TTC</span>
+                      <span className="text-sm text-foreground/60">(100€ HT)</span>
+                    </div>
+                    <ul className="text-sm text-foreground/70 space-y-1 ml-4">
+                      <li>✓ Sans engagement</li>
+                      <li>✓ Facturation à chaque intervention</li>
+                      <li>✓ Délai d'intervention : 48h ouvrées</li>
+                    </ul>
+                  </div>
+                </div>
+              </label>
+
+              {/* Pas de maintenance pour l'instant */}
+              <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-border/70 hover:bg-muted/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="maintenanceType"
+                  value="Pas de maintenance pour l'instant"
+                  defaultChecked={state.formData?.maintenanceType === "Pas de maintenance pour l'instant"}
+                  className="w-5 h-5 mt-1 text-muted-foreground focus:ring-2 focus:ring-muted cursor-pointer"
+                  disabled={isPending}
+                />
+                <div className="flex-1">
+                  <span className="font-semibold text-base text-foreground/70 group-hover:text-foreground transition-colors">
+                    Pas de maintenance pour l'instant
+                  </span>
+                  <p className="text-sm text-foreground/60 mt-1">
+                    Vous pourrez souscrire à une option de maintenance ultérieurement
+                  </p>
+                </div>
+              </label>
+            </div>
+          ) : projectType === 'ecommerce' ? (
+            <div className="space-y-4">
+              <p className="text-sm font-semibold text-foreground/80 mb-4">Choisissez votre formule de maintenance pour site e-commerce :</p>
+              
+              {/* Abonnement Annuel - E-commerce */}
+              <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="maintenanceType"
+                  value="Abonnement Annuel - Site E-commerce (700€ HT/an - 847€ TTC/an)"
+                  defaultChecked={state.formData?.maintenanceType?.includes("Abonnement Annuel - Site E-commerce")}
+                  className="w-5 h-5 mt-1 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  disabled={isPending}
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-lg">📦</span>
+                    <span className="font-bold text-base text-foreground group-hover:text-secondary transition-colors">
+                      Abonnement Annuel
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-secondary">847€ TTC/an</span>
+                      <span className="text-sm text-foreground/60">(700€ HT)</span>
+                    </div>
+                    <ul className="text-sm text-foreground/70 space-y-1 ml-4">
+                      <li>✓ 12 interventions incluses par an</li>
+                      <li>✓ Interventions supplémentaires : 181.50€ TTC (150€ HT)</li>
+                      <li>✓ Délai d'intervention : 48h ouvrées</li>
+                      <li>✓ 🎁 Premier mois offert</li>
+                    </ul>
+                  </div>
+                </div>
+              </label>
+
+              {/* Par Intervention - E-commerce */}
+              <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-secondary/50 hover:bg-secondary/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="maintenanceType"
+                  value="Par Intervention - Site E-commerce (150€ HT - 181.50€ TTC)"
+                  defaultChecked={state.formData?.maintenanceType?.includes("Par Intervention - Site E-commerce")}
+                  className="w-5 h-5 mt-1 text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  disabled={isPending}
+                />
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-lg">💳</span>
+                    <span className="font-bold text-base text-foreground group-hover:text-secondary transition-colors">
+                      Par Intervention
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-secondary">181.50€ TTC</span>
+                      <span className="text-sm text-foreground/60">(150€ HT)</span>
+                    </div>
+                    <ul className="text-sm text-foreground/70 space-y-1 ml-4">
+                      <li>✓ Sans engagement</li>
+                      <li>✓ Facturation à chaque intervention</li>
+                      <li>✓ Délai d'intervention : 48h ouvrées</li>
+                    </ul>
+                  </div>
+                </div>
+              </label>
+
+              {/* Pas de maintenance pour l'instant */}
+              <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-border/70 hover:bg-muted/5 cursor-pointer transition-all group">
+                <input
+                  type="radio"
+                  name="maintenanceType"
+                  value="Pas de maintenance pour l'instant"
+                  defaultChecked={state.formData?.maintenanceType === "Pas de maintenance pour l'instant"}
+                  className="w-5 h-5 mt-1 text-muted-foreground focus:ring-2 focus:ring-muted cursor-pointer"
+                  disabled={isPending}
+                />
+                <div className="flex-1">
+                  <span className="font-semibold text-base text-foreground/70 group-hover:text-foreground transition-colors">
+                    Pas de maintenance pour l'instant
+                  </span>
+                  <p className="text-sm text-foreground/60 mt-1">
+                    Vous pourrez souscrire à une option de maintenance ultérieurement
+                  </p>
+                </div>
+              </label>
+            </div>
+          ) : null}
+
+          {state.errors?.maintenanceType && (
+            <p className="text-red-600 text-sm mt-3 flex items-center gap-1">
+              <AlertCircle className="w-3 h-3" />
+              {state.errors.maintenanceType[0]}
+            </p>
+          )}
+        </div>
+
         {/* Champs libres / Commentaires */}
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-8">
           <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
