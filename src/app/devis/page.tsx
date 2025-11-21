@@ -8,6 +8,18 @@ import { LanguageSwitcher } from '@/components/language-switcher';
 import { useLanguage } from '@/contexts/language-context';
 import { useState } from 'react';
 
+// SEO Metadata - Export for page metadata
+export const metadata = {
+  title: "Devis Gratuit | GUAPO Web Designer - Estimation Site Web",
+  description: "Demandez votre devis gratuit pour la création de votre site web. Site vitrine, e-commerce, sur mesure. Réponse rapide sous 24-48h. Premier mois de maintenance offert !",
+  keywords: "devis site web, estimation site internet, prix site web, devis gratuit, création site belgique, tarif web designer",
+  openGraph: {
+    title: "Devis Gratuit | GUAPO Web Designer",
+    description: "Obtenez votre devis gratuit pour votre site web. Premier mois de maintenance offert !",
+    url: "https://guapowebdesigner.com/devis",
+  },
+};
+
 export default function DevisPage() {
   const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
