@@ -465,7 +465,7 @@ export default function Home() {
           </div>
           
           {/* Contact Cards */}
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
+          <div className="grid md:grid-cols-3 gap-6">
             <a 
               href="mailto:info@guapowebdesigner.com" 
               className="group p-8 bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur-sm border-2 border-primary/30 rounded-2xl hover:shadow-2xl hover:shadow-primary/20 hover:scale-105 transition-all"
@@ -500,111 +500,6 @@ export default function Home() {
               <h3 className="text-xl font-bold mb-2 text-foreground">Devis Gratuit</h3>
               <p className="text-secondary font-semibold text-lg">Obtenez une estimation</p>
             </a>
-          </div>
-
-          {/* Maintenance Options */}
-          <div className="mt-20">
-            <div className="text-center mb-12">
-              <h3 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Options de Maintenance
-              </h3>
-              <p className="text-lg text-foreground/80">
-                Gardez votre site à jour et performant
-              </p>
-            </div>
-
-            {/* Maintenance Grid */}
-            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              {/* Sites Vitrines */}
-              <div className="bg-gradient-to-br from-primary/10 to-primary/5 backdrop-blur-sm border-2 border-primary/30 rounded-2xl p-8 hover:shadow-2xl hover:shadow-primary/20 transition-all">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                    <Briefcase className="w-6 h-6 text-white" />
-                  </div>
-                  <h4 className="text-2xl font-bold text-foreground">Sites Vitrines</h4>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="bg-background/50 backdrop-blur-sm rounded-xl p-5 border border-primary/20">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="font-bold text-primary text-lg">📦 Abonnement Annuel</div>
-                      <div className="text-right">
-                        <div className="font-bold text-foreground">363€ TTC/an</div>
-                        <div className="text-sm text-foreground/60">300€ HT</div>
-                      </div>
-                    </div>
-                    <ul className="text-sm text-foreground/80 space-y-2">
-                      <li>✓ 6 interventions/an</li>
-                      <li>✓ Interventions supplémentaires: 121€ TTC (100€ HT)</li>
-                      <li>✓ Délai: 48h ouvrées</li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-background/50 backdrop-blur-sm rounded-xl p-5 border border-primary/20">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="font-bold text-primary text-lg">💳 Par Intervention</div>
-                      <div className="text-right">
-                        <div className="font-bold text-foreground">121€ TTC</div>
-                        <div className="text-sm text-foreground/60">100€ HT</div>
-                      </div>
-                    </div>
-                    <ul className="text-sm text-foreground/80 space-y-2">
-                      <li>✓ Sans engagement</li>
-                      <li>✓ Délai: 48h ouvrées</li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-gradient-to-r from-accent/20 to-secondary/20 rounded-xl p-4 text-center border border-accent/30">
-                    <div className="font-bold text-foreground">🎁 Le Premier Mois Offert !</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Sites E-commerce */}
-              <div className="bg-gradient-to-br from-secondary/10 to-secondary/5 backdrop-blur-sm border-2 border-secondary/30 rounded-2xl p-8 hover:shadow-2xl hover:shadow-secondary/20 transition-all">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-secondary to-accent flex items-center justify-center">
-                    <ShoppingCart className="w-6 h-6 text-white" />
-                  </div>
-                  <h4 className="text-2xl font-bold text-foreground">Sites E-commerce</h4>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="bg-background/50 backdrop-blur-sm rounded-xl p-5 border border-secondary/20">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="font-bold text-secondary text-lg">📦 Abonnement Annuel</div>
-                      <div className="text-right">
-                        <div className="font-bold text-foreground">847€ TTC/an</div>
-                        <div className="text-sm text-foreground/60">700€ HT</div>
-                      </div>
-                    </div>
-                    <ul className="text-sm text-foreground/80 space-y-2">
-                      <li>✓ 12 interventions/an</li>
-                      <li>✓ Interventions supplémentaires: 181.50€ TTC (150€ HT)</li>
-                      <li>✓ Délai: 48h ouvrées</li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-background/50 backdrop-blur-sm rounded-xl p-5 border border-secondary/20">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="font-bold text-secondary text-lg">💳 Par Intervention</div>
-                      <div className="text-right">
-                        <div className="font-bold text-foreground">181.50€ TTC</div>
-                        <div className="text-sm text-foreground/60">150€ HT</div>
-                      </div>
-                    </div>
-                    <ul className="text-sm text-foreground/80 space-y-2">
-                      <li>✓ Sans engagement</li>
-                      <li>✓ Délai: 48h ouvrées</li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-gradient-to-r from-accent/20 to-secondary/20 rounded-xl p-4 text-center border border-accent/30">
-                    <div className="font-bold text-foreground">🎁 Le Premier Mois Offert !</div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
