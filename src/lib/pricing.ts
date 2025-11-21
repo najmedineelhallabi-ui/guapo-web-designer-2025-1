@@ -4,15 +4,15 @@
 export const PRICING = {
   // Types de site
   siteTypes: {
-    "Site vitrine simple (1 à 3 pages)": { min: 500, max: 500 },
-    "Site vitrine standard (4 à 5 pages)": { min: 700, max: 700 },
-    "Site vitrine avancé (6 à 8 pages)": { min: 1000, max: 1000 },
-    "Site vitrine premium (9 à 12 pages)": { min: 1300, max: 1300 },
+    "Site vitrine simple (1 à 3 pages)": { min: 400, max: 500 },
+    "Site vitrine standard (4 à 5 pages)": { min: 500, max: 700 },
+    "Site vitrine avancé (6 à 8 pages)": { min: 700, max: 1000 },
+    "Site vitrine premium (9 à 12 pages)": { min: 1000, max: 1300 },
     "Portfolio / site personnel": { min: 600, max: 1200 },
     // Sites e-commerce avec différentes tailles
-    "Petite boutique (1-20 produits)": { min: 2000, max: 2000 },
-    "Boutique moyenne (21-100 produits)": { min: 3000, max: 3000 },
-    "Grande boutique (100+ produits)": { min: 4000, max: 6000 },
+    "Petite boutique (1-20 produits)": { min: 1300, max: 1700 },
+    "Boutique moyenne (21-100 produits)": { min: 1700, max: 2500 },
+    "Grande boutique (100+ produits)": { min: 2500, max: 5000 },
   },
 
   // Fonctionnalités
