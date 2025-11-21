@@ -9,9 +9,45 @@ import { useState, useEffect } from "react";
 export default function Home() {
   const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showAnnouncement, setShowAnnouncement] = useState(false);
+
+  useEffect(() => {
+    // Check if announcement was dismissed
+    const dismissed = localStorage.getItem('maintenance-announcement-dismissed');
+    if (!dismissed) {
+      setShowAnnouncement(true);
+    }
+  }, []);
+
+  const dismissAnnouncement = () => {
+    setShowAnnouncement(false);
+    localStorage.setItem('maintenance-announcement-dismissed', 'true');
+  };
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Announcement Banner */}
+      {showAnnouncement && (
+        <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-accent via-secondary to-primary text-white py-3 px-6 shadow-lg animate-in slide-in-from-top duration-500">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 flex-1 justify-center">
+              <span className="text-2xl animate-bounce">🎁</span>
+              <p className="font-bold text-sm md:text-base text-center">
+                Offre Spéciale : Premier Mois de Maintenance Offert !
+              </p>
+              <span className="text-2xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
+            </div>
+            <button
+              onClick={dismissAnnouncement}
+              className="p-1 hover:bg-white/20 rounded-full transition-colors flex-shrink-0"
+              aria-label="Fermer l'annonce"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Laser Lines Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="laser-line" style={{ left: '10%', animationDelay: '0s' }}></div>
@@ -23,7 +59,7 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg">
+      <nav className={`fixed w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg transition-all duration-300 ${showAnnouncement ? 'top-[52px]' : 'top-0'}`}>
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="#accueil" className="flex items-center">
             <Image 
@@ -123,7 +159,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section - DARK PURPLE */}
-      <section id="accueil" className="pt-32 pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 relative overflow-hidden">
+      <section id="accueil" className={`pt-32 pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 relative overflow-hidden ${showAnnouncement ? 'pt-[180px]' : 'pt-32'}`}>
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Mobile circles (smaller, less blur) */}
           <div className="md:hidden absolute top-20 left-5 w-40 h-40 bg-primary/50 rounded-full blur-md"></div>
