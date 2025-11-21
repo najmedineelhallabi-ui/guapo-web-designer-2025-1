@@ -426,7 +426,7 @@ export async function sendQuoteEmail(data: {
           ` : ''}
 
           <!-- Options de Maintenance Disponibles -->
-          ${data.siteType.toLowerCase().includes('vitrine') ? `
+          ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') ? `
           <div class="maintenance-box">
             <h3 style="color: #8b5cf6; text-align: center; margin-top: 0;">🔧 Options de Maintenance Disponibles</h3>
             <p style="text-align: center; color: #6b7280; font-size: 14px; margin-bottom: 15px;">
@@ -454,7 +454,7 @@ export async function sendQuoteEmail(data: {
               🎁 <strong>Le Premier Mois de Maintenance Offert !</strong>
             </div>
           </div>
-          ` : data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
+          ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
           <div class="maintenance-box">
             <h3 style="color: #8b5cf6; text-align: center; margin-top: 0;">🛒 Options de Maintenance Disponibles</h3>
             <p style="text-align: center; color: #6b7280; font-size: 14px; margin-bottom: 15px;">
@@ -718,7 +718,7 @@ export async function sendQuoteEmail(data: {
           </div>
 
           <!-- 4. OPTIONS DE MAINTENANCE SELON LE TYPE DE SITE -->
-          ${data.siteType.toLowerCase().includes('vitrine') ? `
+          ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') ? `
           <div class="maintenance-box">
             <h3 style="color: #8b5cf6; text-align: center; margin-top: 0; font-size: 18px;">
               🌐 Options de Maintenance – Sites Vitrines
@@ -752,7 +752,7 @@ export async function sendQuoteEmail(data: {
               🎁 <strong>Le Premier Mois de Maintenance Offert !</strong>
             </div>
           </div>
-          ` : data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
+          ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
           <div class="maintenance-box">
             <h3 style="color: #8b5cf6; text-align: center; margin-top: 0; font-size: 18px;">
               🛒 Options de Maintenance – Sites E-commerce
@@ -797,14 +797,14 @@ export async function sendQuoteEmail(data: {
               Choisissez votre option de maintenance ou posez-nous vos questions
             </div>
             
-            ${data.siteType.toLowerCase().includes('vitrine') ? `
+            ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') ? `
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Abonnement Annuel - 300€/an')}" class="btn">
               📦 Confirmer avec Abonnement Annuel
             </a>
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Par Intervention - 100€')}" class="btn">
               💳 Confirmer avec Paiement Par Intervention
             </a>
-            ` : data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
+            ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Abonnement Annuel - 700€/an')}" class="btn">
               📦 Confirmer avec Abonnement Annuel
             </a>
