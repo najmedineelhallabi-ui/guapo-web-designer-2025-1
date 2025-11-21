@@ -126,19 +126,19 @@ export default function Home() {
       <section id="accueil" className="pt-32 pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Mobile circles (smaller, less blur) */}
-          <div className="md:hidden absolute top-20 left-5 w-40 h-40 bg-primary/50 rounded-full blur-lg"></div>
-          <div className="md:hidden absolute bottom-10 right-5 w-48 h-48 bg-secondary/50 rounded-full blur-lg"></div>
-          <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-accent/40 rounded-full blur-lg"></div>
+          <div className="md:hidden absolute top-20 left-5 w-40 h-40 bg-primary/50 rounded-full blur-md"></div>
+          <div className="md:hidden absolute bottom-10 right-5 w-48 h-48 bg-secondary/50 rounded-full blur-md"></div>
+          <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-accent/50 rounded-full blur-md"></div>
           
-          {/* Tablet circles (medium) */}
-          <div className="hidden md:block lg:hidden absolute top-20 left-10 w-72 h-72 bg-primary/40 rounded-full blur-3xl"></div>
-          <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-96 h-96 bg-secondary/40 rounded-full blur-3xl"></div>
-          <div className="hidden md:block lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-accent/30 rounded-full blur-3xl"></div>
+          {/* Tablet circles (medium, less blur) */}
+          <div className="hidden md:block lg:hidden absolute top-20 left-10 w-72 h-72 bg-primary/40 rounded-full blur-2xl"></div>
+          <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-96 h-96 bg-secondary/40 rounded-full blur-2xl"></div>
+          <div className="hidden md:block lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-accent/30 rounded-full blur-2xl"></div>
           
-          {/* Desktop circles (larger) */}
-          <div className="hidden lg:block absolute top-20 left-10 w-96 h-96 bg-primary/40 rounded-full blur-3xl"></div>
-          <div className="hidden lg:block absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-secondary/40 rounded-full blur-3xl"></div>
-          <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28rem] h-[28rem] bg-accent/30 rounded-full blur-3xl"></div>
+          {/* Desktop circles (larger, less blur) */}
+          <div className="hidden lg:block absolute top-20 left-10 w-96 h-96 bg-primary/40 rounded-full blur-2xl"></div>
+          <div className="hidden lg:block absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-secondary/40 rounded-full blur-2xl"></div>
+          <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28rem] h-[28rem] bg-accent/30 rounded-full blur-2xl"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -175,8 +175,17 @@ export default function Home() {
       {/* À propos Section - WHITE BACKGROUND */}
       <section id="about" className="py-20 px-6 bg-white relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
-          <div className="absolute top-20 left-20 w-96 h-96 bg-primary/20 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-accent/20 rounded-full blur-3xl"></div>
+          {/* Mobile circles */}
+          <div className="md:hidden absolute top-20 left-5 w-64 h-64 bg-primary/30 rounded-full blur-md"></div>
+          <div className="md:hidden absolute bottom-10 right-5 w-48 h-48 bg-accent/30 rounded-full blur-md"></div>
+          
+          {/* Tablet circles */}
+          <div className="hidden md:block lg:hidden absolute top-20 left-10 w-80 h-80 bg-primary/20 rounded-full blur-2xl"></div>
+          <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-64 h-64 bg-accent/20 rounded-full blur-2xl"></div>
+          
+          {/* Desktop circles */}
+          <div className="hidden lg:block absolute top-20 left-20 w-96 h-96 bg-primary/20 rounded-full blur-2xl"></div>
+          <div className="hidden lg:block absolute bottom-20 right-20 w-80 h-80 bg-accent/20 rounded-full blur-2xl"></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -269,8 +278,17 @@ export default function Home() {
       {/* Portfolio Section - DARK PURPLE */}
       <section id="portfolio" className="py-20 px-6 bg-gradient-to-br from-background via-accent/20 to-primary/20 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-10 w-96 h-96 bg-accent/40 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-10 w-80 h-80 bg-primary/40 rounded-full blur-3xl"></div>
+          {/* Mobile circles */}
+          <div className="md:hidden absolute top-20 left-5 w-64 h-64 bg-accent/50 rounded-full blur-md"></div>
+          <div className="md:hidden absolute bottom-10 right-5 w-56 h-56 bg-primary/50 rounded-full blur-md"></div>
+          
+          {/* Tablet circles */}
+          <div className="hidden md:block lg:hidden absolute top-20 left-10 w-80 h-80 bg-accent/40 rounded-full blur-2xl"></div>
+          <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-72 h-72 bg-primary/40 rounded-full blur-2xl"></div>
+          
+          {/* Desktop circles */}
+          <div className="hidden lg:block absolute top-1/4 left-10 w-96 h-96 bg-accent/40 rounded-full blur-2xl"></div>
+          <div className="hidden lg:block absolute bottom-1/4 right-10 w-80 h-80 bg-primary/40 rounded-full blur-2xl"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -316,8 +334,17 @@ export default function Home() {
       {/* Services Section - WHITE BACKGROUND */}
       <section id="services" className="py-20 px-6 bg-white relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-30">
-          <div className="absolute top-10 right-20 w-64 h-64 bg-secondary/20 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-10 w-80 h-80 bg-accent/20 rounded-full blur-3xl"></div>
+          {/* Mobile circles */}
+          <div className="md:hidden absolute top-10 right-5 w-48 h-48 bg-secondary/30 rounded-full blur-md"></div>
+          <div className="md:hidden absolute bottom-10 left-5 w-56 h-56 bg-accent/30 rounded-full blur-md"></div>
+          
+          {/* Tablet circles */}
+          <div className="hidden md:block lg:hidden absolute top-10 right-10 w-64 h-64 bg-secondary/20 rounded-full blur-2xl"></div>
+          <div className="hidden md:block lg:hidden absolute bottom-10 left-10 w-72 h-72 bg-accent/20 rounded-full blur-2xl"></div>
+          
+          {/* Desktop circles */}
+          <div className="hidden lg:block absolute top-10 right-20 w-64 h-64 bg-secondary/20 rounded-full blur-2xl"></div>
+          <div className="hidden lg:block absolute bottom-20 left-10 w-80 h-80 bg-accent/20 rounded-full blur-2xl"></div>
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -457,9 +484,20 @@ export default function Home() {
       {/* Contact Section - DARK PURPLE */}
       <section id="contact" className="py-20 px-6 bg-gradient-to-br from-background via-secondary/20 to-accent/20 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-1/4 w-72 h-72 bg-primary/50 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-secondary/50 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/40 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+          {/* Mobile circles */}
+          <div className="md:hidden absolute top-10 left-5 w-56 h-56 bg-primary/50 rounded-full blur-md animate-pulse"></div>
+          <div className="md:hidden absolute bottom-10 right-5 w-64 h-64 bg-secondary/50 rounded-full blur-md animate-pulse" style={{ animationDelay: "1s" }}></div>
+          <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-accent/50 rounded-full blur-md animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+          
+          {/* Tablet circles */}
+          <div className="hidden md:block lg:hidden absolute top-10 left-10 w-64 h-64 bg-primary/50 rounded-full blur-2xl animate-pulse"></div>
+          <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-72 h-72 bg-secondary/50 rounded-full blur-2xl animate-pulse" style={{ animationDelay: "1s" }}></div>
+          <div className="hidden md:block lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-accent/40 rounded-full blur-2xl animate-pulse" style={{ animationDelay: "0.5s" }}></div>
+          
+          {/* Desktop circles */}
+          <div className="hidden lg:block absolute top-10 left-1/4 w-72 h-72 bg-primary/50 rounded-full blur-2xl animate-pulse"></div>
+          <div className="hidden lg:block absolute bottom-10 right-1/4 w-80 h-80 bg-secondary/50 rounded-full blur-2xl animate-pulse" style={{ animationDelay: "1s" }}></div>
+          <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-accent/40 rounded-full blur-2xl animate-pulse" style={{ animationDelay: "0.5s" }}></div>
         </div>
         
         <div className="max-w-6xl mx-auto relative z-10">
