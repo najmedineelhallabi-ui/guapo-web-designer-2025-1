@@ -69,5 +69,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
       },
     },
+    {
+      url: `${baseUrl}/politique-confidentialite`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.3,
+      alternates: {
+        languages: {
+          fr: `${baseUrl}/politique-confidentialite`,
+          nl: `${baseUrl}/politique-confidentialite`,
+          en: `${baseUrl}/politique-confidentialite`,
+        },
+      },
+    },
+    {
+      url: `${baseUrl}/mentions-legales`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.3,
+      alternates: {
+        languages: {
+          fr: `${baseUrl}/mentions-legales`,
+          nl: `${baseUrl}/mentions-legales`,
+          en: `${baseUrl}/mentions-legales`,
+        },
+      },
+    },
   ];
 }
