@@ -135,9 +135,15 @@ export default function DevisPage() {
             {t("quote.page.title")} <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">{t("quote.page.title.highlight")}</span>
           </h1>
           
-          <p className="text-xl text-foreground/90 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-foreground/90 max-w-2xl mx-auto leading-relaxed mb-8">
             {t("quote.page.subtitle")}
           </p>
+
+          {/* Badge Premier Mois Offert */}
+          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-accent/30 to-secondary/30 border-2 border-accent/50 backdrop-blur-sm shadow-lg">
+            <span className="text-2xl">🎁</span>
+            <span className="font-bold text-lg">Premier Mois de Maintenance Offert !</span>
+          </div>
         </div>
       </section>
 
