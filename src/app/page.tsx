@@ -1,14 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter, Heart, Zap, Monitor, Tablet, Smartphone, Instagram, Menu, X, ShoppingCart, MessageCircle, Briefcase } from "lucide-react";
+import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter, Heart, Zap, Monitor, Tablet, Smartphone, Instagram, Menu, X, ShoppingCart, MessageCircle, Briefcase, FileText } from "lucide-react";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { useLanguage } from "@/contexts/language-context";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showFloatingDevis, setShowFloatingDevis] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show floating button when scrolled past hero section (always visible after 500px)
+      setShowFloatingDevis(window.scrollY > 500);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -21,6 +32,18 @@ export default function Home() {
         <div className="laser-line laser-line-secondary" style={{ left: '70%', animationDelay: '3s' }}></div>
         <div className="laser-line laser-line-accent" style={{ left: '85%', animationDelay: '5s' }}></div>
       </div>
+
+      {/* Floating Devis Button - Always visible when scrolling */}
+      {showFloatingDevis && (
+        <a
+          href="/devis"
+          className="fixed bottom-8 right-8 z-[60] inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-accent via-secondary to-primary text-white rounded-full shadow-2xl shadow-accent/50 hover:scale-110 hover:rotate-3 transition-all duration-300 font-semibold animate-pulse"
+        >
+          <FileText className="w-5 h-5" />
+          <span className="hidden sm:inline">Devis Gratuit</span>
+          <span className="sm:hidden">Devis</span>
+        </a>
+      )}
 
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg">
@@ -42,7 +65,13 @@ export default function Home() {
             <a href="#about" className="hover:text-secondary transition-colors">{t("nav.about")}</a>
             <a href="#portfolio" className="hover:text-accent transition-colors">{t("nav.portfolio")}</a>
             <a href="#services" className="hover:text-secondary transition-colors">{t("nav.services")}</a>
-            <a href="/devis" className="hover:text-accent transition-colors font-semibold">Devis gratuit</a>
+            <a 
+              href="/devis" 
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-accent via-secondary to-primary text-white rounded-lg hover:scale-105 hover:shadow-lg hover:shadow-accent/50 transition-all duration-300 font-semibold"
+            >
+              <FileText className="w-4 h-4" />
+              Devis gratuit
+            </a>
             <a href="#contact" className="hover:text-primary transition-colors">{t("nav.contact")}</a>
             <LanguageSwitcher />
           </div>
@@ -95,9 +124,10 @@ export default function Home() {
               </a>
               <a 
                 href="/devis" 
-                className="hover:text-accent transition-colors py-2"
+                className="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-accent via-secondary to-primary text-white rounded-lg hover:scale-105 transition-all font-semibold justify-center"
                 onClick={() => setMobileMenuOpen(false)}
               >
+                <FileText className="w-4 h-4" />
                 Devis gratuit
               </a>
               <a 
