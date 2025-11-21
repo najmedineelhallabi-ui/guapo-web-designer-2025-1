@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Sparkles, Mail, Instagram, Copy } from "lucide-react";
+import { Sparkles, Mail, Instagram, Copy, FileText } from "lucide-react";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { useLanguage } from "@/contexts/language-context";
 import { toast } from "sonner";
@@ -67,7 +67,7 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Boxes */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Email Box */}
             <div className="group relative p-8 rounded-3xl bg-gradient-to-br from-background/90 to-background/60 backdrop-blur-sm border-2 border-[#00D1FF]/50 shadow-2xl shadow-[#00D1FF]/30 hover:shadow-[#00D1FF]/50 hover:scale-105 hover:-translate-y-2 transition-all duration-500">
               <div className="absolute inset-0 rounded-3xl border-2 border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
@@ -135,6 +135,37 @@ export default function ContactPage() {
                   <Copy className="w-4 h-4" />
                   Copier
                 </button>
+              </div>
+            </div>
+
+            {/* Devis Box */}
+            <div className="group relative p-8 rounded-3xl bg-gradient-to-br from-background/90 to-background/60 backdrop-blur-sm border-2 border-[#6C63FF]/50 shadow-2xl shadow-[#6C63FF]/30 hover:shadow-[#6C63FF]/50 hover:scale-105 hover:-translate-y-2 transition-all duration-500">
+              <div className="absolute inset-0 rounded-3xl border-2 border-white/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+              
+              {/* Decorative corner */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#6C63FF]/30 to-[#5A3BEF]/30 rounded-bl-full blur-2xl group-hover:blur-3xl transition-all"></div>
+              
+              <div className="relative z-10 text-center">
+                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#6C63FF] to-[#5A3BEF] flex items-center justify-center mb-6 shadow-lg shadow-[#6C63FF]/50 group-hover:rotate-6 transition-transform duration-300 mx-auto">
+                  <FileText className="w-10 h-10 text-white" />
+                </div>
+                
+                <h3 className="text-2xl font-bold mb-6 text-[#6C63FF]">Devis Gratuit</h3>
+                
+                <div className="mb-6">
+                  <div className="text-4xl mb-3">📋</div>
+                  <p className="text-lg font-medium">
+                    Obtenez un devis personnalisé pour votre projet
+                  </p>
+                </div>
+                
+                <a
+                  href="/devis"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#6C63FF] to-[#5A3BEF] text-white rounded-xl hover:scale-105 transition-all duration-300 shadow-lg shadow-[#6C63FF]/40 hover:shadow-[#5A3BEF]/50 font-semibold"
+                >
+                  <FileText className="w-4 h-4" />
+                  Demander un devis
+                </a>
               </div>
             </div>
           </div>
