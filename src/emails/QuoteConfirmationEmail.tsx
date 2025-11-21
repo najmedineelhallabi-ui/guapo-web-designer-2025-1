@@ -169,7 +169,7 @@ ${email}
                   boxShadow: '0 4px 6px rgba(124, 58, 237, 0.3)'
                 }}
               >
-                💬 Poser une question sur mon devis
+                Question
               </Link>
             </Section>
 
