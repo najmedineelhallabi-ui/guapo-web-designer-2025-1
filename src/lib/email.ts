@@ -304,6 +304,39 @@ export async function sendQuoteEmail(data: {
             font-size: 14px;
             line-height: 1.6;
           }
+          .maintenance-box {
+            background: #fef3f4;
+            border: 2px solid #8b5cf6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+          }
+          .option-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 2px solid #8b5cf6;
+          }
+          .gift-box {
+            background: #fef3c7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 600;
+            color: #78350f;
+          }
+          .warning-box {
+            background: #fef2f2;
+            border: 2px solid #ef4444;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-weight: 600;
+            color: #991b1b;
+          }
           .cta-button {
             display: inline-block;
             background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
@@ -391,6 +424,69 @@ export async function sendQuoteEmail(data: {
             <div class="message-text">${escapeHtml(data.message).replace(/\n/g, '<br>')}</div>
           </div>
           ` : ''}
+
+          <!-- Options de Maintenance Disponibles -->
+          ${data.siteType.toLowerCase().includes('vitrine') ? `
+          <div class="maintenance-box">
+            <h3 style="color: #8b5cf6; text-align: center; margin-top: 0;">🔧 Options de Maintenance Disponibles</h3>
+            <p style="text-align: center; color: #6b7280; font-size: 14px; margin-bottom: 15px;">
+              Le client n'a pas encore choisi d'option de maintenance
+            </p>
+
+            <div class="option-card">
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">📦 Maintenance Basique - 300€ HT/an (363€ TTC/an)</div>
+              <div style="font-size: 13px; color: #4b5563;">
+                • 6 interventions/an<br>
+                • Interventions supplémentaires : 100€ HT (121€ TTC)<br>
+                • Délai : 48h ouvrées
+              </div>
+            </div>
+
+            <div class="option-card">
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">💳 Par Intervention - 100€ HT (121€ TTC)</div>
+              <div style="font-size: 13px; color: #4b5563;">
+                • Sans engagement<br>
+                • Délai : 48h ouvrées
+              </div>
+            </div>
+
+            <div class="gift-box">
+              🎁 <strong>Le Premier Mois de Maintenance Offert !</strong>
+            </div>
+          </div>
+          ` : data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
+          <div class="maintenance-box">
+            <h3 style="color: #8b5cf6; text-align: center; margin-top: 0;">🛒 Options de Maintenance Disponibles</h3>
+            <p style="text-align: center; color: #6b7280; font-size: 14px; margin-bottom: 15px;">
+              Le client n'a pas encore choisi d'option de maintenance
+            </p>
+
+            <div class="option-card">
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">📦 Maintenance Premium - 700€ HT/an (847€ TTC/an)</div>
+              <div style="font-size: 13px; color: #4b5563;">
+                • 12 interventions/an<br>
+                • Interventions supplémentaires : 150€ HT (181.50€ TTC)<br>
+                • Délai : 48h ouvrées
+              </div>
+            </div>
+
+            <div class="option-card">
+              <div style="font-weight: 700; color: #8b5cf6; margin-bottom: 8px;">💳 Par Intervention - 150€ HT (181.50€ TTC)</div>
+              <div style="font-size: 13px; color: #4b5563;">
+                • Sans engagement<br>
+                • Délai : 48h ouvrées
+              </div>
+            </div>
+
+            <div class="gift-box">
+              🎁 <strong>Le Premier Mois de Maintenance Offert !</strong>
+            </div>
+          </div>
+          ` : `
+          <div class="warning-box">
+            ⚠️ Le client n'a pas choisi d'option de maintenance
+          </div>
+          `}
 
           <div style="text-align: center;">
             <a href="mailto:${escapeHtml(data.email)}" class="cta-button">
