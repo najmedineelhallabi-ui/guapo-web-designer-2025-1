@@ -310,6 +310,51 @@ export default function Home() {
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
+          {/* Besoin d'un Site Web Section */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">Besoin d'un <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Site Web</span> ?</h2>
+            <p className="text-gray-700 text-lg mb-12">Choisissez la solution adaptée à vos besoins</p>
+          </div>
+
+          {/* Cards Grid - 2 cards only */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-20">
+            {/* Site E-commerce */}
+            <a 
+              href="/devis"
+              className="group relative p-8 rounded-2xl bg-gradient-to-br from-secondary/10 to-secondary/5 backdrop-blur-sm border-2 border-secondary/30 shadow-lg hover:shadow-2xl hover:shadow-secondary/20 hover:scale-105 transition-all duration-300 cursor-pointer"
+            >
+              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-secondary to-accent">
+                <ShoppingCart className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">Site E-commerce</h3>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Vendez vos produits en ligne avec une boutique professionnelle et sécurisée. Gestion des commandes, paiements en ligne, suivi des stocks.
+              </p>
+              <div className="inline-flex items-center gap-2 text-secondary font-semibold group-hover:gap-3 transition-all">
+                Obtenir un devis
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </a>
+
+            {/* Discutons Ensemble */}
+            <a 
+              href="#contact"
+              className="group relative p-8 rounded-2xl bg-gradient-to-br from-accent/10 to-accent/5 backdrop-blur-sm border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 transition-all duration-300 cursor-pointer"
+            >
+              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-accent to-primary">
+                <MessageCircle className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">Discutons Ensemble</h3>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Vous avez un projet sur mesure ou des besoins spécifiques ? Contactez-nous pour en discuter et trouver la meilleure solution ensemble.
+              </p>
+              <div className="inline-flex items-center gap-2 text-accent font-semibold group-hover:gap-3 transition-all">
+                Nous contacter
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </a>
+          </div>
+
           {/* Services Grid Title */}
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-gray-900">{t("services.title")} <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{t("services.title.highlight")}</span></h2>
