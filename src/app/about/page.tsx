@@ -50,9 +50,20 @@ export default function AboutPage() {
 
       {/* Blur Circles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-[#6C63FF]/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-[#4BE3C1]/20 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#5A3BEF]/15 rounded-full blur-3xl"></div>
+        {/* Mobile circles */}
+        <div className="md:hidden absolute top-20 left-5 w-64 h-64 bg-[#6C63FF]/30 rounded-full blur-md"></div>
+        <div className="md:hidden absolute bottom-10 right-5 w-56 h-56 bg-[#4BE3C1]/30 rounded-full blur-md"></div>
+        <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-[#5A3BEF]/25 rounded-full blur-md"></div>
+        
+        {/* Tablet circles */}
+        <div className="hidden md:block lg:hidden absolute top-20 left-10 w-80 h-80 bg-[#6C63FF]/20 rounded-full blur-2xl"></div>
+        <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-72 h-72 bg-[#4BE3C1]/20 rounded-full blur-2xl"></div>
+        <div className="hidden md:block lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#5A3BEF]/15 rounded-full blur-2xl"></div>
+        
+        {/* Desktop circles */}
+        <div className="hidden lg:block absolute top-20 left-20 w-96 h-96 bg-[#6C63FF]/20 rounded-full blur-2xl"></div>
+        <div className="hidden lg:block absolute bottom-20 right-20 w-80 h-80 bg-[#4BE3C1]/20 rounded-full blur-2xl"></div>
+        <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#5A3BEF]/15 rounded-full blur-2xl"></div>
       </div>
 
       {/* Navigation */}

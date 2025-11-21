@@ -92,9 +92,20 @@ export default function ServicesPage() {
       <section className="pt-32 pb-20 px-6 bg-gradient-to-br from-[#6C63FF]/20 via-[#4BE3C1]/15 to-[#00D1FF]/20 relative overflow-hidden">
         {/* Decorative background blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-[#6C63FF]/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#4BE3C1]/30 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#00D1FF]/20 rounded-full blur-3xl"></div>
+          {/* Mobile circles */}
+          <div className="md:hidden absolute top-20 left-5 w-56 h-56 bg-[#6C63FF]/40 rounded-full blur-md"></div>
+          <div className="md:hidden absolute bottom-10 right-5 w-64 h-64 bg-[#4BE3C1]/40 rounded-full blur-md"></div>
+          <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-[#00D1FF]/30 rounded-full blur-md"></div>
+          
+          {/* Tablet circles */}
+          <div className="hidden md:block lg:hidden absolute top-20 left-10 w-64 h-64 bg-[#6C63FF]/30 rounded-full blur-2xl"></div>
+          <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-80 h-80 bg-[#4BE3C1]/30 rounded-full blur-2xl"></div>
+          <div className="hidden md:block lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-[#00D1FF]/20 rounded-full blur-2xl"></div>
+          
+          {/* Desktop circles */}
+          <div className="hidden lg:block absolute top-20 left-10 w-72 h-72 bg-[#6C63FF]/30 rounded-full blur-2xl"></div>
+          <div className="hidden lg:block absolute bottom-10 right-10 w-96 h-96 bg-[#4BE3C1]/30 rounded-full blur-2xl"></div>
+          <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-[#00D1FF]/20 rounded-full blur-2xl"></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -113,8 +124,17 @@ export default function ServicesPage() {
       {/* Site Types Section */}
       <section className="py-20 px-6 bg-white relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
-          <div className="absolute top-20 left-20 w-96 h-96 bg-[#6C63FF]/20 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-[#4BE3C1]/20 rounded-full blur-3xl"></div>
+          {/* Mobile circles */}
+          <div className="md:hidden absolute top-20 left-5 w-64 h-64 bg-[#6C63FF]/30 rounded-full blur-md"></div>
+          <div className="md:hidden absolute bottom-10 right-5 w-56 h-56 bg-[#4BE3C1]/30 rounded-full blur-md"></div>
+          
+          {/* Tablet circles */}
+          <div className="hidden md:block lg:hidden absolute top-20 left-10 w-80 h-80 bg-[#6C63FF]/20 rounded-full blur-2xl"></div>
+          <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-72 h-72 bg-[#4BE3C1]/20 rounded-full blur-2xl"></div>
+          
+          {/* Desktop circles */}
+          <div className="hidden lg:block absolute top-20 left-20 w-96 h-96 bg-[#6C63FF]/20 rounded-full blur-2xl"></div>
+          <div className="hidden lg:block absolute bottom-20 right-20 w-80 h-80 bg-[#4BE3C1]/20 rounded-full blur-2xl"></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -177,8 +197,17 @@ export default function ServicesPage() {
       <section className="py-20 px-6 relative overflow-hidden">
         {/* Decorative background blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 right-20 w-64 h-64 bg-[#5A3BEF]/20 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-10 w-80 h-80 bg-[#4BE3C1]/20 rounded-full blur-3xl"></div>
+          {/* Mobile circles */}
+          <div className="md:hidden absolute top-10 right-5 w-48 h-48 bg-[#5A3BEF]/30 rounded-full blur-md"></div>
+          <div className="md:hidden absolute bottom-10 left-5 w-56 h-56 bg-[#4BE3C1]/30 rounded-full blur-md"></div>
+          
+          {/* Tablet circles */}
+          <div className="hidden md:block lg:hidden absolute top-10 right-10 w-56 h-56 bg-[#5A3BEF]/20 rounded-full blur-2xl"></div>
+          <div className="hidden md:block lg:hidden absolute bottom-10 left-10 w-72 h-72 bg-[#4BE3C1]/20 rounded-full blur-2xl"></div>
+          
+          {/* Desktop circles */}
+          <div className="hidden lg:block absolute top-10 right-20 w-64 h-64 bg-[#5A3BEF]/20 rounded-full blur-2xl"></div>
+          <div className="hidden lg:block absolute bottom-20 left-10 w-80 h-80 bg-[#4BE3C1]/20 rounded-full blur-2xl"></div>
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
@@ -228,8 +257,17 @@ export default function ServicesPage() {
       <section className="py-20 px-6 bg-gradient-to-br from-[#6C63FF]/20 via-[#5A3BEF]/15 to-[#4BE3C1]/20 relative overflow-hidden">
         {/* Decorative background blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-1/4 w-72 h-72 bg-[#6C63FF]/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-[#00D1FF]/30 rounded-full blur-3xl"></div>
+          {/* Mobile circles */}
+          <div className="md:hidden absolute top-10 left-5 w-56 h-56 bg-[#6C63FF]/40 rounded-full blur-md"></div>
+          <div className="md:hidden absolute bottom-10 right-5 w-64 h-64 bg-[#00D1FF]/40 rounded-full blur-md"></div>
+          
+          {/* Tablet circles */}
+          <div className="hidden md:block lg:hidden absolute top-10 left-10 w-64 h-64 bg-[#6C63FF]/30 rounded-full blur-2xl"></div>
+          <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-72 h-72 bg-[#00D1FF]/30 rounded-full blur-2xl"></div>
+          
+          {/* Desktop circles */}
+          <div className="hidden lg:block absolute top-10 left-1/4 w-72 h-72 bg-[#6C63FF]/30 rounded-full blur-2xl"></div>
+          <div className="hidden lg:block absolute bottom-10 right-1/4 w-80 h-80 bg-[#00D1FF]/30 rounded-full blur-2xl"></div>
         </div>
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
