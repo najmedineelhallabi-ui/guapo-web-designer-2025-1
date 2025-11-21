@@ -26,6 +26,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Dark Overlay for Mobile Menu */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Announcement Banner */}
       {showAnnouncement && (
         <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-accent via-secondary to-primary text-white py-3 px-6 shadow-lg animate-in slide-in-from-top duration-500">
