@@ -62,7 +62,8 @@ export default function Home() {
           {/* Button - BEAUCOUP PLUS GRAND */}
           <div className="relative flex flex-col items-center justify-center w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-accent via-secondary to-primary rounded-full shadow-2xl shadow-primary/60 group-hover:scale-110 transition-transform duration-300 border-4 border-white/30">
             <span className="text-white font-black text-4xl md:text-5xl leading-none drop-shadow-lg">-30%</span>
-            <span className="text-white text-sm md:text-base font-bold mt-2 drop-shadow-lg">PROMO</span>
+            <span className="text-white text-xs md:text-sm font-bold mt-1 drop-shadow-lg opacity-90">jusqu'au</span>
+            <span className="text-white text-sm md:text-base font-bold drop-shadow-lg">31/12/25</span>
           </div>
           
           {/* Ping animation - plus visible */}
