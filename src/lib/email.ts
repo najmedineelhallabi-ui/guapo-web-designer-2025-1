@@ -514,7 +514,7 @@ function calculatePricing(data: {
   const breakdown: { category: string; item: string; price: string }[] = [];
   const t = getT(lang);
 
-  // Type de site (prix de base)
+  // Type de site (prix de base) - TRADUIT
   const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
   const siteTypePrice = PRICING.siteTypes[siteTypeKey];
   if (siteTypePrice) {
@@ -522,7 +522,7 @@ function calculatePricing(data: {
     maxTotal += siteTypePrice.max;
     breakdown.push({
       category: t.owner.categorySiteType,
-      item: data.siteType,
+      item: translateOption(data.siteType, lang), // TRADUIT
       price: siteTypePrice.min === siteTypePrice.max 
         ? `${siteTypePrice.min}€` 
         : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`
@@ -557,7 +557,7 @@ function calculatePricing(data: {
     }
   }
 
-  // Fonctionnalités
+  // Fonctionnalités - TRADUIT
   if (data.features && data.features.length > 0) {
     data.features.forEach(feature => {
       const featureKey = feature as keyof typeof PRICING.features;
@@ -567,16 +567,16 @@ function calculatePricing(data: {
         maxTotal += price;
         breakdown.push({
           category: t.owner.categoryFeatures,
-          item: feature,
+          item: translateOption(feature, lang), // TRADUIT
           price: price > 0 ? `${price}€` : t.owner.included
         });
       }
     });
   }
 
-  // Langues sélectionnées (si multilingue activé)
+  // Langues sélectionnées (si multilingue activé) - TRADUIT
   if (data.languages && data.languages.length > 0) {
-    const langList = [...data.languages];
+    const langList = [...data.languages].map(l => translateOption(l, lang)); // TRADUIT
     if (data.otherLanguages) {
       langList.push(`${t.owner.otherLang} ${data.otherLanguages}`);
     }
@@ -587,7 +587,7 @@ function calculatePricing(data: {
     });
   }
 
-  // Optimisation & Sécurité
+  // Optimisation & Sécurité - TRADUIT
   if (data.optimization && data.optimization.length > 0) {
     data.optimization.forEach(opt => {
       const optKey = opt as keyof typeof PRICING.optimization;
@@ -597,14 +597,14 @@ function calculatePricing(data: {
         maxTotal += price;
         breakdown.push({
           category: t.owner.categoryOptimization,
-          item: opt,
+          item: translateOption(opt, lang), // TRADUIT
           price: price > 0 ? `${price}€` : t.owner.included
         });
       }
     });
   }
 
-  // Nom de domaine
+  // Nom de domaine - TRADUIT
   if (data.domain) {
     const domainKey = data.domain as keyof typeof PRICING.domain;
     const price = PRICING.domain[domainKey];
@@ -613,7 +613,7 @@ function calculatePricing(data: {
       maxTotal += price;
       breakdown.push({
         category: t.owner.categoryDomain,
-        item: `${data.domain} (${t.owner.firstYear})`,
+        item: `${translateOption(data.domain, lang)} (${t.owner.firstYear})`, // TRADUIT
         price: `${price}€`
       });
     }
@@ -692,14 +692,13 @@ export async function sendQuoteEmail(data: {
 
   console.log('💰 Pricing calculated:', `Original: ${pricing.originalMinPrice}€, Avec -30%: ${pricing.discountedMinPrice}€`);
 
-  // Grouper les éléments par catégorie AVEC TRADUCTIONS
+  // Grouper les éléments par catégorie - items déjà traduits dans calculatePricing()
   const groupedBreakdown = pricing.breakdown.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
     }
-    // Traduire l'item avant de l'ajouter
-    const translatedItem = translateOption(item.item, lang);
-    acc[item.category].push({ item: translatedItem, price: item.price });
+    // Les items sont déjà traduits dans calculatePricing(), pas besoin de retraduire
+    acc[item.category].push({ item: item.item, price: item.price });
     return acc;
   }, {} as Record<string, { item: string; price: string }[]>);
 
