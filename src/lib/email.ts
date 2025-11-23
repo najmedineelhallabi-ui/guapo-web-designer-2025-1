@@ -716,14 +716,14 @@ ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase()
   try {
     console.log('📨 Sending emails via Resend...');
     
-    // Envoyer EMAIL 1: Au propriétaire
+    // Envoyer EMAIL 1: Au propriétaire (MÊME EMAIL QUE LE CLIENT)
     console.log('📧 1/2 - Sending email to owner...');
     const ownerResult = await resend.emails.send({
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: data.email,
-      subject: `🎨 Nouvelle demande - ${data.firstName} ${data.lastName} - ${pricing.discountedMinPrice}€ (-30%)`,
-      html: ownerEmailHtml,
+      subject: `🎨 Nouvelle demande - ${data.firstName} ${data.lastName} - ${pricing.hasRange ? `${pricing.discountedMinPrice}€ à ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`} (-30%)`,
+      html: clientEmailHtml,
     });
     console.log('✅ 1/2 - Owner email sent successfully!', ownerResult);
 
