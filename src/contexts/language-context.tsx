@@ -413,7 +413,7 @@ const translations = {
     "hero.cta.contact": "Contact us",
     
     // Announcement Banner
-    "announcement.offer": "🎁 1 maand onderhoud inclusief bij de creatie van elk site!",
+    "announcement.offer": "🎁 1 month of maintenance included with the creation of each site!",
     
     // About
     "about.title": "About Guapo",
@@ -834,7 +834,7 @@ const translations = {
     "hero.cta.contact": "Neem contact op",
     
     // Announcement Banner
-    "announcement.offer": "🎁 1 maand onderhoud gratis bij de creatie van elk site!",
+    "announcement.offer": "🎁 1 maand onderhoud inclusief bij de creatie van elk site!",
     
     // About
     "about.title": "Over Guapo",
@@ -1026,7 +1026,7 @@ const translations = {
     "hero.cta.contact": "Contact us",
     
     // Announcement Banner
-    "announcement.offer": "🎁 1 month of maintenance included with every site creation!",
+    "announcement.offer": "🎁 1 month of maintenance included with the creation of each site!",
     
     // About
     "about.title": "About Guapo",
@@ -1255,7 +1255,7 @@ const translations = {
     "hero.cta.contact": "Nous contacter",
     
     // Announcement Banner
-    "announcement.offer": "🎁 1 month of maintenance included with the creation of each site!",
+    "announcement.offer": "🎁 1 month of maintenance included with every site creation!",
     
     // About
     "about.title": "À propos de Guapo",
@@ -1447,7 +1447,7 @@ const translations = {
     "hero.cta.contact": "Neem contact op",
     
     // Announcement Banner
-    "announcement.offer": "🎁 1 month of maintenance included with the creation of each site!",
+    "announcement.offer": "🎁 1 maand onderhoud inclusief bij de creatie van elk site!",
     
     // About
     "about.title": "Over Guapo",
@@ -1639,7 +1639,7 @@ const translations = {
     "hero.cta.contact": "Contact us",
     
     // Announcement Banner
-    "announcement.offer": "🎁 1 month of maintenance included with the creation of each site!",
+    "announcement.offer": "🎁 1 month of maintenance included with every site creation!",
     
     // About
     "about.title": "About Guapo",
