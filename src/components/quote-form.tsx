@@ -5,7 +5,6 @@ import { sendQuoteAction, QuoteFormState } from '@/app/actions/sendQuote';
 import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare, Shield, Palette, Zap, Lock, Wrench, Building, ShoppingCart, Edit2, ArrowLeft, ArrowRight, Euro } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import Link from 'next/link';
-import { PRICING, calculateEstimate } from '@/lib/pricing';
 
 export function QuoteForm() {
   const { t } = useLanguage();
@@ -20,30 +19,6 @@ export function QuoteForm() {
   const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
   const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
-
-  // Prix calculation states
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
-  const [selectedOptimizations, setSelectedOptimizations] = useState<string[]>([]);
-  const [selectedDomain, setSelectedDomain] = useState<string>('Inclus dans le projet');
-  const [priceEstimate, setPriceEstimate] = useState({ minTotal: 0, maxTotal: 0 });
-
-  // Calculate price whenever selections change
-  useEffect(() => {
-    if (selectedSiteType) {
-      const estimate = calculateEstimate({
-        siteType: selectedSiteType,
-        features: selectedFeatures,
-        optimization: selectedOptimizations,
-        domain: selectedDomain
-      });
-      setPriceEstimate(estimate);
-    }
-  }, [selectedSiteType, selectedFeatures, selectedOptimizations, selectedDomain]);
-
-  // Calculate discounted prices (-30%)
-  const originalPrice = priceEstimate.maxTotal;
-  const discount = Math.round(originalPrice * 0.30);
-  const finalPrice = originalPrice - discount;
 
   useEffect(() => {
     if (state.success) {
@@ -63,8 +38,6 @@ export function QuoteForm() {
     setProjectType('');
     setIsEcommerce(false);
     setSelectedSiteType('');
-    setSelectedFeatures([]);
-    setSelectedOptimizations([]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
