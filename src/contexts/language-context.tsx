@@ -137,7 +137,6 @@ const translations = {
     
     // Quote Form
     "quote.success.title": "Merci pour votre demande !",
-    "quote.success.response": "Vous recevrez une réponse détaillée dans quelques minutes par email.",
     "quote.info.title": "Informations",
     "quote.info.firstName": "Prénom",
     "quote.info.firstNamePlaceholder": "Votre prénom",
@@ -338,7 +337,6 @@ const translations = {
     
     // Quote Form
     "quote.success.title": "Bedankt voor uw aanvraag!",
-    "quote.success.response": "U ontvangt binnen enkele minuten een gedetailleerd antwoord per e-mail.",
     "quote.info.title": "Informatie",
     "quote.info.firstName": "Voornaam",
     "quote.info.firstNamePlaceholder": "Uw voornaam",
@@ -539,7 +537,6 @@ const translations = {
     
     // Quote Form
     "quote.success.title": "Thank you for your request!",
-    "quote.success.response": "You will receive a detailed response in a few minutes by email.",
     "quote.info.title": "Information",
     "quote.info.firstName": "First Name",
     "quote.info.firstNamePlaceholder": "Your first name",
