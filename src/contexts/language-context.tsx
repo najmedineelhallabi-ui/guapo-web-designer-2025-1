@@ -29,7 +29,7 @@ const translations = {
     "hero.cta.contact": "Nous contacter",
     
     // Announcement Banner
-    "announcement.offer": "🎉 Promotion -30% jusqu'au 31/12/25 !",
+    "announcement.offer": "🎁 1 mois de maintenance inclus à la création de chaque site !",
     
     // About
     "about.title": "À propos de Guapo",
@@ -221,7 +221,7 @@ const translations = {
     "hero.cta.contact": "Neem contact op",
     
     // Announcement Banner
-    "announcement.offer": "🎉 Korting -30% tot 31/12/25!",
+    "announcement.offer": "🎁 1 maand onderhoud inclusief bij de creatie van elk site!",
     
     // About
     "about.title": "Over Guapo",
@@ -413,7 +413,7 @@ const translations = {
     "hero.cta.contact": "Contact us",
     
     // Announcement Banner
-    "announcement.offer": "🎉 -30% Discount until 12/31/25!",
+    "announcement.offer": "🎁 1 month of maintenance included with the creation of each site!",
     
     // About
     "about.title": "About Guapo",
