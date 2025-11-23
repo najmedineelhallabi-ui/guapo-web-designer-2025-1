@@ -453,15 +453,18 @@ export async function sendQuoteEmail(data: {
 
             <div class="discount-box">
               <div class="discount-label">🎉 Réduction -30% appliquée</div>
-              <div class="discount-value">-${pricing.minDiscount}€</div>
+              <div class="discount-value">${pricing.hasRange ? `-${pricing.minDiscount}€ à -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
             </div>
 
             <div class="price-total">
-              Prix Final: ${pricing.discountedMinPrice}€ HT (${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC)
+              ${pricing.hasRange 
+                ? `Prix Final: ${pricing.discountedMinPrice}€ à ${pricing.discountedMaxPrice}€ HT (${Math.round(pricing.discountedMinPrice * 1.21)}€ à ${Math.round(pricing.discountedMaxPrice * 1.21)}€ TTC)`
+                : `Prix Final: ${pricing.discountedMinPrice}€ HT (${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC)`
+              }
             </div>
             
             <div style="text-align: center; margin-top: 10px; color: #6d28d9; font-size: 12px;">
-              Prix original: <span style="text-decoration: line-through;">${pricing.originalMinPrice}€ HT</span>
+              Prix original: <span style="text-decoration: line-through;">${pricing.hasRange ? `${pricing.originalMinPrice}€ à ${pricing.originalMaxPrice}€ HT` : `${pricing.originalMinPrice}€ HT`}</span>
             </div>
           </div>
 
