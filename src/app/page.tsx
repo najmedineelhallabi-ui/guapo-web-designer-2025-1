@@ -22,11 +22,11 @@ export default function Home() {
         setAnnouncementPhase('fullscreen');
       }, 300);
       
-      // Phase 2: Move to banner after 3 seconds
+      // Phase 2: Move to banner after 5 seconds (increased from 3.5)
       const bannerTimer = setTimeout(() => {
         setAnnouncementPhase('banner');
         localStorage.setItem('banner-promo-fullscreen-seen', 'true');
-      }, 3500);
+      }, 5500);
       
       return () => {
         clearTimeout(bannerTimer);
@@ -49,6 +49,30 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Floating Promo Button */}
+      <a
+        href="/devis"
+        className="fixed bottom-8 right-8 z-50 group"
+        aria-label="Promotion -30%"
+      >
+        <div className="relative">
+          {/* Glow effect */}
+          <div className="absolute -inset-2 bg-gradient-to-r from-accent via-secondary to-primary rounded-full blur-lg opacity-75 group-hover:opacity-100 animate-pulse"></div>
+          
+          {/* Button */}
+          <div className="relative flex flex-col items-center justify-center w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-accent via-secondary to-primary rounded-full shadow-2xl shadow-primary/50 group-hover:scale-110 transition-transform duration-300">
+            <span className="text-white font-black text-2xl md:text-3xl leading-none">-30%</span>
+            <span className="text-white text-[10px] md:text-xs font-semibold mt-1">Promo</span>
+          </div>
+          
+          {/* Ping animation */}
+          <span className="absolute top-0 right-0 flex h-4 w-4 md:h-5 md:w-5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-4 w-4 md:h-5 md:w-5 bg-accent"></span>
+          </span>
+        </div>
+      </a>
+
       {/* Dark Overlay for Mobile Menu */}
       {mobileMenuOpen && (
         <div 
@@ -78,7 +102,7 @@ export default function Home() {
             <div 
               className={`bg-gradient-to-r from-accent via-secondary to-primary text-white shadow-2xl transition-all duration-700 ${
                 announcementPhase === 'fullscreen'
-                  ? 'rounded-3xl p-12 max-w-2xl w-full animate-in zoom-in-95 duration-700'
+                  ? 'rounded-3xl p-12 max-w-3xl w-full animate-in zoom-in-95 duration-700'
                   : 'rounded-none py-4 px-6 w-full'
               }`}
             >
@@ -89,17 +113,24 @@ export default function Home() {
                   announcementPhase === 'fullscreen' ? 'flex-col' : 'justify-center'
                 }`}>
                   <span className={`animate-bounce ${
-                    announcementPhase === 'fullscreen' ? 'text-6xl' : 'text-2xl'
+                    announcementPhase === 'fullscreen' ? 'text-7xl' : 'text-2xl'
                   }`}>🎁</span>
-                  <p className={`font-bold ${
-                    announcementPhase === 'fullscreen' 
-                      ? 'text-2xl md:text-3xl leading-relaxed' 
-                      : 'text-sm md:text-base'
-                  }`}>
-                    {t("announcement.offer")}
-                  </p>
+                  <div className={`${announcementPhase === 'fullscreen' ? 'space-y-2' : ''}`}>
+                    <p className={`font-black ${
+                      announcementPhase === 'fullscreen' 
+                        ? 'text-4xl md:text-5xl leading-tight mb-3' 
+                        : 'text-sm md:text-base'
+                    }`}>
+                      {t("announcement.offer")}
+                    </p>
+                    {announcementPhase === 'fullscreen' && (
+                      <p className="text-lg md:text-xl text-white/90 font-semibold">
+                        Profitez de cette offre exceptionnelle pour votre projet web !
+                      </p>
+                    )}
+                  </div>
                   {announcementPhase === 'fullscreen' && (
-                    <span className="text-6xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
+                    <span className="text-7xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
                   )}
                   {announcementPhase === 'banner' && (
                     <span className="text-2xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
