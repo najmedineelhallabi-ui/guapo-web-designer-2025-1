@@ -736,6 +736,7 @@ export function QuoteForm() {
                 name="features"
                 value="Formulaire de contact simple"
                 defaultChecked={state.formData?.features?.includes("Formulaire de contact simple")}
+                onChange={handleFeatureChange}
                 className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
@@ -751,7 +752,10 @@ export function QuoteForm() {
                   name="features"
                   value="Formulaire de demande de devis"
                   defaultChecked={state.formData?.features?.includes("Formulaire de demande de devis")}
-                  onChange={handleQuoteFormChange}
+                  onChange={(e) => {
+                    handleQuoteFormChange(e);
+                    handleFeatureChange(e);
+                  }}
                   className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                   disabled={isPending}
                 />
@@ -769,6 +773,7 @@ export function QuoteForm() {
                       name="features"
                       value="Envoi automatique d'emails de confirmation (pour devis)"
                       defaultChecked={state.formData?.features?.includes("Envoi automatique d'emails de confirmation (pour devis)")}
+                      onChange={handleFeatureChange}
                       className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                       disabled={isPending}
                     />
@@ -786,6 +791,7 @@ export function QuoteForm() {
                 name="features"
                 value="Système de prise de rendez-vous en ligne (avec emails automatiques)"
                 defaultChecked={state.formData?.features?.includes("Système de prise de rendez-vous en ligne (avec emails automatiques)")}
+                onChange={handleFeatureChange}
                 className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
@@ -800,6 +806,7 @@ export function QuoteForm() {
                 name="features"
                 value="Intégration calendrier (Google Calendar, etc.)"
                 defaultChecked={state.formData?.features?.includes("Intégration calendrier (Google Calendar, etc.)")}
+                onChange={handleFeatureChange}
                 className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                 disabled={isPending}
               />
@@ -816,7 +823,10 @@ export function QuoteForm() {
                   name="features"
                   value="Multilingue"
                   defaultChecked={state.formData?.features?.includes("Multilingue")}
-                  onChange={handleMultilingualChange}
+                  onChange={(e) => {
+                    handleMultilingualChange(e);
+                    handleFeatureChange(e);
+                  }}
                   className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                   disabled={isPending}
                 />
