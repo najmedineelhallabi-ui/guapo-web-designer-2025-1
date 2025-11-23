@@ -88,10 +88,10 @@ export function QuoteForm() {
 
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Quel type de projet souhaitez-vous ?
+            {t('quote.type.title')}
           </h2>
           <p className="text-lg text-foreground/80">
-            Choisissez le type de site qui correspond à vos besoins
+            {t('quote.type.subtitle')}
           </p>
         </div>
 
@@ -112,34 +112,34 @@ export function QuoteForm() {
               </div>
               
               <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">
-                Site Vitrine
+                {t('quote.type.showcase')}
               </h3>
               
               <p className="text-foreground/80 mb-6 leading-relaxed">
-                Site web de présentation pour votre entreprise, portfolio, ou activité professionnelle
+                {t('quote.type.showcase.desc')}
               </p>
               
               <div className="space-y-2 mb-6">
                 <div className="flex items-center gap-2 text-sm text-foreground/70">
                   <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span>Présentation d'entreprise</span>
+                  <span>{t('quote.type.showcase.feature1')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-foreground/70">
                   <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span>Portfolio professionnel</span>
+                  <span>{t('quote.type.showcase.feature2')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-foreground/70">
                   <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span>Formulaires de contact</span>
+                  <span>{t('quote.type.showcase.feature3')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-foreground/70">
                   <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span>Design sur-mesure</span>
+                  <span>{t('quote.type.showcase.feature4')}</span>
                 </div>
               </div>
               
               <div className="flex items-center gap-2 text-primary font-semibold mt-4">
-                <span>Commencer</span>
+                <span>{t('quote.type.start')}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </div>
             </div>
@@ -161,34 +161,34 @@ export function QuoteForm() {
               </div>
               
               <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-secondary transition-colors">
-                Site E-commerce
+                {t('quote.type.ecommerce')}
               </h3>
               
               <p className="text-foreground/80 mb-6 leading-relaxed">
-                Boutique en ligne complète pour vendre vos produits ou services sur internet
+                {t('quote.type.ecommerce.desc')}
               </p>
               
               <div className="space-y-2 mb-6">
                 <div className="flex items-center gap-2 text-sm text-foreground/70">
                   <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
-                  <span>Catalogue produits</span>
+                  <span>{t('quote.type.ecommerce.feature1')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-foreground/70">
                   <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
-                  <span>Panier & paiement en ligne</span>
+                  <span>{t('quote.type.ecommerce.feature2')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-foreground/70">
                   <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
-                  <span>Gestion des commandes</span>
+                  <span>{t('quote.type.ecommerce.feature3')}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-foreground/70">
                   <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
-                  <span>Comptes clients</span>
+                  <span>{t('quote.type.ecommerce.feature4')}</span>
                 </div>
               </div>
               
               <div className="flex items-center gap-2 text-secondary font-semibold mt-4">
-                <span>Commencer</span>
+                <span>{t('quote.type.start')}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </div>
             </div>
@@ -208,7 +208,7 @@ export function QuoteForm() {
         className="mb-8 flex items-center gap-2 text-foreground/70 hover:text-foreground transition-colors group"
       >
         <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-        <span>Retour au choix du type de projet</span>
+        <span>{t('quote.back')}</span>
       </button>
 
       {/* Project type indicator */}
@@ -220,9 +220,9 @@ export function QuoteForm() {
             <ShoppingCart className="w-6 h-6 text-secondary" />
           )}
           <div>
-            <p className="text-sm text-foreground/70">Type de projet sélectionné :</p>
+            <p className="text-sm text-foreground/70">{t('quote.selected')}</p>
             <p className="font-bold text-lg">
-              {projectType === 'vitrine' ? 'Site Vitrine' : 'Site E-commerce'}
+              {projectType === 'vitrine' ? t('quote.type.showcase') : t('quote.type.ecommerce')}
             </p>
           </div>
         </div>
@@ -376,7 +376,7 @@ export function QuoteForm() {
           <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-8">
             <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
               <Globe className="w-7 h-7 text-secondary" />
-              Nombre de pages du site vitrine
+              {t('quote.showcase.pages')}
             </h3>
             
             {!selectedSiteType ? (
@@ -462,7 +462,7 @@ export function QuoteForm() {
                 <div className="p-6 bg-gradient-to-r from-secondary/20 to-accent/20 border-2 border-secondary/50 rounded-xl">
                   <input type="hidden" name="siteType" value={selectedSiteType} />
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm font-semibold text-foreground/70">Type sélectionné :</span>
+                    <span className="text-sm font-semibold text-foreground/70">{t('quote.selected.label')}</span>
                     <button
                       type="button"
                       onClick={handleResetSiteType}
@@ -470,7 +470,7 @@ export function QuoteForm() {
                       className="flex items-center gap-2 px-4 py-2 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
                     >
                       <Edit2 className="w-3.5 h-3.5" />
-                      Modifier
+                      {t('quote.modify')}
                     </button>
                   </div>
                   <div className="flex items-start gap-3">
@@ -512,7 +512,7 @@ export function QuoteForm() {
           <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-8">
             <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
               <ShoppingCart className="w-7 h-7 text-secondary" />
-              Taille de votre boutique e-commerce
+              {t('quote.ecommerce.size')}
             </h3>
             
             {!selectedSiteType ? (
@@ -528,8 +528,8 @@ export function QuoteForm() {
                     disabled={isPending}
                   />
                   <div className="flex-1">
-                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Petite boutique (1-20 produits)</span>
-                    <p className="text-sm text-foreground/70 mt-1">Idéal pour démarrer avec une sélection limitée</p>
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.ecommerce.small')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.ecommerce.small.desc')}</p>
                   </div>
                 </label>
 
@@ -543,8 +543,8 @@ export function QuoteForm() {
                     disabled={isPending}
                   />
                   <div className="flex-1">
-                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Boutique moyenne (21-100 produits)</span>
-                    <p className="text-sm text-foreground/70 mt-1">Pour une gamme de produits diversifiée</p>
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.ecommerce.medium')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.ecommerce.medium.desc')}</p>
                   </div>
                 </label>
 
@@ -558,8 +558,8 @@ export function QuoteForm() {
                     disabled={isPending}
                   />
                   <div className="flex-1">
-                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">Grande boutique (100+ produits)</span>
-                    <p className="text-sm text-foreground/70 mt-1">Catalogue complet avec gestion avancée</p>
+                    <span className="font-semibold text-foreground group-hover:text-secondary transition-colors">{t('quote.ecommerce.large')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.ecommerce.large.desc')}</p>
                   </div>
                 </label>
               </div>
@@ -568,7 +568,7 @@ export function QuoteForm() {
                 <div className="p-5 bg-gradient-to-r from-secondary/20 to-accent/20 border-2 border-secondary/50 rounded-xl">
                   <input type="hidden" name="siteType" value={selectedSiteType} />
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-semibold text-foreground/70">Taille sélectionnée :</span>
+                    <span className="text-sm font-semibold text-foreground/70">{t('quote.selected.size')}</span>
                     <button
                       type="button"
                       onClick={handleResetSiteType}
@@ -576,7 +576,7 @@ export function QuoteForm() {
                       className="flex items-center gap-2 px-3 py-1.5 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
                     >
                       <Edit2 className="w-3.5 h-3.5" />
-                      Modifier
+                      {t('quote.modify')}
                     </button>
                   </div>
                   <div className="flex items-start gap-3">
@@ -584,13 +584,13 @@ export function QuoteForm() {
                     <div className="flex-1">
                       <p className="font-bold text-lg text-foreground">{selectedSiteType}</p>
                       {selectedSiteType === "Petite boutique (1-20 produits)" && (
-                        <p className="text-sm text-foreground/70 mt-1">Idéal pour démarrer avec une sélection limitée</p>
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.ecommerce.small.desc')}</p>
                       )}
                       {selectedSiteType === "Boutique moyenne (21-100 produits)" && (
-                        <p className="text-sm text-foreground/70 mt-1">Pour une gamme de produits diversifiée</p>
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.ecommerce.medium.desc')}</p>
                       )}
                       {selectedSiteType === "Grande boutique (100+ produits)" && (
-                        <p className="text-sm text-foreground/70 mt-1">Catalogue complet avec gestion avancée</p>
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.ecommerce.large.desc')}</p>
                       )}
                     </div>
                   </div>
@@ -601,7 +601,7 @@ export function QuoteForm() {
             <div className="mt-4 p-4 bg-accent/10 border border-accent/30 rounded-lg">
               <p className="text-sm text-foreground/70 flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                <span>Le prix final dépendra des fonctionnalités e-commerce sélectionnées ci-dessous</span>
+                <span>{t('quote.ecommerce.note')}</span>
               </p>
             </div>
 
@@ -827,7 +827,7 @@ export function QuoteForm() {
               <div className="pt-3 mt-3 border-t border-border animate-fade-in">
                 <p className="text-sm font-semibold text-foreground/70 mb-3 flex items-center gap-2">
                   <ShoppingCart className="w-4 h-4" />
-                  Fonctionnalités E-commerce
+                  {t('quote.features.ecommerce')}
                 </p>
                 
                 <div className="space-y-3">
@@ -938,7 +938,7 @@ export function QuoteForm() {
             <div className="relative">
               <div className="absolute -top-3 left-4 z-10">
                 <span className="px-3 py-1 bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold rounded-full shadow-lg">
-                  ⭐ RECOMMANDÉ
+                  {t('quote.optimization.recommended')}
                 </span>
               </div>
               <label className="flex items-start gap-4 cursor-pointer group p-6 rounded-xl border-2 border-primary/50 bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/15 hover:to-secondary/15 transition-all">
@@ -955,28 +955,28 @@ export function QuoteForm() {
                   <div className="flex items-center gap-2 mb-2">
                     <Shield className="w-5 h-5 text-primary" />
                     <span className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">
-                      Pack Tout Inclus
+                      {t('quote.optimization.pack')}
                     </span>
                   </div>
                   <p className="text-sm text-foreground/80 mb-3">
-                    Inclut toutes les optimisations essentielles pour un site professionnel et performant
+                    {t('quote.optimization.pack.desc')}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <div className="flex items-center gap-2 text-sm text-foreground/70">
                       <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span>SEO de base</span>
+                      <span>{t('quote.optimization.pack.seo')}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-foreground/70">
                       <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span>Optimisation vitesse</span>
+                      <span>{t('quote.optimization.pack.performance')}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-foreground/70">
                       <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span>Certificat SSL/HTTPS</span>
+                      <span>{t('quote.optimization.pack.ssl')}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-foreground/70">
                       <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span>Conformité RGPD</span>
+                      <span>{t('quote.optimization.pack.gdpr')}</span>
                     </div>
                   </div>
                 </div>
@@ -991,7 +991,7 @@ export function QuoteForm() {
                 </div>
                 <div className="relative flex justify-center text-xs">
                   <span className="bg-card px-3 py-1 text-foreground/60 rounded-full border border-border">
-                    ou choisissez individuellement
+                    {t('quote.optimization.or')}
                   </span>
                 </div>
               </div>
@@ -1078,7 +1078,7 @@ export function QuoteForm() {
                 <span className="text-foreground font-semibold">{t('quote.hosting.included')}</span>
               </div>
               <p className="text-sm text-foreground/70 mt-2">
-                L'hébergement est automatiquement inclus dans votre projet.
+                {t('quote.hosting.auto')}
               </p>
             </div>
 
