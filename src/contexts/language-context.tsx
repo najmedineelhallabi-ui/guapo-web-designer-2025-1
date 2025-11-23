@@ -221,7 +221,7 @@ const translations = {
     "hero.cta.contact": "Neem contact op",
     
     // Announcement Banner
-    "announcement.offer": "Speciale Aanbieding: Eerste Maand van Maintenance Gratis!",
+    "announcement.offer": "🎉 Korting -30% tot 31/12/25!",
     
     // About
     "about.title": "Over Guapo",
