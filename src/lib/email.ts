@@ -709,573 +709,145 @@ export async function sendQuoteEmail(data: {
       <head>
         <meta charset="utf-8">
         <style>
-          body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            line-height: 1.5;
-            color: #1f2937;
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f3f4f6;
-          }
-          .container {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-          }
-          .header {
-            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-            border-bottom: 5px solid #7c3aed;
-          }
-          .header h1 {
-            margin: 0 0 10px 0;
-            font-size: 32px;
-            font-weight: 900;
-            letter-spacing: -1px;
-          }
-          .header p {
-            margin: 0;
-            opacity: 0.95;
-            font-size: 16px;
-            font-weight: 500;
-          }
-          .content {
-            padding: 30px;
-          }
-          
-          /* Section Headers */
-          .section-header {
-            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-            padding: 15px 20px;
-            margin: 30px -30px 20px -30px;
-            border-left: 5px solid #8b5cf6;
-            font-size: 18px;
-            font-weight: 800;
-            color: #6d28d9;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-          }
-          .section-header:first-child {
-            margin-top: 0;
-          }
-          
-          /* Info Grid */
-          .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            background: #f9fafb;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-          }
-          .info-box {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            border: 2px solid #e5e7eb;
-          }
-          .info-label {
-            font-size: 11px;
-            color: #6b7280;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-          }
-          .info-value {
-            font-size: 15px;
-            color: #111827;
-            font-weight: 700;
-          }
-          
-          /* Project Details */
-          .detail-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 15px;
-            background: white;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            border: 2px solid #e5e7eb;
-            align-items: center;
-          }
-          .detail-label {
-            font-size: 13px;
-            color: #6b7280;
-            font-weight: 600;
-          }
-          .detail-value {
-            font-size: 14px;
-            color: #111827;
-            font-weight: 700;
-          }
-          
-          /* Tags */
-          .tags-wrapper {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            border: 2px solid #e5e7eb;
-            margin-bottom: 8px;
-          }
-          .tags-label {
-            font-size: 13px;
-            color: #6b7280;
-            font-weight: 600;
-            margin-bottom: 10px;
-          }
-          .tags-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-          }
-          .tag {
-            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
-            color: white;
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            border: 2px solid #7c3aed;
-            box-shadow: 0 2px 5px rgba(139,92,246,0.3);
-          }
-          
-          /* Pricing Section */
-          .pricing-section {
-            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
-            border: 4px solid #8b5cf6;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-          }
-          .pricing-title {
-            font-size: 22px;
-            font-weight: 900;
-            color: #6d28d9;
-            text-align: center;
-            margin: 0 0 20px 0;
-          }
-          
-          /* Price Breakdown */
-          .breakdown-category {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border: 2px solid #e9d5ff;
-          }
-          .category-title {
-            font-size: 14px;
-            font-weight: 800;
-            color: #8b5cf6;
-            margin: 0 0 12px 0;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #e9d5ff;
-          }
-          .price-line {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 10px;
-            margin-bottom: 5px;
-            background: #faf5ff;
-            border-radius: 5px;
-            align-items: center;
-          }
-          .price-line:last-child {
-            margin-bottom: 0;
-          }
-          .price-line-label {
-            font-size: 13px;
-            color: #374151;
-            font-weight: 500;
-          }
-          .price-line-value {
-            font-size: 14px;
-            font-weight: 800;
-            color: #8b5cf6;
-          }
-          
-          /* Discount Banner */
-          .discount-banner {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 15px 0;
-            box-shadow: 0 5px 15px rgba(239,68,68,0.4);
-          }
-          .discount-label {
-            font-size: 14px;
-            opacity: 0.95;
-            margin-bottom: 5px;
-            font-weight: 600;
-          }
-          .discount-amount {
-            font-size: 32px;
-            font-weight: 900;
-            letter-spacing: -1px;
-          }
-          
-          /* Summary */
-          .summary-box {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            border: 3px solid #e9d5ff;
-          }
-          .summary-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 12px;
-            margin-bottom: 8px;
-            background: #faf5ff;
-            border-radius: 6px;
-            align-items: center;
-          }
-          .summary-row.strikethrough .summary-label,
-          .summary-row.strikethrough .summary-value {
-            text-decoration: line-through;
-            opacity: 0.5;
-          }
-          .summary-row.highlight {
-            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-            border: 2px solid #8b5cf6;
-          }
-          .summary-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: #4b5563;
-          }
-          .summary-value {
-            font-size: 15px;
-            font-weight: 800;
-            color: #111827;
-          }
-          .summary-row.highlight .summary-label,
-          .summary-row.highlight .summary-value {
-            color: #6d28d9;
-            font-size: 16px;
-          }
-          
-          /* Total Banner */
-          .total-banner {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: 900;
-            margin-top: 15px;
-            box-shadow: 0 5px 15px rgba(139,92,246,0.4);
-          }
-          
-          /* Message Box */
-          .message-box {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border-left: 5px solid #f59e0b;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-          }
-          .message-title {
-            font-size: 15px;
-            font-weight: 800;
-            color: #92400e;
-            margin-bottom: 10px;
-          }
-          .message-text {
-            font-size: 14px;
-            color: #78350f;
-            line-height: 1.6;
-            white-space: pre-wrap;
-          }
-          
-          /* Maintenance Options */
-          .maintenance-section {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 3px solid #0ea5e9;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 20px 0;
-          }
-          .maintenance-header {
-            font-size: 18px;
-            font-weight: 900;
-            color: #0369a1;
-            text-align: center;
-            margin: 0 0 15px 0;
-          }
-          .maintenance-note {
-            text-align: center;
-            color: #64748b;
-            font-size: 14px;
-            margin-bottom: 20px;
-            font-style: italic;
-          }
-          .option-card {
-            background: white;
-            padding: 18px;
-            border-radius: 10px;
-            margin: 12px 0;
-            border: 3px solid #0ea5e9;
-            box-shadow: 0 3px 10px rgba(14,165,233,0.2);
-          }
-          .option-name {
-            font-weight: 800;
-            color: #0369a1;
-            margin-bottom: 10px;
-            font-size: 15px;
-          }
-          .option-details {
-            font-size: 13px;
-            color: #475569;
-            line-height: 1.6;
-          }
-          .gift-banner {
-            background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            text-align: center;
-            font-weight: 800;
-            color: #78350f;
-            border: 3px solid #f59e0b;
-            font-size: 14px;
-          }
-          
-          /* Button */
-          .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-            color: white;
-            padding: 16px 40px;
-            text-decoration: none;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 16px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(139,92,246,0.4);
-            transition: transform 0.2s;
-          }
-          .btn:hover {
-            transform: translateY(-2px);
-          }
-          .btn-container {
-            text-align: center;
-            margin: 30px 0;
-          }
-          
-          /* Footer */
-          .footer {
-            text-align: center;
-            padding: 25px;
-            background: #f9fafb;
-            border-top: 3px solid #e5e7eb;
-            color: #9ca3af;
-            font-size: 13px;
-          }
+          body{font-family:Arial,sans-serif;color:#333;max-width:600px;margin:0 auto;padding:15px;background:#f8f9fa}
+          .h{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:20px;border-radius:8px 8px 0 0;text-align:center}
+          .c{background:#fff;border:2px solid #e2e8f0;border-radius:0 0 8px 8px;padding:20px}
+          .sh{font-size:16px;font-weight:700;color:#6d28d9;margin:15px 0 10px 0;padding:8px 12px;background:#f3e8ff;border-left:4px solid#8b5cf6;border-radius:4px}
+          .sh:first-of-type{margin-top:0}
+          .ig{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px}
+          .ib{background:#f9fafb;padding:10px;border-radius:6px;border:2px solid#e5e7eb}
+          .il{font-size:10px;color:#6b7280;font-weight:700;text-transform:uppercase;margin-bottom:4px}
+          .iv{font-size:13px;color:#111;font-weight:700}
+          .dr{display:flex;justify-content:space-between;padding:8px 10px;background:#f9fafb;margin-bottom:6px;border-radius:4px;border:1px solid#e5e7eb;font-size:12px}
+          .dl{color:#6b7280;font-weight:600}
+          .dv{color:#111;font-weight:700}
+          .tw{background:#f9fafb;padding:10px;border-radius:6px;border:1px solid#e5e7eb;margin-bottom:6px}
+          .tl{font-size:11px;color:#6b7280;font-weight:600;margin-bottom:6px}
+          .tc{display:flex;flex-wrap:wrap;gap:6px}
+          .tag{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:6px 10px;border-radius:15px;font-size:11px;font-weight:700}
+          .ps{background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border:2px solid#8b5cf6;border-radius:8px;padding:15px;margin:15px 0}
+          .pg{background:#fff;border-radius:6px;padding:10px;margin-bottom:10px}
+          .pr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid#f3f4f6;font-size:12px}
+          .pr:last-child{border-bottom:none}
+          .pc{font-size:12px;font-weight:700;color:#8b5cf6;margin-top:8px;margin-bottom:4px;padding-bottom:2px;border-bottom:2px solid#e9d5ff}
+          .pc:first-child{margin-top:0}
+          .db{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:10px;border-radius:6px;margin:8px 0;text-align:center}
+          .pst{background:#f9fafb;padding:8px 10px;border-radius:6px;margin-top:10px;border:1px solid#e5e7eb}
+          .pt{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:10px;border-radius:6px;text-align:center;font-size:16px;font-weight:700;margin-top:6px}
+          .msg{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-left:4px solid#f59e0b;border-radius:6px;padding:12px;margin:15px 0}
+          .mt{font-size:12px;font-weight:700;color:#92400e;margin-bottom:6px}
+          .mtx{font-size:12px;color:#78350f;line-height:1.5;white-space:pre-wrap}
+          .mb{background:#f0f9ff;border:2px solid#0ea5e9;border-radius:8px;padding:12px;margin:15px 0}
+          .mh{font-size:14px;font-weight:700;color:#0369a1;text-align:center;margin:0 0 8px 0}
+          .mn{text-align:center;color:#64748b;font-size:11px;margin-bottom:10px;font-style:italic}
+          .oc{background:#fff;padding:10px;border-radius:6px;margin:6px 0;border:2px solid#0ea5e9}
+          .on{font-weight:700;color:#0369a1;margin-bottom:5px;font-size:12px}
+          .od{font-size:11px;color:#475569;line-height:1.5}
+          .gift{background:#fef3c7;padding:8px;border-radius:6px;margin:8px 0;text-align:center;font-weight:700;color:#78350f;border:2px solid#fbbf24;font-size:12px}
+          .btn{display:inline-block;background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:700;margin:8px 0;font-size:14px}
+          .bc{text-align:center;margin:12px 0}
+          .ft{text-align:center;margin-top:12px;padding-top:10px;border-top:1px solid#e2e8f0;color:#9ca3af;font-size:10px}
         </style>
       </head>
       <body>
-        <div class="container">
-          <div class="header">
-            <h1>${t.owner.title}</h1>
-            <p>${t.owner.subtitle}</p>
-          </div>
+        <div class="h"><h1 style="margin:0;font-size:22px">${t.owner.title}</h1><p style="margin:5px 0 0 0;font-size:13px">${t.owner.subtitle}</p></div>
+        <div class="c">
           
-          <div class="content">
-            <!-- CLIENT INFO -->
-            <div class="section-header">👤 ${t.owner.clientInfo}</div>
-            <div class="info-grid">
-              <div class="info-box">
-                <div class="info-label">${t.owner.fullName}</div>
-                <div class="info-value">${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</div>
-              </div>
-              <div class="info-box">
-                <div class="info-label">${t.owner.email}</div>
-                <div class="info-value">${escapeHtml(data.email)}</div>
-              </div>
-              ${data.company ? `
-              <div class="info-box">
-                <div class="info-label">${t.owner.company}</div>
-                <div class="info-value">${escapeHtml(data.company)}</div>
-              </div>
-              ` : ''}
-              ${data.sector ? `
-              <div class="info-box">
-                <div class="info-label">${t.owner.sector}</div>
-                <div class="info-value">${escapeHtml(data.sector)}</div>
-              </div>
-              ` : ''}
-            </div>
-
-            <!-- PROJECT DETAILS -->
-            <div class="section-header">📋 ${t.owner.projectDetails}</div>
-            
-            <div class="detail-row">
-              <div class="detail-label">${t.owner.siteType}</div>
-              <div class="detail-value">${escapeHtml(translatedSiteType)}</div>
-            </div>
-            
-            ${data.pageCount ? `
-            <div class="detail-row">
-              <div class="detail-label">${t.owner.pages}</div>
-              <div class="detail-value">${escapeHtml(data.pageCount.toString())} pages</div>
-            </div>
-            ` : ''}
-            
-            ${data.hosting ? `
-            <div class="detail-row">
-              <div class="detail-label">${t.owner.hosting}</div>
-              <div class="detail-value">${escapeHtml(translatedHosting)}</div>
-            </div>
-            ` : ''}
-            
-            ${data.domain ? `
-            <div class="detail-row">
-              <div class="detail-label">${t.owner.domain}</div>
-              <div class="detail-value">${escapeHtml(translatedDomain)}</div>
-            </div>
-            ` : ''}
-            
-            ${translatedFeatures.length > 0 ? `
-            <div class="tags-wrapper">
-              <div class="tags-label">⚡ ${t.owner.requestedFeatures}</div>
-              <div class="tags-container">
-                ${translatedFeatures.map(feature => `<div class="tag">${escapeHtml(feature)}</div>`).join('')}
-              </div>
-            </div>
-            ` : ''}
-
-            ${translatedLanguages.length > 0 ? `
-            <div class="tags-wrapper">
-              <div class="tags-label">🌐 ${t.owner.languages}</div>
-              <div class="tags-container">
-                ${translatedLanguages.map(lang => `<div class="tag">${escapeHtml(lang)}</div>`).join('')}
-                ${data.otherLanguages ? `<div class="tag">${t.owner.otherLang} ${escapeHtml(data.otherLanguages)}</div>` : ''}
-              </div>
-            </div>
-            ` : ''}
-
-            ${translatedOptimization.length > 0 ? `
-            <div class="tags-wrapper">
-              <div class="tags-label">🔒 ${t.owner.optimization}</div>
-              <div class="tags-container">
-                ${translatedOptimization.map(opt => `<div class="tag">${escapeHtml(opt)}</div>`).join('')}
-              </div>
-            </div>
-            ` : ''}
-
-            <!-- PRICING -->
-            <div class="section-header">💰 ${t.owner.pricing}</div>
-            
-            <div class="pricing-section">
-              <div class="pricing-title">${t.owner.breakdown(t.owner.pricing)}</div>
-              
-              ${Object.entries(groupedBreakdown).map(([category, items]) => `
-                <div class="breakdown-category">
-                  <div class="category-title">${t.owner.breakdown(category)}</div>
-                  ${items.map(({ item, price }) => `
-                    <div class="price-line">
-                      <div class="price-line-label">${escapeHtml(item)}</div>
-                      <div class="price-line-value">${escapeHtml(price)}</div>
-                    </div>
-                  `).join('')}
-                </div>
-              `).join('')}
-
-              <div class="discount-banner">
-                <div class="discount-label">${t.owner.discount}</div>
-                <div class="discount-amount">${pricing.hasRange ? `-${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
-              </div>
-
-              <div class="summary-box">
-                <div class="summary-row strikethrough">
-                  <div class="summary-label">${t.owner.originalPrice}</div>
-                  <div class="summary-value">${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</div>
-                </div>
-                <div class="summary-row highlight">
-                  <div class="summary-label">${t.owner.priceWithDiscount}</div>
-                  <div class="summary-value">${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</div>
-                </div>
-                <div class="summary-row">
-                  <div class="summary-label">${t.owner.vat}</div>
-                  <div class="summary-value">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ - ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</div>
-                </div>
-              </div>
-
-              <div class="total-banner">
-                ${t.owner.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ - ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}
-              </div>
-            </div>
-
-            <!-- CLIENT MESSAGE -->
-            ${data.message ? `
-            <div class="section-header">💬 ${t.owner.clientMessage}</div>
-            <div class="message-box">
-              <div class="message-text">${escapeHtml(data.message)}</div>
-            </div>
-            ` : ''}
-
-            <!-- MAINTENANCE OPTIONS -->
-            ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') || data.siteType.toLowerCase().includes('showcase') ? `
-            <div class="section-header">🔧 ${t.owner.maintenanceOptions}</div>
-            <div class="maintenance-section">
-              <div class="maintenance-header">${t.owner.maintenanceOptions}</div>
-              <div class="maintenance-note">${t.owner.notSelected}</div>
-
-              <div class="option-card">
-                <div class="option-name">${t.owner.maintenanceShowcase}</div>
-                <div class="option-details">${t.owner.maintenanceShowcaseDetails}</div>
-              </div>
-
-              <div class="option-card">
-                <div class="option-name">${t.owner.maintenancePerIntervention}</div>
-                <div class="option-details">${t.owner.maintenancePerInterventionDetails}</div>
-              </div>
-
-              <div class="gift-banner">${t.owner.giftBanner}</div>
-            </div>
-            ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') || data.siteType.toLowerCase().includes('shop') || data.siteType.toLowerCase().includes('winkel') ? `
-            <div class="section-header">🔧 ${t.owner.maintenanceEcommerce}</div>
-            <div class="maintenance-section">
-              <div class="maintenance-header">${t.owner.maintenanceEcommerce}</div>
-              <div class="maintenance-note">${t.owner.notSelected}</div>
-
-              <div class="option-card">
-                <div class="option-name">${t.owner.maintenancePremium}</div>
-                <div class="option-details">${t.owner.maintenancePremiumDetails}</div>
-              </div>
-
-              <div class="option-card">
-                <div class="option-name">${t.owner.maintenanceEcommercePerIntervention}</div>
-                <div class="option-details">${t.owner.maintenanceEcommercePerInterventionDetails}</div>
-              </div>
-
-              <div class="gift-banner">${t.owner.giftBanner}</div>
-            </div>
-            ` : ''}
-
-            <!-- ACTIONS -->
-            <div class="btn-container">
-              <a href="mailto:${escapeHtml(data.email)}" class="btn">
-                📧 ${t.owner.replyToClient}
-              </a>
-            </div>
+          <div class="sh">👤 ${t.owner.clientInfo}</div>
+          <div class="ig">
+            <div class="ib"><div class="il">${t.owner.fullName}</div><div class="iv">${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</div></div>
+            <div class="ib"><div class="il">${t.owner.email}</div><div class="iv">${escapeHtml(data.email)}</div></div>
+            ${data.company ? `<div class="ib"><div class="il">${t.owner.company}</div><div class="iv">${escapeHtml(data.company)}</div></div>` : ''}
+            ${data.sector ? `<div class="ib"><div class="il">${t.owner.sector}</div><div class="iv">${escapeHtml(data.sector)}</div></div>` : ''}
           </div>
 
-          <div class="footer">
-            ${t.owner.footer}
+          <div class="sh">📋 ${t.owner.projectDetails}</div>
+          
+          <div class="dr"><div class="dl">${t.owner.siteType}</div><div class="dv">${escapeHtml(translatedSiteType)}</div></div>
+          ${data.pageCount ? `<div class="dr"><div class="dl">${t.owner.pages}</div><div class="dv">${escapeHtml(data.pageCount.toString())} pages</div></div>` : ''}
+          ${data.hosting ? `<div class="dr"><div class="dl">${t.owner.hosting}</div><div class="dv">${escapeHtml(translatedHosting)}</div></div>` : ''}
+          ${data.domain ? `<div class="dr"><div class="dl">${t.owner.domain}</div><div class="dv">${escapeHtml(translatedDomain)}</div></div>` : ''}
+          
+          ${translatedFeatures.length > 0 ? `
+          <div class="tw">
+            <div class="tl">⚡ ${t.owner.requestedFeatures}</div>
+            <div class="tc">${translatedFeatures.map(f => `<div class="tag">${escapeHtml(f)}</div>`).join('')}</div>
+          </div>` : ''}
+
+          ${translatedLanguages.length > 0 ? `
+          <div class="tw">
+            <div class="tl">🌐 ${t.owner.languages}</div>
+            <div class="tc">${translatedLanguages.map(l => `<div class="tag">${escapeHtml(l)}</div>`).join('')}${data.otherLanguages ? `<div class="tag">${t.owner.otherLang} ${escapeHtml(data.otherLanguages)}</div>` : ''}</div>
+          </div>` : ''}
+
+          ${translatedOptimization.length > 0 ? `
+          <div class="tw">
+            <div class="tl">🔒 ${t.owner.optimization}</div>
+            <div class="tc">${translatedOptimization.map(o => `<div class="tag">${escapeHtml(o)}</div>`).join('')}</div>
+          </div>` : ''}
+
+          <div class="sh">💰 ${t.owner.pricing}</div>
+          
+          <div class="ps">
+            <div class="pg">
+              ${Object.entries(groupedBreakdown).map(([category, items]) => `
+                <div class="pc">${t.owner.breakdown(category)}</div>
+                ${items.map(({ item, price }) => `<div class="pr"><span>${escapeHtml(item)}</span><strong style="color:#8b5cf6">${escapeHtml(price)}</strong></div>`).join('')}
+              `).join('')}
+            </div>
+            <div class="db">
+              <div style="font-size:11px;opacity:0.9;margin-bottom:3px">${t.owner.discount}</div>
+              <div style="font-size:20px;font-weight:700">${pricing.hasRange ? `-${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
+            </div>
+            <div class="pst">
+              <div class="pr"><span style="text-decoration:line-through;opacity:0.6">${t.owner.originalPrice}</span><span style="text-decoration:line-through;opacity:0.6">${pricing.hasRange ? `${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.originalMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</span></div>
+              <div class="pr"><span><strong>${t.owner.priceWithDiscount}</strong></span><strong style="color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.discountedMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.discountedMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</strong></div>
+              <div class="pr"><span>${t.owner.vat}</span><strong style="color:#8b5cf6">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</strong></div>
+            </div>
+            <div class="pt">${t.owner.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}</div>
+          </div>
+
+          ${data.message ? `
+          <div class="sh">💬 ${t.owner.clientMessage}</div>
+          <div class="msg">
+            <div class="mtx">${escapeHtml(data.message)}</div>
+          </div>` : ''}
+
+          ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') || data.siteType.toLowerCase().includes('showcase') ? `
+          <div class="sh">🔧 ${t.owner.maintenanceOptions}</div>
+          <div class="mb">
+            <div class="mh">${t.owner.maintenanceOptions}</div>
+            <div class="mn">${t.owner.notSelected}</div>
+            <div class="oc">
+              <div class="on">${t.owner.maintenanceShowcase}</div>
+              <div class="od">${t.owner.maintenanceShowcaseDetails}</div>
+            </div>
+            <div class="oc">
+              <div class="on">${t.owner.maintenancePerIntervention}</div>
+              <div class="od">${t.owner.maintenancePerInterventionDetails}</div>
+            </div>
+            <div class="gift">${t.owner.giftBanner}</div>
+          </div>` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') || data.siteType.toLowerCase().includes('shop') || data.siteType.toLowerCase().includes('winkel') ? `
+          <div class="sh">🔧 ${t.owner.maintenanceEcommerce}</div>
+          <div class="mb">
+            <div class="mh">${t.owner.maintenanceEcommerce}</div>
+            <div class="mn">${t.owner.notSelected}</div>
+            <div class="oc">
+              <div class="on">${t.owner.maintenancePremium}</div>
+              <div class="od">${t.owner.maintenancePremiumDetails}</div>
+            </div>
+            <div class="oc">
+              <div class="on">${t.owner.maintenanceEcommercePerIntervention}</div>
+              <div class="od">${t.owner.maintenanceEcommercePerInterventionDetails}</div>
+            </div>
+            <div class="gift">${t.owner.giftBanner}</div>
+          </div>` : ''}
+
+          <div class="bc">
+            <a href="mailto:${escapeHtml(data.email)}" class="btn">📧 ${t.owner.replyToClient}</a>
           </div>
         </div>
+        <div class="ft">${t.owner.footer}</div>
       </body>
     </html>
   `;
@@ -1335,20 +907,24 @@ body{font-family:Arial,sans-serif;color:#333;max-width:600px;margin:0 auto;paddi
 .h{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:20px;border-radius:8px 8px 0 0;text-align:center}
 .c{background:#fff;border:2px solid #e2e8f0;border-radius:0 0 8px 8px;padding:20px}
 .ps{background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border:2px solid #8b5cf6;border-radius:8px;padding:15px;margin:15px 0}
-.pg{background:#fff;border-radius:6px;padding:12px;margin-bottom:12px}
-.pr{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:13px}
+.pg{background:#fff;border-radius:6px;padding:10px;margin-bottom:10px}
+.pr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid#f3f4f6;font-size:12px}
 .pr:last-child{border-bottom:none}
-.pc{font-size:13px;font-weight:600;color:#8b5cf6;margin-top:10px;margin-bottom:5px;padding-bottom:3px;border-bottom:2px solid #e9d5ff}
+.pc{font-size:12px;font-weight:700;color:#8b5cf6;margin-top:8px;margin-bottom:4px;padding-bottom:2px;border-bottom:2px solid#e9d5ff}
 .pc:first-child{margin-top:0}
-.db{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:12px;border-radius:6px;margin:10px 0;text-align:center}
-.pst{background:#f9fafb;padding:10px 12px;border-radius:6px;margin-top:12px;border:2px solid #e5e7eb}
-.pt{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:12px;border-radius:6px;text-align:center;font-size:18px;font-weight:700;margin-top:8px}
-.mb{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:8px;padding:15px;margin:15px 0}
-.oc{background:#fff;padding:10px;border-radius:6px;margin:8px 0;border:2px solid #8b5cf6}
-.btn{display:inline-block;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:700;margin:8px 4px;font-size:14px}
-.btn-q{background:linear-gradient(135deg,#8b5cf6,#a855f7)}
-.gift{background:#fef3c7;padding:10px;border-radius:6px;margin:10px 0;text-align:center;font-weight:600;color:#78350f;border:2px solid#fbbf24;font-size:13px}
-.cb{background:#fef3c7;border:2px solid#fbbf24;border-radius:8px;padding:15px;margin:15px 0;text-align:center}
+.db{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:10px;border-radius:6px;margin:8px 0;text-align:center}
+.pst{background:#f9fafb;padding:8px 10px;border-radius:6px;margin-top:10px;border:1px solid#e5e7eb}
+.pt{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:10px;border-radius:6px;text-align:center;font-size:16px;font-weight:700;margin-top:6px}
+.mb{background:#f0f9ff;border:2px solid#0ea5e9;border-radius:8px;padding:12px;margin:15px 0}
+.mh{font-size:14px;font-weight:700;color:#0369a1;text-align:center;margin:0 0 8px 0}
+.mn{text-align:center;color:#64748b;font-size:11px;margin-bottom:10px;font-style:italic}
+.oc{background:#fff;padding:10px;border-radius:6px;margin:6px 0;border:2px solid#0ea5e9}
+.on{font-weight:700;color:#0369a1;margin-bottom:5px;font-size:12px}
+.od{font-size:11px;color:#475569;line-height:1.5}
+.gift{background:#fef3c7;padding:8px;border-radius:6px;margin:8px 0;text-align:center;font-weight:700;color:#78350f;border:2px solid#fbbf24;font-size:12px}
+.btn{display:inline-block;background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:700;margin:8px 0;font-size:14px}
+.bc{text-align:center;margin:12px 0}
+.ft{text-align:center;margin-top:12px;padding-top:10px;border-top:1px solid#e2e8f0;color:#9ca3af;font-size:10px}
 </style>
 </head>
 <body>
@@ -1415,7 +991,7 @@ ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase()
 </div>
 ` : ''}
 
-<div class="cb">
+<div class="bc">
 <div style="font-size:15px;font-weight:700;color:#92400e;margin-bottom:10px">${t.client.estimationOK}</div>
 <div style="font-size:12px;color:#78350f;margin-bottom:12px">${t.client.chooseOrAsk}</div>
 ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') || data.siteType.toLowerCase().includes('showcase') ? `
