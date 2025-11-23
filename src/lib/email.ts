@@ -124,7 +124,19 @@ function calculatePricing(data: {
     }
   }
 
-  return { minTotal, maxTotal, breakdown };
+  // Calculer les prix avec réduction -30%
+  const originalPrice = maxTotal;
+  const discount = Math.round(originalPrice * 0.30);
+  const discountedPrice = originalPrice - discount;
+
+  return { 
+    minTotal, 
+    maxTotal, 
+    breakdown,
+    originalPrice,
+    discount,
+    discountedPrice
+  };
 }
 
 export async function sendQuoteEmail(data: {
@@ -148,7 +160,7 @@ export async function sendQuoteEmail(data: {
   console.log('📧 Owner Email TO:', process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com');
   console.log('📧 Client Email TO:', data.email);
   
-  // Calculer les prix
+  // Calculer les prix avec réduction -30%
   const pricing = calculatePricing({
     siteType: data.siteType,
     pageCount: data.pageCount,
@@ -159,7 +171,7 @@ export async function sendQuoteEmail(data: {
     domain: data.domain
   });
 
-  console.log('💰 Pricing calculated:', `${pricing.minTotal}€ - ${pricing.maxTotal}€`);
+  console.log('💰 Pricing calculated:', `Original: ${pricing.originalPrice}€, Avec -30%: ${pricing.discountedPrice}€`);
 
   // Grouper les éléments par catégorie
   const groupedBreakdown = pricing.breakdown.reduce((acc, item) => {
@@ -170,7 +182,7 @@ export async function sendQuoteEmail(data: {
     return acc;
   }, {} as Record<string, { item: string; price: string }[]>);
 
-  // EMAIL 1: Pour le propriétaire (VERSION SIMPLIFIÉE)
+  // EMAIL 1: Pour le propriétaire (AVEC RÉDUCTION -30%)
   const ownerEmailHtml = `
     <!DOCTYPE html>
     <html>
@@ -276,6 +288,23 @@ export async function sendQuoteEmail(data: {
             font-weight: 600;
             color: #8b5cf6;
             font-size: 14px;
+          }
+          .discount-box {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+          }
+          .discount-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+          }
+          .discount-value {
+            font-size: 28px;
+            font-weight: 700;
           }
           .price-total {
             background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
@@ -396,9 +425,9 @@ export async function sendQuoteEmail(data: {
             ` : ''}
           </div>
 
-          <!-- Estimation tarifaire -->
+          <!-- Estimation tarifaire AVEC RÉDUCTION -30% -->
           <div class="price-section">
-            <div class="price-title">💰 Estimation</div>
+            <div class="price-title">💰 Estimation avec Promotion -30%</div>
             
             <div class="price-grid">
               ${Object.entries(groupedBreakdown).map(([category, items]) => `
@@ -412,8 +441,17 @@ export async function sendQuoteEmail(data: {
               `).join('')}
             </div>
 
+            <div class="discount-box">
+              <div class="discount-label">🎉 Réduction -30% appliquée</div>
+              <div class="discount-value">-${pricing.discount}€</div>
+            </div>
+
             <div class="price-total">
-              ${pricing.minTotal}€ - ${pricing.maxTotal}€
+              Prix Final: ${pricing.discountedPrice}€ HT (${Math.round(pricing.discountedPrice * 1.21)}€ TTC)
+            </div>
+            
+            <div style="text-align: center; margin-top: 10px; color: #6d28d9; font-size: 12px;">
+              Prix original: <span style="text-decoration: line-through;">${pricing.originalPrice}€ HT</span>
             </div>
           </div>
 
@@ -502,7 +540,7 @@ export async function sendQuoteEmail(data: {
     </html>
   `;
 
-  // EMAIL 2: Pour le client (VERSION ULTRA-OPTIMISÉE - MAXIMUM COMPACT)
+  // EMAIL 2: Pour le client (VERSION ULTRA-OPTIMISÉE - MAXIMUM COMPACT AVEC -30%)
   
   // Créer un résumé du devis pour le bouton Question
   const quoteSummary = `Bonjour,
@@ -518,8 +556,9 @@ ${data.optimization && data.optimization.length > 0 ? `Optimisation: ${data.opti
 ${data.hosting ? `Hébergement: ${data.hosting}` : ''}
 ${data.domain ? `Domaine: ${data.domain}` : ''}
 
-Estimation: ${pricing.minTotal === pricing.maxTotal ? `${pricing.minTotal}€` : `${pricing.minTotal}€ - ${pricing.maxTotal}€`} HT
-TTC: ${pricing.minTotal === pricing.maxTotal ? `${Math.round(pricing.minTotal * 1.21)}€` : `${Math.round(pricing.minTotal * 1.21)}€ - ${Math.round(pricing.maxTotal * 1.21)}€`}
+Prix original: ${pricing.originalPrice}€ HT
+Réduction -30%: -${pricing.discount}€
+Prix final: ${pricing.discountedPrice}€ HT (${Math.round(pricing.discountedPrice * 1.21)}€ TTC)
 -----------------------
 
 Ma question:
@@ -546,6 +585,7 @@ body{font-family:Arial,sans-serif;color:#333;max-width:600px;margin:0 auto;paddi
 .pr:last-child{border-bottom:none}
 .pc{font-size:13px;font-weight:600;color:#8b5cf6;margin-top:10px;margin-bottom:5px;padding-bottom:3px;border-bottom:2px solid #e9d5ff}
 .pc:first-child{margin-top:0}
+.db{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:12px;border-radius:6px;margin:10px 0;text-align:center}
 .pst{background:#f9fafb;padding:10px 12px;border-radius:6px;margin-top:12px;border:2px solid #e5e7eb}
 .pt{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:12px;border-radius:6px;text-align:center;font-size:18px;font-weight:700;margin-top:8px}
 .mb{background:#f0f9ff;border:2px solid #0ea5e9;border-radius:8px;padding:15px;margin:15px 0}
@@ -563,7 +603,7 @@ body{font-family:Arial,sans-serif;color:#333;max-width:600px;margin:0 auto;paddi
 <p style="margin:10px 0">Merci pour <strong style="color:#8b5cf6">GUAPO Web Designer</strong> ! Demande reçue pour <strong>${escapeHtml(data.company || 'votre projet')}</strong>.</p>
 
 <div class="ps">
-<div style="font-size:16px;font-weight:700;color:#6d28d9;text-align:center;margin-bottom:12px">💰 Votre Estimation</div>
+<div style="font-size:16px;font-weight:700;color:#6d28d9;text-align:center;margin-bottom:12px">💰 Votre Estimation (-30%)</div>
 <div class="pg">
 ${Object.entries(groupedBreakdown).map(([category, items]) => `
 <div class="pc">${category}</div>
@@ -572,11 +612,16 @@ ${items.map(({ item, price }) => `
 `).join('')}
 `).join('')}
 </div>
-<div class="pst">
-<div class="pr"><span><strong>Total HT</strong></span><strong style="color:#8b5cf6">${pricing.minTotal === pricing.maxTotal ? `${pricing.minTotal}€` : `${pricing.minTotal}€ - ${pricing.maxTotal}€`}</strong></div>
-<div class="pr"><span>TVA (21%)</span><strong style="color:#8b5cf6">${pricing.minTotal === pricing.maxTotal ? `${Math.round(pricing.minTotal * 0.21)}€` : `${Math.round(pricing.minTotal * 0.21)}€ - ${Math.round(pricing.maxTotal * 0.21)}€`}</strong></div>
+<div class="db">
+<div style="font-size:12px;opacity:0.9;margin-bottom:5px">🎉 Réduction -30%</div>
+<div style="font-size:24px;font-weight:700">-${pricing.discount}€</div>
 </div>
-<div class="pt">Total TTC: ${pricing.minTotal === pricing.maxTotal ? `${Math.round(pricing.minTotal * 1.21)}€` : `${Math.round(pricing.minTotal * 1.21)}€ - ${Math.round(pricing.maxTotal * 1.21)}€`}</div>
+<div class="pst">
+<div class="pr"><span style="text-decoration:line-through;opacity:0.6">Prix original</span><span style="text-decoration:line-through;opacity:0.6">${pricing.originalPrice}€ HT</span></div>
+<div class="pr"><span><strong>Prix avec -30%</strong></span><strong style="color:#8b5cf6">${pricing.discountedPrice}€ HT</strong></div>
+<div class="pr"><span>TVA (21%)</span><strong style="color:#8b5cf6">${Math.round(pricing.discountedPrice * 0.21)}€</strong></div>
+</div>
+<div class="pt">Total TTC: ${Math.round(pricing.discountedPrice * 1.21)}€</div>
 </div>
 
 <div class="mb">
@@ -619,13 +664,13 @@ ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase()
 <div style="font-size:15px;font-weight:700;color:#92400e;margin-bottom:10px">📋 Estimation OK ?</div>
 <div style="font-size:12px;color:#78350f;margin-bottom:12px">Choisissez maintenance ou posez questions</div>
 ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') ? `
-<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Annuel 300€/an')}" class="btn">📦 Confirmer Annuel</a>
-<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Intervention 100€')}" class="btn">💳 Confirmer Intervention</a>
+<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedPrice}&maxPrice=${pricing.discountedPrice}&maintenanceType=${encodeURIComponent('Annuel 300€/an')}" class="btn">📦 Confirmer Annuel</a>
+<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedPrice}&maxPrice=${pricing.discountedPrice}&maintenanceType=${encodeURIComponent('Intervention 100€')}" class="btn">💳 Confirmer Intervention</a>
 ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
-<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Annuel 700€/an')}" class="btn">📦 Confirmer Annuel</a>
-<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}&maintenanceType=${encodeURIComponent('Intervention 150€')}" class="btn">💳 Confirmer Intervention</a>
+<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedPrice}&maxPrice=${pricing.discountedPrice}&maintenanceType=${encodeURIComponent('Annuel 700€/an')}" class="btn">📦 Confirmer Annuel</a>
+<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedPrice}&maxPrice=${pricing.discountedPrice}&maintenanceType=${encodeURIComponent('Intervention 150€')}" class="btn">💳 Confirmer Intervention</a>
 ` : `
-<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotal}&maxPrice=${pricing.maxTotal}" class="btn">✅ Confirmer</a>
+<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedPrice}&maxPrice=${pricing.discountedPrice}" class="btn">✅ Confirmer</a>
 `}
 <div style="margin-top:10px">
 <a href="${mailtoQuestionLink}" class="btn btn-q">💬 Question avec Résumé</a>
@@ -659,7 +704,7 @@ ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase()
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: data.email,
-      subject: `🎨 Nouvelle demande - ${data.firstName} ${data.lastName} - ${pricing.minTotal}€-${pricing.maxTotal}€`,
+      subject: `🎨 Nouvelle demande - ${data.firstName} ${data.lastName} - ${pricing.discountedPrice}€ (-30%)`,
       html: ownerEmailHtml,
     });
     console.log('✅ 1/2 - Owner email sent successfully!', ownerResult);
@@ -670,7 +715,7 @@ ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase()
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: data.email,
       replyTo: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
-      subject: `✅ Votre estimation - GUAPO Web Designer`,
+      subject: `✅ Votre estimation avec -30% - GUAPO Web Designer`,
       html: clientEmailHtml,
     });
     console.log('✅ 2/2 - Client email sent successfully!', clientResult);
