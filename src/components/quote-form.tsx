@@ -925,6 +925,7 @@ export function QuoteForm() {
                       name="features"
                       value="Catalogue de produits"
                       defaultChecked={state.formData?.features?.includes("Catalogue de produits")}
+                      onChange={handleFeatureChange}
                       className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
@@ -939,6 +940,7 @@ export function QuoteForm() {
                       name="features"
                       value="Panier d'achat"
                       defaultChecked={state.formData?.features?.includes("Panier d'achat")}
+                      onChange={handleFeatureChange}
                       className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
@@ -953,6 +955,7 @@ export function QuoteForm() {
                       name="features"
                       value="Passerelle de paiement (Stripe, PayPal, etc.)"
                       defaultChecked={state.formData?.features?.includes("Passerelle de paiement (Stripe, PayPal, etc.)")}
+                      onChange={handleFeatureChange}
                       className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
@@ -967,6 +970,7 @@ export function QuoteForm() {
                       name="features"
                       value="Gestion des commandes"
                       defaultChecked={state.formData?.features?.includes("Gestion des commandes")}
+                      onChange={handleFeatureChange}
                       className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
@@ -981,6 +985,7 @@ export function QuoteForm() {
                       name="features"
                       value="Gestion des stocks"
                       defaultChecked={state.formData?.features?.includes("Gestion des stocks")}
+                      onChange={handleFeatureChange}
                       className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
@@ -995,6 +1000,7 @@ export function QuoteForm() {
                       name="features"
                       value="Comptes clients"
                       defaultChecked={state.formData?.features?.includes("Comptes clients")}
+                      onChange={handleFeatureChange}
                       className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
                       disabled={isPending}
                     />
