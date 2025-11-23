@@ -13,22 +13,30 @@ export default function Home() {
   const [announcementPhase, setAnnouncementPhase] = useState<'fullscreen' | 'banner' | 'hidden'>('fullscreen');
 
   useEffect(() => {
-    const dismissed = localStorage.getItem('banner-promo-nov2025-v3');
-    if (!dismissed) {
-      // Phase 1: Show fullscreen announcement
+    const hasSeenFullscreen = localStorage.getItem('banner-promo-fullscreen-seen');
+    
+    if (!hasSeenFullscreen) {
+      // Première visite: montrer fullscreen puis bannière
       setTimeout(() => {
         setShowAnnouncement(true);
         setAnnouncementPhase('fullscreen');
       }, 300);
       
-      // Phase 2: Move to banner after 3 seconds (and stay there)
+      // Phase 2: Move to banner after 3 seconds
       const bannerTimer = setTimeout(() => {
         setAnnouncementPhase('banner');
+        localStorage.setItem('banner-promo-fullscreen-seen', 'true');
       }, 3500);
       
       return () => {
         clearTimeout(bannerTimer);
       };
+    } else {
+      // Visites suivantes: montrer directement la bannière
+      setTimeout(() => {
+        setShowAnnouncement(true);
+        setAnnouncementPhase('banner');
+      }, 300);
     }
   }, []);
 
@@ -36,7 +44,6 @@ export default function Home() {
     setAnnouncementPhase('hidden');
     setTimeout(() => {
       setShowAnnouncement(false);
-      localStorage.setItem('banner-promo-nov2025-v3', 'true');
     }, 600);
   };
 
