@@ -2,10 +2,9 @@
 
 import { useActionState, useEffect, useState } from 'react';
 import { sendQuoteAction, QuoteFormState } from '@/app/actions/sendQuote';
-import { Mail, User, Briefcase, Calendar, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, CheckSquare, Shield, Palette, Zap, Lock, Wrench, Building, ShoppingCart, Edit2, ArrowLeft, ArrowRight, Euro } from 'lucide-react';
+import { Mail, User, Briefcase, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, Shield, Palette, Zap, Lock, Wrench, Building, ShoppingCart, Edit2, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import Link from 'next/link';
-import { PRICING, calculateEstimate } from '@/lib/pricing';
 
 export function QuoteForm() {
   const { t } = useLanguage();
@@ -20,30 +19,6 @@ export function QuoteForm() {
   const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
   const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
-
-  // Prix calculation states
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
-  const [selectedOptimizations, setSelectedOptimizations] = useState<string[]>([]);
-  const [selectedDomain, setSelectedDomain] = useState<string>('Inclus dans le projet');
-  const [priceEstimate, setPriceEstimate] = useState({ minTotal: 0, maxTotal: 0 });
-
-  // Calculate price whenever selections change
-  useEffect(() => {
-    if (selectedSiteType) {
-      const estimate = calculateEstimate({
-        siteType: selectedSiteType,
-        features: selectedFeatures,
-        optimization: selectedOptimizations,
-        domain: selectedDomain
-      });
-      setPriceEstimate(estimate);
-    }
-  }, [selectedSiteType, selectedFeatures, selectedOptimizations, selectedDomain]);
-
-  // Calculate discounted prices (-30%)
-  const originalPrice = priceEstimate.maxTotal;
-  const discount = Math.round(originalPrice * 0.30);
-  const finalPrice = originalPrice - discount;
 
   useEffect(() => {
     if (state.success) {
@@ -63,8 +38,6 @@ export function QuoteForm() {
     setProjectType('');
     setIsEcommerce(false);
     setSelectedSiteType('');
-    setSelectedFeatures([]);
-    setSelectedOptimizations([]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -86,36 +59,7 @@ export function QuoteForm() {
   };
 
   const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = e.target.checked;
-    setAllInclusiveOptimization(isChecked);
-    
-    if (isChecked) {
-      setSelectedOptimizations(['Pack Tout Inclus (SEO + Performance + SSL + RGPD)']);
-    } else {
-      setSelectedOptimizations([]);
-    }
-  };
-
-  const handleFeatureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (e.target.checked) {
-      setSelectedFeatures([...selectedFeatures, value]);
-    } else {
-      setSelectedFeatures(selectedFeatures.filter(f => f !== value));
-    }
-  };
-
-  const handleOptimizationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (e.target.checked) {
-      setSelectedOptimizations([...selectedOptimizations, value]);
-    } else {
-      setSelectedOptimizations(selectedOptimizations.filter(o => o !== value));
-    }
-  };
-
-  const handleDomainChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedDomain(e.target.value);
+    setAllInclusiveOptimization(e.target.checked);
   };
 
   // Step 1: Project Type Selection
@@ -248,49 +192,6 @@ export function QuoteForm() {
   // Step 2: Questions Form
   return (
     <div className="max-w-5xl mx-auto">
-      {/* Price Display - Fixed at top when scrolling */}
-      {selectedSiteType && originalPrice > 0 && (
-        <div className="sticky top-20 z-40 mb-8 animate-in slide-in-from-top duration-500">
-          <div className="bg-gradient-to-r from-red-600 via-red-500 to-red-600 border-4 border-white/30 rounded-2xl p-6 shadow-2xl">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              {/* Original Price */}
-              <div className="text-center md:text-left">
-                <p className="text-white/80 text-sm font-semibold mb-1">Prix original</p>
-                <p className="text-white/60 text-3xl font-black line-through decoration-2">{originalPrice}€</p>
-              </div>
-
-              {/* Discount Badge */}
-              <div className="flex items-center gap-4">
-                <div className="bg-white rounded-full px-6 py-3 shadow-lg">
-                  <p className="text-red-600 text-2xl font-black">-30%</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-white/80 text-sm font-semibold mb-1">Vous économisez</p>
-                  <p className="text-yellow-300 text-2xl font-black">-{discount}€</p>
-                </div>
-              </div>
-
-              {/* Final Price */}
-              <div className="text-center md:text-right">
-                <p className="text-white/80 text-sm font-semibold mb-1">Prix final avec -30%</p>
-                <div className="flex items-baseline gap-2 justify-center md:justify-end">
-                  <p className="text-white text-4xl md:text-5xl font-black">{finalPrice}€</p>
-                  <span className="text-white/60 text-lg">HT</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Promo reminder */}
-            <div className="mt-4 pt-4 border-t border-white/20 text-center">
-              <p className="text-white text-sm font-semibold flex items-center justify-center gap-2">
-                <span className="text-xl">🎁</span>
-                Promotion valable jusqu'au 31/12/25 + 1 mois de maintenance offert !
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Back button */}
       <button
         type="button"
