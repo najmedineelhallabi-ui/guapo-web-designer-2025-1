@@ -712,490 +712,487 @@ export async function sendQuoteEmail(data: {
           body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             line-height: 1.6;
-            color: #333;
-            max-width: 700px;
+            color: #1f2937;
+            max-width: 650px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f8f9fa;
+            background-color: #f3f4f6;
+          }
+          .container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
           }
           .header {
-            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             color: white;
-            padding: 30px;
-            border-radius: 12px 12px 0 0;
+            padding: 32px 24px;
             text-align: center;
           }
           .header h1 {
-            margin: 0;
-            font-size: 26px;
-            font-weight: 700;
+            margin: 0 0 8px 0;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
           }
           .header p {
-            margin: 8px 0 0 0;
+            margin: 0;
             opacity: 0.95;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 500;
           }
           .content {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 0 0 12px 12px;
-            padding: 30px;
+            padding: 32px 24px;
           }
-          .section {
-            margin-bottom: 25px;
-          }
-          .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #8b5cf6;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 3px solid #e9d5ff;
-          }
-          .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+          .card {
             background: #f9fafb;
-            border-radius: 10px;
-            padding: 16px;
             border: 2px solid #e5e7eb;
-          }
-          .info-item {
-            padding: 12px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-          }
-          .info-label {
-            font-size: 11px;
-            color: #6b7280;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 600;
-            margin-bottom: 6px;
-          }
-          .info-value {
-            font-size: 15px;
-            color: #1f2937;
-            font-weight: 600;
-            word-break: break-word;
-          }
-          .features-section {
-            margin-top: 20px;
-          }
-          .features-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: #6b7280;
-            margin-bottom: 10px;
-          }
-          .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-          }
-          .feature-tag {
-            background: #f3e8ff;
-            color: #7c3aed;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            border: 2px solid #e9d5ff;
-            text-align: center;
-          }
-          .price-section {
-            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
-            border: 3px solid #8b5cf6;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 25px 0;
-          }
-          .price-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #6d28d9;
-            text-align: center;
-            margin-bottom: 20px;
-          }
-          .price-breakdown {
-            background: white;
             border-radius: 10px;
             padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
           }
-          .price-category {
-            font-size: 15px;
+          .card-title {
+            font-size: 16px;
             font-weight: 700;
             color: #8b5cf6;
-            margin-top: 18px;
-            margin-bottom: 10px;
-            padding-bottom: 6px;
+            margin: 0 0 16px 0;
+            padding-bottom: 12px;
             border-bottom: 2px solid #e9d5ff;
             display: flex;
             align-items: center;
             gap: 8px;
           }
+          .info-row {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+          }
+          .info-row:last-child {
+            border-bottom: none;
+          }
+          .info-label {
+            font-size: 13px;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+          .info-value {
+            font-size: 14px;
+            color: #111827;
+            font-weight: 600;
+          }
+          .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+          }
+          .tag {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+            color: #7c3aed;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid #e9d5ff;
+          }
+          .price-card {
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+            border: 3px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+          }
+          .price-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: #6d28d9;
+            text-align: center;
+            margin: 0 0 20px 0;
+          }
+          .price-breakdown {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+          }
+          .price-category {
+            font-size: 14px;
+            font-weight: 700;
+            color: #8b5cf6;
+            margin: 16px 0 8px 0;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #e9d5ff;
+          }
           .price-category:first-child {
             margin-top: 0;
           }
-          .price-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #f3f4f6;
+          .price-item {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            padding: 8px 0;
             align-items: center;
           }
-          .price-row:last-child {
-            border-bottom: none;
-          }
-          .price-label {
+          .price-item-label {
+            font-size: 13px;
             color: #374151;
-            font-size: 14px;
             font-weight: 500;
-            flex: 1;
           }
-          .price-value {
+          .price-item-value {
+            font-size: 14px;
             font-weight: 700;
             color: #8b5cf6;
-            font-size: 15px;
-            white-space: nowrap;
-            margin-left: 16px;
+            text-align: right;
           }
-          .discount-highlight {
+          .discount-banner {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
-            padding: 18px;
-            border-radius: 10px;
-            margin: 20px 0;
+            padding: 16px;
+            border-radius: 8px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
+            margin: 16px 0;
           }
-          .discount-label {
-            font-size: 14px;
+          .discount-banner .label {
+            font-size: 13px;
             opacity: 0.95;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
           }
-          .discount-amount {
-            font-size: 32px;
-            font-weight: 700;
+          .discount-banner .amount {
+            font-size: 28px;
+            font-weight: 800;
           }
           .price-summary {
             background: white;
-            border-radius: 10px;
-            padding: 18px;
-            margin-top: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-          }
-          .price-final {
-            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
-            color: white;
-            padding: 18px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: 700;
-            margin-top: 15px;
-            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
-          }
-          .message-box {
-            background: #fef3c7;
-            border-left: 5px solid #f59e0b;
             border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
+            padding: 16px;
+            margin-top: 12px;
+          }
+          .summary-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            padding: 8px 0;
+            font-size: 14px;
+          }
+          .summary-row.strikethrough .label,
+          .summary-row.strikethrough .value {
+            text-decoration: line-through;
+            opacity: 0.5;
+          }
+          .summary-row.highlight {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 8px 0;
+          }
+          .summary-row .label {
+            font-weight: 500;
+            color: #4b5563;
+          }
+          .summary-row .value {
+            font-weight: 700;
+            color: #111827;
+            text-align: right;
+          }
+          .total-banner {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+            margin-top: 12px;
+          }
+          .message-card {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 24px 0;
           }
           .message-title {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             color: #92400e;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
           }
           .message-text {
+            font-size: 13px;
             color: #78350f;
-            font-size: 14px;
-            line-height: 1.7;
+            line-height: 1.6;
             white-space: pre-wrap;
           }
-          .maintenance-section {
+          .maintenance-card {
             background: #f0f9ff;
-            border: 3px solid #0ea5e9;
-            border-radius: 12px;
-            padding: 25px;
-            margin: 25px 0;
+            border: 2px solid #0ea5e9;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 24px 0;
           }
           .maintenance-title {
+            font-size: 16px;
+            font-weight: 700;
             color: #0369a1;
             text-align: center;
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 15px;
+            margin: 0 0 12px 0;
           }
-          .option-card {
+          .maintenance-note {
+            text-align: center;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 16px;
+          }
+          .option {
             background: white;
-            padding: 18px;
-            border-radius: 10px;
-            margin: 12px 0;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 10px 0;
             border: 2px solid #0ea5e9;
-            box-shadow: 0 2px 4px rgba(14, 165, 233, 0.1);
           }
           .option-name {
             font-weight: 700;
             color: #0369a1;
-            margin-bottom: 10px;
-            font-size: 15px;
+            margin-bottom: 8px;
+            font-size: 14px;
           }
           .option-details {
-            font-size: 13px;
+            font-size: 12px;
             color: #475569;
-            line-height: 1.6;
+            line-height: 1.5;
           }
-          .gift-banner {
+          .gift {
             background: #fef3c7;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
             text-align: center;
             font-weight: 700;
             color: #78350f;
             border: 2px solid #fbbf24;
-          }
-          .action-buttons {
-            text-align: center;
-            margin-top: 30px;
+            font-size: 13px;
           }
           .btn {
             display: inline-block;
-            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             color: white;
-            padding: 14px 28px;
+            padding: 14px 32px;
             text-decoration: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 700;
-            margin: 8px;
             font-size: 15px;
-            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
+            text-align: center;
+          }
+          .btn-container {
+            text-align: center;
+            margin: 28px 0;
           }
           .footer {
             text-align: center;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 2px solid #e2e8f0;
+            padding: 20px;
+            background: #f9fafb;
+            border-top: 2px solid #e5e7eb;
             color: #9ca3af;
-            font-size: 13px;
+            font-size: 12px;
           }
         </style>
       </head>
       <body>
-        <div class="header">
-          <h1>${t.owner.title}</h1>
-          <p>${t.owner.subtitle}</p>
-        </div>
-        
-        <div class="content">
-          <!-- INFORMATIONS CLIENT -->
-          <div class="section">
-            <div class="section-title">${t.owner.clientInfo}</div>
-            <div class="info-grid">
-              <div class="info-item">
+        <div class="container">
+          <div class="header">
+            <h1>${t.owner.title}</h1>
+            <p>${t.owner.subtitle}</p>
+          </div>
+          
+          <div class="content">
+            <!-- CLIENT INFO -->
+            <div class="card">
+              <div class="card-title">👤 ${t.owner.clientInfo}</div>
+              <div class="info-row">
                 <div class="info-label">${t.owner.fullName}</div>
                 <div class="info-value">${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</div>
               </div>
-              <div class="info-item">
+              <div class="info-row">
                 <div class="info-label">${t.owner.email}</div>
                 <div class="info-value">${escapeHtml(data.email)}</div>
               </div>
               ${data.company ? `
-              <div class="info-item">
+              <div class="info-row">
                 <div class="info-label">${t.owner.company}</div>
                 <div class="info-value">${escapeHtml(data.company)}</div>
               </div>
               ` : ''}
               ${data.sector ? `
-              <div class="info-item">
+              <div class="info-row">
                 <div class="info-label">${t.owner.sector}</div>
                 <div class="info-value">${escapeHtml(data.sector)}</div>
               </div>
               ` : ''}
             </div>
-          </div>
 
-          <!-- DÉTAILS DU PROJET -->
-          <div class="section">
-            <div class="section-title">${t.owner.projectDetails}</div>
-            <div class="info-grid">
-              <div class="info-item">
+            <!-- PROJECT DETAILS -->
+            <div class="card">
+              <div class="card-title">📋 ${t.owner.projectDetails}</div>
+              <div class="info-row">
                 <div class="info-label">${t.owner.siteType}</div>
                 <div class="info-value">${escapeHtml(translatedSiteType)}</div>
               </div>
               ${data.pageCount ? `
-              <div class="info-item">
+              <div class="info-row">
                 <div class="info-label">${t.owner.pages}</div>
                 <div class="info-value">${escapeHtml(data.pageCount.toString())} pages</div>
               </div>
               ` : ''}
               ${data.hosting ? `
-              <div class="info-item">
+              <div class="info-row">
                 <div class="info-label">${t.owner.hosting}</div>
                 <div class="info-value">${escapeHtml(translatedHosting)}</div>
               </div>
               ` : ''}
               ${data.domain ? `
-              <div class="info-item">
+              <div class="info-row">
                 <div class="info-label">${t.owner.domain}</div>
                 <div class="info-value">${escapeHtml(translatedDomain)}</div>
               </div>
               ` : ''}
-            </div>
-
-            ${translatedFeatures.length > 0 ? `
-            <div class="features-section">
-              <div class="features-label">${t.owner.requestedFeatures}</div>
-              <div class="features-grid">
-                ${translatedFeatures.map(feature => `<div class="feature-tag">${escapeHtml(feature)}</div>`).join('')}
-              </div>
-            </div>
-            ` : ''}
-
-            ${translatedLanguages.length > 0 ? `
-            <div class="features-section">
-              <div class="features-label">${t.owner.languages}</div>
-              <div class="features-grid">
-                ${translatedLanguages.map(lang => `<div class="feature-tag">${escapeHtml(lang)}</div>`).join('')}
-                ${data.otherLanguages ? `<div class="feature-tag">${t.owner.otherLang} ${escapeHtml(data.otherLanguages)}</div>` : ''}
-              </div>
-            </div>
-            ` : ''}
-
-            ${translatedOptimization.length > 0 ? `
-            <div class="features-section">
-              <div class="features-label">${t.owner.optimization}</div>
-              <div class="features-grid">
-                ${translatedOptimization.map(opt => `<div class="feature-tag">${escapeHtml(opt)}</div>`).join('')}
-              </div>
-            </div>
-            ` : ''}
-          </div>
-
-          <!-- ESTIMATION TARIFAIRE -->
-          <div class="price-section">
-            <div class="price-title">${t.owner.pricing}</div>
-            
-            <div class="price-breakdown">
-              ${Object.entries(groupedBreakdown).map(([category, items]) => `
-                <div class="price-category">${t.owner.breakdown(category)}</div>
-                ${items.map(({ item, price }) => `
-                  <div class="price-row">
-                    <span class="price-label">${escapeHtml(item)}</span>
-                    <span class="price-value">${escapeHtml(price)}</span>
+              
+              ${translatedFeatures.length > 0 ? `
+              <div class="info-row">
+                <div class="info-label">${t.owner.requestedFeatures}</div>
+                <div class="info-value">
+                  <div class="tags-container">
+                    ${translatedFeatures.map(feature => `<div class="tag">${escapeHtml(feature)}</div>`).join('')}
                   </div>
+                </div>
+              </div>
+              ` : ''}
+
+              ${translatedLanguages.length > 0 ? `
+              <div class="info-row">
+                <div class="info-label">${t.owner.languages}</div>
+                <div class="info-value">
+                  <div class="tags-container">
+                    ${translatedLanguages.map(lang => `<div class="tag">${escapeHtml(lang)}</div>`).join('')}
+                    ${data.otherLanguages ? `<div class="tag">${t.owner.otherLang} ${escapeHtml(data.otherLanguages)}</div>` : ''}
+                  </div>
+                </div>
+              </div>
+              ` : ''}
+
+              ${translatedOptimization.length > 0 ? `
+              <div class="info-row">
+                <div class="info-label">${t.owner.optimization}</div>
+                <div class="info-value">
+                  <div class="tags-container">
+                    ${translatedOptimization.map(opt => `<div class="tag">${escapeHtml(opt)}</div>`).join('')}
+                  </div>
+                </div>
+              </div>
+              ` : ''}
+            </div>
+
+            <!-- PRICING -->
+            <div class="price-card">
+              <div class="price-title">💰 ${t.owner.pricing}</div>
+              
+              <div class="price-breakdown">
+                ${Object.entries(groupedBreakdown).map(([category, items]) => `
+                  <div class="price-category">${t.owner.breakdown(category)}</div>
+                  ${items.map(({ item, price }) => `
+                    <div class="price-item">
+                      <div class="price-item-label">${escapeHtml(item)}</div>
+                      <div class="price-item-value">${escapeHtml(price)}</div>
+                    </div>
+                  `).join('')}
                 `).join('')}
-              `).join('')}
+              </div>
+
+              <div class="discount-banner">
+                <div class="label">${t.owner.discount}</div>
+                <div class="amount">${pricing.hasRange ? `-${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
+              </div>
+
+              <div class="price-summary">
+                <div class="summary-row strikethrough">
+                  <div class="label">${t.owner.originalPrice}</div>
+                  <div class="value">${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</div>
+                </div>
+                <div class="summary-row highlight">
+                  <div class="label" style="font-weight:700;color:#111827">${t.owner.priceWithDiscount}</div>
+                  <div class="value" style="font-size:16px;color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</div>
+                </div>
+                <div class="summary-row">
+                  <div class="label">${t.owner.vat}</div>
+                  <div class="value">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ - ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</div>
+                </div>
+              </div>
+
+              <div class="total-banner">
+                ${t.owner.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ - ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}
+              </div>
             </div>
 
-            <div class="discount-highlight">
-              <div class="discount-label">${t.owner.discount}</div>
-              <div class="discount-amount">${pricing.hasRange ? `-${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
+            <!-- CLIENT MESSAGE -->
+            ${data.message ? `
+            <div class="message-card">
+              <div class="message-title">${t.owner.clientMessage}</div>
+              <div class="message-text">${escapeHtml(data.message)}</div>
             </div>
+            ` : ''}
 
-            <div class="price-summary">
-              <div class="price-row">
-                <span class="price-label" style="text-decoration: line-through; opacity: 0.6;">${t.owner.originalPrice}</span>
-                <span class="price-value" style="text-decoration: line-through; opacity: 0.6;">${pricing.hasRange ? `${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span>
+            <!-- MAINTENANCE OPTIONS -->
+            ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') || data.siteType.toLowerCase().includes('showcase') ? `
+            <div class="maintenance-card">
+              <div class="maintenance-title">🔧 ${t.owner.maintenanceOptions}</div>
+              <div class="maintenance-note">${t.owner.notSelected}</div>
+
+              <div class="option">
+                <div class="option-name">${t.owner.maintenanceShowcase}</div>
+                <div class="option-details">${t.owner.maintenanceShowcaseDetails}</div>
               </div>
-              <div class="price-row">
-                <span class="price-label"><strong>${t.owner.priceWithDiscount}</strong></span>
-                <strong class="price-value" style="font-size: 17px;">${pricing.hasRange ? `${pricing.discountedMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong>
+
+              <div class="option">
+                <div class="option-name">${t.owner.maintenancePerIntervention}</div>
+                <div class="option-details">${t.owner.maintenancePerInterventionDetails}</div>
               </div>
-              <div class="price-row">
-                <span class="price-label">${t.owner.vat}</span>
-                <span class="price-value">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</span>
-              </div>
+
+              <div class="gift">${t.owner.giftBanner}</div>
             </div>
+            ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') || data.siteType.toLowerCase().includes('shop') || data.siteType.toLowerCase().includes('winkel') ? `
+            <div class="maintenance-card">
+              <div class="maintenance-title">🔧 ${t.owner.maintenanceEcommerce}</div>
+              <div class="maintenance-note">${t.owner.notSelected}</div>
 
-            <div class="price-final">
-              ${t.owner.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}
+              <div class="option">
+                <div class="option-name">${t.owner.maintenancePremium}</div>
+                <div class="option-details">${t.owner.maintenancePremiumDetails}</div>
+              </div>
+
+              <div class="option">
+                <div class="option-name">${t.owner.maintenanceEcommercePerIntervention}</div>
+                <div class="option-details">${t.owner.maintenanceEcommercePerInterventionDetails}</div>
+              </div>
+
+              <div class="gift">${t.owner.giftBanner}</div>
+            </div>
+            ` : ''}
+
+            <!-- ACTIONS -->
+            <div class="btn-container">
+              <a href="mailto:${escapeHtml(data.email)}" class="btn">
+                📧 ${t.owner.replyToClient}
+              </a>
             </div>
           </div>
 
-          <!-- MESSAGE DU CLIENT -->
-          ${data.message ? `
-          <div class="message-box">
-            <div class="message-title">${t.owner.clientMessage}</div>
-            <div class="message-text">${escapeHtml(data.message)}</div>
+          <div class="footer">
+            ${t.owner.footer}
           </div>
-          ` : ''}
-
-          <!-- OPTIONS DE MAINTENANCE -->
-          ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') || data.siteType.toLowerCase().includes('showcase') ? `
-          <div class="maintenance-section">
-            <h3 class="maintenance-title">${t.owner.maintenanceOptions}</h3>
-            <p style="text-align: center; color: #475569; font-size: 14px; margin-bottom: 15px;">
-              ${t.owner.notSelected}
-            </p>
-
-            <div class="option-card">
-              <div class="option-name">${t.owner.maintenanceShowcase}</div>
-              <div class="option-details">
-                ${t.owner.maintenanceShowcaseDetails}
-              </div>
-            </div>
-
-            <div class="option-card">
-              <div class="option-name">${t.owner.maintenancePerIntervention}</div>
-              <div class="option-details">
-                ${t.owner.maintenancePerInterventionDetails}
-              </div>
-            </div>
-
-            <div class="gift-banner">
-              ${t.owner.giftBanner}
-            </div>
-          </div>
-          ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') || data.siteType.toLowerCase().includes('shop') || data.siteType.toLowerCase().includes('winkel') ? `
-          <div class="maintenance-section">
-            <h3 class="maintenance-title">${t.owner.maintenanceEcommerce}</h3>
-            <p style="text-align: center; color: #475569; font-size: 14px; margin-bottom: 15px;">
-              ${t.owner.notSelected}
-            </p>
-
-            <div class="option-card">
-              <div class="option-name">${t.owner.maintenancePremium}</div>
-              <div class="option-details">
-                ${t.owner.maintenancePremiumDetails}
-              </div>
-            </div>
-
-            <div class="option-card">
-              <div class="option-name">${t.owner.maintenanceEcommercePerIntervention}</div>
-              <div class="option-details">
-                ${t.owner.maintenanceEcommercePerInterventionDetails}
-              </div>
-            </div>
-
-            <div class="gift-banner">
-              ${t.owner.giftBanner}
-            </div>
-          </div>
-          ` : `
-          <div style="background: #fef2f2; border: 2px solid #ef4444; border-radius: 8px; padding: 15px; margin: 20px 0; text-align: center;">
-            <strong style="color: #991b1b;">${t.owner.noMaintenanceSelected}</strong>
-          </div>
-          `}
-
-          <!-- ACTIONS -->
-          <div class="action-buttons">
-            <a href="mailto:${escapeHtml(data.email)}" class="btn">
-              ${t.owner.replyToClient}
-            </a>
-          </div>
-        </div>
-
-        <div class="footer">
-          ${t.owner.footer}
         </div>
       </body>
     </html>
