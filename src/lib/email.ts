@@ -6,6 +6,188 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Prix par page supplémentaire
 const PAGE_EXTRA_COST = 100;
 
+// Traductions pour les valeurs des options du formulaire
+const optionTranslations = {
+  // Types de sites vitrine
+  "Site vitrine simple (1 à 3 pages)": {
+    fr: "Site vitrine simple (1 à 3 pages)",
+    nl: "Eenvoudige showcase site (1 tot 3 pagina's)",
+    en: "Simple showcase website (1 to 3 pages)"
+  },
+  "Site vitrine standard (4 à 5 pages)": {
+    fr: "Site vitrine standard (4 à 5 pages)",
+    nl: "Standaard showcase site (4 tot 5 pagina's)",
+    en: "Standard showcase website (4 to 5 pages)"
+  },
+  "Site vitrine avancé (6 à 8 pages)": {
+    fr: "Site vitrine avancé (6 à 8 pages)",
+    nl: "Geavanceerde showcase site (6 tot 8 pagina's)",
+    en: "Advanced showcase website (6 to 8 pages)"
+  },
+  "Site vitrine premium (9 à 12 pages)": {
+    fr: "Site vitrine premium (9 à 12 pages)",
+    nl: "Premium showcase site (9 tot 12 pagina's)",
+    en: "Premium showcase website (9 to 12 pages)"
+  },
+  "Portfolio / site personnel": {
+    fr: "Portfolio / site personnel",
+    nl: "Portfolio / persoonlijke website",
+    en: "Portfolio / personal website"
+  },
+  // Types e-commerce
+  "Petite boutique (1-20 produits)": {
+    fr: "Petite boutique (1-20 produits)",
+    nl: "Kleine winkel (1-20 producten)",
+    en: "Small shop (1-20 products)"
+  },
+  "Boutique moyenne (21-100 produits)": {
+    fr: "Boutique moyenne (21-100 produits)",
+    nl: "Gemiddelde winkel (21-100 producten)",
+    en: "Medium shop (21-100 products)"
+  },
+  "Grande boutique (100+ produits)": {
+    fr: "Grande boutique (100+ produits)",
+    nl: "Grote winkel (100+ producten)",
+    en: "Large shop (100+ products)"
+  },
+  // Fonctionnalités
+  "Formulaire de contact simple": {
+    fr: "Formulaire de contact simple",
+    nl: "Eenvoudig contactformulier",
+    en: "Simple contact form"
+  },
+  "Formulaire de demande de devis": {
+    fr: "Formulaire de demande de devis",
+    nl: "Offerteaanvraagformulier",
+    en: "Quote request form"
+  },
+  "Envoi automatique d'emails de confirmation (pour devis)": {
+    fr: "Envoi automatique d'emails de confirmation (pour devis)",
+    nl: "Automatische verzending van bevestigingsmails (voor offertes)",
+    en: "Automatic confirmation email sending (for quotes)"
+  },
+  "Système de prise de rendez-vous en ligne (avec emails automatiques)": {
+    fr: "Système de prise de rendez-vous en ligne (avec emails automatiques)",
+    nl: "Online afsprakenboekingssysteem (met automatische emails)",
+    en: "Online appointment booking system (with automatic emails)"
+  },
+  "Intégration calendrier (Google Calendar, etc.)": {
+    fr: "Intégration calendrier (Google Calendar, etc.)",
+    nl: "Agenda-integratie (Google Calendar, etc.)",
+    en: "Calendar integration (Google Calendar, etc.)"
+  },
+  "Multilingue": {
+    fr: "Multilingue",
+    nl: "Meertalig",
+    en: "Multilingual"
+  },
+  "Blog / actualités": {
+    fr: "Blog / actualités",
+    nl: "Blog / nieuws",
+    en: "Blog / news"
+  },
+  // Fonctionnalités e-commerce
+  "Catalogue de produits": {
+    fr: "Catalogue de produits",
+    nl: "Productcatalogus",
+    en: "Product catalog"
+  },
+  "Panier d'achat": {
+    fr: "Panier d'achat",
+    nl: "Winkelwagen",
+    en: "Shopping cart"
+  },
+  "Passerelle de paiement (Stripe, PayPal, etc.)": {
+    fr: "Passerelle de paiement (Stripe, PayPal, etc.)",
+    nl: "Betalingsgateway (Stripe, PayPal, etc.)",
+    en: "Payment gateway (Stripe, PayPal, etc.)"
+  },
+  "Gestion des commandes": {
+    fr: "Gestion des commandes",
+    nl: "Bestellingenbeheer",
+    en: "Order management"
+  },
+  "Gestion des stocks": {
+    fr: "Gestion des stocks",
+    nl: "Voorraadbeheer",
+    en: "Inventory management"
+  },
+  "Comptes clients": {
+    fr: "Comptes clients",
+    nl: "Klantenaccounts",
+    en: "Customer accounts"
+  },
+  // Optimisation
+  "Pack Tout Inclus (SEO + Performance + SSL + RGPD)": {
+    fr: "Pack Tout Inclus (SEO + Performance + SSL + RGPD)",
+    nl: "All-inclusive Pakket (SEO + Prestaties + SSL + AVG)",
+    en: "All-Inclusive Pack (SEO + Performance + SSL + GDPR)"
+  },
+  "SEO de base (balises, titres, URLs)": {
+    fr: "SEO de base (balises, titres, URLs)",
+    nl: "Basis SEO (tags, titels, URL's)",
+    en: "Basic SEO (tags, titles, URLs)"
+  },
+  "Optimisation vitesse / performance": {
+    fr: "Optimisation vitesse / performance",
+    nl: "Snelheid / prestaties optimalisatie",
+    en: "Speed / performance optimization"
+  },
+  "Certificat SSL / HTTPS": {
+    fr: "Certificat SSL / HTTPS",
+    nl: "SSL-certificaat / HTTPS",
+    en: "SSL certificate / HTTPS"
+  },
+  "RGPD / conformité légale": {
+    fr: "RGPD / conformité légale",
+    nl: "AVG / wettelijke naleving",
+    en: "GDPR / legal compliance"
+  },
+  // Hébergement et domaine
+  "Inclus dans le projet": {
+    fr: "Inclus dans le projet",
+    nl: "Inbegrepen in het project",
+    en: "Included in the project"
+  },
+  "Fourni par le client": {
+    fr: "Fourni par le client",
+    nl: "Geleverd door de klant",
+    en: "Provided by the client"
+  },
+  "À discuter": {
+    fr: "À discuter",
+    nl: "Te bespreken",
+    en: "To discuss"
+  },
+  // Langues
+  "Français (FR)": {
+    fr: "Français (FR)",
+    nl: "Frans (FR)",
+    en: "French (FR)"
+  },
+  "Néerlandais (NL)": {
+    fr: "Néerlandais (NL)",
+    nl: "Nederlands (NL)",
+    en: "Dutch (NL)"
+  },
+  "English (ENG)": {
+    fr: "Anglais (ENG)",
+    nl: "Engels (ENG)",
+    en: "English (ENG)"
+  },
+  "Autre": {
+    fr: "Autre",
+    nl: "Andere",
+    en: "Other"
+  }
+};
+
+// Fonction pour traduire une option
+function translateOption(option: string, lang: 'fr' | 'nl' | 'en' = 'fr'): string {
+  const translation = optionTranslations[option as keyof typeof optionTranslations];
+  return translation ? translation[lang] : option;
+}
+
 // Traductions pour les emails
 const emailTranslations = {
   fr: {
@@ -489,6 +671,14 @@ export async function sendQuoteEmail(data: {
   const lang = data.language || 'fr';
   const t = getT(lang);
   
+  // Traduire toutes les options en fonction de la langue
+  const translatedSiteType = translateOption(data.siteType, lang);
+  const translatedFeatures = data.features?.map(f => translateOption(f, lang)) || [];
+  const translatedLanguages = data.languages?.map(l => translateOption(l, lang)) || [];
+  const translatedOptimization = data.optimization?.map(o => translateOption(o, lang)) || [];
+  const translatedHosting = data.hosting ? translateOption(data.hosting, lang) : '';
+  const translatedDomain = data.domain ? translateOption(data.domain, lang) : '';
+  
   // Calculer les prix avec réduction -30%
   const pricing = calculatePricing({
     siteType: data.siteType,
@@ -502,12 +692,14 @@ export async function sendQuoteEmail(data: {
 
   console.log('💰 Pricing calculated:', `Original: ${pricing.originalMinPrice}€, Avec -30%: ${pricing.discountedMinPrice}€`);
 
-  // Grouper les éléments par catégorie
+  // Grouper les éléments par catégorie AVEC TRADUCTIONS
   const groupedBreakdown = pricing.breakdown.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
     }
-    acc[item.category].push({ item: item.item, price: item.price });
+    // Traduire l'item avant de l'ajouter
+    const translatedItem = translateOption(item.item, lang);
+    acc[item.category].push({ item: translatedItem, price: item.price });
     return acc;
   }, {} as Record<string, { item: string; price: string }[]>);
 
@@ -817,7 +1009,7 @@ export async function sendQuoteEmail(data: {
             <div class="info-grid">
               <div class="info-item">
                 <div class="info-label">${t.owner.siteType}</div>
-                <div class="info-value">${escapeHtml(data.siteType)}</div>
+                <div class="info-value">${escapeHtml(translatedSiteType)}</div>
               </div>
               ${data.pageCount ? `
               <div class="info-item">
@@ -828,41 +1020,41 @@ export async function sendQuoteEmail(data: {
               ${data.hosting ? `
               <div class="info-item">
                 <div class="info-label">${t.owner.hosting}</div>
-                <div class="info-value">${escapeHtml(data.hosting)}</div>
+                <div class="info-value">${escapeHtml(translatedHosting)}</div>
               </div>
               ` : ''}
               ${data.domain ? `
               <div class="info-item">
                 <div class="info-label">${t.owner.domain}</div>
-                <div class="info-value">${escapeHtml(data.domain)}</div>
+                <div class="info-value">${escapeHtml(translatedDomain)}</div>
               </div>
               ` : ''}
             </div>
 
-            ${data.features && data.features.length > 0 ? `
+            ${translatedFeatures.length > 0 ? `
             <div style="margin-top: 20px;">
               <div style="font-size: 14px; font-weight: 600; color: #6b7280; margin-bottom: 10px;">${t.owner.requestedFeatures}</div>
               <div class="features-grid">
-                ${data.features.map(feature => `<div class="feature-tag">${escapeHtml(feature)}</div>`).join('')}
+                ${translatedFeatures.map(feature => `<div class="feature-tag">${escapeHtml(feature)}</div>`).join('')}
               </div>
             </div>
             ` : ''}
 
-            ${data.languages && data.languages.length > 0 ? `
+            ${translatedLanguages.length > 0 ? `
             <div style="margin-top: 15px;">
               <div style="font-size: 14px; font-weight: 600; color: #6b7280; margin-bottom: 10px;">${t.owner.languages}</div>
               <div class="features-grid">
-                ${data.languages.map(lang => `<div class="feature-tag">${escapeHtml(lang)}</div>`).join('')}
+                ${translatedLanguages.map(lang => `<div class="feature-tag">${escapeHtml(lang)}</div>`).join('')}
                 ${data.otherLanguages ? `<div class="feature-tag">${t.owner.otherLang} ${escapeHtml(data.otherLanguages)}</div>` : ''}
               </div>
             </div>
             ` : ''}
 
-            ${data.optimization && data.optimization.length > 0 ? `
+            ${translatedOptimization.length > 0 ? `
             <div style="margin-top: 15px;">
               <div style="font-size: 14px; font-weight: 600; color: #6b7280; margin-bottom: 10px;">${t.owner.optimization}</div>
               <div class="features-grid">
-                ${data.optimization.map(opt => `<div class="feature-tag">${escapeHtml(opt)}</div>`).join('')}
+                ${translatedOptimization.map(opt => `<div class="feature-tag">${escapeHtml(opt)}</div>`).join('')}
               </div>
             </div>
             ` : ''}
@@ -918,7 +1110,7 @@ export async function sendQuoteEmail(data: {
           ` : ''}
 
           <!-- OPTIONS DE MAINTENANCE -->
-          ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') ? `
+          ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') || data.siteType.toLowerCase().includes('showcase') ? `
           <div class="maintenance-section">
             <h3 class="maintenance-title">${t.owner.maintenanceOptions}</h3>
             <p style="text-align: center; color: #475569; font-size: 14px; margin-bottom: 15px;">
@@ -943,7 +1135,7 @@ export async function sendQuoteEmail(data: {
               ${t.owner.giftBanner}
             </div>
           </div>
-          ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
+          ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') || data.siteType.toLowerCase().includes('shop') || data.siteType.toLowerCase().includes('winkel') ? `
           <div class="maintenance-section">
             <h3 class="maintenance-title">${t.owner.maintenanceEcommerce}</h3>
             <p style="text-align: center; color: #475569; font-size: 14px; margin-bottom: 15px;">
@@ -991,7 +1183,7 @@ export async function sendQuoteEmail(data: {
 
   // EMAIL 2: Pour le client (VERSION ULTRA-OPTIMISÉE - MAXIMUM COMPACT AVEC -30%)
   
-  // Créer un résumé du devis pour le bouton Question
+  // Créer un résumé du devis pour le bouton Question AVEC TRADUCTIONS
   const quoteSummaryText = lang === 'fr' 
     ? `Bonjour,
 
@@ -1008,12 +1200,12 @@ I received my quote estimate and I have a question about my project:`;
 
 --- ${lang === 'fr' ? 'RÉSUMÉ DE MON DEVIS' : lang === 'nl' ? 'SAMENVATTING VAN MIJN OFFERTE' : 'MY QUOTE SUMMARY'} ---
 ${lang === 'fr' ? 'Entreprise' : lang === 'nl' ? 'Bedrijf' : 'Company'}: ${data.company || (lang === 'fr' ? 'Mon projet' : lang === 'nl' ? 'Mijn project' : 'My project')}
-${lang === 'fr' ? 'Type de site' : lang === 'nl' ? 'Type website' : 'Website type'}: ${data.siteType}
+${lang === 'fr' ? 'Type de site' : lang === 'nl' ? 'Type website' : 'Website type'}: ${translatedSiteType}
 ${lang === 'fr' ? 'Nombre de pages' : lang === 'nl' ? 'Aantal pagina\'s' : 'Number of pages'}: ${data.pageCount || (lang === 'fr' ? 'Non spécifié' : lang === 'nl' ? 'Niet gespecificeerd' : 'Not specified')}
-${data.features && data.features.length > 0 ? `${lang === 'fr' ? 'Fonctionnalités' : lang === 'nl' ? 'Functionaliteiten' : 'Features'}: ${data.features.join(', ')}` : ''}
-${data.optimization && data.optimization.length > 0 ? `${lang === 'fr' ? 'Optimisation' : lang === 'nl' ? 'Optimalisatie' : 'Optimization'}: ${data.optimization.join(', ')}` : ''}
-${data.hosting ? `${lang === 'fr' ? 'Hébergement' : lang === 'nl' ? 'Hosting' : 'Hosting'}: ${data.hosting}` : ''}
-${data.domain ? `${lang === 'fr' ? 'Domaine' : lang === 'nl' ? 'Domein' : 'Domain'}: ${data.domain}` : ''}
+${translatedFeatures.length > 0 ? `${lang === 'fr' ? 'Fonctionnalités' : lang === 'nl' ? 'Functionaliteiten' : 'Features'}: ${translatedFeatures.join(', ')}` : ''}
+${translatedOptimization.length > 0 ? `${lang === 'fr' ? 'Optimisation' : lang === 'nl' ? 'Optimalisatie' : 'Optimization'}: ${translatedOptimization.join(', ')}` : ''}
+${data.hosting ? `${lang === 'fr' ? 'Hébergement' : lang === 'nl' ? 'Hosting' : 'Hosting'}: ${translatedHosting}` : ''}
+${data.domain ? `${lang === 'fr' ? 'Domaine' : lang === 'nl' ? 'Domein' : 'Domain'}: ${translatedDomain}` : ''}
 
 ${pricing.hasRange 
   ? `${lang === 'fr' ? 'Prix original' : lang === 'nl' ? 'Originele prijs' : 'Original price'}: ${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}
@@ -1096,7 +1288,7 @@ ${t.client.maintenanceFeatures}
 </div>
 </div>
 
-${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') ? `
+${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') || data.siteType.toLowerCase().includes('showcase') ? `
 <div style="background:#fff;border:2px solid#8b5cf6;border-radius:8px;padding:12px;margin:15px 0">
 <h3 style="color:#8b5cf6;text-align:center;margin:0 0 10px 0;font-size:15px">${t.client.showcaseOptions}</h3>
 <div class="oc">
@@ -1109,7 +1301,7 @@ ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase()
 </div>
 <div class="gift">${t.client.giftBanner}</div>
 </div>
-` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
+` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') || data.siteType.toLowerCase().includes('shop') || data.siteType.toLowerCase().includes('winkel') ? `
 <div style="background:#fff;border:2px solid#8b5cf6;border-radius:8px;padding:12px;margin:15px 0">
 <h3 style="color:#8b5cf6;text-align:center;margin:0 0 10px 0;font-size:15px">${t.client.ecommerceOptions}</h3>
 <div class="oc">
@@ -1127,10 +1319,10 @@ ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase()
 <div class="cb">
 <div style="font-size:15px;font-weight:700;color:#92400e;margin-bottom:10px">${t.client.estimationOK}</div>
 <div style="font-size:12px;color:#78350f;margin-bottom:12px">${t.client.chooseOrAsk}</div>
-${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') ? `
+${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') || data.siteType.toLowerCase().includes('showcase') ? `
 <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedMinPrice}&maxPrice=${pricing.discountedMaxPrice}&maintenanceType=${encodeURIComponent(lang === 'fr' ? 'Annuel 300€/an' : lang === 'nl' ? 'Jaarlijks 300€/jaar' : 'Annual 300€/year')}" class="btn">${t.client.confirmAnnual}</a>
 <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedMinPrice}&maxPrice=${pricing.discountedMaxPrice}&maintenanceType=${encodeURIComponent(lang === 'fr' ? 'Intervention 100€' : lang === 'nl' ? 'Interventie 100€' : 'Intervention 100€')}" class="btn">${t.client.confirmIntervention}</a>
-` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
+` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') || data.siteType.toLowerCase().includes('shop') || data.siteType.toLowerCase().includes('winkel') ? `
 <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedMinPrice}&maxPrice=${pricing.discountedMaxPrice}&maintenanceType=${encodeURIComponent(lang === 'fr' ? 'Annuel 700€/an' : lang === 'nl' ? 'Jaarlijks 700€/jaar' : 'Annual 700€/year')}" class="btn">${t.client.confirmAnnual}</a>
 <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedMinPrice}&maxPrice=${pricing.discountedMaxPrice}&maintenanceType=${encodeURIComponent(lang === 'fr' ? 'Intervention 150€' : lang === 'nl' ? 'Interventie 150€' : 'Intervention 150€')}" class="btn">${t.client.confirmIntervention}</a>
 ` : `
