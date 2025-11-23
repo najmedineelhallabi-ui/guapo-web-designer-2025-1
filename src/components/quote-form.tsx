@@ -19,6 +19,15 @@ export function QuoteForm() {
   const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
   const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
+  const [selectedDomain, setSelectedDomain] = useState<string>('');
+
+  const handleFeatureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Feature changes are handled by form submission
+  };
+
+  const handleDomainChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedDomain(e.target.value);
+  };
 
   useEffect(() => {
     if (state.success) {
