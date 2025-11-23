@@ -692,14 +692,13 @@ export async function sendQuoteEmail(data: {
 
   console.log('💰 Pricing calculated:', `Original: ${pricing.originalMinPrice}€, Avec -30%: ${pricing.discountedMinPrice}€`);
 
-  // Grouper les éléments par catégorie AVEC TRADUCTIONS
+  // Grouper les éléments par catégorie - items déjà traduits dans calculatePricing()
   const groupedBreakdown = pricing.breakdown.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
     }
-    // Traduire l'item avant de l'ajouter
-    const translatedItem = translateOption(item.item, lang);
-    acc[item.category].push({ item: translatedItem, price: item.price });
+    // Les items sont déjà traduits dans calculatePricing(), pas besoin de retraduire
+    acc[item.category].push({ item: item.item, price: item.price });
     return acc;
   }, {} as Record<string, { item: string; price: string }[]>);
 
