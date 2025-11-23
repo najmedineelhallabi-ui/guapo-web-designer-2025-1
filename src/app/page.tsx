@@ -21,23 +21,13 @@ export default function Home() {
         setAnnouncementPhase('fullscreen');
       }, 300);
       
-      // Phase 2: Move to banner after 3 seconds
+      // Phase 2: Move to banner after 3 seconds (and stay there)
       const bannerTimer = setTimeout(() => {
         setAnnouncementPhase('banner');
       }, 3500);
       
-      // Phase 3: Hide completely after 8 more seconds
-      const hideTimer = setTimeout(() => {
-        setAnnouncementPhase('hidden');
-        setTimeout(() => {
-          setShowAnnouncement(false);
-          localStorage.setItem('banner-promo-nov2025-v3', 'true');
-        }, 600);
-      }, 11500);
-      
       return () => {
         clearTimeout(bannerTimer);
-        clearTimeout(hideTimer);
       };
     }
   }, []);
