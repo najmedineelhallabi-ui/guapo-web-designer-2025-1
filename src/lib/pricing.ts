@@ -4,25 +4,25 @@
 export const PRICING = {
   // Types de site
   siteTypes: {
-    "Site vitrine simple (1 à 3 pages)": { min: 400, max: 500 },
-    "Site vitrine standard (4 à 5 pages)": { min: 500, max: 700 },
-    "Site vitrine avancé (6 à 8 pages)": { min: 700, max: 1000 },
-    "Site vitrine premium (9 à 12 pages)": { min: 1000, max: 1300 },
+    "Site vitrine simple (1 à 3 pages)": { min: 500, max: 500 },
+    "Site vitrine standard (4 à 5 pages)": { min: 750, max: 750 },
+    "Site vitrine avancé (6 à 8 pages)": { min: 1100, max: 1100 },
+    "Site vitrine premium (9 à 12 pages)": { min: 1400, max: 1400 },
     "Portfolio / site personnel": { min: 600, max: 1200 },
     // Sites e-commerce avec différentes tailles
-    "Petite boutique (1-20 produits)": { min: 1300, max: 1700 },
-    "Boutique moyenne (21-100 produits)": { min: 1700, max: 2500 },
-    "Grande boutique (100+ produits)": { min: 2500, max: 5000 },
+    "Petite boutique (1-20 produits)": { min: 1400, max: 1800 },
+    "Boutique moyenne (21-100 produits)": { min: 1800, max: 3100 },
+    "Grande boutique (100+ produits)": { min: 3100, max: 5000 },
   },
 
   // Fonctionnalités
   features: {
-    "Formulaire de contact simple": 60,
-    "Formulaire de demande de devis": 100,
-    "Envoi automatique d'emails de confirmation (pour devis)": 65,
-    "Système de prise de rendez-vous en ligne (avec emails automatiques)": 150,
-    "Ajouter au calendrier (Google Calendar, Outlook, ICS, etc.)": 50,
-    "Multilingue": 125,
+    "Formulaire de contact simple": 80,
+    "Formulaire de demande de devis": 120,
+    "Envoi automatique d'emails de confirmation (pour devis)": 85,
+    "Système de prise de rendez-vous en ligne (avec emails automatiques)": 170,
+    "Ajouter au calendrier (Google Calendar, Outlook, ICS, etc.)": 60,
+    "Multilingue": 155,
     // Fonctionnalités E-commerce
     "Catalogue de produits": 300,
     "Panier d'achat": 0,
