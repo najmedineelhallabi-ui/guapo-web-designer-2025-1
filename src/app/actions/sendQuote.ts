@@ -21,6 +21,7 @@ const quoteSchema = z.object({
   rgpdConsent: z.string().refine((val) => val === 'on', {
     message: 'Vous devez accepter la politique de confidentialité pour continuer',
   }),
+  language: z.enum(['fr', 'nl', 'en']).optional(),
 });
 
 export type QuoteFormState = {
@@ -43,6 +44,7 @@ export type QuoteFormState = {
     domain?: string;
     message?: string;
     rgpdConsent?: string;
+    language?: 'fr' | 'nl' | 'en';
   };
 };
 
@@ -72,6 +74,7 @@ export async function sendQuoteAction(
       domain: formData.get('domain'),
       message: formData.get('message'),
       rgpdConsent: formData.get('rgpdConsent'),
+      language: formData.get('language') as 'fr' | 'nl' | 'en' || 'fr',
     };
 
     console.log('🔵 [ACTION] Raw data:', JSON.stringify(rawData, null, 2));
@@ -98,6 +101,7 @@ export async function sendQuoteAction(
       hosting: validatedData.hosting,
       domain: validatedData.domain,
       message: validatedData.message,
+      language: validatedData.language || 'fr',
     });
 
     console.log('🔵 [ACTION] Email sent successfully!');
@@ -132,6 +136,7 @@ export async function sendQuoteAction(
           domain: formData.get('domain') as string,
           message: formData.get('message') as string,
           rgpdConsent: formData.get('rgpdConsent') as string,
+          language: formData.get('language') as 'fr' | 'nl' | 'en',
         },
       };
     }
