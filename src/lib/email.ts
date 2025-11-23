@@ -31,6 +31,17 @@ const emailTranslations = {
       optimization: "🔒 Optimisation & Sécurité:",
       pricing: "💰 Estimation Tarifaire avec -30%",
       breakdown: (cat: string) => cat,
+      // Traductions des catégories de prix
+      categorySiteType: "🎨 Type de site",
+      categoryExtraPages: "📄 Pages supplémentaires",
+      categoryFeatures: "⚡ Fonctionnalités",
+      categoryLanguages: "🌐 Langues",
+      categoryOptimization: "🔒 Optimisation & Sécurité",
+      categoryDomain: "🌐 Nom de domaine",
+      extraPages: (count: number) => `${count} page(s) supplémentaire(s)`,
+      includedInMultilingual: "Inclus dans Multilingue",
+      firstYear: "première année",
+      included: "Inclus",
       discount: "🎉 Réduction Promotionnelle -30%",
       originalPrice: "Prix Original HT",
       priceWithDiscount: "Prix avec -30% HT",
@@ -61,6 +72,17 @@ const emailTranslations = {
       intro: (company: string) => `Merci pour <strong style="color:#8b5cf6">GUAPO Web Designer</strong> ! Demande reçue pour <strong>${company}</strong>.`,
       estimationTitle: "💰 Votre Estimation (-30%)",
       discount: "🎉 Réduction -30%",
+      // Traductions des catégories pour le client
+      categorySiteType: "🎨 Type de site",
+      categoryExtraPages: "📄 Pages supplémentaires",
+      categoryFeatures: "⚡ Fonctionnalités",
+      categoryLanguages: "🌐 Langues",
+      categoryOptimization: "🔒 Optimisation & Sécurité",
+      categoryDomain: "🌐 Nom de domaine",
+      extraPages: (count: number) => `${count} page(s) supplémentaire(s)`,
+      includedInMultilingual: "Inclus dans Multilingue",
+      firstYear: "première année",
+      included: "Inclus",
       originalPrice: "Prix original",
       priceWithDiscount: "Prix avec -30%",
       vat: "TVA (21%)",
@@ -110,6 +132,17 @@ const emailTranslations = {
       optimization: "🔒 Optimalisatie & Beveiliging:",
       pricing: "💰 Prijsschatting met -30%",
       breakdown: (cat: string) => cat,
+      // Traductions des catégories de prix
+      categorySiteType: "🎨 Type website",
+      categoryExtraPages: "📄 Extra pagina's",
+      categoryFeatures: "⚡ Functionaliteiten",
+      categoryLanguages: "🌐 Talen",
+      categoryOptimization: "🔒 Optimalisatie & Beveiliging",
+      categoryDomain: "🌐 Domeinnaam",
+      extraPages: (count: number) => `${count} extra pagina('s)`,
+      includedInMultilingual: "Inbegrepen in Meertalig",
+      firstYear: "eerste jaar",
+      included: "Inbegrepen",
       discount: "🎉 Promotionele Korting -30%",
       originalPrice: "Originele Prijs excl. BTW",
       priceWithDiscount: "Prijs met -30% excl. BTW",
@@ -140,6 +173,17 @@ const emailTranslations = {
       intro: (company: string) => `Bedankt voor <strong style="color:#8b5cf6">GUAPO Web Designer</strong>! Aanvraag ontvangen voor <strong>${company}</strong>.`,
       estimationTitle: "💰 Uw Schatting (-30%)",
       discount: "🎉 Korting -30%",
+      // Traductions des catégories pour le client
+      categorySiteType: "🎨 Type website",
+      categoryExtraPages: "📄 Extra pagina's",
+      categoryFeatures: "⚡ Functionaliteiten",
+      categoryLanguages: "🌐 Talen",
+      categoryOptimization: "🔒 Optimalisatie & Beveiliging",
+      categoryDomain: "🌐 Domeinnaam",
+      extraPages: (count: number) => `${count} extra pagina('s)`,
+      includedInMultilingual: "Inbegrepen in Meertalig",
+      firstYear: "eerste jaar",
+      included: "Inbegrepen",
       originalPrice: "Originele prijs",
       priceWithDiscount: "Prijs met -30%",
       vat: "BTW (21%)",
@@ -189,6 +233,17 @@ const emailTranslations = {
       optimization: "🔒 Optimization & Security:",
       pricing: "💰 Price Estimate with -30%",
       breakdown: (cat: string) => cat,
+      // Traductions des catégories de prix
+      categorySiteType: "🎨 Website type",
+      categoryExtraPages: "📄 Extra pages",
+      categoryFeatures: "⚡ Features",
+      categoryLanguages: "🌐 Languages",
+      categoryOptimization: "🔒 Optimization & Security",
+      categoryDomain: "🌐 Domain name",
+      extraPages: (count: number) => `${count} extra page(s)`,
+      includedInMultilingual: "Included in Multilingual",
+      firstYear: "first year",
+      included: "Included",
       discount: "🎉 Promotional Discount -30%",
       originalPrice: "Original Price excl. VAT",
       priceWithDiscount: "Price with -30% excl. VAT",
@@ -219,6 +274,17 @@ const emailTranslations = {
       intro: (company: string) => `Thank you for <strong style="color:#8b5cf6">GUAPO Web Designer</strong>! Request received for <strong>${company}</strong>.`,
       estimationTitle: "💰 Your Estimate (-30%)",
       discount: "🎉 Discount -30%",
+      // Traductions des catégories pour le client
+      categorySiteType: "🎨 Website type",
+      categoryExtraPages: "📄 Extra pages",
+      categoryFeatures: "⚡ Features",
+      categoryLanguages: "🌐 Languages",
+      categoryOptimization: "🔒 Optimization & Security",
+      categoryDomain: "🌐 Domain name",
+      extraPages: (count: number) => `${count} extra page(s)`,
+      includedInMultilingual: "Included in Multilingual",
+      firstYear: "first year",
+      included: "Included",
       originalPrice: "Original price",
       priceWithDiscount: "Price with -30%",
       vat: "VAT (21%)",
@@ -260,10 +326,11 @@ function calculatePricing(data: {
   domain?: string;
   languages?: string[];
   otherLanguages?: string;
-}) {
+}, lang: 'fr' | 'nl' | 'en' = 'fr') {
   let minTotal = 0;
   let maxTotal = 0;
   const breakdown: { category: string; item: string; price: string }[] = [];
+  const t = getT(lang);
 
   // Type de site (prix de base)
   const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
@@ -272,7 +339,7 @@ function calculatePricing(data: {
     minTotal += siteTypePrice.min;
     maxTotal += siteTypePrice.max;
     breakdown.push({
-      category: '🎨 Type de site',
+      category: t.owner.categorySiteType,
       item: data.siteType,
       price: siteTypePrice.min === siteTypePrice.max 
         ? `${siteTypePrice.min}€` 
@@ -285,13 +352,13 @@ function calculatePricing(data: {
     const pageCount = parseInt(data.pageCount.toString());
     let basePagesLimit = 3;
     
-    if (data.siteType.includes('1 à 3 pages')) {
+    if (data.siteType.includes('1 à 3 pages') || data.siteType.includes('1 tot 3 pagina') || data.siteType.includes('1 to 3 pages')) {
       basePagesLimit = 3;
-    } else if (data.siteType.includes('4 à 5 pages')) {
+    } else if (data.siteType.includes('4 à 5 pages') || data.siteType.includes('4 tot 5 pagina') || data.siteType.includes('4 to 5 pages')) {
       basePagesLimit = 5;
-    } else if (data.siteType.includes('6 à 8 pages')) {
+    } else if (data.siteType.includes('6 à 8 pages') || data.siteType.includes('6 tot 8 pagina') || data.siteType.includes('6 to 8 pages')) {
       basePagesLimit = 8;
-    } else if (data.siteType.includes('9 à 12 pages')) {
+    } else if (data.siteType.includes('9 à 12 pages') || data.siteType.includes('9 tot 12 pagina') || data.siteType.includes('9 to 12 pages')) {
       basePagesLimit = 12;
     }
     
@@ -301,8 +368,8 @@ function calculatePricing(data: {
       minTotal += extraCost;
       maxTotal += extraCost;
       breakdown.push({
-        category: '📄 Pages supplémentaires',
-        item: `${extraPages} page(s) supplémentaire(s)`,
+        category: t.owner.categoryExtraPages,
+        item: t.owner.extraPages(extraPages),
         price: `${extraCost}€`
       });
     }
@@ -317,9 +384,9 @@ function calculatePricing(data: {
         minTotal += price;
         maxTotal += price;
         breakdown.push({
-          category: '⚡ Fonctionnalités',
+          category: t.owner.categoryFeatures,
           item: feature,
-          price: price > 0 ? `${price}€` : 'Inclus'
+          price: price > 0 ? `${price}€` : t.owner.included
         });
       }
     });
@@ -329,12 +396,12 @@ function calculatePricing(data: {
   if (data.languages && data.languages.length > 0) {
     const langList = [...data.languages];
     if (data.otherLanguages) {
-      langList.push(`Autre: ${data.otherLanguages}`);
+      langList.push(`${t.owner.otherLang} ${data.otherLanguages}`);
     }
     breakdown.push({
-      category: '🌐 Langues',
+      category: t.owner.categoryLanguages,
       item: langList.join(', '),
-      price: 'Inclus dans Multilingue'
+      price: t.owner.includedInMultilingual
     });
   }
 
@@ -347,9 +414,9 @@ function calculatePricing(data: {
         minTotal += price;
         maxTotal += price;
         breakdown.push({
-          category: '🔒 Optimisation & Sécurité',
+          category: t.owner.categoryOptimization,
           item: opt,
-          price: price > 0 ? `${price}€` : 'Inclus'
+          price: price > 0 ? `${price}€` : t.owner.included
         });
       }
     });
@@ -363,8 +430,8 @@ function calculatePricing(data: {
       minTotal += price;
       maxTotal += price;
       breakdown.push({
-        category: '🌐 Nom de domaine',
-        item: `${data.domain} (première année)`,
+        category: t.owner.categoryDomain,
+        item: `${data.domain} (${t.owner.firstYear})`,
         price: `${price}€`
       });
     }
@@ -431,7 +498,7 @@ export async function sendQuoteEmail(data: {
     otherLanguages: data.otherLanguages,
     optimization: data.optimization,
     domain: data.domain
-  });
+  }, lang);
 
   console.log('💰 Pricing calculated:', `Original: ${pricing.originalMinPrice}€, Avec -30%: ${pricing.discountedMinPrice}€`);
 
