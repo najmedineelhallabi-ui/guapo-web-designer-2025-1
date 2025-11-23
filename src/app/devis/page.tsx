@@ -19,7 +19,7 @@ export default function DevisPage() {
       <a
         href="/devis"
         className="fixed bottom-6 right-6 z-50 group"
-        aria-label="Promotion -30%"
+        aria-label={t("promo.banner")}
       >
         <div className="relative">
           {/* Glow effect */}
@@ -27,9 +27,9 @@ export default function DevisPage() {
           
           {/* Button */}
           <div className="relative flex flex-col items-center justify-center w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-red-500 via-red-600 to-red-700 rounded-full shadow-2xl shadow-red-500/60 group-hover:scale-110 transition-transform duration-300 border-4 border-white/30">
-            <span className="text-white font-black text-4xl md:text-5xl leading-none drop-shadow-lg">-30%</span>
-            <span className="text-white text-xs md:text-sm font-bold mt-1 drop-shadow-lg opacity-90">jusqu'au</span>
-            <span className="text-white text-sm md:text-base font-bold drop-shadow-lg">31/12/25</span>
+            <span className="text-white font-black text-4xl md:text-5xl leading-none drop-shadow-lg">{t("promo.discount")}</span>
+            <span className="text-white text-xs md:text-sm font-bold mt-1 drop-shadow-lg opacity-90">{t("promo.until")}</span>
+            <span className="text-white text-sm md:text-base font-bold drop-shadow-lg">{t("promo.date")}</span>
           </div>
           
           {/* Ping animation */}
@@ -48,7 +48,7 @@ export default function DevisPage() {
               <span className="text-3xl md:text-4xl animate-bounce">🎁</span>
               <div>
                 <p className="font-black text-lg md:text-2xl">
-                  -30% jusqu'au 31/12/25 + 1 mois de maintenance offert !
+                  {t("promo.banner")}
                 </p>
               </div>
               <span className="text-3xl md:text-4xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
@@ -56,9 +56,9 @@ export default function DevisPage() {
             <button
               onClick={() => setShowBanner(false)}
               className="group flex items-center gap-2 hover:bg-white/20 rounded-lg transition-all flex-shrink-0 border border-white/30 hover:border-white/50 px-3 py-2"
-              aria-label="Fermer l'annonce"
+              aria-label={t("promo.close")}
             >
-              <span className="font-semibold text-xs hidden sm:inline">Fermer</span>
+              <span className="font-semibold text-xs hidden sm:inline">{t("promo.close")}</span>
               <X className="w-5 h-5 group-hover:rotate-90 transition-transform" />
             </button>
           </div>
@@ -204,7 +204,7 @@ export default function DevisPage() {
           {/* Badge Premier Mois Offert */}
           <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-accent/30 to-secondary/30 border-2 border-accent/50 backdrop-blur-sm shadow-lg">
             <span className="text-2xl">🎁</span>
-            <span className="font-bold text-lg">Premier Mois de Maintenance Offert !</span>
+            <span className="font-bold text-lg">{t("promo.badge")}</span>
           </div>
         </div>
       </section>

@@ -20,6 +20,14 @@ const translations = {
     "nav.contact": "Contact",
     "nav.quote": "Devis gratuit",
     
+    // Promo -30%
+    "promo.discount": "-30%",
+    "promo.until": "jusqu'au",
+    "promo.date": "31/12/25",
+    "promo.banner": "-30% jusqu'au 31/12/25 + 1 mois de maintenance offert !",
+    "promo.close": "Fermer",
+    "promo.badge": "Premier Mois de Maintenance Offert !",
+    
     // Hero
     "hero.badge": "Guapo Web Designer",
     "hero.title": "If you can imagine it, we can",
@@ -212,6 +220,14 @@ const translations = {
     "nav.contact": "Contact",
     "nav.quote": "Gratis offerte",
     
+    // Promo -30%
+    "promo.discount": "-30%",
+    "promo.until": "tot",
+    "promo.date": "31/12/25",
+    "promo.banner": "-30% tot 31/12/25 + 1 maand onderhoud gratis!",
+    "promo.close": "Sluiten",
+    "promo.badge": "Eerste Maand Onderhoud Gratis!",
+    
     // Hero
     "hero.badge": "Guapo Web Designer",
     "hero.title": "Als je het kunt bedenken, kunnen wij het",
@@ -403,6 +419,14 @@ const translations = {
     "nav.portfolio": "Portfolio",
     "nav.contact": "Contact",
     "nav.quote": "Free Quote",
+    
+    // Promo -30%
+    "promo.discount": "-30%",
+    "promo.until": "until",
+    "promo.date": "31/12/25",
+    "promo.banner": "-30% until 31/12/25 + 1 month of maintenance free!",
+    "promo.close": "Close",
+    "promo.badge": "First Month of Maintenance Free!",
     
     // Hero
     "hero.badge": "Guapo Web Designer",
