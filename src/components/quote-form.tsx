@@ -72,7 +72,7 @@ export function QuoteForm() {
             <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-lg">{t('quote.success.title')}</p>
-              <p className="text-sm text-foreground/80 mt-1">{state.message}</p>
+              <p className="text-sm text-foreground/80 mt-1">{t('quote.success.response')}</p>
             </div>
           </div>
         )}
@@ -229,7 +229,7 @@ export function QuoteForm() {
             <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-lg">{t('quote.success.title')}</p>
-              <p className="text-sm text-foreground/80 mt-1">{state.message}</p>
+              <p className="text-sm text-foreground/80 mt-1">{t('quote.success.response')}</p>
             </div>
           </div>
         )}
