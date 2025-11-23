@@ -413,7 +413,7 @@ const translations = {
     "hero.cta.contact": "Contact us",
     
     // Announcement Banner
-    "announcement.offer": "Special Offer: First Month of Maintenance Free!",
+    "announcement.offer": "🎉 -30% Discount until 12/31/25!",
     
     // About
     "about.title": "About Guapo",
