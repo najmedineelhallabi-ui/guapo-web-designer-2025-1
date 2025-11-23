@@ -756,10 +756,10 @@ export async function sendQuoteEmail(data: {
           .info-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
             background: #f9fafb;
             border-radius: 10px;
-            padding: 20px;
+            padding: 16px;
             border: 2px solid #e5e7eb;
           }
           .info-item {
@@ -767,6 +767,7 @@ export async function sendQuoteEmail(data: {
             background: white;
             border-radius: 8px;
             border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
           }
           .info-label {
             font-size: 11px;
@@ -782,11 +783,19 @@ export async function sendQuoteEmail(data: {
             font-weight: 600;
             word-break: break-word;
           }
+          .features-section {
+            margin-top: 20px;
+          }
+          .features-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 10px;
+          }
           .features-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
+            gap: 8px;
           }
           .feature-tag {
             background: #f3e8ff;
@@ -817,6 +826,7 @@ export async function sendQuoteEmail(data: {
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
           }
           .price-category {
             font-size: 15px;
@@ -826,6 +836,9 @@ export async function sendQuoteEmail(data: {
             margin-bottom: 10px;
             padding-bottom: 6px;
             border-bottom: 2px solid #e9d5ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
           }
           .price-category:first-child {
             margin-top: 0;
@@ -844,11 +857,14 @@ export async function sendQuoteEmail(data: {
             color: #374151;
             font-size: 14px;
             font-weight: 500;
+            flex: 1;
           }
           .price-value {
             font-weight: 700;
             color: #8b5cf6;
             font-size: 15px;
+            white-space: nowrap;
+            margin-left: 16px;
           }
           .discount-highlight {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
@@ -857,6 +873,7 @@ export async function sendQuoteEmail(data: {
             border-radius: 10px;
             margin: 20px 0;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
           }
           .discount-label {
             font-size: 14px;
@@ -872,6 +889,7 @@ export async function sendQuoteEmail(data: {
             border-radius: 10px;
             padding: 18px;
             margin-top: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
           }
           .price-final {
             background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
@@ -882,6 +900,7 @@ export async function sendQuoteEmail(data: {
             font-size: 22px;
             font-weight: 700;
             margin-top: 15px;
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
           }
           .message-box {
             background: #fef3c7;
@@ -922,6 +941,7 @@ export async function sendQuoteEmail(data: {
             border-radius: 10px;
             margin: 12px 0;
             border: 2px solid #0ea5e9;
+            box-shadow: 0 2px 4px rgba(14, 165, 233, 0.1);
           }
           .option-name {
             font-weight: 700;
@@ -958,6 +978,7 @@ export async function sendQuoteEmail(data: {
             font-weight: 700;
             margin: 8px;
             font-size: 15px;
+            box-shadow: 0 4px 6px rgba(139, 92, 246, 0.3);
           }
           .footer {
             text-align: center;
@@ -1032,8 +1053,8 @@ export async function sendQuoteEmail(data: {
             </div>
 
             ${translatedFeatures.length > 0 ? `
-            <div style="margin-top: 20px;">
-              <div style="font-size: 14px; font-weight: 600; color: #6b7280; margin-bottom: 10px;">${t.owner.requestedFeatures}</div>
+            <div class="features-section">
+              <div class="features-label">${t.owner.requestedFeatures}</div>
               <div class="features-grid">
                 ${translatedFeatures.map(feature => `<div class="feature-tag">${escapeHtml(feature)}</div>`).join('')}
               </div>
@@ -1041,8 +1062,8 @@ export async function sendQuoteEmail(data: {
             ` : ''}
 
             ${translatedLanguages.length > 0 ? `
-            <div style="margin-top: 15px;">
-              <div style="font-size: 14px; font-weight: 600; color: #6b7280; margin-bottom: 10px;">${t.owner.languages}</div>
+            <div class="features-section">
+              <div class="features-label">${t.owner.languages}</div>
               <div class="features-grid">
                 ${translatedLanguages.map(lang => `<div class="feature-tag">${escapeHtml(lang)}</div>`).join('')}
                 ${data.otherLanguages ? `<div class="feature-tag">${t.owner.otherLang} ${escapeHtml(data.otherLanguages)}</div>` : ''}
@@ -1051,8 +1072,8 @@ export async function sendQuoteEmail(data: {
             ` : ''}
 
             ${translatedOptimization.length > 0 ? `
-            <div style="margin-top: 15px;">
-              <div style="font-size: 14px; font-weight: 600; color: #6b7280; margin-bottom: 10px;">${t.owner.optimization}</div>
+            <div class="features-section">
+              <div class="features-label">${t.owner.optimization}</div>
               <div class="features-grid">
                 ${translatedOptimization.map(opt => `<div class="feature-tag">${escapeHtml(opt)}</div>`).join('')}
               </div>
