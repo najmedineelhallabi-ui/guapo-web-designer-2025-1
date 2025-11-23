@@ -29,7 +29,7 @@ const translations = {
     "hero.cta.contact": "Nous contacter",
     
     // Announcement Banner
-    "announcement.offer": "Offre Spéciale : Premier Mois de Maintenance Offert !",
+    "announcement.offer": "🎉 Promotion -30% jusqu'au 31/12/25 !",
     
     // About
     "about.title": "À propos de Guapo",
