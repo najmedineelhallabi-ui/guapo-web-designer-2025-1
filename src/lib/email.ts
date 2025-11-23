@@ -125,17 +125,27 @@ function calculatePricing(data: {
   }
 
   // Calculer les prix avec réduction -30%
-  const originalPrice = maxTotal;
-  const discount = Math.round(originalPrice * 0.30);
-  const discountedPrice = originalPrice - discount;
+  const originalMinPrice = minTotal;
+  const originalMaxPrice = maxTotal;
+  const minDiscount = Math.round(originalMinPrice * 0.30);
+  const maxDiscount = Math.round(originalMaxPrice * 0.30);
+  const discountedMinPrice = originalMinPrice - minDiscount;
+  const discountedMaxPrice = originalMaxPrice - maxDiscount;
+
+  // Vérifier si on a une fourchette de prix ou un prix fixe
+  const hasRange = minTotal !== maxTotal;
 
   return { 
     minTotal, 
     maxTotal, 
     breakdown,
-    originalPrice,
-    discount,
-    discountedPrice
+    originalMinPrice,
+    originalMaxPrice,
+    minDiscount,
+    maxDiscount,
+    discountedMinPrice,
+    discountedMaxPrice,
+    hasRange
   };
 }
 
@@ -171,7 +181,7 @@ export async function sendQuoteEmail(data: {
     domain: data.domain
   });
 
-  console.log('💰 Pricing calculated:', `Original: ${pricing.originalPrice}€, Avec -30%: ${pricing.discountedPrice}€`);
+  console.log('💰 Pricing calculated:', `Original: ${pricing.originalMinPrice}€, Avec -30%: ${pricing.discountedMinPrice}€`);
 
   // Grouper les éléments par catégorie
   const groupedBreakdown = pricing.breakdown.reduce((acc, item) => {
@@ -443,15 +453,15 @@ export async function sendQuoteEmail(data: {
 
             <div class="discount-box">
               <div class="discount-label">🎉 Réduction -30% appliquée</div>
-              <div class="discount-value">-${pricing.discount}€</div>
+              <div class="discount-value">-${pricing.minDiscount}€</div>
             </div>
 
             <div class="price-total">
-              Prix Final: ${pricing.discountedPrice}€ HT (${Math.round(pricing.discountedPrice * 1.21)}€ TTC)
+              Prix Final: ${pricing.discountedMinPrice}€ HT (${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC)
             </div>
             
             <div style="text-align: center; margin-top: 10px; color: #6d28d9; font-size: 12px;">
-              Prix original: <span style="text-decoration: line-through;">${pricing.originalPrice}€ HT</span>
+              Prix original: <span style="text-decoration: line-through;">${pricing.originalMinPrice}€ HT</span>
             </div>
           </div>
 
@@ -556,9 +566,9 @@ ${data.optimization && data.optimization.length > 0 ? `Optimisation: ${data.opti
 ${data.hosting ? `Hébergement: ${data.hosting}` : ''}
 ${data.domain ? `Domaine: ${data.domain}` : ''}
 
-Prix original: ${pricing.originalPrice}€ HT
-Réduction -30%: -${pricing.discount}€
-Prix final: ${pricing.discountedPrice}€ HT (${Math.round(pricing.discountedPrice * 1.21)}€ TTC)
+Prix original: ${pricing.originalMinPrice}€ HT
+Réduction -30%: -${pricing.minDiscount}€
+Prix final: ${pricing.discountedMinPrice}€ HT (${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC)
 -----------------------
 
 Ma question:
@@ -614,14 +624,14 @@ ${items.map(({ item, price }) => `
 </div>
 <div class="db">
 <div style="font-size:12px;opacity:0.9;margin-bottom:5px">🎉 Réduction -30%</div>
-<div style="font-size:24px;font-weight:700">-${pricing.discount}€</div>
+<div style="font-size:24px;font-weight:700">-${pricing.minDiscount}€</div>
 </div>
 <div class="pst">
-<div class="pr"><span style="text-decoration:line-through;opacity:0.6">Prix original</span><span style="text-decoration:line-through;opacity:0.6">${pricing.originalPrice}€ HT</span></div>
-<div class="pr"><span><strong>Prix avec -30%</strong></span><strong style="color:#8b5cf6">${pricing.discountedPrice}€ HT</strong></div>
-<div class="pr"><span>TVA (21%)</span><strong style="color:#8b5cf6">${Math.round(pricing.discountedPrice * 0.21)}€</strong></div>
+<div class="pr"><span style="text-decoration:line-through;opacity:0.6">Prix original</span><span style="text-decoration:line-through;opacity:0.6">${pricing.originalMinPrice}€ HT</span></div>
+<div class="pr"><span><strong>Prix avec -30%</strong></span><strong style="color:#8b5cf6">${pricing.discountedMinPrice}€ HT</strong></div>
+<div class="pr"><span>TVA (21%)</span><strong style="color:#8b5cf6">${Math.round(pricing.discountedMinPrice * 0.21)}€</strong></div>
 </div>
-<div class="pt">Total TTC: ${Math.round(pricing.discountedPrice * 1.21)}€</div>
+<div class="pt">Total TTC: ${Math.round(pricing.discountedMinPrice * 1.21)}€</div>
 </div>
 
 <div class="mb">
@@ -664,13 +674,13 @@ ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase()
 <div style="font-size:15px;font-weight:700;color:#92400e;margin-bottom:10px">📋 Estimation OK ?</div>
 <div style="font-size:12px;color:#78350f;margin-bottom:12px">Choisissez maintenance ou posez questions</div>
 ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') ? `
-<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedPrice}&maxPrice=${pricing.discountedPrice}&maintenanceType=${encodeURIComponent('Annuel 300€/an')}" class="btn">📦 Confirmer Annuel</a>
-<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedPrice}&maxPrice=${pricing.discountedPrice}&maintenanceType=${encodeURIComponent('Intervention 100€')}" class="btn">💳 Confirmer Intervention</a>
+<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedMinPrice}&maxPrice=${pricing.discountedMinPrice}&maintenanceType=${encodeURIComponent('Annuel 300€/an')}" class="btn">📦 Confirmer Annuel</a>
+<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedMinPrice}&maxPrice=${pricing.discountedMinPrice}&maintenanceType=${encodeURIComponent('Intervention 100€')}" class="btn">💳 Confirmer Intervention</a>
 ` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') ? `
-<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedPrice}&maxPrice=${pricing.discountedPrice}&maintenanceType=${encodeURIComponent('Annuel 700€/an')}" class="btn">📦 Confirmer Annuel</a>
-<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedPrice}&maxPrice=${pricing.discountedPrice}&maintenanceType=${encodeURIComponent('Intervention 150€')}" class="btn">💳 Confirmer Intervention</a>
+<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedMinPrice}&maxPrice=${pricing.discountedMinPrice}&maintenanceType=${encodeURIComponent('Annuel 700€/an')}" class="btn">📦 Confirmer Annuel</a>
+<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedMinPrice}&maxPrice=${pricing.discountedMinPrice}&maintenanceType=${encodeURIComponent('Intervention 150€')}" class="btn">💳 Confirmer Intervention</a>
 ` : `
-<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedPrice}&maxPrice=${pricing.discountedPrice}" class="btn">✅ Confirmer</a>
+<a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.discountedMinPrice}&maxPrice=${pricing.discountedMinPrice}" class="btn">✅ Confirmer</a>
 `}
 <div style="margin-top:10px">
 <a href="${mailtoQuestionLink}" class="btn btn-q">💬 Question avec Résumé</a>
@@ -704,7 +714,7 @@ ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase()
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
       replyTo: data.email,
-      subject: `🎨 Nouvelle demande - ${data.firstName} ${data.lastName} - ${pricing.discountedPrice}€ (-30%)`,
+      subject: `🎨 Nouvelle demande - ${data.firstName} ${data.lastName} - ${pricing.discountedMinPrice}€ (-30%)`,
       html: ownerEmailHtml,
     });
     console.log('✅ 1/2 - Owner email sent successfully!', ownerResult);
