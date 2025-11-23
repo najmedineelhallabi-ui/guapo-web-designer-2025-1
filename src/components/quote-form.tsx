@@ -7,7 +7,7 @@ import { useLanguage } from '@/contexts/language-context';
 import Link from 'next/link';
 
 export function QuoteForm() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [state, formAction, isPending] = useActionState<QuoteFormState, FormData>(
     sendQuoteAction,
     {}
@@ -231,6 +231,8 @@ export function QuoteForm() {
       <form action={formAction} className="space-y-10">
         {/* Hidden field for project type */}
         <input type="hidden" name="projectType" value={projectType} />
+        {/* Hidden field for language */}
+        <input type="hidden" name="language" value={language} />
 
         {/* Success message */}
         {state.success && (
