@@ -52,23 +52,23 @@ export default function Home() {
       {/* Floating Promo Button */}
       <a
         href="/devis"
-        className="fixed bottom-8 right-8 z-50 group"
+        className="fixed bottom-6 right-6 z-50 group"
         aria-label="Promotion -30%"
       >
         <div className="relative">
-          {/* Glow effect */}
-          <div className="absolute -inset-2 bg-gradient-to-r from-accent via-secondary to-primary rounded-full blur-lg opacity-75 group-hover:opacity-100 animate-pulse"></div>
+          {/* Glow effect - plus intense */}
+          <div className="absolute -inset-4 bg-gradient-to-r from-accent via-secondary to-primary rounded-full blur-2xl opacity-90 group-hover:opacity-100 animate-pulse"></div>
           
-          {/* Button */}
-          <div className="relative flex flex-col items-center justify-center w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-accent via-secondary to-primary rounded-full shadow-2xl shadow-primary/50 group-hover:scale-110 transition-transform duration-300">
-            <span className="text-white font-black text-2xl md:text-3xl leading-none">-30%</span>
-            <span className="text-white text-[10px] md:text-xs font-semibold mt-1">Promo</span>
+          {/* Button - BEAUCOUP PLUS GRAND */}
+          <div className="relative flex flex-col items-center justify-center w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-accent via-secondary to-primary rounded-full shadow-2xl shadow-primary/60 group-hover:scale-110 transition-transform duration-300 border-4 border-white/30">
+            <span className="text-white font-black text-4xl md:text-5xl leading-none drop-shadow-lg">-30%</span>
+            <span className="text-white text-sm md:text-base font-bold mt-2 drop-shadow-lg">PROMO</span>
           </div>
           
-          {/* Ping animation */}
-          <span className="absolute top-0 right-0 flex h-4 w-4 md:h-5 md:w-5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-4 w-4 md:h-5 md:w-5 bg-accent"></span>
+          {/* Ping animation - plus visible */}
+          <span className="absolute -top-2 -right-2 flex h-6 w-6 md:h-8 md:w-8">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-90"></span>
+            <span className="relative inline-flex rounded-full h-6 w-6 md:h-8 md:w-8 bg-white shadow-lg"></span>
           </span>
         </div>
       </a>
