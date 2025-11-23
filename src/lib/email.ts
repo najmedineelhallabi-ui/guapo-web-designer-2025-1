@@ -6,6 +6,188 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Prix par page supplémentaire
 const PAGE_EXTRA_COST = 100;
 
+// Traductions pour les valeurs des options du formulaire
+const optionTranslations = {
+  // Types de sites vitrine
+  "Site vitrine simple (1 à 3 pages)": {
+    fr: "Site vitrine simple (1 à 3 pages)",
+    nl: "Eenvoudige showcase site (1 tot 3 pagina's)",
+    en: "Simple showcase website (1 to 3 pages)"
+  },
+  "Site vitrine standard (4 à 5 pages)": {
+    fr: "Site vitrine standard (4 à 5 pages)",
+    nl: "Standaard showcase site (4 tot 5 pagina's)",
+    en: "Standard showcase website (4 to 5 pages)"
+  },
+  "Site vitrine avancé (6 à 8 pages)": {
+    fr: "Site vitrine avancé (6 à 8 pages)",
+    nl: "Geavanceerde showcase site (6 tot 8 pagina's)",
+    en: "Advanced showcase website (6 to 8 pages)"
+  },
+  "Site vitrine premium (9 à 12 pages)": {
+    fr: "Site vitrine premium (9 à 12 pages)",
+    nl: "Premium showcase site (9 tot 12 pagina's)",
+    en: "Premium showcase website (9 to 12 pages)"
+  },
+  "Portfolio / site personnel": {
+    fr: "Portfolio / site personnel",
+    nl: "Portfolio / persoonlijke website",
+    en: "Portfolio / personal website"
+  },
+  // Types e-commerce
+  "Petite boutique (1-20 produits)": {
+    fr: "Petite boutique (1-20 produits)",
+    nl: "Kleine winkel (1-20 producten)",
+    en: "Small shop (1-20 products)"
+  },
+  "Boutique moyenne (21-100 produits)": {
+    fr: "Boutique moyenne (21-100 produits)",
+    nl: "Gemiddelde winkel (21-100 producten)",
+    en: "Medium shop (21-100 products)"
+  },
+  "Grande boutique (100+ produits)": {
+    fr: "Grande boutique (100+ produits)",
+    nl: "Grote winkel (100+ producten)",
+    en: "Large shop (100+ products)"
+  },
+  // Fonctionnalités
+  "Formulaire de contact simple": {
+    fr: "Formulaire de contact simple",
+    nl: "Eenvoudig contactformulier",
+    en: "Simple contact form"
+  },
+  "Formulaire de demande de devis": {
+    fr: "Formulaire de demande de devis",
+    nl: "Offerteaanvraagformulier",
+    en: "Quote request form"
+  },
+  "Envoi automatique d'emails de confirmation (pour devis)": {
+    fr: "Envoi automatique d'emails de confirmation (pour devis)",
+    nl: "Automatische verzending van bevestigingsmails (voor offertes)",
+    en: "Automatic confirmation email sending (for quotes)"
+  },
+  "Système de prise de rendez-vous en ligne (avec emails automatiques)": {
+    fr: "Système de prise de rendez-vous en ligne (avec emails automatiques)",
+    nl: "Online afsprakenboekingssysteem (met automatische emails)",
+    en: "Online appointment booking system (with automatic emails)"
+  },
+  "Intégration calendrier (Google Calendar, etc.)": {
+    fr: "Intégration calendrier (Google Calendar, etc.)",
+    nl: "Agenda-integratie (Google Calendar, etc.)",
+    en: "Calendar integration (Google Calendar, etc.)"
+  },
+  "Multilingue": {
+    fr: "Multilingue",
+    nl: "Meertalig",
+    en: "Multilingual"
+  },
+  "Blog / actualités": {
+    fr: "Blog / actualités",
+    nl: "Blog / nieuws",
+    en: "Blog / news"
+  },
+  // Fonctionnalités e-commerce
+  "Catalogue de produits": {
+    fr: "Catalogue de produits",
+    nl: "Productcatalogus",
+    en: "Product catalog"
+  },
+  "Panier d'achat": {
+    fr: "Panier d'achat",
+    nl: "Winkelwagen",
+    en: "Shopping cart"
+  },
+  "Passerelle de paiement (Stripe, PayPal, etc.)": {
+    fr: "Passerelle de paiement (Stripe, PayPal, etc.)",
+    nl: "Betalingsgateway (Stripe, PayPal, etc.)",
+    en: "Payment gateway (Stripe, PayPal, etc.)"
+  },
+  "Gestion des commandes": {
+    fr: "Gestion des commandes",
+    nl: "Bestellingenbeheer",
+    en: "Order management"
+  },
+  "Gestion des stocks": {
+    fr: "Gestion des stocks",
+    nl: "Voorraadbeheer",
+    en: "Inventory management"
+  },
+  "Comptes clients": {
+    fr: "Comptes clients",
+    nl: "Klantenaccounts",
+    en: "Customer accounts"
+  },
+  // Optimisation
+  "Pack Tout Inclus (SEO + Performance + SSL + RGPD)": {
+    fr: "Pack Tout Inclus (SEO + Performance + SSL + RGPD)",
+    nl: "All-inclusive Pakket (SEO + Prestaties + SSL + AVG)",
+    en: "All-Inclusive Pack (SEO + Performance + SSL + GDPR)"
+  },
+  "SEO de base (balises, titres, URLs)": {
+    fr: "SEO de base (balises, titres, URLs)",
+    nl: "Basis SEO (tags, titels, URL's)",
+    en: "Basic SEO (tags, titles, URLs)"
+  },
+  "Optimisation vitesse / performance": {
+    fr: "Optimisation vitesse / performance",
+    nl: "Snelheid / prestaties optimalisatie",
+    en: "Speed / performance optimization"
+  },
+  "Certificat SSL / HTTPS": {
+    fr: "Certificat SSL / HTTPS",
+    nl: "SSL-certificaat / HTTPS",
+    en: "SSL certificate / HTTPS"
+  },
+  "RGPD / conformité légale": {
+    fr: "RGPD / conformité légale",
+    nl: "AVG / wettelijke naleving",
+    en: "GDPR / legal compliance"
+  },
+  // Hébergement et domaine
+  "Inclus dans le projet": {
+    fr: "Inclus dans le projet",
+    nl: "Inbegrepen in het project",
+    en: "Included in the project"
+  },
+  "Fourni par le client": {
+    fr: "Fourni par le client",
+    nl: "Geleverd door de klant",
+    en: "Provided by the client"
+  },
+  "À discuter": {
+    fr: "À discuter",
+    nl: "Te bespreken",
+    en: "To discuss"
+  },
+  // Langues
+  "Français (FR)": {
+    fr: "Français (FR)",
+    nl: "Frans (FR)",
+    en: "French (FR)"
+  },
+  "Néerlandais (NL)": {
+    fr: "Néerlandais (NL)",
+    nl: "Nederlands (NL)",
+    en: "Dutch (NL)"
+  },
+  "English (ENG)": {
+    fr: "Anglais (ENG)",
+    nl: "Engels (ENG)",
+    en: "English (ENG)"
+  },
+  "Autre": {
+    fr: "Autre",
+    nl: "Andere",
+    en: "Other"
+  }
+};
+
+// Fonction pour traduire une option
+function translateOption(option: string, lang: 'fr' | 'nl' | 'en' = 'fr'): string {
+  const translation = optionTranslations[option as keyof typeof optionTranslations];
+  return translation ? translation[lang] : option;
+}
+
 // Traductions pour les emails
 const emailTranslations = {
   fr: {
