@@ -61,9 +61,9 @@ export default function Home() {
           
           {/* Button - BEAUCOUP PLUS GRAND */}
           <div className="relative flex flex-col items-center justify-center w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-accent via-secondary to-primary rounded-full shadow-2xl shadow-primary/60 group-hover:scale-110 transition-transform duration-300 border-4 border-white/30">
-            <span className="text-white font-black text-4xl md:text-5xl leading-none drop-shadow-lg">-30%</span>
-            <span className="text-white text-xs md:text-sm font-bold mt-1 drop-shadow-lg opacity-90">jusqu'au</span>
-            <span className="text-white text-sm md:text-base font-bold drop-shadow-lg">31/12/25</span>
+            <span className="text-white font-black text-4xl md:text-5xl leading-none drop-shadow-lg">{t("promo.discount")}</span>
+            <span className="text-white text-xs md:text-sm font-bold mt-1 drop-shadow-lg opacity-90">{t("promo.until")}</span>
+            <span className="text-white text-sm md:text-base font-bold drop-shadow-lg">{t("promo.date")}</span>
           </div>
           
           {/* Ping animation - plus visible */}
@@ -126,7 +126,7 @@ export default function Home() {
                     </p>
                     {announcementPhase === 'fullscreen' && (
                       <p className="text-lg md:text-xl text-white/90 font-semibold">
-                        Profitez de cette offre exceptionnelle pour votre projet web !
+                        {t("announcement.subtitle")}
                       </p>
                     )}
                   </div>
@@ -142,11 +142,11 @@ export default function Home() {
                   className={`group flex items-center gap-2 hover:bg-white/20 rounded-lg transition-all flex-shrink-0 border border-white/30 hover:border-white/50 ${
                     announcementPhase === 'fullscreen' ? 'px-6 py-3 mt-6' : 'px-3 py-2'
                   }`}
-                  aria-label="Fermer l'annonce"
+                  aria-label={t("promo.close")}
                 >
                   <span className={`font-semibold ${
                     announcementPhase === 'fullscreen' ? 'text-base' : 'text-xs hidden sm:inline'
-                  }`}>Fermer</span>
+                  }`}>{t("promo.close")}</span>
                   <X className={`group-hover:rotate-90 transition-transform ${
                     announcementPhase === 'fullscreen' ? 'w-6 h-6' : 'w-5 h-5'
                   }`} />
@@ -192,7 +192,7 @@ export default function Home() {
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-accent via-secondary to-primary text-white rounded-lg hover:scale-105 hover:shadow-lg hover:shadow-accent/50 transition-all duration-300 font-semibold"
             >
               <FileText className="w-4 h-4" />
-              Devis gratuit
+              {t("nav.quote")}
             </a>
             <a href="#contact" className="hover:text-primary transition-colors">{t("nav.contact")}</a>
             <LanguageSwitcher />
@@ -250,7 +250,7 @@ export default function Home() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <FileText className="w-4 h-4" />
-                Devis gratuit
+                {t("nav.quote")}
               </a>
               <a 
                 href="#contact" 
@@ -563,8 +563,8 @@ export default function Home() {
 
           {/* Besoin d'un Site Web Section */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-gray-900">Besoin d'un <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Site Web</span> ?</h2>
-            <p className="text-gray-700 text-lg mb-12">Choisissez la solution adaptée à vos besoins</p>
+            <h2 className="text-4xl font-bold mb-4 text-gray-900">{t("services.website.title.prefix")} <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">{t("services.website.title.highlight")}</span></h2>
+            <p className="text-gray-700 text-lg mb-12">{t("services.website.subtitle")}</p>
           </div>
 
           {/* Cards Grid - 3 cards */}
@@ -577,12 +577,12 @@ export default function Home() {
               <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-primary to-secondary">
                 <Briefcase className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Site Vitrine</h3>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">{t("services.website.showcase.title")}</h3>
               <p className="text-gray-700 leading-relaxed mb-6">
-                Site professionnel pour présenter votre entreprise, vos services et votre expertise. Idéal pour restaurants, cabinets, PME et portfolios.
+                {t("services.website.showcase.desc")}
               </p>
               <div className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
-                Obtenir un devis
+                {t("services.website.cta")}
                 <ArrowRight className="w-4 h-4" />
               </div>
             </a>
@@ -595,12 +595,12 @@ export default function Home() {
               <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-secondary to-accent">
                 <ShoppingCart className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Site E-commerce</h3>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">{t("services.website.ecommerce.title")}</h3>
               <p className="text-gray-700 leading-relaxed mb-6">
-                Vendez vos produits en ligne avec une boutique professionnelle et sécurisée. Gestion des commandes, paiements en ligne, suivi des stocks.
+                {t("services.website.ecommerce.desc")}
               </p>
               <div className="inline-flex items-center gap-2 text-secondary font-semibold group-hover:gap-3 transition-all">
-                Obtenir un devis
+                {t("services.website.cta")}
                 <ArrowRight className="w-4 h-4" />
               </div>
             </a>
@@ -613,12 +613,12 @@ export default function Home() {
               <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-accent to-primary">
                 <MessageCircle className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">Discutons Ensemble</h3>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">{t("services.website.discuss.title")}</h3>
               <p className="text-gray-700 leading-relaxed mb-6">
-                Vous avez un projet sur mesure ou des besoins spécifiques ? Contactez-nous pour en discuter et trouver la meilleure solution ensemble.
+                {t("services.website.discuss.desc")}
               </p>
               <div className="inline-flex items-center gap-2 text-accent font-semibold group-hover:gap-3 transition-all">
-                Nous contacter
+                {t("services.website.discuss.cta")}
                 <ArrowRight className="w-4 h-4" />
               </div>
             </a>
@@ -648,13 +648,13 @@ export default function Home() {
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Contactez-nous
+              {t("contact.section.title")}
             </h2>
             <h3 className="text-2xl font-semibold text-foreground mb-6">
-              Transformons vos idées en réalité digitale
+              {t("contact.section.subtitle")}
             </h3>
             <p className="text-lg text-foreground/90 mb-12 leading-relaxed max-w-2xl mx-auto">
-              Un projet en tête ? N'hésitez pas à nous contacter pour en discuter. Nous serons ravis de vous accompagner dans la création de votre site web.
+              {t("contact.section.desc")}
             </p>
           </div>
           
@@ -667,7 +667,7 @@ export default function Home() {
               <div className="w-16 h-16 rounded-xl mb-4 flex items-center justify-center shadow-lg bg-gradient-to-br from-primary to-secondary">
                 <Mail className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-2 text-foreground">Email</h3>
+              <h3 className="text-xl font-bold mb-2 text-foreground">{t("contact.email.title")}</h3>
               <p className="text-primary font-semibold text-lg">info@guapowebdesigner.com</p>
             </a>
 
@@ -680,7 +680,7 @@ export default function Home() {
               <div className="w-16 h-16 rounded-xl mb-4 flex items-center justify-center shadow-lg bg-gradient-to-br from-accent to-secondary">
                 <Instagram className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-2 text-foreground">Instagram</h3>
+              <h3 className="text-xl font-bold mb-2 text-foreground">{t("contact.instagram.title")}</h3>
               <p className="text-accent font-semibold text-lg">@guapo_webdesigner</p>
             </a>
 
@@ -691,8 +691,8 @@ export default function Home() {
               <div className="w-16 h-16 rounded-xl mb-4 flex items-center justify-center shadow-lg bg-gradient-to-br from-secondary via-accent to-primary">
                 <FileText className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-2 text-foreground">Devis Gratuit</h3>
-              <p className="text-secondary font-semibold text-lg">Obtenez une estimation</p>
+              <h3 className="text-xl font-bold mb-2 text-foreground">{t("contact.quote.title")}</h3>
+              <p className="text-secondary font-semibold text-lg">{t("contact.quote.desc")}</p>
             </a>
           </div>
         </div>
