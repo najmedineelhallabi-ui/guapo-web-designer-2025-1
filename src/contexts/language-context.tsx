@@ -248,14 +248,14 @@ const translations = {
     "quote.submit.sending": "Envoi en cours...",
     "quote.submit.required": "* Champs obligatoires",
     
-    "footer.description": "Maker van moderne en krachtige websites. Uw visie, onze expertise.",
-    "footer.links": "Snelle links",
-    "footer.legal": "Juridische informatie",
-    "footer.privacy": "Privacybeleid",
-    "footer.legal.terms": "Algemene voorwaarden",
-    "footer.social": "Volg ons",
+    "footer.description": "Nous créons des designs colorés et joyeux qui donnent vie à vos projets digitaux.",
+    "footer.links": "Liens rapides",
+    "footer.legal": "Informations légales",
+    "footer.privacy": "Politique de confidentialité",
+    "footer.legal.terms": "Mentions légales",
+    "footer.social": "Suivez-nous",
     "footer.copyright": "Guapo Web Designer 2025",
-    "footer.rights": "Alle rechten voorbehouden."
+    "footer.rights": "Tous droits réservés."
   },
   nl: {
     // Navigation
