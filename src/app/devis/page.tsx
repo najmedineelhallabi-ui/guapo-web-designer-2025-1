@@ -326,16 +326,16 @@ export default function DevisPage() {
 
             {/* Column 3: Legal */}
             <div>
-              <h3 className="font-semibold text-base mb-3">Informations légales</h3>
+              <h3 className="font-semibold text-base mb-3">{t("footer.legal")}</h3>
               <ul className="space-y-2">
                 <li>
                   <Link href="/politique-confidentialite" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> Politique de confidentialité
+                    <span>→</span> {t("footer.privacy")}
                   </Link>
                 </li>
                 <li>
                   <Link href="/mentions-legales" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> Mentions légales
+                    <span>→</span> {t("footer.legal.terms")}
                   </Link>
                 </li>
               </ul>
