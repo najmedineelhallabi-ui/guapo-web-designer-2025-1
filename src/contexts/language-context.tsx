@@ -38,6 +38,7 @@ const translations = {
     
     // Announcement Banner
     "announcement.offer": "🎁 1 mois de maintenance inclus à la création de chaque site !",
+    "announcement.subtitle": "Profitez de cette offre exceptionnelle pour votre projet web !",
     
     // About
     "about.title": "À propos de Guapo",
@@ -62,6 +63,19 @@ const translations = {
     "about.badge.design": "🎨 Design UI/UX",
     "about.badge.performance": "⚡ Performance optimale",
     "about.badge.tech": "🚀 Technologies modernes",
+    
+    // Services - Website Cards Section
+    "services.website.title.prefix": "Besoin d'un",
+    "services.website.title.highlight": "Site Web",
+    "services.website.subtitle": "Choisissez la solution adaptée à vos besoins",
+    "services.website.showcase.title": "Site Vitrine",
+    "services.website.showcase.desc": "Site professionnel pour présenter votre entreprise, vos services et votre expertise. Idéal pour restaurants, cabinets, PME et portfolios.",
+    "services.website.ecommerce.title": "Site E-commerce",
+    "services.website.ecommerce.desc": "Vendez vos produits en ligne avec une boutique professionnelle et sécurisée. Gestion des commandes, paiements en ligne, suivi des stocks.",
+    "services.website.discuss.title": "Discutons Ensemble",
+    "services.website.discuss.desc": "Vous avez un projet sur mesure ou des besoins spécifiques ? Contactez-nous pour en discuter et trouver la meilleure solution ensemble.",
+    "services.website.discuss.cta": "Nous contacter",
+    "services.website.cta": "Obtenir un devis",
     
     // Services Page
     "services.page.title": "Nos Services",
@@ -99,6 +113,13 @@ const translations = {
     "contact.title": "Travaillons",
     "contact.title.highlight": "Ensemble",
     "contact.subtitle": "Vous avez un projet en tête ? Contactez-nous et discutons de vos besoins.",
+    
+    // Contact Section
+    "contact.section.title": "Contactez-nous",
+    "contact.section.subtitle": "Transformons vos idées en réalité digitale",
+    "contact.section.desc": "Un projet en tête ? N'hésitez pas à nous contacter pour en discuter. Nous serons ravis de vous accompagner dans la création de votre site web.",
+    "contact.quote.title": "Devis Gratuit",
+    "contact.quote.desc": "Obtenez une estimation",
     
     // Contact Page
     "contact.page.title": "Contactez-nous",
@@ -372,6 +393,7 @@ const translations = {
     
     // Announcement Banner
     "announcement.offer": "🎁 1 maand onderhoud gratis bij de creatie van elk site!",
+    "announcement.subtitle": "Profiteer van dit uitzonderlijke aanbod voor uw webproject!",
     
     // About
     "about.title": "Over Guapo",
@@ -396,6 +418,19 @@ const translations = {
     "about.badge.design": "🎨 UI/UX Design",
     "about.badge.performance": "⚡ Optimale prestaties",
     "about.badge.tech": "🚀 Moderne technologieën",
+    
+    // Services - Website Cards Section
+    "services.website.title.prefix": "Heeft u een",
+    "services.website.title.highlight": "Website",
+    "services.website.subtitle": "Kies de oplossing die bij uw behoeften past",
+    "services.website.showcase.title": "Showcase Website",
+    "services.website.showcase.desc": "Professionele website om uw bedrijf, diensten en expertise te presenteren. Ideaal voor restaurants, kantoren, KMO's en portfolio's.",
+    "services.website.ecommerce.title": "E-commerce Website",
+    "services.website.ecommerce.desc": "Verkoop uw producten online met een professionele en veilige winkel. Orderbeheer, online betalingen, voorraadbeheer.",
+    "services.website.discuss.title": "Laten we Samen Praten",
+    "services.website.discuss.desc": "Heeft u een op maat gemaakt project of specifieke behoeften? Neem contact met ons op om erover te praten en samen de beste oplossing te vinden.",
+    "services.website.discuss.cta": "Neem contact op",
+    "services.website.cta": "Vraag een offerte aan",
     
     // Services Page
     "services.page.title": "Onze Diensten",
@@ -428,6 +463,13 @@ const translations = {
     "portfolio.title.prefix": "Port",
     "portfolio.title.highlight": "folio",
     "portfolio.subtitle": "Onze recente projecten",
+    
+    // Contact Section
+    "contact.section.title": "Neem contact op",
+    "contact.section.subtitle": "Laten we uw ideeën omzetten in digitale realiteit",
+    "contact.section.desc": "Heeft u een project in gedachten? Neem gerust contact met ons op om erover te praten. We helpen u graag bij het creëren van uw website.",
+    "contact.quote.title": "Gratis Offerte",
+    "contact.quote.desc": "Krijg een schatting",
     
     // Contact
     "contact.title": "Laten we",
@@ -706,6 +748,7 @@ const translations = {
     
     // Announcement Banner
     "announcement.offer": "🎁 1 month of maintenance included with every site creation!",
+    "announcement.subtitle": "Take advantage of this exceptional offer for your web project!",
     
     // About
     "about.title": "About Guapo",
@@ -730,6 +773,19 @@ const translations = {
     "about.badge.design": "🎨 UI/UX Design",
     "about.badge.performance": "⚡ Optimal performance",
     "about.badge.tech": "🚀 Modern technologies",
+    
+    // Services - Website Cards Section
+    "services.website.title.prefix": "Need a",
+    "services.website.title.highlight": "Website",
+    "services.website.subtitle": "Choose the solution that fits your needs",
+    "services.website.showcase.title": "Showcase Website",
+    "services.website.showcase.desc": "Professional website to present your company, services and expertise. Ideal for restaurants, offices, SMEs and portfolios.",
+    "services.website.ecommerce.title": "E-commerce Website",
+    "services.website.ecommerce.desc": "Sell your products online with a professional and secure store. Order management, online payments, stock tracking.",
+    "services.website.discuss.title": "Let's Talk Together",
+    "services.website.discuss.desc": "Do you have a custom project or specific needs? Contact us to discuss it and find the best solution together.",
+    "services.website.discuss.cta": "Contact us",
+    "services.website.cta": "Get a quote",
     
     // Services Page
     "services.page.title": "Our Services",
@@ -762,6 +818,13 @@ const translations = {
     "portfolio.title.prefix": "Port",
     "portfolio.title.highlight": "folio",
     "portfolio.subtitle": "Our recent projects",
+    
+    // Contact Section
+    "contact.section.title": "Contact us",
+    "contact.section.subtitle": "Let's turn your ideas into digital reality",
+    "contact.section.desc": "Got a project in mind? Don't hesitate to contact us to discuss it. We'll be happy to help you create your website.",
+    "contact.quote.title": "Free Quote",
+    "contact.quote.desc": "Get an estimate",
     
     // Contact
     "contact.title": "Let's Work",
