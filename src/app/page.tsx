@@ -708,27 +708,27 @@ export default function Home() {
                 Guapo Web Designer
               </h3>
               <p className="text-foreground/80 text-sm leading-relaxed">
-                Nous créons des designs colorés et joyeux qui donnent vie à vos projets digitaux.
+                {t("footer.description")}
               </p>
             </div>
 
             {/* Column 2: Quick Links */}
             <div>
-              <h3 className="font-semibold text-base mb-3">Liens rapides</h3>
+              <h3 className="font-semibold text-base mb-3">{t("footer.links")}</h3>
               <ul className="space-y-2">
                 <li>
                   <a href="#portfolio" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> Portfolio
+                    <span>→</span> {t("nav.portfolio")}
                   </a>
                 </li>
                 <li>
                   <a href="#services" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> Services
+                    <span>→</span> {t("nav.services")}
                   </a>
                 </li>
                 <li>
                   <a href="#contact" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> Contact
+                    <span>→</span> {t("nav.contact")}
                   </a>
                 </li>
               </ul>
@@ -736,16 +736,16 @@ export default function Home() {
 
             {/* Column 3: Legal */}
             <div>
-              <h3 className="font-semibold text-base mb-3">Informations légales</h3>
+              <h3 className="font-semibold text-base mb-3">{t("footer.legal")}</h3>
               <ul className="space-y-2">
                 <li>
                   <a href="/politique-confidentialite" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> Politique de confidentialité
+                    <span>→</span> {t("footer.privacy")}
                   </a>
                 </li>
                 <li>
                   <a href="/mentions-legales" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> Mentions légales
+                    <span>→</span> {t("footer.legal.terms")}
                   </a>
                 </li>
               </ul>
@@ -753,7 +753,7 @@ export default function Home() {
 
             {/* Column 4: Social */}
             <div>
-              <h3 className="font-semibold text-base mb-3">Suivez-nous</h3>
+              <h3 className="font-semibold text-base mb-3">{t("footer.social")}</h3>
               <a 
                 href="https://www.instagram.com/guapo_webdesigner/" 
                 target="_blank" 
