@@ -248,8 +248,11 @@ const translations = {
     "quote.submit.sending": "Envoi en cours...",
     "quote.submit.required": "* Champs obligatoires",
     
-    "footer.description": "Créateur de sites web modernes et performants. Votre vision, notre expertise.",
+    "footer.description": "Nous créons des designs colorés et joyeux qui donnent vie à vos projets digitaux.",
     "footer.links": "Liens rapides",
+    "footer.legal": "Informations légales",
+    "footer.privacy": "Politique de confidentialité",
+    "footer.legal.terms": "Mentions légales",
     "footer.social": "Suivez-nous",
     "footer.copyright": "Guapo Web Designer 2025",
     "footer.rights": "Tous droits réservés."
@@ -493,6 +496,9 @@ const translations = {
     
     "footer.description": "Maker van moderne en krachtige websites. Uw visie, onze expertise.",
     "footer.links": "Snelle links",
+    "footer.legal": "Informations légales",
+    "footer.privacy": "Politique de confidentialité",
+    "footer.legal.terms": "Mentions légales",
     "footer.social": "Volg ons",
     "footer.copyright": "Guapo Web Designer 2025",
     "footer.rights": "Alle rechten voorbehouden."
@@ -736,6 +742,9 @@ const translations = {
     
     "footer.description": "Creator of modern and powerful websites. Your vision, our expertise.",
     "footer.links": "Quick Links",
+    "footer.legal": "Legal Information",
+    "footer.privacy": "Privacy Policy",
+    "footer.legal.terms": "Terms and Conditions",
     "footer.social": "Follow Us",
     "footer.copyright": "Guapo Web Designer 2025",
     "footer.rights": "All rights reserved."
