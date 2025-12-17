@@ -744,11 +744,10 @@ export function QuoteForm() {
                       className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
                       disabled={isPending}
                     />
-                    <div className="flex-1">
-                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.email')}</span>
-                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.email.desc')}</p>
-                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.client.email.price')}</p>
-                    </div>
+                      <div className="flex-1">
+                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.email')}</span>
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.email.desc')}</p>
+                      </div>
                   </label>
                 </div>
               </div>
