@@ -13,6 +13,8 @@ export const PRICING = {
     "Petite boutique (1-20 produits)": { min: 1400, max: 1800 },
     "Boutique moyenne (21-100 produits)": { min: 1800, max: 3100 },
     "Grande boutique (100+ produits)": { min: 3100, max: 5000 },
+    // Menu / Site de commande
+    "Menu / Site de commande (système de base)": { min: 800, max: 800 },
   },
 
   // Fonctionnalités
