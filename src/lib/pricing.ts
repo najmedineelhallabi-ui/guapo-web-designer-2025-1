@@ -32,6 +32,17 @@ export const PRICING = {
     "Gestion des commandes": 250,
     "Gestion des stocks": 350,
     "Comptes clients": 200,
+    // Fonctionnalités Menu / Site de commande - Client
+    "Ajout au panier": 180,
+    "Sur place / à emporter": 130,
+    "Confirmation de commande": 120,
+    "Email automatique client": 160,
+    // Fonctionnalités Menu / Site de commande - Restaurant
+    "Dashboard cuisine": 320,
+    "Statuts de commande cuisine": 180,
+    "Gestion menu": 220,
+    "Dashboard serveur": 320,
+    "Statuts de commande serveur": 180,
   },
 
   // Optimisation & Sécurité
