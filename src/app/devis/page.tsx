@@ -6,7 +6,165 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { useLanguage } from '@/contexts/language-context';
-import { useState } from 'react';
+import { useState, memo } from 'react';
+
+// Memoized decorative background
+const LaserBackground = memo(() => (
+  <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div className="laser-line" style={{ left: '10%', animationDelay: '0s' }}></div>
+    <div className="laser-line laser-line-secondary" style={{ left: '25%', animationDelay: '2s' }}></div>
+    <div className="laser-line laser-line-accent" style={{ left: '40%', animationDelay: '4s' }}></div>
+    <div className="laser-line" style={{ left: '55%', animationDelay: '1s' }}></div>
+    <div className="laser-line laser-line-secondary" style={{ left: '70%', animationDelay: '3s' }}></div>
+    <div className="laser-line laser-line-accent" style={{ left: '85%', animationDelay: '5s' }}></div>
+  </div>
+));
+LaserBackground.displayName = 'LaserBackground';
+
+// Memoized Info Cards
+const InfoCards = memo(({ t }: { t: any }) => (
+  <div className="grid md:grid-cols-3 gap-6 mb-16">
+    <div className="bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+      <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+        <Sparkles className="w-6 h-6 text-white" />
+      </div>
+      <h3 className="font-semibold mb-2">{t("quote.page.card1.title")}</h3>
+      <p className="text-sm text-foreground/70">{t("quote.page.card1.desc")}</p>
+    </div>
+
+    <div className="bg-card/50 backdrop-blur-sm border-2 border-secondary/30 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+      <div className="w-12 h-12 bg-gradient-to-r from-secondary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
+        <FileText className="w-6 h-6 text-white" />
+      </div>
+      <h3 className="font-semibold mb-2">{t("quote.page.card2.title")}</h3>
+      <p className="text-sm text-foreground/70">{t("quote.page.card2.desc")}</p>
+    </div>
+
+    <div className="bg-card/50 backdrop-blur-sm border-2 border-accent/30 rounded-xl p-6 text-center hover:scale-105 transition-transform">
+      <div className="w-12 h-12 bg-gradient-to-r from-accent to-primary rounded-full flex items-center justify-center mx-auto mb-4">
+        <Sparkles className="w-6 h-6 text-white" />
+      </div>
+      <h3 className="font-semibold mb-2">{t("quote.page.card3.title")}</h3>
+      <p className="text-sm text-foreground/70">{t("quote.page.card3.desc")}</p>
+    </div>
+  </div>
+));
+InfoCards.displayName = 'InfoCards';
+
+// Memoized CTA Section
+const CTASection = memo(({ t }: { t: any }) => (
+  <section className="py-20 px-6 bg-gradient-to-br from-background via-accent/20 to-primary/20 relative overflow-hidden">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="md:hidden absolute top-10 left-5 w-56 h-56 bg-primary/50 rounded-full blur-md animate-pulse"></div>
+      <div className="md:hidden absolute bottom-10 right-5 w-64 h-64 bg-secondary/50 rounded-full blur-md animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="hidden md:block lg:hidden absolute top-10 left-10 w-64 h-64 bg-primary/50 rounded-full blur-2xl animate-pulse"></div>
+      <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-72 h-72 bg-secondary/50 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+      <div className="hidden lg:block absolute top-10 left-1/4 w-72 h-72 bg-primary/50 rounded-full blur-2xl animate-pulse"></div>
+      <div className="hidden lg:block absolute bottom-10 right-1/4 w-80 h-80 bg-secondary/50 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+    </div>
+
+    <div className="max-w-4xl mx-auto text-center relative z-10">
+      <h2 className="text-3xl md:text-4xl font-bold mb-6">
+        {t("quote.page.cta.title")}
+      </h2>
+      <p className="text-lg text-foreground/80 mb-8">
+        {t("quote.page.cta.desc")}
+      </p>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="mailto:info@guapowebdesigner.com"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-lg hover:opacity-90 transition-opacity"
+        >
+          info@guapowebdesigner.com
+        </a>
+        <a
+          href="https://www.instagram.com/guapo_webdesigner/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary/40 bg-card/50 backdrop-blur-sm rounded-lg hover:bg-primary/20 transition-colors"
+        >
+          @guapo_webdesigner
+        </a>
+      </div>
+    </div>
+  </section>
+));
+CTASection.displayName = 'CTASection';
+
+// Memoized Footer
+const Footer = memo(({ t }: { t: any }) => (
+  <footer className="py-12 px-6 border-t border-border bg-card/50 backdrop-blur-sm">
+    <div className="max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <h3 className="font-bold text-lg mb-3 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+            Guapo Web Designer
+          </h3>
+          <p className="text-foreground/80 text-sm leading-relaxed">
+            {t("footer.description")}
+          </p>
+        </div>
+
+        <div>
+          <h3 className="font-semibold text-base mb-3">{t("footer.links")}</h3>
+          <ul className="space-y-2">
+            <li>
+              <Link href="/#portfolio" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                <span>→</span> {t("nav.portfolio")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/#services" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                <span>→</span> {t("nav.services")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/#contact" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                <span>→</span> {t("nav.contact")}
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="font-semibold text-base mb-3">{t("footer.legal")}</h3>
+          <ul className="space-y-2">
+            <li>
+              <Link href="/politique-confidentialite" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                <span>→</span> {t("footer.privacy")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/mentions-legales" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
+                <span>→</span> {t("footer.legal.terms")}
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="font-semibold text-base mb-3">{t("footer.social")}</h3>
+          <a 
+            href="https://www.instagram.com/guapo_webdesigner/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2"
+          >
+            <Instagram className="w-4 h-4" />
+            <span>Instagram</span>
+          </a>
+        </div>
+      </div>
+
+      <div className="pt-8 border-t border-border text-center">
+        <p className="text-foreground/80 text-sm">
+          © 2025 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer. {t("footer.rights")}
+        </p>
+      </div>
+    </div>
+  </footer>
+));
+Footer.displayName = 'Footer';
 
 export default function DevisPage() {
   const { t } = useLanguage();
@@ -22,17 +180,14 @@ export default function DevisPage() {
         aria-label={t("promo.banner")}
       >
         <div className="relative">
-          {/* Glow effect */}
           <div className="absolute -inset-4 bg-gradient-to-r from-red-500 via-red-600 to-red-700 rounded-full blur-2xl opacity-90 group-hover:opacity-100 animate-pulse"></div>
           
-          {/* Button */}
           <div className="relative flex flex-col items-center justify-center w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-red-500 via-red-600 to-red-700 rounded-full shadow-2xl shadow-red-500/60 group-hover:scale-110 transition-transform duration-300 border-4 border-white/30">
             <span className="text-white font-black text-4xl md:text-5xl leading-none drop-shadow-lg">{t("promo.discount")}</span>
             <span className="text-white text-xs md:text-sm font-bold mt-1 drop-shadow-lg opacity-90">{t("promo.until")}</span>
             <span className="text-white text-sm md:text-base font-bold drop-shadow-lg">{t("promo.date")}</span>
           </div>
           
-          {/* Ping animation */}
           <span className="absolute -top-2 -right-2 flex h-6 w-6 md:h-8 md:w-8">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-90"></span>
             <span className="relative inline-flex rounded-full h-6 w-6 md:h-8 md:w-8 bg-white shadow-lg"></span>
@@ -79,7 +234,6 @@ export default function DevisPage() {
             />
           </Link>
           
-          {/* Desktop Navigation */}
           <div className="hidden md:flex gap-8 items-center">
             <Link href="/#accueil" className="hover:text-primary transition-colors">{t("nav.home")}</Link>
             <Link href="/#about" className="hover:text-secondary transition-colors">{t("nav.about")}</Link>
@@ -90,7 +244,6 @@ export default function DevisPage() {
             <LanguageSwitcher />
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-2 hover:bg-primary/10 rounded-lg transition-colors"
@@ -104,84 +257,31 @@ export default function DevisPage() {
           </button>
         </div>
 
-        {/* Mobile Navigation Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-background/95 backdrop-blur-md border-b border-border shadow-lg">
             <div className="flex flex-col gap-4 px-6 py-6">
-              <Link 
-                href="/#accueil" 
-                className="hover:text-primary transition-colors py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t("nav.home")}
-              </Link>
-              <Link 
-                href="/#about" 
-                className="hover:text-secondary transition-colors py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t("nav.about")}
-              </Link>
-              <Link 
-                href="/#portfolio" 
-                className="hover:text-accent transition-colors py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t("nav.portfolio")}
-              </Link>
-              <Link 
-                href="/#services" 
-                className="hover:text-secondary transition-colors py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t("nav.services")}
-              </Link>
-              <Link 
-                href="/devis" 
-                className="hover:text-accent transition-colors py-2 font-semibold text-accent"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t("nav.quote")}
-              </Link>
-              <Link 
-                href="/#contact" 
-                className="hover:text-primary transition-colors py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t("nav.contact")}
-              </Link>
-              <div className="pt-2 border-t border-border">
-                <LanguageSwitcher />
-              </div>
+              <Link href="/#accueil" className="hover:text-primary transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>{t("nav.home")}</Link>
+              <Link href="/#about" className="hover:text-secondary transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>{t("nav.about")}</Link>
+              <Link href="/#portfolio" className="hover:text-accent transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>{t("nav.portfolio")}</Link>
+              <Link href="/#services" className="hover:text-secondary transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>{t("nav.services")}</Link>
+              <Link href="/devis" className="hover:text-accent transition-colors py-2 font-semibold text-accent" onClick={() => setMobileMenuOpen(false)}>{t("nav.quote")}</Link>
+              <Link href="/#contact" className="hover:text-primary transition-colors py-2" onClick={() => setMobileMenuOpen(false)}>{t("nav.contact")}</Link>
+              <div className="pt-2 border-t border-border"><LanguageSwitcher /></div>
             </div>
           </div>
         )}
       </nav>
 
-      {/* Laser Lines Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="laser-line" style={{ left: '10%', animationDelay: '0s' }}></div>
-        <div className="laser-line laser-line-secondary" style={{ left: '25%', animationDelay: '2s' }}></div>
-        <div className="laser-line laser-line-accent" style={{ left: '40%', animationDelay: '4s' }}></div>
-        <div className="laser-line" style={{ left: '55%', animationDelay: '1s' }}></div>
-        <div className="laser-line laser-line-secondary" style={{ left: '70%', animationDelay: '3s' }}></div>
-        <div className="laser-line laser-line-accent" style={{ left: '85%', animationDelay: '5s' }}></div>
-      </div>
+      <LaserBackground />
 
-      {/* Hero Section */}
       <section className={`relative pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 overflow-hidden transition-all duration-300 ${showBanner ? 'pt-[180px]' : 'pt-32'}`}>
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Mobile circles (smaller, less blur) */}
           <div className="md:hidden absolute top-20 left-5 w-40 h-40 bg-primary/40 rounded-full blur-md"></div>
           <div className="md:hidden absolute bottom-10 right-5 w-48 h-48 bg-secondary/40 rounded-full blur-md"></div>
           <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-accent/40 rounded-full blur-md"></div>
-          
-          {/* Tablet circles (medium, less blur) */}
           <div className="hidden md:block lg:hidden absolute top-20 left-10 w-72 h-72 bg-primary/40 rounded-full blur-2xl"></div>
           <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-96 h-96 bg-secondary/40 rounded-full blur-2xl"></div>
           <div className="hidden md:block lg:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-accent/30 rounded-full blur-2xl"></div>
-          
-          {/* Desktop circles (larger, less blur) */}
           <div className="hidden lg:block absolute top-20 left-10 w-96 h-96 bg-primary/40 rounded-full blur-2xl"></div>
           <div className="hidden lg:block absolute bottom-10 right-10 w-[32rem] h-[32rem] bg-secondary/40 rounded-full blur-2xl"></div>
           <div className="hidden lg:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28rem] h-[28rem] bg-accent/30 rounded-full blur-2xl"></div>
@@ -201,7 +301,6 @@ export default function DevisPage() {
             {t("quote.page.subtitle")}
           </p>
 
-          {/* Badge Premier Mois Offert */}
           <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-accent/30 to-secondary/30 border-2 border-accent/50 backdrop-blur-sm shadow-lg">
             <span className="text-2xl">🎁</span>
             <span className="font-bold text-lg">{t("promo.badge")}</span>
@@ -209,161 +308,18 @@ export default function DevisPage() {
         </div>
       </section>
 
-      {/* Form Section */}
       <section className="py-20 px-6 relative z-10">
         <div className="max-w-5xl mx-auto">
-          {/* Info Cards */}
-          <div className="grid md:grid-cols-3 gap-6 mb-16">
-            <div className="bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-xl p-6 text-center hover:scale-105 transition-transform">
-              <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="font-semibold mb-2">{t("quote.page.card1.title")}</h3>
-              <p className="text-sm text-foreground/70">{t("quote.page.card1.desc")}</p>
-            </div>
+          <InfoCards t={t} />
 
-            <div className="bg-card/50 backdrop-blur-sm border-2 border-secondary/30 rounded-xl p-6 text-center hover:scale-105 transition-transform">
-              <div className="w-12 h-12 bg-gradient-to-r from-secondary to-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                <FileText className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="font-semibold mb-2">{t("quote.page.card2.title")}</h3>
-              <p className="text-sm text-foreground/70">{t("quote.page.card2.desc")}</p>
-            </div>
-
-            <div className="bg-card/50 backdrop-blur-sm border-2 border-accent/30 rounded-xl p-6 text-center hover:scale-105 transition-transform">
-              <div className="w-12 h-12 bg-gradient-to-r from-accent to-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="w-6 h-6 text-white" />
-              </div>
-              <h3 className="font-semibold mb-2">{t("quote.page.card3.title")}</h3>
-              <p className="text-sm text-foreground/70">{t("quote.page.card3.desc")}</p>
-            </div>
-          </div>
-
-          {/* Form */}
           <div className="bg-card/40 backdrop-blur-sm border-2 border-border rounded-3xl p-6 md:p-10 lg:p-16 shadow-2xl">
             <QuoteForm />
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-br from-background via-accent/20 to-primary/20 relative overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Mobile circles */}
-          <div className="md:hidden absolute top-10 left-5 w-56 h-56 bg-primary/50 rounded-full blur-md animate-pulse"></div>
-          <div className="md:hidden absolute bottom-10 right-5 w-64 h-64 bg-secondary/50 rounded-full blur-md animate-pulse" style={{ animationDelay: '1s' }}></div>
-          
-          {/* Tablet circles */}
-          <div className="hidden md:block lg:hidden absolute top-10 left-10 w-64 h-64 bg-primary/50 rounded-full blur-2xl animate-pulse"></div>
-          <div className="hidden md:block lg:hidden absolute bottom-10 right-10 w-72 h-72 bg-secondary/50 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-          
-          {/* Desktop circles */}
-          <div className="hidden lg:block absolute top-10 left-1/4 w-72 h-72 bg-primary/50 rounded-full blur-2xl animate-pulse"></div>
-          <div className="hidden lg:block absolute bottom-10 right-1/4 w-80 h-80 bg-secondary/50 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            {t("quote.page.cta.title")}
-          </h2>
-          <p className="text-lg text-foreground/80 mb-8">
-            {t("quote.page.cta.desc")}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="mailto:info@guapowebdesigner.com"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-lg hover:opacity-90 transition-opacity"
-            >
-              info@guapowebdesigner.com
-            </a>
-            <a
-              href="https://www.instagram.com/guapo_webdesigner/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary/40 bg-card/50 backdrop-blur-sm rounded-lg hover:bg-primary/20 transition-colors"
-            >
-              @guapo_webdesigner
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-border bg-card/50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            {/* Column 1: Brand */}
-            <div>
-              <h3 className="font-bold text-lg mb-3 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Guapo Web Designer
-              </h3>
-              <p className="text-foreground/80 text-sm leading-relaxed">
-                {t("footer.description")}
-              </p>
-            </div>
-
-            {/* Column 2: Quick Links */}
-            <div>
-              <h3 className="font-semibold text-base mb-3">{t("footer.links")}</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/#portfolio" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> {t("nav.portfolio")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#services" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> {t("nav.services")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#contact" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> {t("nav.contact")}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 3: Legal */}
-            <div>
-              <h3 className="font-semibold text-base mb-3">{t("footer.legal")}</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/politique-confidentialite" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> {t("footer.privacy")}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/mentions-legales" className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2">
-                    <span>→</span> {t("footer.legal.terms")}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Column 4: Social */}
-            <div>
-              <h3 className="font-semibold text-base mb-3">{t("footer.social")}</h3>
-              <a 
-                href="https://www.instagram.com/guapo_webdesigner/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-foreground/80 hover:text-primary transition-colors text-sm flex items-center gap-2"
-              >
-                <Instagram className="w-4 h-4" />
-                <span>Instagram</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Copyright */}
-          <div className="pt-8 border-t border-border text-center">
-            <p className="text-foreground/80 text-sm">
-              © 2025 <span className="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent font-semibold">GUAPO</span> Web Designer. {t("footer.rights")}
-            </p>
-          </div>
-        </div>
-      </footer>
+      <CTASection t={t} />
+      <Footer t={t} />
     </div>
   );
 }
