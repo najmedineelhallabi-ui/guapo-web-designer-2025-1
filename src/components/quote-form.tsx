@@ -13,8 +13,9 @@ export function QuoteForm() {
     {}
   );
   const [step, setStep] = useState<'type' | 'questions'>(state.formData?.siteType ? 'questions' : 'type');
-  const [projectType, setProjectType] = useState<'vitrine' | 'ecommerce' | ''>('');
+  const [projectType, setProjectType] = useState<'vitrine' | 'ecommerce' | 'menu' | ''>('');
   const [isEcommerce, setIsEcommerce] = useState(false);
+  const [isMenu, setIsMenu] = useState(false);
   const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
   const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
   const [selectedSiteType, setSelectedSiteType] = useState<string>('');
