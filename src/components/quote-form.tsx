@@ -1286,129 +1286,130 @@ export function QuoteForm() {
           {showOptimization && (
             <div className="px-8 pb-8 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
               {/* Pack Tout Inclus - RECOMMANDÉ */}
-            <div className="relative">
-              <div className="absolute -top-3 left-4 z-10">
-                <span className="px-3 py-1 bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold rounded-full shadow-lg">
-                  {t('quote.optimization.recommended')}
-                </span>
-              </div>
-              <label className="flex items-start gap-4 cursor-pointer group p-6 rounded-xl border-2 border-primary/50 bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/15 hover:to-secondary/15 transition-all">
-                <input
-                  type="checkbox"
-                  name="optimization"
-                  value="Pack Tout Inclus (SEO + Performance + SSL + RGPD)"
-                  checked={allInclusiveOptimization}
-                  onChange={handleAllInclusiveChange}
-                  className="w-6 h-6 mt-0.5 rounded border-2 border-primary text-primary focus:ring-2 focus:ring-primary cursor-pointer flex-shrink-0"
-                  disabled={isPending}
-                />
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Shield className="w-5 h-5 text-primary" />
-                    <span className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">
-                      {t('quote.optimization.pack')}
-                    </span>
-                  </div>
-                  <p className="text-sm text-foreground/80 mb-3">
-                    {t('quote.optimization.pack.desc')}
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <div className="flex items-center gap-2 text-sm text-foreground/70">
-                      <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span>{t('quote.optimization.pack.seo')}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-foreground/70">
-                      <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span>{t('quote.optimization.pack.performance')}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-foreground/70">
-                      <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span>{t('quote.optimization.pack.ssl')}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-foreground/70">
-                      <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                      <span>{t('quote.optimization.pack.gdpr')}</span>
-                    </div>
-                  </div>
-                </div>
-              </label>
-            </div>
-
-            {/* Divider */}
-            {!allInclusiveOptimization && (
-              <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-border"></div>
-                </div>
-                <div className="relative flex justify-center text-xs">
-                  <span className="bg-card px-3 py-1 text-foreground/60 rounded-full border border-border">
-                    {t('quote.optimization.or')}
+              <div className="relative">
+                <div className="absolute -top-3 left-4 z-10">
+                  <span className="px-3 py-1 bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold rounded-full shadow-lg">
+                    {t('quote.optimization.recommended')}
                   </span>
                 </div>
+                <label className="flex items-start gap-4 cursor-pointer group p-6 rounded-xl border-2 border-primary/50 bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/15 hover:to-secondary/15 transition-all">
+                  <input
+                    type="checkbox"
+                    name="optimization"
+                    value="Pack Tout Inclus (SEO + Performance + SSL + RGPD)"
+                    checked={allInclusiveOptimization}
+                    onChange={handleAllInclusiveChange}
+                    className="w-6 h-6 mt-0.5 rounded border-2 border-primary text-primary focus:ring-2 focus:ring-primary cursor-pointer flex-shrink-0"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Shield className="w-5 h-5 text-primary" />
+                      <span className="font-bold text-lg text-foreground group-hover:text-primary transition-colors">
+                        {t('quote.optimization.pack')}
+                      </span>
+                    </div>
+                    <p className="text-sm text-foreground/80 mb-3">
+                      {t('quote.optimization.pack.desc')}
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <div className="flex items-center gap-2 text-sm text-foreground/70">
+                        <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span>{t('quote.optimization.pack.seo')}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-foreground/70">
+                        <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span>{t('quote.optimization.pack.performance')}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-foreground/70">
+                        <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span>{t('quote.optimization.pack.ssl')}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-foreground/70">
+                        <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span>{t('quote.optimization.pack.gdpr')}</span>
+                      </div>
+                    </div>
+                  </div>
+                </label>
               </div>
-            )}
 
-            {/* Individual Options - Disabled when all-inclusive is selected */}
-            <div className={`space-y-3 ${allInclusiveOptimization ? 'opacity-40 pointer-events-none' : ''}`}>
-              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
-                <input
-                  type="checkbox"
-                  name="optimization"
-                  value="SEO de base (balises, titres, URLs)"
-                  defaultChecked={state.formData?.optimization?.includes("SEO de base (balises, titres, URLs)")}
-                  disabled={allInclusiveOptimization || isPending}
-                  className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                  {t('quote.optimization.seo')}
-                </span>
-              </label>
+              {/* Divider */}
+              {!allInclusiveOptimization && (
+                <div className="relative my-6">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-border"></div>
+                  </div>
+                  <div className="relative flex justify-center text-xs">
+                    <span className="bg-card px-3 py-1 text-foreground/60 rounded-full border border-border">
+                      {t('quote.optimization.or')}
+                    </span>
+                  </div>
+                </div>
+              )}
 
-              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
-                <input
-                  type="checkbox"
-                  name="optimization"
-                  value="Optimisation vitesse / performance"
-                  defaultChecked={state.formData?.optimization?.includes("Optimisation vitesse / performance")}
-                  disabled={allInclusiveOptimization || isPending}
-                  className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                  {t('quote.optimization.performance')}
-                </span>
-              </label>
+              {/* Individual Options - Disabled when all-inclusive is selected */}
+              <div className={`space-y-3 ${allInclusiveOptimization ? 'opacity-40 pointer-events-none' : ''}`}>
+                <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="optimization"
+                    value="SEO de base (balises, titres, URLs)"
+                    defaultChecked={state.formData?.optimization?.includes("SEO de base (balises, titres, URLs)")}
+                    disabled={allInclusiveOptimization || isPending}
+                    className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                    {t('quote.optimization.seo')}
+                  </span>
+                </label>
 
-              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
-                <input
-                  type="checkbox"
-                  name="optimization"
-                  value="Certificat SSL / HTTPS"
-                  defaultChecked={state.formData?.optimization?.includes("Certificat SSL / HTTPS")}
-                  disabled={allInclusiveOptimization || isPending}
-                  className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                  {t('quote.optimization.ssl')}
-                </span>
-              </label>
+                <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="optimization"
+                    value="Optimisation vitesse / performance"
+                    defaultChecked={state.formData?.optimization?.includes("Optimisation vitesse / performance")}
+                    disabled={allInclusiveOptimization || isPending}
+                    className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                    {t('quote.optimization.performance')}
+                  </span>
+                </label>
 
-              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
-                <input
-                  type="checkbox"
-                  name="optimization"
-                  value="RGPD / conformité légale"
-                  defaultChecked={state.formData?.optimization?.includes("RGPD / conformité légale")}
-                  disabled={allInclusiveOptimization || isPending}
-                  className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                  {t('quote.optimization.gdpr')}
-                </span>
+                <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="optimization"
+                    value="Certificat SSL / HTTPS"
+                    defaultChecked={state.formData?.optimization?.includes("Certificat SSL / HTTPS")}
+                    disabled={allInclusiveOptimization || isPending}
+                    className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                    {t('quote.optimization.ssl')}
+                  </span>
+                </label>
+
+                <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="optimization"
+                    value="RGPD / conformité légale"
+                    defaultChecked={state.formData?.optimization?.includes("RGPD / conformité légale")}
+                    disabled={allInclusiveOptimization || isPending}
+                    className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                    {t('quote.optimization.gdpr')}
+                  </span>
                 </label>
               </div>
             </div>
           )}
         </div>
+
 
         {/* Hébergement */}
         <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
