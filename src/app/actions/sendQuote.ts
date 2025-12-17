@@ -29,24 +29,25 @@ export type QuoteFormState = {
   success?: boolean;
   message?: string;
   errors?: Record<string, string[]>;
-  formData?: {
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    company?: string;
-    sector?: string;
-    siteType?: string;
-    pageCount?: number;
-    features?: string[];
-    languages?: string[];
-    otherLanguages?: string;
-    optimization?: string[];
-    hosting?: string;
-    domain?: string;
-    message?: string;
-    rgpdConsent?: string;
-    language?: 'fr' | 'nl' | 'en';
-  };
+    formData?: {
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      company?: string;
+      sector?: string;
+      siteType?: string;
+      pageCount?: number;
+      features?: string[];
+      menuFeatures?: string[];
+      languages?: string[];
+      otherLanguages?: string;
+      optimization?: string[];
+      hosting?: string;
+      domain?: string;
+      message?: string;
+      rgpdConsent?: string;
+      language?: 'fr' | 'nl' | 'en';
+    };
 };
 
 export async function sendQuoteAction(
