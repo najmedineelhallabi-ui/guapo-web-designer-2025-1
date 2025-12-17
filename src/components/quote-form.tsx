@@ -16,9 +16,12 @@ export function QuoteForm() {
   const [projectType, setProjectType] = useState<'vitrine' | 'ecommerce' | 'menu' | ''>('');
   const [isEcommerce, setIsEcommerce] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
-  const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
-  const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
-  const [selectedSiteType, setSelectedSiteType] = useState<string>('');
+    const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
+    const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
+    const [isMenuConfirmationSelected, setIsMenuConfirmationSelected] = useState(
+      state.formData?.menuFeatures?.includes("Confirmation de commande") || false
+    );
+    const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<string>('');
 
