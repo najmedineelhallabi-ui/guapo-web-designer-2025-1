@@ -1404,9 +1404,10 @@ export function QuoteForm() {
                 <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
                   {t('quote.optimization.gdpr')}
                 </span>
-              </label>
+                </label>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Hébergement */}
