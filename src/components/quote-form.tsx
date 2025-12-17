@@ -16,18 +16,18 @@ export function QuoteForm() {
   const [projectType, setProjectType] = useState<'vitrine' | 'ecommerce' | 'menu' | ''>('');
   const [isEcommerce, setIsEcommerce] = useState(false);
   const [isMenu, setIsMenu] = useState(false);
-    const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
-    const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
-    const [isMenuConfirmationSelected, setIsMenuConfirmationSelected] = useState(
-      state.formData?.menuFeatures?.includes("Confirmation de commande") || false
-    );
-    const [isKitchenDashboardSelected, setIsKitchenDashboardSelected] = useState(
-      state.formData?.menuFeatures?.includes("Dashboard cuisine") || false
-    );
-    const [isWaiterDashboardSelected, setIsWaiterDashboardSelected] = useState(
-      state.formData?.menuFeatures?.includes("Dashboard serveur") || false
-    );
-    const [selectedSiteType, setSelectedSiteType] = useState<string>('');
+  const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
+  const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
+  const [isMenuConfirmationSelected, setIsMenuConfirmationSelected] = useState(
+    state.formData?.menuFeatures?.includes("Confirmation de commande") || false
+  );
+  const [isKitchenDashboardSelected, setIsKitchenDashboardSelected] = useState(
+    state.formData?.menuFeatures?.includes("Dashboard cuisine") || false
+  );
+  const [isWaiterDashboardSelected, setIsWaiterDashboardSelected] = useState(
+    state.formData?.menuFeatures?.includes("Dashboard serveur") || false
+  );
+  const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<string>('');
   const [showFeatures, setShowFeatures] = useState(false);
@@ -77,23 +77,23 @@ export function QuoteForm() {
     setIsQuoteFormSelected(e.target.checked);
   };
 
-    const handleMultilingualChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setIsMultilingualSelected(e.target.checked);
-    };
+  const handleMultilingualChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsMultilingualSelected(e.target.checked);
+  };
 
-      const handleMenuConfirmationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setIsMenuConfirmationSelected(e.target.checked);
-      };
+  const handleMenuConfirmationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsMenuConfirmationSelected(e.target.checked);
+  };
 
-        const handleKitchenDashboardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-          setIsKitchenDashboardSelected(e.target.checked);
-        };
+  const handleKitchenDashboardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsKitchenDashboardSelected(e.target.checked);
+  };
 
-        const handleWaiterDashboardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-          setIsWaiterDashboardSelected(e.target.checked);
-        };
+  const handleWaiterDashboardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsWaiterDashboardSelected(e.target.checked);
+  };
 
-      const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAllInclusiveOptimization(e.target.checked);
   };
 
@@ -121,8 +121,8 @@ export function QuoteForm() {
           </p>
         </div>
 
-<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Site Vitrine Card */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Site Vitrine Card */}
           <button
             type="button"
             onClick={() => handleProjectTypeSelect('vitrine')}
@@ -171,107 +171,107 @@ export function QuoteForm() {
             </div>
           </button>
 
-            {/* Site E-commerce Card */}
-            <button
-              type="button"
-              onClick={() => handleProjectTypeSelect('ecommerce')}
-              className="group relative bg-gradient-to-br from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30 border-2 border-secondary/40 hover:border-secondary/60 rounded-2xl p-8 text-left transition-all hover:scale-105 hover:shadow-2xl shadow-lg"
-            >
-              <div className="absolute top-4 right-4">
-                <ShoppingCart className="w-12 h-12 text-secondary opacity-20 group-hover:opacity-40 transition-opacity" />
+          {/* Site E-commerce Card */}
+          <button
+            type="button"
+            onClick={() => handleProjectTypeSelect('ecommerce')}
+            className="group relative bg-gradient-to-br from-secondary/20 to-accent/20 hover:from-secondary/30 hover:to-accent/30 border-2 border-secondary/40 hover:border-secondary/60 rounded-2xl p-8 text-left transition-all hover:scale-105 hover:shadow-2xl shadow-lg"
+          >
+            <div className="absolute top-4 right-4">
+              <ShoppingCart className="w-12 h-12 text-secondary opacity-20 group-hover:opacity-40 transition-opacity" />
+            </div>
+            
+            <div className="relative z-10">
+              <div className="w-16 h-16 bg-gradient-to-r from-secondary to-accent rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                <ShoppingCart className="w-8 h-8 text-white" />
               </div>
               
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-r from-secondary to-accent rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                  <ShoppingCart className="w-8 h-8 text-white" />
+              <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-secondary transition-colors">
+                {t('quote.type.ecommerce')}
+              </h3>
+              
+              <p className="text-foreground/80 mb-6 leading-relaxed">
+                {t('quote.type.ecommerce.desc')}
+              </p>
+              
+              <div className="space-y-2 mb-6">
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
+                  <span>{t('quote.type.ecommerce.feature1')}</span>
                 </div>
-                
-                <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-secondary transition-colors">
-                  {t('quote.type.ecommerce')}
-                </h3>
-                
-                <p className="text-foreground/80 mb-6 leading-relaxed">
-                  {t('quote.type.ecommerce.desc')}
-                </p>
-                
-                <div className="space-y-2 mb-6">
-                  <div className="flex items-center gap-2 text-sm text-foreground/70">
-                    <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
-                    <span>{t('quote.type.ecommerce.feature1')}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-foreground/70">
-                    <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
-                    <span>{t('quote.type.ecommerce.feature2')}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-foreground/70">
-                    <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
-                    <span>{t('quote.type.ecommerce.feature3')}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-foreground/70">
-                    <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
-                    <span>{t('quote.type.ecommerce.feature4')}</span>
-                  </div>
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
+                  <span>{t('quote.type.ecommerce.feature2')}</span>
                 </div>
-                
-                <div className="flex items-center gap-2 text-secondary font-semibold mt-4">
-                  <span>{t('quote.type.start')}</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
+                  <span>{t('quote.type.ecommerce.feature3')}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-secondary flex-shrink-0" />
+                  <span>{t('quote.type.ecommerce.feature4')}</span>
                 </div>
               </div>
-            </button>
+              
+              <div className="flex items-center gap-2 text-secondary font-semibold mt-4">
+                <span>{t('quote.type.start')}</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              </div>
+            </div>
+          </button>
 
-            {/* Menu / Site de commande Card */}
-            <button
-              type="button"
-              onClick={() => handleProjectTypeSelect('menu')}
-              className="group relative bg-gradient-to-br from-accent/20 to-primary/20 hover:from-accent/30 hover:to-primary/30 border-2 border-accent/40 hover:border-accent/60 rounded-2xl p-8 text-left transition-all hover:scale-105 hover:shadow-2xl shadow-lg md:col-span-2 lg:col-span-1"
-            >
-              <div className="absolute top-4 right-4">
-                <UtensilsCrossed className="w-12 h-12 text-accent opacity-20 group-hover:opacity-40 transition-opacity" />
+          {/* Menu / Site de commande Card */}
+          <button
+            type="button"
+            onClick={() => handleProjectTypeSelect('menu')}
+            className="group relative bg-gradient-to-br from-accent/20 to-primary/20 hover:from-accent/30 hover:to-primary/30 border-2 border-accent/40 hover:border-accent/60 rounded-2xl p-8 text-left transition-all hover:scale-105 hover:shadow-2xl shadow-lg md:col-span-2 lg:col-span-1"
+          >
+            <div className="absolute top-4 right-4">
+              <UtensilsCrossed className="w-12 h-12 text-accent opacity-20 group-hover:opacity-40 transition-opacity" />
+            </div>
+            
+            <div className="relative z-10">
+              <div className="w-16 h-16 bg-gradient-to-r from-accent to-primary rounded-xl flex items-center justify-center mb-6 shadow-lg">
+                <UtensilsCrossed className="w-8 h-8 text-white" />
               </div>
               
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-r from-accent to-primary rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                  <UtensilsCrossed className="w-8 h-8 text-white" />
+              <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-accent transition-colors">
+                {t('quote.type.menu')}
+              </h3>
+              
+              <p className="text-foreground/80 mb-6 leading-relaxed">
+                {t('quote.type.menu.desc')}
+              </p>
+              
+              <div className="space-y-2 mb-6">
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
+                  <span>{t('quote.type.menu.feature1')}</span>
                 </div>
-                
-                <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-accent transition-colors">
-                  {t('quote.type.menu')}
-                </h3>
-                
-                <p className="text-foreground/80 mb-6 leading-relaxed">
-                  {t('quote.type.menu.desc')}
-                </p>
-                
-                <div className="space-y-2 mb-6">
-                  <div className="flex items-center gap-2 text-sm text-foreground/70">
-                    <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
-                    <span>{t('quote.type.menu.feature1')}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-foreground/70">
-                    <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
-                    <span>{t('quote.type.menu.feature2')}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-foreground/70">
-                    <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
-                    <span>{t('quote.type.menu.feature3')}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-foreground/70">
-                    <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
-                    <span>{t('quote.type.menu.feature4')}</span>
-                  </div>
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
+                  <span>{t('quote.type.menu.feature2')}</span>
                 </div>
-                
-                <div className="flex items-center gap-2 text-accent font-semibold mt-4">
-                  <span>{t('quote.type.start')}</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
+                  <span>{t('quote.type.menu.feature3')}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-foreground/70">
+                  <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
+                  <span>{t('quote.type.menu.feature4')}</span>
                 </div>
               </div>
-            </button>
-          </div>
+              
+              <div className="flex items-center gap-2 text-accent font-semibold mt-4">
+                <span>{t('quote.type.start')}</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              </div>
+            </div>
+          </button>
         </div>
-      );
-    }
+      </div>
+    );
+  }
 
   // Step 2: Questions Form
   return (
@@ -286,36 +286,36 @@ export function QuoteForm() {
         <span>{t('quote.back')}</span>
       </button>
 
-{/* Project type indicator */}
-        <div className="mb-10 p-6 bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            {projectType === 'vitrine' ? (
-              <Globe className="w-6 h-6 text-primary" />
-            ) : projectType === 'ecommerce' ? (
-              <ShoppingCart className="w-6 h-6 text-secondary" />
-            ) : (
-              <UtensilsCrossed className="w-6 h-6 text-accent" />
-            )}
-            <div>
-              <p className="text-sm text-foreground/70">{t('quote.selected')}</p>
-              <p className="font-bold text-lg">
-                {projectType === 'vitrine' ? t('quote.type.showcase') : projectType === 'ecommerce' ? t('quote.type.ecommerce') : t('quote.type.menu')}
-              </p>
-            </div>
+      {/* Project type indicator */}
+      <div className="mb-10 p-6 bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          {projectType === 'vitrine' ? (
+            <Globe className="w-6 h-6 text-primary" />
+          ) : projectType === 'ecommerce' ? (
+            <ShoppingCart className="w-6 h-6 text-secondary" />
+          ) : (
+            <UtensilsCrossed className="w-6 h-6 text-accent" />
+          )}
+          <div>
+            <p className="text-sm text-foreground/70">{t('quote.selected')}</p>
+            <p className="font-bold text-lg">
+              {projectType === 'vitrine' ? t('quote.type.showcase') : projectType === 'ecommerce' ? t('quote.type.ecommerce') : t('quote.type.menu')}
+            </p>
           </div>
         </div>
+      </div>
 
-        <form action={formAction} className="space-y-10">
-          {/* Honeypot field for spam protection */}
-          <div className="hidden" aria-hidden="true">
-            <input
-              type="text"
-              name="hp_field"
-              tabIndex={-1}
-              autoComplete="off"
-            />
-          </div>
-          {/* Hidden field for project type */}
+      <form action={formAction} className="space-y-10">
+        {/* Honeypot field for spam protection */}
+        <div className="hidden" aria-hidden="true">
+          <input
+            type="text"
+            name="hp_field"
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
+        {/* Hidden field for project type */}
         <input type="hidden" name="projectType" value={projectType} />
         {/* Hidden field for language */}
         <input type="hidden" name="language" value={language} />
@@ -691,252 +691,252 @@ export function QuoteForm() {
               </p>
             </div>
 
-{state.errors?.siteType && (
-                <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" />
-                  {state.errors.siteType[0]}
-                </p>
-              )}
-            </div>
-          )}
+            {state.errors?.siteType && (
+              <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                <AlertCircle className="w-3 h-3" />
+                {state.errors.siteType[0]}
+              </p>
+            )}
+          </div>
+        )}
 
-          {/* Menu / Site de commande - System de base */}
-          {projectType === 'menu' && (
-            <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
-              <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
-                <UtensilsCrossed className="w-7 h-7 text-accent" />
-                {t('quote.menu.base.title')}
-              </h3>
-              
-              {!selectedSiteType ? (
-                <div className="space-y-4">
-                  <label className="flex items-start gap-4 p-5 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                    <input
-                      type="radio"
-                      name="siteType"
-                      value="Menu / Site de commande (système de base)"
-                      required
-                      onChange={handleSiteTypeChange}
-                      className="w-5 h-5 mt-1 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+        {/* Menu / Site de commande - System de base */}
+        {projectType === 'menu' && (
+          <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
+            <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+              <UtensilsCrossed className="w-7 h-7 text-accent" />
+              {t('quote.menu.base.title')}
+            </h3>
+            
+            {!selectedSiteType ? (
+              <div className="space-y-4">
+                <label className="flex items-start gap-4 p-5 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                  <input
+                    type="radio"
+                    name="siteType"
+                    value="Menu / Site de commande (système de base)"
+                    required
+                    onChange={handleSiteTypeChange}
+                    className="w-5 h-5 mt-1 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <span className="font-semibold text-base text-foreground group-hover:text-accent transition-colors">{t('quote.menu.base.name')}</span>
+                    <p className="text-sm text-foreground/70 mt-2">{t('quote.menu.base.desc')}</p>
+                  </div>
+                </label>
+              </div>
+            ) : (
+              <div className="space-y-4 animate-fade-in">
+                <div className="p-6 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/50 rounded-xl">
+                  <input type="hidden" name="siteType" value={selectedSiteType} />
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm font-semibold text-foreground/70">{t('quote.selected.label')}</span>
+                    <button
+                      type="button"
+                      onClick={handleResetSiteType}
                       disabled={isPending}
-                    />
+                      className="flex items-center gap-2 px-4 py-2 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      <Edit2 className="w-3.5 h-3.5" />
+                      {t('quote.modify')}
+                    </button>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
-                      <span className="font-semibold text-base text-foreground group-hover:text-accent transition-colors">{t('quote.menu.base.name')}</span>
-                      <p className="text-sm text-foreground/70 mt-2">{t('quote.menu.base.desc')}</p>
-                    </div>
-                  </label>
-                </div>
-              ) : (
-                <div className="space-y-4 animate-fade-in">
-                  <div className="p-6 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/50 rounded-xl">
-                    <input type="hidden" name="siteType" value={selectedSiteType} />
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-sm font-semibold text-foreground/70">{t('quote.selected.label')}</span>
-                      <button
-                        type="button"
-                        onClick={handleResetSiteType}
-                        disabled={isPending}
-                        className="flex items-center gap-2 px-4 py-2 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
-                      >
-                        <Edit2 className="w-3.5 h-3.5" />
-                        {t('quote.modify')}
-                      </button>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
-                      <div className="flex-1">
-                        <p className="font-bold text-lg text-foreground">{t('quote.menu.base.name')}</p>
-                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.base.desc')}</p>
-                      </div>
+                      <p className="font-bold text-lg text-foreground">{t('quote.menu.base.name')}</p>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.base.desc')}</p>
                     </div>
                   </div>
                 </div>
-              )}
-
-              {/* Client Features */}
-              <div className="mt-8">
-                <h4 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                  <User className="w-5 h-5 text-accent" />
-                  {t('quote.menu.clientFeatures')}
-                </h4>
-                <div className="space-y-3">
-                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Ajout au panier"
-                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                      disabled={isPending}
-                    />
-                      <div className="flex-1">
-                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.cart')}</span>
-                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.cart.desc')}</p>
-                      </div>
-                  </label>
-
-                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Sur place / à emporter"
-                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                      disabled={isPending}
-                    />
-                      <div className="flex-1">
-                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.dineIn')}</span>
-                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.dineIn.desc')}</p>
-                      </div>
-                  </label>
-
-                    <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                      <input
-                        type="checkbox"
-                        name="menuFeatures"
-                        value="Confirmation de commande"
-                        checked={isMenuConfirmationSelected}
-                        onChange={handleMenuConfirmationChange}
-                        className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                        disabled={isPending}
-                      />
-                        <div className="flex-1">
-                          <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.confirmation')}</span>
-                          <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.confirmation.desc')}</p>
-                        </div>
-                    </label>
-
-                    {isMenuConfirmationSelected && (
-                      <div className="ml-9 animate-fade-in">
-                        <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
-                          <input
-                            type="checkbox"
-                            name="menuFeatures"
-                            value="Email automatique client"
-                            defaultChecked={state.formData?.menuFeatures?.includes("Email automatique client")}
-                            className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                            disabled={isPending}
-                          />
-                            <div className="flex-1">
-                              <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.email')}</span>
-                              <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.email.desc')}</p>
-                            </div>
-                        </label>
-                      </div>
-                    )}
-                </div>
               </div>
+            )}
 
-              {/* Restaurant Features */}
-              <div className="mt-8">
-                <h4 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                  <Building className="w-5 h-5 text-accent" />
-                  {t('quote.menu.restaurantFeatures')}
-                </h4>
-                  <div className="space-y-3">
-                    <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+            {/* Client Features */}
+            <div className="mt-8">
+              <h4 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                <User className="w-5 h-5 text-accent" />
+                {t('quote.menu.clientFeatures')}
+              </h4>
+              <div className="space-y-3">
+                <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                  <input
+                    type="checkbox"
+                    name="menuFeatures"
+                    value="Ajout au panier"
+                    className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.cart')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.cart.desc')}</p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                  <input
+                    type="checkbox"
+                    name="menuFeatures"
+                    value="Sur place / à emporter"
+                    className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.dineIn')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.dineIn.desc')}</p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                  <input
+                    type="checkbox"
+                    name="menuFeatures"
+                    value="Confirmation de commande"
+                    checked={isMenuConfirmationSelected}
+                    onChange={handleMenuConfirmationChange}
+                    className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.confirmation')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.confirmation.desc')}</p>
+                  </div>
+                </label>
+
+                {isMenuConfirmationSelected && (
+                  <div className="ml-9 animate-fade-in">
+                    <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
                       <input
                         type="checkbox"
                         name="menuFeatures"
-                        value="Dashboard cuisine"
-                        checked={isKitchenDashboardSelected}
-                        onChange={handleKitchenDashboardChange}
+                        value="Email automatique client"
+                        defaultChecked={state.formData?.menuFeatures?.includes("Email automatique client")}
                         className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
                         disabled={isPending}
                       />
-                        <div className="flex-1">
-                          <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.kitchen')}</span>
-                          <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.kitchen.desc')}</p>
-                        </div>
-                    </label>
-
-                    {isKitchenDashboardSelected && (
-                      <div className="ml-9 space-y-3 animate-fade-in">
-                        <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
-                          <input
-                            type="checkbox"
-                            name="menuFeatures"
-                            value="Statuts de commande cuisine"
-                            defaultChecked={state.formData?.menuFeatures?.includes("Statuts de commande cuisine")}
-                            className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                            disabled={isPending}
-                          />
-                            <div className="flex-1">
-                              <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.status')}</span>
-                              <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.status.desc')}</p>
-                            </div>
-                        </label>
-
-                        <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
-                          <input
-                            type="checkbox"
-                            name="menuFeatures"
-                            value="Gestion menu"
-                            defaultChecked={state.formData?.menuFeatures?.includes("Gestion menu")}
-                            className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                            disabled={isPending}
-                          />
-                            <div className="flex-1">
-                              <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.menuManagement')}</span>
-                              <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.menuManagement.desc')}</p>
-                            </div>
-                        </label>
-
-                        <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
-                          <input
-                            type="checkbox"
-                            name="menuFeatures"
-                            value="Gestion des stocks"
-                            defaultChecked={state.formData?.menuFeatures?.includes("Gestion des stocks")}
-                            className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                            disabled={isPending}
-                          />
-                            <div className="flex-1">
-                              <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.stock')}</span>
-                              <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.stock.desc')}</p>
-                            </div>
-                        </label>
-                      </div>
-                    )}
-
-                    <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Dashboard serveur"
-                      checked={isWaiterDashboardSelected}
-                      onChange={handleWaiterDashboardChange}
-                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                      disabled={isPending}
-                    />
                       <div className="flex-1">
-                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiter')}</span>
-                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.waiter.desc')}</p>
+                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.email')}</span>
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.email.desc')}</p>
                       </div>
-                  </label>
-
-                  {isWaiterDashboardSelected && (
-                    <div className="ml-9 animate-fade-in">
-                      <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
-                        <input
-                          type="checkbox"
-                          name="menuFeatures"
-                          value="Statuts de commande serveur"
-                          defaultChecked={state.formData?.menuFeatures?.includes("Statuts de commande serveur")}
-                          className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                          disabled={isPending}
-                        />
-                          <div className="flex-1">
-                            <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiterStatus')}</span>
-                            <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.waiterStatus.desc')}</p>
-                          </div>
-                      </label>
-                    </div>
-                  )}
-                </div>
+                    </label>
+                  </div>
+                )}
               </div>
             </div>
-          )}
 
-          {/* Design & Contenu */}
+            {/* Restaurant Features */}
+            <div className="mt-8">
+              <h4 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                <Building className="w-5 h-5 text-accent" />
+                {t('quote.menu.restaurantFeatures')}
+              </h4>
+              <div className="space-y-3">
+                <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                  <input
+                    type="checkbox"
+                    name="menuFeatures"
+                    value="Dashboard cuisine"
+                    checked={isKitchenDashboardSelected}
+                    onChange={handleKitchenDashboardChange}
+                    className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.kitchen')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.kitchen.desc')}</p>
+                  </div>
+                </label>
+
+                {isKitchenDashboardSelected && (
+                  <div className="ml-9 space-y-3 animate-fade-in">
+                    <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
+                      <input
+                        type="checkbox"
+                        name="menuFeatures"
+                        value="Statuts de commande cuisine"
+                        defaultChecked={state.formData?.menuFeatures?.includes("Statuts de commande cuisine")}
+                        className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <div className="flex-1">
+                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.status')}</span>
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.status.desc')}</p>
+                      </div>
+                    </label>
+
+                    <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
+                      <input
+                        type="checkbox"
+                        name="menuFeatures"
+                        value="Gestion menu"
+                        defaultChecked={state.formData?.menuFeatures?.includes("Gestion menu")}
+                        className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <div className="flex-1">
+                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.menuManagement')}</span>
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.menuManagement.desc')}</p>
+                      </div>
+                    </label>
+
+                    <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                      <input
+                        type="checkbox"
+                        name="menuFeatures"
+                        value="Gestion des stocks"
+                        defaultChecked={state.formData?.menuFeatures?.includes("Gestion des stocks")}
+                        className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <div className="flex-1">
+                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.stock')}</span>
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.stock.desc')}</p>
+                      </div>
+                    </label>
+                  </div>
+                )}
+
+                <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                  <input
+                    type="checkbox"
+                    name="menuFeatures"
+                    value="Dashboard serveur"
+                    checked={isWaiterDashboardSelected}
+                    onChange={handleWaiterDashboardChange}
+                    className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiter')}</span>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.waiter.desc')}</p>
+                  </div>
+                </label>
+
+                {isWaiterDashboardSelected && (
+                  <div className="ml-9 animate-fade-in">
+                    <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
+                      <input
+                        type="checkbox"
+                        name="menuFeatures"
+                        value="Statuts de commande serveur"
+                        defaultChecked={state.formData?.menuFeatures?.includes("Statuts de commande serveur")}
+                        className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <div className="flex-1">
+                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiterStatus')}</span>
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.waiterStatus.desc')}</p>
+                      </div>
+                    </label>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Design & Contenu */}
         <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
           <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
             <Palette className="w-7 h-7 text-accent" />
@@ -1409,7 +1409,6 @@ export function QuoteForm() {
             </div>
           )}
         </div>
-
 
         {/* Hébergement */}
         <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
