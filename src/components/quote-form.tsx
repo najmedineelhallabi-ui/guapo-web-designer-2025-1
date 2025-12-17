@@ -1264,14 +1264,28 @@ export function QuoteForm() {
         </div>
 
         {/* Optimisation & Sécurité */}
-        <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl p-8">
-          <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
-            <Lock className="w-6 h-6 text-secondary" />
-            {t('quote.optimization.title')}
-          </h3>
+        <div className="bg-gradient-to-br from-secondary/10 to-accent/10 border-2 border-secondary/30 rounded-xl overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setShowOptimization(!showOptimization)}
+            className="w-full p-8 flex items-center justify-between hover:bg-secondary/5 transition-colors group"
+          >
+            <div className="flex items-center gap-3">
+              <Lock className="w-6 h-6 text-secondary" />
+              <h3 className="text-2xl font-bold text-foreground">
+                {t('quote.optimization.title')}
+              </h3>
+            </div>
+            {showOptimization ? (
+              <ChevronUp className="w-6 h-6 text-secondary group-hover:scale-110 transition-transform" />
+            ) : (
+              <ChevronDown className="w-6 h-6 text-secondary group-hover:scale-110 transition-transform" />
+            )}
+          </button>
           
-          <div className="space-y-4">
-            {/* Pack Tout Inclus - RECOMMANDÉ */}
+          {showOptimization && (
+            <div className="px-8 pb-8 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+              {/* Pack Tout Inclus - RECOMMANDÉ */}
             <div className="relative">
               <div className="absolute -top-3 left-4 z-10">
                 <span className="px-3 py-1 bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold rounded-full shadow-lg">
