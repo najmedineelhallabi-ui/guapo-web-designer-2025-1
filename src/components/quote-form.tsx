@@ -1285,7 +1285,6 @@ export function QuoteForm() {
           
           {showOptimization && (
             <div className="px-8 pb-8 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
-              {/* Pack Tout Inclus - RECOMMANDÉ */}
               <div className="relative">
                 <div className="absolute -top-3 left-4 z-10">
                   <span className="px-3 py-1 bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold rounded-full shadow-lg">
@@ -1334,7 +1333,6 @@ export function QuoteForm() {
                 </label>
               </div>
 
-              {/* Divider */}
               {!allInclusiveOptimization && (
                 <div className="relative my-6">
                   <div className="absolute inset-0 flex items-center">
@@ -1348,7 +1346,6 @@ export function QuoteForm() {
                 </div>
               )}
 
-              {/* Individual Options - Disabled when all-inclusive is selected */}
               <div className={`space-y-3 ${allInclusiveOptimization ? 'opacity-40 pointer-events-none' : ''}`}>
                 <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
                   <input
