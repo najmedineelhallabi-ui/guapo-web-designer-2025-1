@@ -76,11 +76,15 @@ export function QuoteForm() {
       setIsMultilingualSelected(e.target.checked);
     };
 
-    const handleMenuConfirmationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setIsMenuConfirmationSelected(e.target.checked);
-    };
+      const handleMenuConfirmationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsMenuConfirmationSelected(e.target.checked);
+      };
 
-  const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const handleKitchenDashboardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsKitchenDashboardSelected(e.target.checked);
+      };
+
+    const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAllInclusiveOptimization(e.target.checked);
   };
 
