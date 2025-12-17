@@ -659,16 +659,206 @@ export function QuoteForm() {
               </p>
             </div>
 
-            {state.errors?.siteType && (
-              <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
-                <AlertCircle className="w-3 h-3" />
-                {state.errors.siteType[0]}
-              </p>
-            )}
-          </div>
-        )}
+{state.errors?.siteType && (
+                <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                  <AlertCircle className="w-3 h-3" />
+                  {state.errors.siteType[0]}
+                </p>
+              )}
+            </div>
+          )}
 
-        {/* Design & Contenu */}
+          {/* Menu / Site de commande - System de base */}
+          {projectType === 'menu' && (
+            <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
+              <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+                <UtensilsCrossed className="w-7 h-7 text-accent" />
+                {t('quote.menu.base.title')}
+              </h3>
+              
+              <div className="p-5 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/50 rounded-xl mb-6">
+                <div className="flex items-start gap-3">
+                  <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="font-bold text-lg text-foreground">{t('quote.menu.base.name')}</p>
+                    <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.base.desc')}</p>
+                    <p className="text-sm font-semibold text-accent mt-2">{t('quote.menu.base.price')}</p>
+                  </div>
+                </div>
+              </div>
+              <input type="hidden" name="siteType" value="Menu / Site de commande (système de base)" />
+
+              {/* Client Features */}
+              <div className="mt-8">
+                <h4 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                  <User className="w-5 h-5 text-accent" />
+                  {t('quote.menu.clientFeatures')}
+                </h4>
+                <div className="space-y-3">
+                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Ajout au panier"
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <div className="flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.cart')}</span>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.cart.desc')}</p>
+                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.client.cart.price')}</p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Sur place / à emporter"
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <div className="flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.dineIn')}</span>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.dineIn.desc')}</p>
+                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.client.dineIn.price')}</p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Confirmation de commande"
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <div className="flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.confirmation')}</span>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.confirmation.desc')}</p>
+                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.client.confirmation.price')}</p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Email automatique client"
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <div className="flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.email')}</span>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.email.desc')}</p>
+                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.client.email.price')}</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              {/* Restaurant Features */}
+              <div className="mt-8">
+                <h4 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                  <Building className="w-5 h-5 text-accent" />
+                  {t('quote.menu.restaurantFeatures')}
+                </h4>
+                <div className="space-y-3">
+                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Dashboard cuisine"
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <div className="flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.kitchen')}</span>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.kitchen.desc')}</p>
+                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.resto.kitchen.price')}</p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Statuts de commande cuisine"
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <div className="flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.status')}</span>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.status.desc')}</p>
+                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.resto.status.price')}</p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Gestion menu"
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <div className="flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.menuManagement')}</span>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.menuManagement.desc')}</p>
+                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.resto.menuManagement.price')}</p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Gestion des stocks"
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <div className="flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.stock')}</span>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.stock.desc')}</p>
+                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.resto.stock.price')}</p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Dashboard serveur"
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <div className="flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiter')}</span>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.waiter.desc')}</p>
+                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.resto.waiter.price')}</p>
+                    </div>
+                  </label>
+
+                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Statuts de commande serveur"
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      disabled={isPending}
+                    />
+                    <div className="flex-1">
+                      <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiterStatus')}</span>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.waiterStatus.desc')}</p>
+                      <p className="text-sm font-semibold text-accent mt-1">{t('quote.menu.resto.waiterStatus.price')}</p>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Design & Contenu */}
         <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
           <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
             <Palette className="w-7 h-7 text-accent" />
