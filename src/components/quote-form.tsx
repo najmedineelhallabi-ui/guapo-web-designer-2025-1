@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useState } from 'react';
 import { sendQuoteAction, QuoteFormState } from '@/app/actions/sendQuote';
-import { Mail, User, Briefcase, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, Shield, Palette, Zap, Lock, Wrench, Building, ShoppingCart, Edit2, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Mail, User, Briefcase, MessageSquare, Send, CheckCircle, AlertCircle, Globe, Server, Shield, Palette, Zap, Lock, Wrench, Building, ShoppingCart, Edit2, ArrowLeft, ArrowRight, UtensilsCrossed } from 'lucide-react';
 import { useLanguage } from '@/contexts/language-context';
 import Link from 'next/link';
 
