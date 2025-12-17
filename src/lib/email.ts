@@ -159,6 +159,59 @@ const optionTranslations = {
     nl: "Te bespreken",
     en: "To discuss"
   },
+  // Menu / Site de commande
+  "Menu / Site de commande (système de base)": {
+    fr: "Menu / Site de commande (système de base)",
+    nl: "Menu / Bestelsite (basissysteem)",
+    en: "Menu / Ordering site (base system)"
+  },
+  // Fonctionnalités Menu Client
+  "Ajout au panier": {
+    fr: "Ajout au panier",
+    nl: "Toevoegen aan winkelwagen",
+    en: "Add to cart"
+  },
+  "Sur place / à emporter": {
+    fr: "Sur place / à emporter",
+    nl: "Ter plaatse / afhalen",
+    en: "Dine-in / takeaway"
+  },
+  "Confirmation de commande": {
+    fr: "Confirmation de commande",
+    nl: "Bestelbevestiging",
+    en: "Order confirmation"
+  },
+  "Email automatique client": {
+    fr: "Email automatique client",
+    nl: "Automatische klant email",
+    en: "Automatic customer email"
+  },
+  // Fonctionnalités Menu Restaurant
+  "Dashboard cuisine": {
+    fr: "Dashboard cuisine",
+    nl: "Keuken dashboard",
+    en: "Kitchen dashboard"
+  },
+  "Statuts de commande cuisine": {
+    fr: "Statuts de commande cuisine",
+    nl: "Keuken bestelstatus",
+    en: "Kitchen order status"
+  },
+  "Gestion menu": {
+    fr: "Gestion menu",
+    nl: "Menu beheer",
+    en: "Menu management"
+  },
+  "Dashboard serveur": {
+    fr: "Dashboard serveur",
+    nl: "Ober dashboard",
+    en: "Waiter dashboard"
+  },
+  "Statuts de commande serveur": {
+    fr: "Statuts de commande serveur",
+    nl: "Ober bestelstatus",
+    en: "Waiter order status"
+  },
   // Langues
   "Français (FR)": {
     fr: "Français (FR)",
