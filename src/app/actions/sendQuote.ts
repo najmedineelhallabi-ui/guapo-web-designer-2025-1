@@ -68,6 +68,7 @@ export async function sendQuoteAction(
       siteType: formData.get('siteType'),
       pageCount: formData.get('pageCount') ? Number(formData.get('pageCount')) : undefined,
       features: formData.getAll('features') as string[],
+      menuFeatures: formData.getAll('menuFeatures') as string[],
       languages: formData.getAll('languages') as string[],
       otherLanguages: formData.get('otherLanguages') as string || undefined,
       optimization: formData.getAll('optimization') as string[],
