@@ -87,6 +87,12 @@ export async function sendQuoteAction(
     console.log('🔵 [ACTION] Data validated successfully');
     console.log('🔵 [ACTION] Calling sendQuoteEmail...');
 
+    // Combine features and menuFeatures for pricing calculation
+    const allFeatures = [
+      ...(validatedData.features || []),
+      ...(validatedData.menuFeatures || [])
+    ];
+
     // Send email using the centralized email function (includes pricing)
     await sendQuoteEmail({
       firstName: validatedData.firstName,
@@ -96,7 +102,7 @@ export async function sendQuoteAction(
       sector: validatedData.sector,
       siteType: validatedData.siteType,
       pageCount: validatedData.pageCount,
-      features: validatedData.features,
+      features: allFeatures,
       languages: validatedData.languages,
       otherLanguages: validatedData.otherLanguages,
       optimization: validatedData.optimization,
