@@ -858,6 +858,8 @@ export function QuoteForm() {
                       type="checkbox"
                       name="menuFeatures"
                       value="Dashboard serveur"
+                      checked={isWaiterDashboardSelected}
+                      onChange={handleWaiterDashboardChange}
                       className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
                       disabled={isPending}
                     />
@@ -867,19 +869,24 @@ export function QuoteForm() {
                       </div>
                   </label>
 
-                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Statuts de commande serveur"
-                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                      disabled={isPending}
-                    />
-                      <div className="flex-1">
-                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiterStatus')}</span>
-                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.waiterStatus.desc')}</p>
-                      </div>
-                  </label>
+                  {isWaiterDashboardSelected && (
+                    <div className="ml-9 animate-fade-in">
+                      <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
+                        <input
+                          type="checkbox"
+                          name="menuFeatures"
+                          value="Statuts de commande serveur"
+                          defaultChecked={state.formData?.menuFeatures?.includes("Statuts de commande serveur")}
+                          className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                          disabled={isPending}
+                        />
+                          <div className="flex-1">
+                            <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiterStatus')}</span>
+                            <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.waiterStatus.desc')}</p>
+                          </div>
+                      </label>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
