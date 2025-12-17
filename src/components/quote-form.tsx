@@ -21,6 +21,9 @@ export function QuoteForm() {
     const [isMenuConfirmationSelected, setIsMenuConfirmationSelected] = useState(
       state.formData?.menuFeatures?.includes("Confirmation de commande") || false
     );
+    const [isKitchenDashboardSelected, setIsKitchenDashboardSelected] = useState(
+      state.formData?.menuFeatures?.includes("Dashboard cuisine") || false
+    );
     const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<string>('');
