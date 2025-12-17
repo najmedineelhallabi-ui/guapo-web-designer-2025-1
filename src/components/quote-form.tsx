@@ -36,9 +36,10 @@ export function QuoteForm() {
     }
   }, [state.success]);
 
-  const handleProjectTypeSelect = (type: 'vitrine' | 'ecommerce') => {
+  const handleProjectTypeSelect = (type: 'vitrine' | 'ecommerce' | 'menu') => {
     setProjectType(type);
     setIsEcommerce(type === 'ecommerce');
+    setIsMenu(type === 'menu');
     setStep('questions');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
