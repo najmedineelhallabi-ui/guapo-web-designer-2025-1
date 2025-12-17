@@ -48,6 +48,7 @@ export function QuoteForm() {
     setStep('type');
     setProjectType('');
     setIsEcommerce(false);
+    setIsMenu(false);
     setSelectedSiteType('');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
