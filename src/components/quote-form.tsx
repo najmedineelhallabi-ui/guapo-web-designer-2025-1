@@ -31,6 +31,7 @@ export function QuoteForm() {
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<string>('');
   const [showFeatures, setShowFeatures] = useState(false);
+  const [showOptimization, setShowOptimization] = useState(false);
 
   const handleFeatureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Feature changes are handled by form submission
