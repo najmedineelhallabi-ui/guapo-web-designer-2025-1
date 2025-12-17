@@ -61,6 +61,7 @@ export async function sendQuoteAction(
     
     // Parse and validate form data
     const rawData = {
+      hp_field: formData.get('hp_field'),
       firstName: formData.get('firstName'),
       lastName: formData.get('lastName'),
       email: formData.get('email'),
