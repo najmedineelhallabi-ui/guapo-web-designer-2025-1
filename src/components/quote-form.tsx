@@ -850,54 +850,52 @@ export function QuoteForm() {
                       </div>
                     </label>
 
-                    {isKitchenDashboardSelected && (
-                      <div className="ml-9 space-y-3 animate-fade-in">
-                        <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
-                          <input
-                            type="checkbox"
-                            name="menuFeatures"
-                            value="Statuts de commande cuisine"
-                            defaultChecked={state.formData?.menuFeatures?.includes("Statuts de commande cuisine")}
-                            className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                            disabled={isPending}
-                          />
-                          <div className="flex-1">
-                            <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.status')}</span>
-                            <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.status.desc')}</p>
-                          </div>
-                        </label>
+                    <div className={`ml-9 space-y-3 transition-all duration-300 ${isKitchenDashboardSelected ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
+                      <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
+                        <input
+                          type="checkbox"
+                          name="menuFeatures"
+                          value="Statuts de commande cuisine"
+                          defaultChecked={state.formData?.menuFeatures?.includes("Statuts de commande cuisine")}
+                          className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                          disabled={isPending || !isKitchenDashboardSelected}
+                        />
+                        <div className="flex-1">
+                          <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.status')}</span>
+                          <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.status.desc')}</p>
+                        </div>
+                      </label>
 
-                        <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
-                          <input
-                            type="checkbox"
-                            name="menuFeatures"
-                            value="Gestion menu"
-                            defaultChecked={state.formData?.menuFeatures?.includes("Gestion menu")}
-                            className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                            disabled={isPending}
-                          />
-                          <div className="flex-1">
-                            <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.menuManagement')}</span>
-                            <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.menuManagement.desc')}</p>
-                          </div>
-                        </label>
+                      <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
+                        <input
+                          type="checkbox"
+                          name="menuFeatures"
+                          value="Gestion menu"
+                          defaultChecked={state.formData?.menuFeatures?.includes("Gestion menu")}
+                          className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                          disabled={isPending || !isKitchenDashboardSelected}
+                        />
+                        <div className="flex-1">
+                          <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.menuManagement')}</span>
+                          <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.menuManagement.desc')}</p>
+                        </div>
+                      </label>
 
-                        <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                          <input
-                            type="checkbox"
-                            name="menuFeatures"
-                            value="Gestion des stocks"
-                            defaultChecked={state.formData?.menuFeatures?.includes("Gestion des stocks")}
-                            className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                            disabled={isPending}
-                          />
-                          <div className="flex-1">
-                            <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.stock')}</span>
-                            <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.stock.desc')}</p>
-                          </div>
-                        </label>
-                      </div>
-                    )}
+                      <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                        <input
+                          type="checkbox"
+                          name="menuFeatures"
+                          value="Gestion des stocks"
+                          defaultChecked={state.formData?.menuFeatures?.includes("Gestion des stocks")}
+                          className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                          disabled={isPending || !isKitchenDashboardSelected}
+                        />
+                        <div className="flex-1">
+                          <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.stock')}</span>
+                          <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.stock.desc')}</p>
+                        </div>
+                      </label>
+                    </div>
 
                     <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
                       <input
@@ -915,24 +913,23 @@ export function QuoteForm() {
                       </div>
                     </label>
 
-                    {isWaiterDashboardSelected && (
-                      <div className="ml-9 animate-fade-in">
-                        <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
-                          <input
-                            type="checkbox"
-                            name="menuFeatures"
-                            value="Statuts de commande serveur"
-                            defaultChecked={state.formData?.menuFeatures?.includes("Statuts de commande serveur")}
-                            className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                            disabled={isPending}
-                          />
-                          <div className="flex-1">
-                            <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiterStatus')}</span>
-                            <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.waiterStatus.desc')}</p>
-                          </div>
-                        </label>
-                      </div>
-                    )}
+                    <div className={`ml-9 transition-all duration-300 ${isWaiterDashboardSelected ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}>
+                      <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
+                        <input
+                          type="checkbox"
+                          name="menuFeatures"
+                          value="Statuts de commande serveur"
+                          defaultChecked={state.formData?.menuFeatures?.includes("Statuts de commande serveur")}
+                          className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                          disabled={isPending || !isWaiterDashboardSelected}
+                        />
+                        <div className="flex-1">
+                          <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiterStatus')}</span>
+                          <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.resto.waiterStatus.desc')}</p>
+                        </div>
+                      </label>
+                    </div>
+
                   </div>
                 </div>
               </>
