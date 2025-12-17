@@ -679,11 +679,10 @@ export function QuoteForm() {
               <div className="p-5 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/50 rounded-xl mb-6">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <p className="font-bold text-lg text-foreground">{t('quote.menu.base.name')}</p>
-                    <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.base.desc')}</p>
-                    <p className="text-sm font-semibold text-accent mt-2">{t('quote.menu.base.price')}</p>
-                  </div>
+                    <div className="flex-1">
+                        <p className="font-bold text-lg text-foreground">{t('quote.menu.base.name')}</p>
+                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.base.desc')}</p>
+                    </div>
                 </div>
               </div>
               <input type="hidden" name="siteType" value="Menu / Site de commande (système de base)" />
