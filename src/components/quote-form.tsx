@@ -899,295 +899,310 @@ export function QuoteForm() {
         </div>
 
         {/* Fonctionnalités / Modules */}
-        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-8">
-          <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
-            <Zap className="w-7 h-7 text-primary" />
-            {t('quote.features.title')}
-          </h3>
-          
-          <div className="space-y-4">
-            <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="features"
-                value="Formulaire de contact simple"
-                defaultChecked={state.formData?.features?.includes("Formulaire de contact simple")}
-                onChange={handleFeatureChange}
-                className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                {t('quote.features.contactForm')}
-              </span>
-            </label>
-
-            <div className="space-y-2">
-              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
-                <input
-                  type="checkbox"
-                  name="features"
-                  value="Formulaire de demande de devis"
-                  defaultChecked={state.formData?.features?.includes("Formulaire de demande de devis")}
-                  onChange={(e) => {
-                    handleQuoteFormChange(e);
-                    handleFeatureChange(e);
-                  }}
-                  className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                  disabled={isPending}
-                />
-                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                  {t('quote.features.quoteForm')}
-                </span>
-              </label>
-
-              {/* Sub-option: Auto emails for quote form */}
-              {isQuoteFormSelected && (
-                <div className="ml-11 animate-fade-in">
-                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors bg-primary/5 border border-primary/20">
-                    <input
-                      type="checkbox"
-                      name="features"
-                      value="Envoi automatique d'emails de confirmation (pour devis)"
-                      defaultChecked={state.formData?.features?.includes("Envoi automatique d'emails de confirmation (pour devis)")}
-                      onChange={handleFeatureChange}
-                      className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-sm">
-                      {t('quote.features.autoEmailsQuote')}
-                    </span>
-                  </label>
-                </div>
-              )}
+        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setShowFeatures(!showFeatures)}
+            className="w-full p-8 flex items-center justify-between hover:bg-primary/5 transition-colors group"
+          >
+            <div className="flex items-center gap-3">
+              <Zap className="w-7 h-7 text-primary" />
+              <h3 className="text-2xl font-bold text-foreground">
+                {t('quote.features.title')}
+              </h3>
             </div>
-
-            <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="features"
-                value="Système de prise de rendez-vous en ligne (avec emails automatiques)"
-                defaultChecked={state.formData?.features?.includes("Système de prise de rendez-vous en ligne (avec emails automatiques)")}
-                onChange={handleFeatureChange}
-                className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                {t('quote.features.booking')}
-              </span>
-            </label>
-
-            <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
-              <input
-                type="checkbox"
-                name="features"
-                value="Intégration calendrier (Google Calendar, etc.)"
-                defaultChecked={state.formData?.features?.includes("Intégration calendrier (Google Calendar, etc.)")}
-                onChange={handleFeatureChange}
-                className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                disabled={isPending}
-              />
-              <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                {t('quote.features.calendar')}
-              </span>
-            </label>
-
-            {/* Multilingue with language selection */}
-            <div className="space-y-2">
+            {showFeatures ? (
+              <ChevronUp className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
+            ) : (
+              <ChevronDown className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
+            )}
+          </button>
+          
+          {showFeatures && (
+            <div className="px-8 pb-8 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
               <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
                 <input
                   type="checkbox"
                   name="features"
-                  value="Multilingue"
-                  defaultChecked={state.formData?.features?.includes("Multilingue")}
-                  onChange={(e) => {
-                    handleMultilingualChange(e);
-                    handleFeatureChange(e);
-                  }}
+                  value="Formulaire de contact simple"
+                  defaultChecked={state.formData?.features?.includes("Formulaire de contact simple")}
+                  onChange={handleFeatureChange}
                   className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                   disabled={isPending}
                 />
                 <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                  {t('quote.features.multilingual')}
+                  {t('quote.features.contactForm')}
                 </span>
               </label>
 
-              {/* Language selection - appears when Multilingue is checked */}
-              {isMultilingualSelected && (
-                <div className="ml-11 animate-fade-in space-y-2">
-                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-                    <p className="text-sm font-semibold text-foreground/80 mb-3 flex items-center gap-2">
-                      <Globe className="w-4 h-4" />
-                      {t('quote.features.selectLanguages')}
-                    </p>
-                    
-                    <div className="space-y-2">
-                      <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
-                        <input
-                          type="checkbox"
-                          name="languages"
-                          value="Français (FR)"
-                          defaultChecked={state.formData?.languages?.includes("Français (FR)")}
-                          className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                          disabled={isPending}
-                        />
-                        <span className="text-sm text-foreground/90">Français (FR)</span>
-                      </label>
+              <div className="space-y-2">
+                <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="features"
+                    value="Formulaire de demande de devis"
+                    defaultChecked={state.formData?.features?.includes("Formulaire de demande de devis")}
+                    onChange={(e) => {
+                      handleQuoteFormChange(e);
+                      handleFeatureChange(e);
+                    }}
+                    className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                    {t('quote.features.quoteForm')}
+                  </span>
+                </label>
 
-                      <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
-                        <input
-                          type="checkbox"
-                          name="languages"
-                          value="Nederlands (NL)"
-                          defaultChecked={state.formData?.languages?.includes("Nederlands (NL)")}
-                          className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                          disabled={isPending}
-                        />
-                        <span className="text-sm text-foreground/90">Nederlands (NL)</span>
-                      </label>
+                {/* Sub-option: Auto emails for quote form */}
+                {isQuoteFormSelected && (
+                  <div className="ml-11 animate-fade-in">
+                    <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors bg-primary/5 border border-primary/20">
+                      <input
+                        type="checkbox"
+                        name="features"
+                        value="Envoi automatique d'emails de confirmation (pour devis)"
+                        defaultChecked={state.formData?.features?.includes("Envoi automatique d'emails de confirmation (pour devis)")}
+                        onChange={handleFeatureChange}
+                        className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <span className="text-foreground/90 group-hover:text-foreground transition-colors text-sm">
+                        {t('quote.features.autoEmailsQuote')}
+                      </span>
+                    </label>
+                  </div>
+                )}
+              </div>
 
-                      <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
-                        <input
-                          type="checkbox"
-                          name="languages"
-                          value="English (ENG)"
-                          defaultChecked={state.formData?.languages?.includes("English (ENG)")}
-                          className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
-                          disabled={isPending}
-                        />
-                        <span className="text-sm text-foreground/90">English (ENG)</span>
-                      </label>
+              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
+                <input
+                  type="checkbox"
+                  name="features"
+                  value="Système de prise de rendez-vous en ligne (avec emails automatiques)"
+                  defaultChecked={state.formData?.features?.includes("Système de prise de rendez-vous en ligne (avec emails automatiques)")}
+                  onChange={handleFeatureChange}
+                  className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                  disabled={isPending}
+                />
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                  {t('quote.features.booking')}
+                </span>
+              </label>
 
-                      {/* Other language option with text field */}
-                      <div className="space-y-2 pt-2 border-t border-border/50">
+              <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
+                <input
+                  type="checkbox"
+                  name="features"
+                  value="Intégration calendrier (Google Calendar, etc.)"
+                  defaultChecked={state.formData?.features?.includes("Intégration calendrier (Google Calendar, etc.)")}
+                  onChange={handleFeatureChange}
+                  className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                  disabled={isPending}
+                />
+                <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                  {t('quote.features.calendar')}
+                </span>
+              </label>
+
+              {/* Multilingue with language selection */}
+              <div className="space-y-2">
+                <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-primary/5 transition-colors">
+                  <input
+                    type="checkbox"
+                    name="features"
+                    value="Multilingue"
+                    defaultChecked={state.formData?.features?.includes("Multilingue")}
+                    onChange={(e) => {
+                      handleMultilingualChange(e);
+                      handleFeatureChange(e);
+                    }}
+                    className="w-6 h-6 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                    {t('quote.features.multilingual')}
+                  </span>
+                </label>
+
+                {/* Language selection - appears when Multilingue is checked */}
+                {isMultilingualSelected && (
+                  <div className="ml-11 animate-fade-in space-y-2">
+                    <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                      <p className="text-sm font-semibold text-foreground/80 mb-3 flex items-center gap-2">
+                        <Globe className="w-4 h-4" />
+                        {t('quote.features.selectLanguages')}
+                      </p>
+                      
+                      <div className="space-y-2">
                         <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
                           <input
                             type="checkbox"
                             name="languages"
-                            value="Autre"
-                            defaultChecked={state.formData?.languages?.includes("Autre")}
+                            value="Français (FR)"
+                            defaultChecked={state.formData?.languages?.includes("Français (FR)")}
                             className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
                             disabled={isPending}
                           />
-                          <span className="text-sm text-foreground/90">{t('quote.features.otherLanguage')}</span>
+                          <span className="text-sm text-foreground/90">Français (FR)</span>
                         </label>
-                        
-                        <input
-                          type="text"
-                          name="otherLanguages"
-                          placeholder={t('quote.features.otherLanguagePlaceholder')}
-                          defaultValue={state.formData?.otherLanguages || ''}
-                          className="w-full px-3 py-2 bg-card/50 backdrop-blur-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all text-sm"
-                          disabled={isPending}
-                        />
+
+                        <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                          <input
+                            type="checkbox"
+                            name="languages"
+                            value="Nederlands (NL)"
+                            defaultChecked={state.formData?.languages?.includes("Nederlands (NL)")}
+                            className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                            disabled={isPending}
+                          />
+                          <span className="text-sm text-foreground/90">Nederlands (NL)</span>
+                        </label>
+
+                        <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                          <input
+                            type="checkbox"
+                            name="languages"
+                            value="English (ENG)"
+                            defaultChecked={state.formData?.languages?.includes("English (ENG)")}
+                            className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                            disabled={isPending}
+                          />
+                          <span className="text-sm text-foreground/90">English (ENG)</span>
+                        </label>
+
+                        {/* Other language option with text field */}
+                        <div className="space-y-2 pt-2 border-t border-border/50">
+                          <label className="flex items-center gap-4 cursor-pointer group p-2 rounded hover:bg-primary/5 transition-colors">
+                            <input
+                              type="checkbox"
+                              name="languages"
+                              value="Autre"
+                              defaultChecked={state.formData?.languages?.includes("Autre")}
+                              className="w-4 h-4 rounded border-2 border-border text-primary focus:ring-2 focus:ring-primary cursor-pointer"
+                              disabled={isPending}
+                            />
+                            <span className="text-sm text-foreground/90">{t('quote.features.otherLanguage')}</span>
+                          </label>
+                          
+                          <input
+                            type="text"
+                            name="otherLanguages"
+                            placeholder={t('quote.features.otherLanguagePlaceholder')}
+                            defaultValue={state.formData?.otherLanguages || ''}
+                            className="w-full px-3 py-2 bg-card/50 backdrop-blur-sm border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all text-sm"
+                            disabled={isPending}
+                          />
+                        </div>
                       </div>
                     </div>
+                  </div>
+                )}
+              </div>
+
+              {/* E-commerce Features - Only show when e-commerce is selected */}
+              {isEcommerce && (
+                <div className="pt-3 mt-3 border-t border-border animate-fade-in">
+                  <p className="text-sm font-semibold text-foreground/70 mb-3 flex items-center gap-2">
+                    <ShoppingCart className="w-4 h-4" />
+                    {t('quote.features.ecommerce')}
+                  </p>
+                  
+                  <div className="space-y-3">
+                    <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
+                      <input
+                        type="checkbox"
+                        name="features"
+                        value="Catalogue de produits"
+                        defaultChecked={state.formData?.features?.includes("Catalogue de produits")}
+                        onChange={handleFeatureChange}
+                        className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                        {t('quote.features.productCatalog')}
+                      </span>
+                    </label>
+
+                    <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
+                      <input
+                        type="checkbox"
+                        name="features"
+                        value="Panier d'achat"
+                        defaultChecked={state.formData?.features?.includes("Panier d'achat")}
+                        onChange={handleFeatureChange}
+                        className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                        {t('quote.features.shoppingCart')}
+                      </span>
+                    </label>
+
+                    <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
+                      <input
+                        type="checkbox"
+                        name="features"
+                        value="Passerelle de paiement (Stripe, PayPal, etc.)"
+                        defaultChecked={state.formData?.features?.includes("Passerelle de paiement (Stripe, PayPal, etc.)")}
+                        onChange={handleFeatureChange}
+                        className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                        {t('quote.features.paymentGateway')}
+                      </span>
+                    </label>
+
+                    <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
+                      <input
+                        type="checkbox"
+                        name="features"
+                        value="Gestion des commandes"
+                        defaultChecked={state.formData?.features?.includes("Gestion des commandes")}
+                        onChange={handleFeatureChange}
+                        className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                        {t('quote.features.orderManagement')}
+                      </span>
+                    </label>
+
+                    <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
+                      <input
+                        type="checkbox"
+                        name="features"
+                        value="Gestion des stocks"
+                        defaultChecked={state.formData?.features?.includes("Gestion des stocks")}
+                        onChange={handleFeatureChange}
+                        className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                        {t('quote.features.inventoryManagement')}
+                      </span>
+                    </label>
+
+                    <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
+                      <input
+                        type="checkbox"
+                        name="features"
+                        value="Comptes clients"
+                        defaultChecked={state.formData?.features?.includes("Comptes clients")}
+                        onChange={handleFeatureChange}
+                        className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
+                        {t('quote.features.customerAccounts')}
+                      </span>
+                    </label>
                   </div>
                 </div>
               )}
             </div>
-
-            {/* E-commerce Features - Only show when e-commerce is selected */}
-            {isEcommerce && (
-              <div className="pt-3 mt-3 border-t border-border animate-fade-in">
-                <p className="text-sm font-semibold text-foreground/70 mb-3 flex items-center gap-2">
-                  <ShoppingCart className="w-4 h-4" />
-                  {t('quote.features.ecommerce')}
-                </p>
-                
-                <div className="space-y-3">
-                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
-                    <input
-                      type="checkbox"
-                      name="features"
-                      value="Catalogue de produits"
-                      defaultChecked={state.formData?.features?.includes("Catalogue de produits")}
-                      onChange={handleFeatureChange}
-                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                      {t('quote.features.productCatalog')}
-                    </span>
-                  </label>
-
-                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
-                    <input
-                      type="checkbox"
-                      name="features"
-                      value="Panier d'achat"
-                      defaultChecked={state.formData?.features?.includes("Panier d'achat")}
-                      onChange={handleFeatureChange}
-                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                      {t('quote.features.shoppingCart')}
-                    </span>
-                  </label>
-
-                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
-                    <input
-                      type="checkbox"
-                      name="features"
-                      value="Passerelle de paiement (Stripe, PayPal, etc.)"
-                      defaultChecked={state.formData?.features?.includes("Passerelle de paiement (Stripe, PayPal, etc.)")}
-                      onChange={handleFeatureChange}
-                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                      {t('quote.features.paymentGateway')}
-                    </span>
-                  </label>
-
-                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
-                    <input
-                      type="checkbox"
-                      name="features"
-                      value="Gestion des commandes"
-                      defaultChecked={state.formData?.features?.includes("Gestion des commandes")}
-                      onChange={handleFeatureChange}
-                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                      {t('quote.features.orderManagement')}
-                    </span>
-                  </label>
-
-                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
-                    <input
-                      type="checkbox"
-                      name="features"
-                      value="Gestion des stocks"
-                      defaultChecked={state.formData?.features?.includes("Gestion des stocks")}
-                      onChange={handleFeatureChange}
-                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                      {t('quote.features.inventoryManagement')}
-                    </span>
-                  </label>
-
-                  <label className="flex items-center gap-4 cursor-pointer group p-4 rounded-lg hover:bg-secondary/5 transition-colors">
-                    <input
-                      type="checkbox"
-                      name="features"
-                      value="Comptes clients"
-                      defaultChecked={state.formData?.features?.includes("Comptes clients")}
-                      onChange={handleFeatureChange}
-                      className="w-6 h-6 rounded border-2 border-border text-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <span className="text-foreground/90 group-hover:text-foreground transition-colors text-base">
-                      {t('quote.features.customerAccounts')}
-                    </span>
-                  </label>
-                </div>
-              </div>
-            )}
-          </div>
+          )}
         </div>
 
         {/* Optimisation & Sécurité */}
