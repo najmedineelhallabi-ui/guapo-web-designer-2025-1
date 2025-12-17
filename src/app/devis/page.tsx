@@ -22,7 +22,7 @@ const LaserBackground = memo(() => (
 LaserBackground.displayName = 'LaserBackground';
 
 // Memoized Info Cards
-const InfoCards = memo(({ t }: { t: any }) => (
+const InfoCards = memo(({ t }: { t: (key: string) => string }) => (
   <div className="grid md:grid-cols-3 gap-6 mb-16">
     <div className="bg-card/50 backdrop-blur-sm border-2 border-primary/30 rounded-xl p-6 text-center hover:scale-105 transition-transform">
       <div className="w-12 h-12 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
