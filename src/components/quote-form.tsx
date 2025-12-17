@@ -729,33 +729,40 @@ export function QuoteForm() {
                       </div>
                   </label>
 
-                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Confirmation de commande"
-                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                      disabled={isPending}
-                    />
-                      <div className="flex-1">
-                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.confirmation')}</span>
-                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.confirmation.desc')}</p>
-                      </div>
-                  </label>
+                    <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                      <input
+                        type="checkbox"
+                        name="menuFeatures"
+                        value="Confirmation de commande"
+                        checked={isMenuConfirmationSelected}
+                        onChange={handleMenuConfirmationChange}
+                        className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                        <div className="flex-1">
+                          <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.confirmation')}</span>
+                          <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.confirmation.desc')}</p>
+                        </div>
+                    </label>
 
-                  <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Email automatique client"
-                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                      disabled={isPending}
-                    />
-                      <div className="flex-1">
-                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.email')}</span>
-                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.email.desc')}</p>
+                    {isMenuConfirmationSelected && (
+                      <div className="ml-9 animate-fade-in">
+                        <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-lg hover:border-accent/50 cursor-pointer transition-all group">
+                          <input
+                            type="checkbox"
+                            name="menuFeatures"
+                            value="Email automatique client"
+                            defaultChecked={state.formData?.menuFeatures?.includes("Email automatique client")}
+                            className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                            disabled={isPending}
+                          />
+                            <div className="flex-1">
+                              <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.client.email')}</span>
+                              <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.client.email.desc')}</p>
+                            </div>
+                        </label>
                       </div>
-                  </label>
+                    )}
                 </div>
               </div>
 
