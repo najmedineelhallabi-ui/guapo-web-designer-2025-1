@@ -304,8 +304,17 @@ export function QuoteForm() {
           </div>
         </div>
 
-      <form action={formAction} className="space-y-10">
-        {/* Hidden field for project type */}
+        <form action={formAction} className="space-y-10">
+          {/* Honeypot field for spam protection */}
+          <div className="hidden" aria-hidden="true">
+            <input
+              type="text"
+              name="hp_field"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+          {/* Hidden field for project type */}
         <input type="hidden" name="projectType" value={projectType} />
         {/* Hidden field for language */}
         <input type="hidden" name="language" value={language} />
