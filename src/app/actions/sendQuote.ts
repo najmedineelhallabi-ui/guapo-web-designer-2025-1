@@ -81,6 +81,15 @@ export async function sendQuoteAction(
       language: formData.get('language') as 'fr' | 'nl' | 'en' || 'fr',
     };
 
+    // Honeypot check
+    if (rawData.hp_field) {
+      console.warn('🟠 [SECURITY] Honeypot field filled. Potential bot detected.');
+      return {
+        success: false,
+        message: 'Une erreur s\'est produite lors de l\'envoi du formulaire.',
+      };
+    }
+
     console.log('🔵 [ACTION] Raw data:', JSON.stringify(rawData, null, 2));
     console.log('🔵 [ACTION] Validating data...');
 
