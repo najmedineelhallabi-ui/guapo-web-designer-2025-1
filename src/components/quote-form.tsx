@@ -51,9 +51,16 @@ export function QuoteForm() {
     setProjectType(type);
     setIsEcommerce(type === 'ecommerce');
     setIsMenu(type === 'menu');
+    
     if (type === 'menu') {
       setSelectedSiteType("Menu / Site de commande (système de base)");
+      setShowFeatures(false);
+      setShowOptimization(false);
+    } else {
+      setShowFeatures(true);
+      setShowOptimization(true);
     }
+    
     setStep('questions');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
