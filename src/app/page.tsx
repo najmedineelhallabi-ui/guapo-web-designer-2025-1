@@ -567,8 +567,8 @@ export default function Home() {
             <p className="text-gray-700 text-lg mb-12">{t("services.website.subtitle")}</p>
           </div>
 
-          {/* Cards Grid - 3 cards */}
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {/* Cards Grid - 4 cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {/* Site Vitrine */}
             <a 
               href="/devis"
@@ -581,7 +581,7 @@ export default function Home() {
               <p className="text-gray-700 leading-relaxed mb-6">
                 {t("services.website.showcase.desc")}
               </p>
-              <div className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
+              <div className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all mt-auto">
                 {t("services.website.cta")}
                 <ArrowRight className="w-4 h-4" />
               </div>
@@ -599,7 +599,25 @@ export default function Home() {
               <p className="text-gray-700 leading-relaxed mb-6">
                 {t("services.website.ecommerce.desc")}
               </p>
-              <div className="inline-flex items-center gap-2 text-secondary font-semibold group-hover:gap-3 transition-all">
+              <div className="inline-flex items-center gap-2 text-secondary font-semibold group-hover:gap-3 transition-all mt-auto">
+                {t("services.website.cta")}
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </a>
+
+            {/* Menu / Site de commande */}
+            <a 
+              href="/devis"
+              className="group relative p-8 rounded-2xl bg-gradient-to-br from-accent/10 to-accent/5 backdrop-blur-sm border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 transition-all duration-300 cursor-pointer"
+            >
+              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-accent to-primary">
+                <UtensilsCrossed className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">{t("quote.type.menu")}</h3>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                {t("quote.type.menu.desc")}
+              </p>
+              <div className="inline-flex items-center gap-2 text-accent font-semibold group-hover:gap-3 transition-all mt-auto">
                 {t("services.website.cta")}
                 <ArrowRight className="w-4 h-4" />
               </div>
@@ -608,16 +626,16 @@ export default function Home() {
             {/* Discutons Ensemble */}
             <a 
               href="#contact"
-              className="group relative p-8 rounded-2xl bg-gradient-to-br from-accent/10 to-accent/5 backdrop-blur-sm border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 transition-all duration-300 cursor-pointer"
+              className="group relative p-8 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 backdrop-blur-sm border-2 border-primary/30 shadow-lg hover:shadow-2xl hover:shadow-primary/20 hover:scale-105 transition-all duration-300 cursor-pointer"
             >
-              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-accent to-primary">
+              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-primary via-secondary to-accent">
                 <MessageCircle className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-2xl font-bold mb-3 text-gray-900">{t("services.website.discuss.title")}</h3>
               <p className="text-gray-700 leading-relaxed mb-6">
                 {t("services.website.discuss.desc")}
               </p>
-              <div className="inline-flex items-center gap-2 text-accent font-semibold group-hover:gap-3 transition-all">
+              <div className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all mt-auto">
                 {t("services.website.discuss.cta")}
                 <ArrowRight className="w-4 h-4" />
               </div>
