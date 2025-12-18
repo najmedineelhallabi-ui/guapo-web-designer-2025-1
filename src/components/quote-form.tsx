@@ -68,6 +68,7 @@ export function QuoteForm() {
       setShowFeatures(false);
       setShowOptimization(false);
     } else {
+      setSelectedSiteType('');
       setShowFeatures(true);
       setShowOptimization(true);
     }
