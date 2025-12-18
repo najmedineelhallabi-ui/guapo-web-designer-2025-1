@@ -1207,13 +1207,16 @@ const translations = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      const savedLang = localStorage.getItem('language');
-      return (savedLang as Language) || 'fr';
+  const [language, setLanguage] = useState<Language>('fr');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const savedLang = localStorage.getItem('language');
+    if (savedLang && (savedLang === 'fr' || savedLang === 'nl' || savedLang === 'en')) {
+      setLanguage(savedLang);
     }
-    return 'fr';
-  });
+  }, []);
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
