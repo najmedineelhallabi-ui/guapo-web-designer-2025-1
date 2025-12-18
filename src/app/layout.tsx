@@ -1,6 +1,7 @@
 import './globals.css';
 import { ReactNode } from 'react';
 import Script from 'next/script';
+import { LanguageProvider } from '@/contexts/language-context';
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -12,7 +13,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           strategy="afterInteractive"
           data-orchids-project-id="13f861ea-80b2-46df-bf59-2c79771ac155"
         />
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );
