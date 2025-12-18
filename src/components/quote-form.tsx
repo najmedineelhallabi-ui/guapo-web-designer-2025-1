@@ -722,47 +722,20 @@ export function QuoteForm() {
           </div>
         )}
 
-        {/* Menu / Site de commande - System de base */}
-        {projectType === 'menu' && (
-          <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
-            <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
-              <UtensilsCrossed className="w-7 h-7 text-accent" />
-              {t('quote.menu.base.title')}
-            </h3>
-            
-            {!selectedSiteType ? (
+        {/* Menu / Site de commande - System de base (always selected, not modifiable) */}
+          {projectType === 'menu' && (
+            <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
+              <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+                <UtensilsCrossed className="w-7 h-7 text-accent" />
+                {t('quote.menu.base.title')}
+              </h3>
+              
+              {/* Always show as selected - no option to modify */}
               <div className="space-y-4">
-                <label className="flex items-start gap-4 p-5 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                  <input
-                    type="radio"
-                    name="siteType"
-                    value="Menu / Site de commande (système de base)"
-                    required
-                    onChange={handleSiteTypeChange}
-                    className="w-5 h-5 mt-1 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                    disabled={isPending}
-                  />
-                  <div className="flex-1">
-                    <span className="font-semibold text-base text-foreground group-hover:text-accent transition-colors">{t('quote.menu.base.name')}</span>
-                    <p className="text-sm text-foreground/70 mt-2">{t('quote.menu.base.desc')}</p>
-                  </div>
-                </label>
-              </div>
-            ) : (
-              <div className="space-y-4 animate-fade-in">
                 <div className="p-6 bg-gradient-to-r from-accent/20 to-primary/20 border-2 border-accent/50 rounded-xl">
-                  <input type="hidden" name="siteType" value={selectedSiteType} />
-                  <div className="flex items-center justify-between mb-4">
+                  <input type="hidden" name="siteType" value="Menu / Site de commande (système de base)" />
+                  <div className="flex items-center mb-4">
                     <span className="text-sm font-semibold text-foreground/70">{t('quote.selected.label')}</span>
-                    <button
-                      type="button"
-                      onClick={handleResetSiteType}
-                      disabled={isPending}
-                      className="flex items-center gap-2 px-4 py-2 text-sm bg-card/50 hover:bg-card border border-border rounded-lg transition-colors disabled:opacity-50"
-                    >
-                      <Edit2 className="w-3.5 h-3.5" />
-                      {t('quote.modify')}
-                    </button>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
@@ -773,7 +746,6 @@ export function QuoteForm() {
                   </div>
                 </div>
               </div>
-            )}
 
             {/* Client Features */}
             {selectedSiteType && (
