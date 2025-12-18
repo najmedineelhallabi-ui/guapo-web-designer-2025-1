@@ -30,10 +30,21 @@ export function QuoteForm() {
   const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<string>('');
-  const [showFeatures, setShowFeatures] = useState(false);
-  const [showOptimization, setShowOptimization] = useState(false);
+    const [showFeatures, setShowFeatures] = useState(false);
+    const [showOptimization, setShowOptimization] = useState(false);
+  
+    useEffect(() => {
+      if (projectType === 'vitrine' || projectType === 'ecommerce') {
+        setShowFeatures(true);
+        setShowOptimization(true);
+      } else if (projectType === 'menu') {
+        setShowFeatures(false);
+        setShowOptimization(false);
+      }
+    }, [projectType]);
+  
+    const handleFeatureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
-  const handleFeatureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Feature changes are handled by form submission
   };
 
