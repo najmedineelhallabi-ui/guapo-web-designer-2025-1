@@ -915,13 +915,13 @@ export function QuoteForm() {
                       </label>
                     </div>
                   )}
-                </div>
-              </div>
+                  </div>
                 </div>
               </div>
 
                   {/* Client Features */}
               <div className="mt-10 pt-10 border-t border-accent/20">
+
 
               <h4 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
                 <User className="w-6 h-6 text-accent" />
