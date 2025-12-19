@@ -46,7 +46,6 @@ export const PRICING = {
     // Fonctionnalités Menu / Site de commande - Restaurant
     "Dashboard cuisine": 320,
     "Statuts de commande cuisine": 180,
-    "Gestion menu": 220,
     "Dashboard serveur": 320,
     "Statuts de commande serveur": 180,
   },
