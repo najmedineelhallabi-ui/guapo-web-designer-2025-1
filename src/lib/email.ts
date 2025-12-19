@@ -842,55 +842,57 @@ export async function sendQuoteEmail(data: {
             </tbody>
           </table>
 
-              <div class="sh">💰 Modèle A : Investissement Unique (-30%)</div>
-              <div class="ps">
-                <div class="db">
-                  <div style="font-size:12px;opacity:0.9;margin-bottom:4px">RÉDUCTION APPLIQUÉE</div>
-                  <div style="font-size:24px;font-weight:800">${pricing.hasRange ? `-${pricing.minDiscount}€ à -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
-                </div>
-                <div class="pst">
-                  <div class="pr"><span>Prix catalogue HTVA</span><span>${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span></div>
-                  <div class="pr"><span>Réduction promotionnelle (-30%)</span><span style="color:#e11d48">-${pricing.hasRange ? `${pricing.minDiscount}€ - ${pricing.maxDiscount}€` : `${pricing.minDiscount}€`}</span></div>
-                  <div class="pr" style="border-top:1px solid #f1f5f9; margin-top:5px; padding-top:10px"><span><strong>Sous-total Projet HTVA</strong></span><strong>${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong></div>
-                  <div class="pr"><span>TVA (21%)</span><span>${pricing.hasRange ? `${pricing.minVat}€ - ${pricing.maxVat}€` : `${pricing.minVat}€`}</span></div>
-                  <div class="pt" style="margin-top:10px; font-size:18px">TOTAL PROJET : ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€ TVAC` : `${pricing.minTotalTTC}€ TVAC`}</div>
-                </div>
-
-                ${pricing.isMenuProject ? `
-                <div style="margin-top:20px; border-top:2px dashed #e2e8f0; padding-top:20px">
-                  <div style="font-size:14px; font-weight:700; color:#1e293b; margin-bottom:10px">➕ DÉTAILS PACK MENU (Abonnement Mensuel)</div>
-                  <div class="pst" style="border-color:#bae6fd; background:#f0f9ff">
-                    <div class="pr"><span>Prix Pack Menu HTVA</span><span>${pricing.menuMonthlyHT}€ / mois</span></div>
-                    <div class="pr"><span>TVA (21%)</span><span>${pricing.menuMonthlyVat}€ / mois</span></div>
-                    <div class="pr" style="margin-top:5px; border-top:1px solid #bae6fd; padding-top:5px">
-                      <span><strong>Total Mensuel TVAC</strong></span>
-                      <strong style="color:#0ea5e9">${pricing.menuMonthlyTTC}€ / mois</strong>
-                    </div>
-                    <div style="font-size:11px; color:#0ea5e9; font-weight:800; margin-top:5px">🎁 PREMIER MOIS OFFERT</div>
+                <div class="sh">💰 Modèle A : Investissement Unique (-30%)</div>
+                <div class="ps">
+                  <div class="db">
+                    <div style="font-size:12px;opacity:0.9;margin-bottom:4px">RÉDUCTION APPLIQUÉE</div>
+                    <div style="font-size:24px;font-weight:800">${pricing.hasRange ? `-${pricing.minDiscount}€ à -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
                   </div>
+                  <div class="pst">
+                    <div class="pr"><span>Prix catalogue HTVA</span><span>${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span></div>
+                    <div class="pr"><span>Réduction promotionnelle (-30%)</span><span style="color:#e11d48">-${pricing.hasRange ? `${pricing.minDiscount}€ - ${pricing.maxDiscount}€` : `${pricing.minDiscount}€`}</span></div>
+                    <div class="pr" style="border-top:1px solid #f1f5f9; margin-top:5px; padding-top:10px"><span><strong>Sous-total Projet HTVA</strong></span><strong>${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong></div>
+                    <div class="pr"><span>TVA sur projet (21%)</span><span>${pricing.hasRange ? `${pricing.minVat}€ - ${pricing.maxVat}€` : `${pricing.minVat}€`}</span></div>
+                    <div class="pt" style="margin-top:10px; font-size:18px">TOTAL CRÉATION : ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€ TVAC` : `${pricing.minTotalTTC}€ TVAC`}</div>
+                  </div>
+  
+                  ${pricing.isMenuProject ? `
+                  <div style="margin-top:20px; border-top:2px dashed #e2e8f0; padding-top:20px">
+                    <div style="font-size:14px; font-weight:700; color:#1e293b; margin-bottom:10px">➕ DÉTAILS PACK MENU (Abonnement Mensuel)</div>
+                    <div class="pst" style="border-color:#bae6fd; background:#f0f9ff">
+                      <div class="pr"><span>Prix Pack Menu HTVA</span><span>${pricing.menuMonthlyHT}€ / mois</span></div>
+                      <div class="pr"><span>TVA (21%)</span><span>${pricing.menuMonthlyVat}€ / mois</span></div>
+                      <div class="pr" style="margin-top:5px; border-top:1px solid #bae6fd; padding-top:5px">
+                        <span><strong>Total Mensuel TVAC</strong></span>
+                        <strong style="color:#0ea5e9">${pricing.menuMonthlyTTC}€ / mois</strong>
+                      </div>
+                      <div style="font-size:11px; color:#0ea5e9; font-weight:800; margin-top:5px">🎁 PREMIER MOIS OFFERT</div>
+                    </div>
+                  </div>
+                  ` : ''}
                 </div>
-                ` : ''}
-              </div>
-
-          ${pricing.isMenuProject ? `
-          <div class="sh">💳 Modèle B : Système d'Abonnement</div>
-          <div class="ps" style="background:#f0f9ff;border-color:#bae6fd">
-            <div class="pst" style="border-color:#7dd3fc">
-              <div class="pr"><span>Frais de mise en service HTVA (remisé -30%)</span><span>${pricing.discountedBaseSetup}€</span></div>
-              <div class="pr"><span>TVA sur mise en service (21%)</span><span>${pricing.vatBaseSetup}€</span></div>
-              <div class="pr" style="margin-bottom:15px"><span><strong>Total Mise en service TVAC</strong></span><strong>${pricing.totalBaseSetupTTC}€</strong></div>
-              
-              <div style="border-top: 1px dashed #7dd3fc; padding-top: 15px;">
-                <div class="pr"><span>Abonnement mensuel HTVA</span><span>${pricing.totalMonthlyForMenu}€ / mois</span></div>
-                <div class="pr"><span>TVA (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€ / mois</span></div>
-                <div class="pr" style="margin-top:5px; border-top:1px solid #7dd3fc; padding-top:10px">
-                  <span><strong>Total Mensuel TVAC</strong></span>
-                  <strong style="color:#0ea5e9">${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ / mois</strong>
+  
+            ${pricing.isMenuProject ? `
+            <div class="sh">💳 Modèle B : Système d'Abonnement</div>
+            <div class="ps" style="background:#f0f9ff;border-color:#bae6fd">
+              <div class="pst" style="border-color:#7dd3fc">
+                <div style="margin-bottom:15px">
+                  <div class="pr"><span>Frais de mise en service HTVA (remisé)</span><span>${pricing.discountedBaseSetup}€</span></div>
+                  <div class="pr"><span>TVA sur mise en service (21%)</span><span>${pricing.vatBaseSetup}€</span></div>
+                  <div class="pr"><span><strong>Total Mise en service TVAC</strong></span><strong>${pricing.totalBaseSetupTTC}€</strong></div>
                 </div>
-                <div style="font-size:12px;color:#0ea5e9;margin-top:5px;font-weight:700">🎁 PREMIER MOIS OFFERT</div>
+                
+                <div style="border-top: 1px dashed #7dd3fc; padding-top: 15px;">
+                  <div class="pr"><span>Abonnement mensuel HTVA</span><span>${pricing.totalMonthlyForMenu}€ / mois</span></div>
+                  <div class="pr"><span>TVA sur abonnement (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€ / mois</span></div>
+                  <div class="pr" style="margin-top:5px; border-top:1px solid #7dd3fc; padding-top:10px">
+                    <span><strong>Total Mensuel TVAC</strong></span>
+                    <strong style="color:#0ea5e9">${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ / mois</strong>
+                  </div>
+                  <div style="font-size:12px;color:#0ea5e9;margin-top:5px;font-weight:700">🎁 PREMIER MOIS OFFERT</div>
+                </div>
               </div>
-            </div>
-          </div>` : ''}
+            </div>` : ''}
 
           <div style="text-align:center">
             <a href="mailto:${escapeHtml(data.email)}" class="btn">Répondre au client</a>
