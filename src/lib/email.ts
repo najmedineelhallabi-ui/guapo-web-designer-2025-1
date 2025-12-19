@@ -720,7 +720,8 @@ function calculatePricing(data: {
     maxDiscount,
     discountedMinPrice,
     discountedMaxPrice,
-    hasRange
+    hasRange,
+    monthlySubscription
   };
 }
 
@@ -733,6 +734,7 @@ export async function sendQuoteEmail(data: {
   siteType: string;
   pageCount?: number;
   features?: string[];
+  menuSubscription?: string;
   languages?: string[];
   otherLanguages?: string;
   optimization?: string[];
