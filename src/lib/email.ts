@@ -602,7 +602,7 @@ function calculatePricing(data: {
     if (subPrice) {
       monthlySubscription = subPrice;
       breakdown.push({
-        category: lang === 'fr' ? "Abonnement mensuel" : lang === 'nl' ? "Maandelijks abonnement" : "Monthly subscription",
+        category: lang === 'fr' ? "Gestion du menu" : lang === 'nl' ? "Menu beheer" : "Menu management",
         item: translateOption(data.menuSubscription, lang),
         price: `${subPrice}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'}`
       });
