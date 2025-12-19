@@ -882,9 +882,43 @@ export function QuoteForm() {
                   </div>
                 </div>
               </div>
-            </div>
+                </div>
 
-            {/* Client Features */}
+                {/* Dashboard Serveur */}
+                <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                  <input
+                    type="checkbox"
+                    name="menuFeatures"
+                    value="Dashboard serveur"
+                    checked={isWaiterDashboardSelected}
+                    onChange={handleWaiterDashboardChange}
+                    className="w-6 h-6 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                    disabled={isPending}
+                  />
+                  <div className="flex-1">
+                    <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiter')}</span>
+                    <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.resto.waiter.desc')}</p>
+                  </div>
+                </label>
+
+                {/* Sub-options for Waiter Dashboard */}
+                <div className={`ml-8 transition-all duration-300 ${isWaiterDashboardSelected ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none absolute'}`}>
+                  <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-xl hover:border-accent/50 cursor-pointer transition-all group max-w-sm">
+                    <input
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Statuts de commande serveur"
+                      disabled={isPending || !isWaiterDashboardSelected}
+                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                    />
+                    <div className="flex-1">
+                      <span className="font-bold text-foreground group-hover:text-accent transition-colors text-sm">{t('quote.menu.resto.waiterStatus')}</span>
+                      <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.resto.waiterStatus.desc')}</p>
+                    </div>
+                  </label>
+                </div>
+
+                {/* Client Features */}
             <div className="mt-10 pt-10 border-t border-accent/20">
               <h4 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
                 <User className="w-6 h-6 text-accent" />
