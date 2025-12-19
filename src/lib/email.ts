@@ -799,15 +799,15 @@ export async function sendQuoteEmail(data: {
           <table class="ptbl">
             <thead>
               <tr>
-                <th>Élément</th>
-                <th style="text-align:right">Unique (HT)</th>
-                <th style="text-align:right">Mensuel (HT)</th>
+                <th style="width: 50%;">Élément</th>
+                <th style="text-align:right; width: 25%;">Unique (HT)</th>
+                <th style="text-align:right; width: 25%;">Mensuel (HT)</th>
               </tr>
             </thead>
             <tbody>
               ${tableRows.map(row => `
                 <tr>
-                  <td>${escapeHtml(row.item)}</td>
+                  <td style="font-weight: 500;">${escapeHtml(row.item)}</td>
                   <td style="text-align:right" class="p-val">${row.unique}</td>
                   <td style="text-align:right" class="p-monthly">${row.monthly}</td>
                 </tr>
@@ -833,7 +833,6 @@ export async function sendQuoteEmail(data: {
           <div class="sh">💳 Modèle B : Système d'Abonnement</div>
           <div class="ps" style="background:#f0f9ff;border-color:#bae6fd">
             <div class="pst" style="border-color:#7dd3fc">
-              <div class="pr"><span><strong>Setup initial (Unique remisé)</strong></span><strong style="color:#0ea5e9">${Math.round(pricing.discountedBaseSetup * 1.21)}€ TTC</strong></div>
               <div class="pr"><span><strong>Abonnement mensuel</strong></span><strong style="color:#0ea5e9">${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</strong></div>
             </div>
           </div>` : ''}
