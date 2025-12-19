@@ -895,23 +895,23 @@ export function QuoteForm() {
                   )}
                 </div>
 
-                {/* Dashboard Serveur */}
-                <div>
-                  <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Dashboard serveur"
-                      checked={isWaiterDashboardSelected}
-                      onChange={handleWaiterDashboardChange}
-                      className="w-6 h-6 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <div className="flex-1">
-                      <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiter')}</span>
-                      <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.resto.waiter.desc')}</p>
-                    </div>
-                  </label>
+                  {/* Dashboard Serveur */}
+                  <div>
+                    <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                      <input
+                        type="checkbox"
+                        name="menuFeatures"
+                        value="Dashboard Serveur"
+                        checked={isWaiterDashboardSelected}
+                        onChange={handleWaiterDashboardChange}
+                        className="w-6 h-6 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <div className="flex-1">
+                        <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiter')} (12€/m)</span>
+                        <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.resto.waiter.desc')}</p>
+                      </div>
+                    </label>
 
                   {isWaiterDashboardSelected && (
                     <div className="ml-8 mt-4 animate-in slide-in-from-left-2 duration-300">
