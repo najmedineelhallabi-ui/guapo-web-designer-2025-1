@@ -1047,24 +1047,10 @@ export async function sendQuoteEmail(data: {
       });
 
       return { success: true };
-      } catch (error) {
-        console.error('❌ Email sending failed:', error);
-        throw error;
-      }
+    } catch (error) {
+      console.error('❌ Email sending failed:', error);
+      throw error;
     }
-
-    function escapeHtml(text: string): string {
-      const map: { [key: string]: string } = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;',
-      };
-      return text.replace(/[&<>"']/g, (m) => map[m]);
-    }
-}
-
   }
 
   function escapeHtml(text: string): string {
@@ -1077,15 +1063,3 @@ export async function sendQuoteEmail(data: {
     };
     return text.replace(/[&<>"']/g, (m) => map[m]);
   }
-}
-
-function escapeHtml(text: string): string {
-  const map: { [key: string]: string } = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;',
-  };
-  return text.replace(/[&<>"']/g, (m) => map[m]);
-}
