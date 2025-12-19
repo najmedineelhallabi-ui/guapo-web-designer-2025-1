@@ -466,9 +466,9 @@ const translations = {
     // Services Page
     "services.page.title": "Onze Diensten",
     "services.desktop.title": "Desktop Showcase Sites",
-    "services.desktop.desc": "Websites geoptimaliseerd voor grote schermen met professionele en moderne ontwerpen",
+    "services.desktop.desc": "Websites geoptimaliseerd for grote schermen met professionele en moderne ontwerpen",
     "services.tablet.title": "Tablet Aanpassing",
-    "services.tablet.desc": "Interfaces perfect aangepast aan tablets for een vloeiende ervaring",
+    "services.tablet.desc": "Interfaces perfect aangepast aan tablets voor een vloeiende ervaring",
     "services.mobile.title": "Mobiele Optimalisatie",
     "services.mobile.desc": "Optimale navigatie op smartphones met maximale prestaties",
     "services.responsive.title": "Responsive Design",
@@ -501,11 +501,6 @@ const translations = {
     "contact.section.desc": "Heeft u een project in gedachten? Neem gerust contact met ons op om erover te praten. We helpen u graag bij het creëren van uw website.",
     "contact.quote.title": "Gratis Offerte",
     "contact.quote.desc": "Krijg een schatting",
-    
-    // Contact
-    "contact.title": "Laten we",
-    "contact.title.highlight": "Samenwerken",
-    "contact.subtitle": "Heeft u een project in gedachten? Neem contact met ons op en laten we uw behoeften bespreken.",
     
     // Contact Page
     "contact.page.title": "Neem contact op",
@@ -546,7 +541,7 @@ const translations = {
     "quote.type.title": "Welk type project wilt u?",
     "quote.type.subtitle": "Kies het type site dat bij uw behoeften past",
     "quote.type.showcase": "Showcase Site",
-    "quote.type.showcase.desc": "Presentatiewebsite voor uw bedrijf, portfolio of professionele activiteit",
+    "quote.type.showcase.desc": "Presentatiewebsite for uw bedrijf, portfolio of professionele activiteit",
     "quote.type.showcase.feature1": "Bedrijfspresentatie",
     "quote.type.showcase.feature2": "Professionele portfolio",
     "quote.type.showcase.feature3": "Contactformulieren",
@@ -691,7 +686,7 @@ const translations = {
     "quote.submit.sending": "Bezig met verzenden...",
     "quote.submit.required": "* Verplichte velden",
     
-    // Legal Pages - Wettelijke vermeldingen
+    // Legal Notice
     "legal.meta.title": "Wettelijke vermeldingen - GUAPO Web Designer",
     "legal.meta.description": "Wettelijke vermeldingen en juridische informatie van de GUAPO Web Designer website",
     "legal.badge": "Juridische informatie",
@@ -719,7 +714,7 @@ const translations = {
     "legal.cookies.content2": "Essentiële cookies voor het functioneren van de site worden automatisch geactiveerd en kunnen niet worden uitgeschakeld.",
     "legal.liability.title": "Beperking van aansprakelijkheid",
     "legal.liability.content1": "GUAPO Web Designer streeft ernaar de juistheid en actualiteit van de informatie op deze site te waarborgen, maar kan de juistheid, nauwkeurigheid of volledigheid van de verstrekte informatie niet garanderen.",
-    "legal.liability.content2": "Bijgevolg wijst GUAPO Web Designer elke verantwoordelijkheid af voor eventuele onnauwkeurigheden, onjuistheden of weglatingen met betrekking tot informatie die op deze site beschikbaar is.",
+    "legal.liability.content2": "Bijgevolg wijst GUAPO Web Designer elke verantwoordelijkheid af for eventuele onnauwkeurigheden, onjuistheden of weglatingen met betrekking tot informatie die op deze site beschikbaar is.",
     "legal.law.title": "Toepasselijk recht",
     "legal.law.content": "Deze wettelijke vermeldingen zijn onderworpen aan het Franse recht. Elk geschil met betrekking tot het gebruik van de website guapowebdesigner.com valt onder de exclusieve bevoegdheid van de Franse rechtbanken.",
     "legal.contact.title": "Contact",
@@ -737,7 +732,7 @@ const translations = {
     "privacy.intro.content1": "GUAPO Web Designer, toegankelijk op het adres guapowebdesigner.com, verbindt zich ertoe de privacy van haar gebruikers te beschermen en de Algemene Verordening Gegevensbescherming (AVG) te respecteren.",
     "privacy.intro.content2": "Dit privacybeleid legt uit welke gegevens we verzamelen, waarom we ze verzamelen en hoe we ze gebruiken.",
     "privacy.controller.title": "Verwerkingsverantwoordelijke",
-    "privacy.controller.name": "Nom:",
+    "privacy.controller.name": "Naam:",
     "privacy.controller.email": "Email:",
     "privacy.controller.website": "Website:",
     "privacy.data.title": "Verzamelde gegevens",
@@ -777,7 +772,7 @@ const translations = {
     "privacy.security.ssl": "🔒 SSL-verbinding: Alle communicatie is versleuteld via HTTPS.",
     "privacy.contact.title": "Contact",
     "privacy.contact.content": "Voor vragen over dit privacybeleid of het uitoefenen van uw rechten:",
-    "privacy.back": "Terug naar home",
+    "privacy.back": "Retour à l'accueil",
     
     "footer.description": "Maker van moderne en krachtige websites. Uw visie, onze expertise.",
     "footer.links": "Snelle links",
@@ -892,11 +887,6 @@ const translations = {
     "contact.section.desc": "Got a project in mind? Don't hesitate to contact us to discuss it. We'll be happy to help you create your website.",
     "contact.quote.title": "Free Quote",
     "contact.quote.desc": "Get an estimate",
-    
-    // Contact
-    "contact.title": "Let's Work",
-    "contact.title.highlight": "Together",
-    "contact.subtitle": "Have a project in mind? Contact us and let's discuss your needs.",
     
     // Contact Page
     "contact.page.title": "Contact Us",
