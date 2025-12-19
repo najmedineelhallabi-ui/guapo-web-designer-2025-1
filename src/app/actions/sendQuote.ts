@@ -90,6 +90,7 @@ export async function sendQuoteAction(
       domain: formData.get('domain'),
       message: formData.get('message'),
       rgpdConsent: formData.get('rgpdConsent'),
+      isMenuManagementSelected: formData.get('isMenuManagementSelected'),
       language: formData.get('language') as 'fr' | 'nl' | 'en' || 'fr',
     };
 
