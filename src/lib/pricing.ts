@@ -50,6 +50,19 @@ export const PRICING = {
     "Statuts de commande serveur": 180,
   },
 
+  // Prix mensuels alternatifs pour les fonctionnalités Menu
+  monthlyMenuFeatures: {
+    "Dashboard cuisine": 20,
+    "Statuts de commande cuisine": 8,
+    "Gestion des stocks": 15,
+    "Dashboard serveur": 12,
+    "Statuts de commande serveur": 6,
+    "Ajout au panier": 6,
+    "Sur place / à emporter": 5,
+    "Confirmation de commande": 5,
+    "Email automatique client": 8,
+  },
+
   // Optimisation & Sécurité
   optimization: {
     "Pack Tout Inclus (SEO + Performance + SSL + RGPD)": 300,
