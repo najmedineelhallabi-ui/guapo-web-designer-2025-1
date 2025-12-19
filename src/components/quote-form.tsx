@@ -337,12 +337,14 @@ export function QuoteForm() {
             autoComplete="off"
           />
         </div>
-        {/* Hidden field for project type */}
-        <input type="hidden" name="projectType" value={projectType} />
-        {/* Hidden field for language */}
-        <input type="hidden" name="language" value={language} />
+          {/* Hidden field for project type */}
+          <input type="hidden" name="projectType" value={projectType} />
+          {/* Hidden field for language */}
+          <input type="hidden" name="language" value={language} />
+          {/* Hidden field for menu subscription pack choice requirement */}
+          <input type="hidden" name="isMenuManagementSelected" value={isMenuManagementSelected ? 'true' : 'false'} />
 
-        {/* Success message */}
+          {/* Success message */}
         {state.success && (
           <div className="bg-gradient-to-r from-primary/20 to-secondary/20 border-2 border-primary/50 text-foreground px-6 py-5 rounded-xl flex items-start gap-3 animate-fade-in shadow-lg">
             <CheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
