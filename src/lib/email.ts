@@ -568,6 +568,7 @@ function calculatePricing(data: {
   siteType: string;
   pageCount?: number;
   features?: string[];
+  menuSubscription?: string;
   optimization?: string[];
   domain?: string;
   languages?: string[];
@@ -575,6 +576,7 @@ function calculatePricing(data: {
 }, lang: 'fr' | 'nl' | 'en' = 'fr') {
   let minTotal = 0;
   let maxTotal = 0;
+  let monthlySubscription = 0;
   const breakdown: { category: string; item: string; price: string }[] = [];
   const t = getT(lang);
 
@@ -591,6 +593,20 @@ function calculatePricing(data: {
         ? `${siteTypePrice.min}€` 
         : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`
     });
+  }
+
+  // Abonnements Menu (Monthly)
+  if (data.menuSubscription) {
+    const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
+    const subPrice = PRICING.subscriptions[subKey];
+    if (subPrice) {
+      monthlySubscription = subPrice;
+      breakdown.push({
+        category: lang === 'fr' ? "Abonnement mensuel" : lang === 'nl' ? "Maandelijks abonnement" : "Monthly subscription",
+        item: translateOption(data.menuSubscription, lang),
+        price: `${subPrice}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'}`
+      });
+    }
   }
 
   // Pages supplémentaires
