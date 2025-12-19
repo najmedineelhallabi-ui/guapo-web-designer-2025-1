@@ -828,7 +828,8 @@ export function QuoteForm() {
 
                       {/* Gestion Menu (Subscription Trigger) */}
                       <div className="pt-2">
-                        <label className="flex items-start gap-4 p-5 border-2 border-accent/30 bg-accent/5 rounded-xl hover:border-accent/50 cursor-pointer transition-all group">
+                        <label className={`flex items-start gap-4 p-5 border-2 rounded-xl transition-all cursor-pointer group ${isMenuManagementSelected ? 'border-accent bg-accent/5' : 'border-border hover:border-accent/50 hover:bg-accent/5'}`}>
+
                           <input
                             type="checkbox"
                             name="menuFeatures"
