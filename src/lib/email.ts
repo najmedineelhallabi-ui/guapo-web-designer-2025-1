@@ -593,10 +593,18 @@ function calculatePricing(data: {
     // Calculer les prix avec réduction -30%
     const originalMinPrice = minTotal;
     const originalMaxPrice = maxTotal;
-    const minDiscount = Math.round(originalMinPrice * 0.30);
-    const maxDiscount = Math.round(originalMaxPrice * 0.30);
-    const discountedMinPrice = originalMinPrice - minDiscount;
-    const discountedMaxPrice = originalMaxPrice - maxDiscount;
+    let minDiscount = Math.round(originalMinPrice * 0.30);
+    let maxDiscount = Math.round(originalMaxPrice * 0.30);
+    let discountedMinPrice = originalMinPrice - minDiscount;
+    let discountedMaxPrice = originalMaxPrice - maxDiscount;
+    
+    // Pour Model A (Menu Project), on ne fait pas de réduction -30% (demande utilisateur : 1910€ HTVA)
+    if (isMenuProject) {
+      discountedMinPrice = minTotal;
+      discountedMaxPrice = maxTotal;
+      minDiscount = 0;
+      maxDiscount = 0;
+    }
     
     // TVA sur le prix remisé (Model A)
     const minVat = Math.round(discountedMinPrice * 0.21);
@@ -605,6 +613,7 @@ function calculatePricing(data: {
     // Total TTC unique (Model A)
     const minTotalTTC = discountedMinPrice + minVat;
     const maxTotalTTC = discountedMaxPrice + maxVat;
+
 
     // Prix Menu Mensuel (Total) - Model A additionnel ou Model B mensuel
     const menuMonthlyHT = totalMonthlyForMenu;
