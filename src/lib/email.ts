@@ -612,8 +612,21 @@ function calculatePricing(data: {
     const menuMonthlyTTC = menuMonthlyHT + menuMonthlyVat;
 
     // Frais de mise en service (Setup) pour le Modèle B
-    // C'est le prix total (minTotal) remisé à 30%
-    const discountedBaseSetup = Math.round(minTotal * 0.70);
+    // On part du total creation (minTotal) et on retire le prix UNIQUE des features qui passent en mensuel
+    let baseSetupForSubscription = minTotal;
+    if (isMenuProject && data.features) {
+      data.features.forEach(f => {
+        const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
+        if (mPrice !== undefined) {
+           const uPrice = (PRICING.features as any)[f];
+           if (uPrice !== undefined) {
+             baseSetupForSubscription -= uPrice;
+           }
+        }
+      });
+    }
+
+    const discountedBaseSetup = Math.round(baseSetupForSubscription * 0.70);
     const vatBaseSetup = Math.round(discountedBaseSetup * 0.21);
     const totalBaseSetupTTC = discountedBaseSetup + vatBaseSetup;
 
