@@ -1029,25 +1029,6 @@ export async function sendQuoteEmail(data: {
       </html>
     `;
 
-          <div style="text-align:center;margin-top:40px">
-            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-green">Valider ce projet</a>
-            <div style="margin-top:15px">
-              <a href="${mailtoQuestionLink}" style="color:#64748b;text-decoration:none;font-size:14px;font-weight:600">Poser une question sur ce devis →</a>
-            </div>
-          </div>
-
-          <div style="background:#f8fafc;padding:20px;border-radius:8px;margin-top:40px;font-size:13px;color:#64748b;line-height:1.6">
-            <strong>Et après ?</strong> Une fois le projet validé, notre équipe vous contactera sous 24h pour planifier le lancement de votre site.
-          </div>
-        </div>
-        <div class="ft">
-          © 2025 GUAPO Web Designer<br>
-          <a href="https://guapowebdesigner.com" style="color:#94a3b8;text-decoration:none">www.guapowebdesigner.com</a>
-        </div>
-      </body>
-    </html>
-  `;
-
     try {
       const ownerResult = await resend.emails.send({
         from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
