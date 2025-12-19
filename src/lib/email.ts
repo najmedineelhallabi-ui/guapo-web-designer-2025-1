@@ -731,7 +731,7 @@ export async function sendQuoteEmail(data: {
         
         // Si c'est un projet Menu et que la fonctionnalité est disponible en mensuel, 
         // on ne montre pas le prix unique pour cette fonctionnalité (car elle passe en abonnement).
-        // MAIS pour le TYPE DE SITE, on montre toujours le prix unique.
+        // MAIS pour le TYPE DE SITE, on montre toujours le prix unique (déjà géré car siteTypePrice est hors de features).
         const showUnique = !(pricing.isMenuProject && mPrice !== undefined);
         
         tableRows.push({
