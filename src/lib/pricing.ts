@@ -78,17 +78,27 @@ export const PRICING = {
 export function calculateEstimate(data: {
   siteType: string;
   features?: string[];
+  menuSubscription?: string;
   optimization?: string[];
   domain: string;
 }) {
   let minTotal = 0;
   let maxTotal = 0;
+  let monthlySubscription = 0;
 
   // Prix du type de site
   const siteTypePrice = PRICING.siteTypes[data.siteType as keyof typeof PRICING.siteTypes];
   if (siteTypePrice) {
     minTotal += siteTypePrice.min;
     maxTotal += siteTypePrice.max;
+  }
+
+  // Prix de l'abonnement mensuel (ne s'ajoute pas au total unique mais est suivi séparément)
+  if (data.menuSubscription) {
+    const subPrice = PRICING.subscriptions[data.menuSubscription as keyof typeof PRICING.subscriptions];
+    if (subPrice) {
+      monthlySubscription = subPrice;
+    }
   }
 
   // Prix des fonctionnalités
