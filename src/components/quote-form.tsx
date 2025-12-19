@@ -788,7 +788,7 @@ export function QuoteForm() {
                         disabled={isPending}
                       />
                       <div className="flex-1">
-                        <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.kitchen')} (20€/m)</span>
+                        <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.kitchen')}</span>
                         <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.resto.kitchen.desc')}</p>
                       </div>
                   </label>
