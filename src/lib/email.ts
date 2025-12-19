@@ -772,22 +772,10 @@ export async function sendQuoteEmail(data: {
   language?: 'fr' | 'nl' | 'en';
 }) {
   console.log('🚀 Starting email send process with Resend...');
-  console.log('📧 Email FROM:', process.env.EMAIL_FROM || 'onboarding@resend.dev');
-  console.log('📧 Owner Email TO:', process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com');
-  console.log('📧 Client Email TO:', data.email);
-  console.log('🌐 Language:', data.language || 'fr');
   
   // Get translations based on language
   const lang = data.language || 'fr';
   const t = getT(lang);
-  
-  // Traduire toutes les options en fonction de la langue
-  const translatedSiteType = translateOption(data.siteType, lang);
-  const translatedFeatures = data.features?.map(f => translateOption(f, lang)) || [];
-  const translatedLanguages = data.languages?.map(l => translateOption(l, lang)) || [];
-  const translatedOptimization = data.optimization?.map(o => translateOption(o, lang)) || [];
-  const translatedHosting = data.hosting ? translateOption(data.hosting, lang) : '';
-  const translatedDomain = data.domain ? translateOption(data.domain, lang) : '';
   
   // Calculer les prix avec réduction -30%
   const pricing = calculatePricing({
@@ -816,6 +804,295 @@ export async function sendQuoteEmail(data: {
       monthly: '-'
     });
   }
+
+  // 2. Pages supplémentaires
+  if (data.pageCount) {
+    const pageCount = parseInt(data.pageCount.toString());
+    let baseLimit = 3;
+    if (data.siteType.includes('1 à 3')) baseLimit = 3;
+    else if (data.siteType.includes('4 à 5')) baseLimit = 5;
+    else if (data.siteType.includes('6 à 8')) baseLimit = 8;
+    else if (data.siteType.includes('9 à 12')) baseLimit = 12;
+    
+    if (pageCount > baseLimit) {
+      const extra = pageCount - baseLimit;
+      const cost = extra * PAGE_EXTRA_COST;
+      tableRows.push({
+        item: t.owner.extraPages(extra),
+        unique: `${cost}€`,
+        monthly: '-'
+      });
+    }
+  }
+
+  // 3. Fonctionnalités
+  if (data.features) {
+    data.features.forEach(f => {
+      const uPrice = (PRICING.features as any)[f];
+      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
+      tableRows.push({
+        item: translateOption(f, lang),
+        unique: uPrice !== undefined ? (uPrice > 0 ? `${uPrice}€` : t.owner.included) : '-',
+        monthly: pricing.isMenuProject && mPrice !== undefined ? `${mPrice}€` : '-'
+      });
+    });
+  }
+
+  // 4. Optimisation
+  if (data.optimization) {
+    data.optimization.forEach(o => {
+      const price = (PRICING.optimization as any)[o];
+      tableRows.push({
+        item: translateOption(o, lang),
+        unique: price !== undefined ? (price > 0 ? `${price}€` : t.owner.included) : '-',
+        monthly: '-'
+      });
+    });
+  }
+
+  // 5. Domaine
+  if (data.domain) {
+    const dPrice = (PRICING.domain as any)[data.domain];
+    tableRows.push({
+      item: `${translateOption(data.domain, lang)} (${t.owner.firstYear})`,
+      unique: dPrice !== undefined && dPrice > 0 ? `${dPrice}€` : t.owner.included,
+      monthly: '-'
+    });
+  }
+
+  // 6. Abonnement Pack (Menu)
+  if (data.menuSubscription) {
+    const mPrice = (PRICING.subscriptions as any)[data.menuSubscription];
+    tableRows.push({
+      item: translateOption(data.menuSubscription, lang),
+      unique: '-',
+      monthly: `${mPrice}€`
+    });
+  }
+
+  // Styles CSS partagés pour les tableaux
+  const tableStyles = `
+    .ptbl {width:100%;border-collapse:collapse;margin:15px 0;font-size:12px;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden}
+    .ptbl th {background:#f8fafc;color:#64748b;padding:12px;text-align:left;border-bottom:2px solid #e2e8f0;text-transform:uppercase;letter-spacing:0.05em}
+    .ptbl td {padding:12px;border-bottom:1px solid #f1f5f9;color:#334155}
+    .ptbl tr:last-child td {border-bottom:none}
+    .p-val {font-weight:700;color:#8b5cf6}
+    .p-monthly {color:#0ea5e9;font-weight:700}
+  `;
+
+  // EMAIL 1: Pour le propriétaire
+  const ownerEmailHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#334155;max-width:650px;margin:0 auto;padding:20px;background:#f1f5f9}
+          .h{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:30px 20px;border-radius:12px 12px 0 0;text-align:center}
+          .c{background:#fff;border:1px solid #e2e8f0;border-radius:0 0 12px 12px;padding:30px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1)}
+          .sh{font-size:14px;font-weight:800;color:#7c3aed;margin:25px 0 15px 0;text-transform:uppercase;letter-spacing:0.1em;display:flex;items-center:center;gap:8px}
+          .sh:first-of-type{margin-top:0}
+          .ig{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:20px}
+          .ib{background:#f8fafc;padding:15px;border-radius:8px;border:1px solid #f1f5f9}
+          .il{font-size:10px;color:#94a3b8;font-weight:700;text-transform:uppercase;margin-bottom:6px}
+          .iv{font-size:14px;color:#1e293b;font-weight:700}
+          ${tableStyles}
+          .ps {background:#fdf2f8;border:1px solid #fbcfe8;border-radius:12px;padding:25px;margin:25px 0}
+          .db {background:#be185d;color:#fff;padding:15px;border-radius:8px;margin-bottom:20px;text-align:center}
+          .pst {background:#fff;padding:15px;border-radius:8px;border:1px solid #fbcfe8}
+          .pr {display:flex;justify-content:space-between;padding:8px 0;font-size:13px;border-bottom:1px solid #f1f5f9}
+          .pr:last-child {border-bottom:none}
+          .pt {background:#8b5cf6;color:#fff;padding:15px;border-radius:8px;text-align:center;font-size:20px;font-weight:800;margin-top:10px}
+          .btn{display:inline-block;background:#8b5cf6;color:#fff;padding:16px 32px;text-decoration:none;border-radius:8px;font-weight:700;margin:20px 0;font-size:15px}
+          .ft{text-align:center;margin-top:30px;color:#94a3b8;font-size:12px}
+        </style>
+      </head>
+      <body>
+        <div class="h"><h1 style="margin:0;font-size:26px">${t.owner.title}</h1><p style="margin:8px 0 0 0;font-size:15px;opacity:0.9">${t.owner.subtitle}</p></div>
+        <div class="c">
+          <div class="sh">👤 Informations Client</div>
+          <div class="ig">
+            <div class="ib"><div class="il">Nom</div><div class="iv">${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</div></div>
+            <div class="ib"><div class="il">Email</div><div class="iv">${escapeHtml(data.email)}</div></div>
+            <div class="ib"><div class="il">Entreprise</div><div class="iv">${escapeHtml(data.company || '-')}</div></div>
+            <div class="ib"><div class="il">Secteur</div><div class="iv">${escapeHtml(data.sector || '-')}</div></div>
+          </div>
+
+          <div class="sh">📋 Détails de la Configuration</div>
+          <table class="ptbl">
+            <thead>
+              <tr>
+                <th>Élément</th>
+                <th style="text-align:right">Unique (HT)</th>
+                <th style="text-align:right">Mensuel (HT)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows.map(row => `
+                <tr>
+                  <td>${escapeHtml(row.item)}</td>
+                  <td style="text-align:right" class="p-val">${row.unique}</td>
+                  <td style="text-align:right" class="p-monthly">${row.monthly}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <div class="sh">💰 Modèle A : Investissement Unique (-30%)</div>
+          <div class="ps">
+            <div class="db">
+              <div style="font-size:12px;opacity:0.9;margin-bottom:4px">RÉDUCTION APPLIQUÉE</div>
+              <div style="font-size:24px;font-weight:800">${pricing.hasRange ? `-${pricing.minDiscount}€ à -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
+            </div>
+            <div class="pst">
+              <div class="pr"><span style="color:#94a3b8;text-decoration:line-through">Prix catalogue</span><span style="color:#94a3b8;text-decoration:line-through">${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span></div>
+              <div class="pr"><span><strong>Prix remisé (-30%)</strong></span><strong style="color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong></div>
+              <div class="pr"><span>TVA (21%)</span><span>${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ - ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</span></div>
+            </div>
+            <div class="pt">TOTAL : ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ - ${Math.round(pricing.discountedMaxPrice * 1.21)}€ TTC` : `${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC`}</div>
+          </div>
+
+          ${pricing.isMenuProject ? `
+          <div class="sh">💳 Modèle B : Système d'Abonnement</div>
+          <div class="ps" style="background:#f0f9ff;border-color:#bae6fd">
+            <div class="pst" style="border-color:#7dd3fc">
+              <div class="pr"><span><strong>Setup initial (Unique remisé)</strong></span><strong style="color:#0ea5e9">${Math.round(pricing.discountedBaseSetup * 1.21)}€ TTC</strong></div>
+              <div class="pr"><span><strong>Abonnement mensuel</strong></span><strong style="color:#0ea5e9">${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</strong></div>
+            </div>
+          </div>` : ''}
+
+          <div style="text-align:center">
+            <a href="mailto:${escapeHtml(data.email)}" class="btn">Répondre au client</a>
+          </div>
+        </div>
+        <div class="ft">GUAPO Web Designer • Devis #QL-${Date.now().toString().slice(-6)}</div>
+      </body>
+    </html>
+  `;
+
+  // EMAIL 2: Pour le client
+  const quoteSummary = `Bonjour,\n\nJ'ai bien reçu mon estimation et j'aimerais en discuter davantage.\n\n--- RÉSUMÉ ---\nProjet: ${data.company || 'Ma création web'}\nType: ${translateOption(data.siteType, lang)}\nTotal estimé: ${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC`;
+  const mailtoQuestionLink = `mailto:info@guapowebdesigner.com?subject=Question sur mon devis - ${data.company || data.firstName}&body=${encodeURIComponent(quoteSummary)}`;
+
+  const clientEmailHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#334155;max-width:650px;margin:0 auto;padding:20px;background:#f8fafc}
+          .h{background:#1e293b;color:#fff;padding:40px 20px;border-radius:12px 12px 0 0;text-align:center}
+          .c{background:#fff;border:1px solid #e2e8f0;border-radius:0 0 12px 12px;padding:35px;box-shadow:0 10px 15px -3px rgba(0,0,0,0.1)}
+          ${tableStyles}
+          .ps {background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:25px;margin:25px 0}
+          .pt {background:#10b981;color:#fff;padding:15px;border-radius:8px;text-align:center;font-size:22px;font-weight:800;margin-top:10px}
+          .btn-green{display:inline-block;background:#10b981;color:#fff;padding:18px 36px;text-decoration:none;border-radius:8px;font-weight:700;margin:20px 0;font-size:16px;box-shadow:0 4px 6px rgba(16,185,129,0.2)}
+          .ft{text-align:center;margin-top:40px;color:#94a3b8;font-size:12px;border-top:1px solid #f1f5f9;padding-top:20px}
+        </style>
+      </head>
+      <body>
+        <div class="h">
+          <h1 style="margin:0;font-size:28px">Votre Estimation de Projet</h1>
+          <p style="margin:10px 0 0 0;font-size:16px;opacity:0.8">Prêt à donner vie à votre vision digitale ?</p>
+        </div>
+        <div class="c">
+          <p style="font-size:18px;margin-bottom:25px">Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
+          <p>Merci de votre confiance. Voici le récapitulatif détaillé pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
+          
+          <div style="font-weight:700;color:#1e293b;margin-top:30px;font-size:16px">📊 Configuration choisie</div>
+          <table class="ptbl">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th style="text-align:right">Investissement Unique</th>
+                <th style="text-align:right">Abonnement Mensuel</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows.map(row => `
+                <tr>
+                  <td>${escapeHtml(row.item)}</td>
+                  <td style="text-align:right" class="p-val">${row.unique}</td>
+                  <td style="text-align:right" class="p-monthly">${row.monthly}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+
+          <div style="margin:40px 0;text-align:center;font-weight:800;color:#1e293b;font-size:18px;border-top:2px dashed #e2e8f0;padding-top:30px">
+            CHOISISSEZ VOTRE MODÈLE DE PAIEMENT
+          </div>
+
+          <div class="ps">
+            <div style="text-align:center;font-weight:800;color:#1e293b;margin-bottom:15px">MODÈLE A : PAIEMENT EN UNE FOIS (-30%)</div>
+            <p style="text-align:center;font-size:13px;color:#64748b;margin-bottom:20px">Payez l'intégralité maintenant et profitez de la réduction maximale.</p>
+            <div class="pt">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ - ${Math.round(pricing.discountedMaxPrice * 1.21)}€ TTC` : `${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC`}</div>
+          </div>
+
+          ${pricing.isMenuProject ? `
+          <div class="ps" style="background:#ecfdf5;border-color:#a7f3d0">
+            <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:15px">MODÈLE B : OPTION ABONNEMENT</div>
+            <p style="text-align:center;font-size:13px;color:#065f46;margin-bottom:20px">Réduisez votre investissement de départ avec un coût mensuel fixe.</p>
+            <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #a7f3d0;text-align:center">
+              <div style="margin-bottom:10px font-size:15px"><strong>Setup initial : ${Math.round(pricing.discountedBaseSetup * 1.21)}€ TTC</strong></div>
+              <div style="font-size:20px;color:#059669"><strong>+ ${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</strong></div>
+            </div>
+          </div>` : ''}
+
+          <div style="text-align:center;margin-top:40px">
+            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-green">Valider ce projet</a>
+            <div style="margin-top:15px">
+              <a href="${mailtoQuestionLink}" style="color:#64748b;text-decoration:none;font-size:14px;font-weight:600">Poser une question sur ce devis →</a>
+            </div>
+          </div>
+
+          <div style="background:#f8fafc;padding:20px;border-radius:8px;margin-top:40px;font-size:13px;color:#64748b;line-height:1.6">
+            <strong>Et après ?</strong> Une fois le projet validé, notre équipe vous contactera sous 24h pour planifier le lancement de votre site.
+          </div>
+        </div>
+        <div class="ft">
+          © 2025 GUAPO Web Designer<br>
+          <a href="https://guapowebdesigner.com" style="color:#94a3b8;text-decoration:none">www.guapowebdesigner.com</a>
+        </div>
+      </body>
+    </html>
+  `;
+
+  try {
+    const ownerResult = await resend.emails.send({
+      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+      to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
+      replyTo: data.email,
+      subject: t.owner.subject(data.firstName, data.lastName, pricing.discountedMinPrice, pricing.discountedMaxPrice, pricing.hasRange),
+      html: ownerEmailHtml,
+    });
+
+    const clientResult = await resend.emails.send({
+      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+      to: data.email,
+      replyTo: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
+      subject: t.client.subject,
+      html: clientEmailHtml,
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Email sending failed:', error);
+    throw error;
+  }
+}
+
+function escapeHtml(text: string): string {
+  const map: { [key: string]: string } = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;',
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
+}
+
 
   // 2. Pages supplémentaires
   if (data.pageCount) {
