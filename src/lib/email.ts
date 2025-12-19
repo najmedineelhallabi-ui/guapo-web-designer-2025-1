@@ -737,10 +737,8 @@ export async function sendQuoteEmail(data: {
         const uPrice = (PRICING.features as any)[f];
         const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
         
-        // Si c'est un projet Menu et que la fonctionnalité est disponible en mensuel, 
-        // on ne montre pas le prix unique pour cette fonctionnalité (car elle passe en abonnement).
-        // MAIS pour le TYPE DE SITE, on montre toujours le prix unique (déjà géré car siteTypePrice est hors de features).
-        const showUnique = !(pricing.isMenuProject && mPrice !== undefined);
+        // Toujours montrer le prix unique (pour le Modèle A)
+        const showUnique = true;
         
         tableRows.push({
           item: translateOption(f, lang),
