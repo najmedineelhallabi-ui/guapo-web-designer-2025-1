@@ -685,7 +685,8 @@ export async function sendQuoteEmail(data: {
   if (siteTypePrice) {
     tableRows.push({
       item: translateOption(data.siteType, lang),
-      unique: siteTypePrice.min === siteTypePrice.max ? `${siteTypePrice.min}€` : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`,
+      // Si c'est un projet Menu, on ne montre pas le prix unique dans le tableau pour éviter la confusion avec le setup
+      unique: pricing.isMenuProject ? '-' : (siteTypePrice.min === siteTypePrice.max ? `${siteTypePrice.min}€` : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`),
       monthly: '-'
     });
   }
