@@ -916,10 +916,25 @@ export async function sendQuoteEmail(data: {
                 ${pricing.monthlySubscription > 0 ? `<div class="pr"><span style="color:#8b5cf6;font-weight:700">${lang === 'fr' ? 'Abonnement mensuel' : lang === 'nl' ? 'Maandelijks abonnement' : 'Monthly subscription'}</span><strong style="color:#8b5cf6">${pricing.monthlySubscription}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'} ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}</strong></div>` : ''}
                 <div class="pr"><span>${t.owner.vat}</span><strong style="color:#8b5cf6">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</strong></div>
               </div>
-            <div class="pt">${t.owner.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}</div>
-          </div>
+              <div class="pt">${t.owner.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}</div>
+            </div>
 
-          ${data.message ? `
+            ${pricing.isMenuProject ? `
+            <div class="sh">📋 Alternative Business Model (Menu)</div>
+            <div class="mb" style="background:#fefce8;border-color:#eab308">
+              <div class="mh" style="color:#854d0e">Model B : Setup + Abonnement</div>
+              <div class="mn">Option recommandée pour réduire l'investissement initial</div>
+              <div class="oc" style="border-color:#eab308">
+                <div class="on" style="color:#854d0e">Installation & Configuration : ${Math.round(pricing.discountedBaseSetup * 1.21)}€ TTC</div>
+                <div class="od">Comprend le système de base, le domaine et les optimisations</div>
+              </div>
+              <div class="oc" style="border-color:#eab308">
+                <div class="on" style="color:#854d0e">Mensualité : ${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</div>
+                <div class="od">Comprend les packs de gestion et les fonctionnalités actives</div>
+              </div>
+            </div>` : ''}
+
+            ${data.message ? `
           <div class="sh">💬 ${t.owner.clientMessage}</div>
           <div class="msg">
             <div class="mtx">${escapeHtml(data.message)}</div>
