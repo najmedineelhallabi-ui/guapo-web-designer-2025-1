@@ -284,7 +284,7 @@ const translations = {
     "quote.hosting.toDiscuss": "À discuter",
     "quote.message.title": "Remarques spécifiques / Besoins particuliers",
     "quote.message.label": "Description détaillée de votre projet",
-    "quote.message.placeholder": "Décrivez votre projet en détail : vos objectifs, votre audience cible, vos besoins spécifiques, exemples de sites que vous aimez, contraintes particulières, etc.",
+    "quote.message.placeholder": "Décrivez votre projet en detail : vos objectifs, votre audience cible, vos besoins spécifiques, exemples de sites que vous aimez, contraintes particulières, etc.",
     "quote.gdpr.title": "Consentement RGPD",
     "quote.gdpr.text": "J'accepte que mes données personnelles soient collectées et traitées par GUAPO Web Designer dans le but de traiter ma demande de devis. Mes données ne seront jamais vendues à des tiers. Je peux exercer mes droits (accès, rectification, suppression) en contactant",
     "quote.gdpr.moreInfo": "Pour plus d'informations, consultez notre",
@@ -617,7 +617,7 @@ const translations = {
     "quote.info.sectorPlaceholder": "Bv: Horeca, Diensten, etc.",
     "quote.siteType.title": "Type Website",
     "quote.siteType.simple": "Eenvoudige showcase site (1 tot 3 pagina's)",
-    "quote.siteType.simpleDesc": "Ideaal om uw activiteit te presenteren met de essentiële pagina's",
+    "quote.siteType.simpleDesc": "Ideaal om uw activity te presenteren met de essentiële pagina's",
     "quote.siteType.standard": "Standaard showcase site (4 tot 5 pagina's)",
     "quote.siteType.standardDesc": "Voor een complete webpresentie met meer inhoud",
     "quote.siteType.advanced": "Geavanceerde showcase site (6 tot 8 pagina's)",
@@ -673,7 +673,7 @@ const translations = {
     "quote.submit.required": "* Verplichte velden",
     
     // Footer
-    "footer.description": "Maker van moderne en krachtige websites. Uw visie, onze expertise.",
+    "footer.description": "Maker van moderne en krachtige websites. Uw visie, our expertise.",
     "footer.links": "Snelle links",
     "footer.legal": "Juridische informatie",
     "footer.privacy": "Privacybeleid",
