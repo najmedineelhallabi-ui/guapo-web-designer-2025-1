@@ -742,10 +742,9 @@ export async function sendQuoteEmail(data: {
   // 6. Abonnement Pack (Menu)
   if (data.menuSubscription) {
     const mPrice = (PRICING.subscriptions as any)[data.menuSubscription];
-    const uPrice = (PRICING.features as any)[data.menuSubscription];
     tableRows.push({
       item: translateOption(data.menuSubscription, lang),
-      unique: uPrice !== undefined ? `${uPrice}€` : '-',
+      unique: '-',
       monthly: `${mPrice}€`
     });
   }
