@@ -17,6 +17,12 @@ export const PRICING = {
     "Menu / Site de commande (système de base)": { min: 800, max: 800 },
   },
 
+  // Abonnements (Prix par mois)
+  subscriptions: {
+    "Pack Menu Simple": 25,
+    "Pack Menu Complet": 35,
+  },
+
   // Fonctionnalités
   features: {
     "Formulaire de contact simple": 80,
