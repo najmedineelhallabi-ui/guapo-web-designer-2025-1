@@ -114,6 +114,10 @@ export function QuoteForm() {
     setIsKitchenDashboardSelected(e.target.checked);
   };
 
+  const handleMenuManagementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsMenuManagementSelected(e.target.checked);
+  };
+
   const handleWaiterDashboardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsWaiterDashboardSelected(e.target.checked);
   };
