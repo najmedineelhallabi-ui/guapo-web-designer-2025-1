@@ -242,12 +242,12 @@ export function QuoteForm() {
             </div>
           </button>
 
-            {/* Menu / Site de commande Card */}
-            <button
-              type="button"
-              onClick={() => handleProjectTypeSelect('menu')}
-              className="group relative bg-gradient-to-br from-accent/20 to-primary/20 hover:from-accent/30 hover:to-primary/30 border-2 border-accent/40 hover:border-accent/60 rounded-2xl p-8 text-left transition-all hover:scale-105 hover:shadow-2xl shadow-lg"
-            >
+          {/* Menu / Site de commande Card */}
+          <button
+            type="button"
+            onClick={() => handleProjectTypeSelect('menu')}
+            className="group relative bg-gradient-to-br from-accent/20 to-primary/20 hover:from-accent/30 hover:to-primary/30 border-2 border-accent/40 hover:border-accent/60 rounded-2xl p-8 text-left transition-all hover:scale-105 hover:shadow-2xl shadow-lg"
+          >
             <div className="absolute top-4 right-4">
               <UtensilsCrossed className="w-12 h-12 text-accent opacity-20 group-hover:opacity-40 transition-opacity" />
             </div>
