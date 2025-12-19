@@ -22,10 +22,10 @@ export function QuoteForm() {
     state.formData?.menuFeatures?.includes("Confirmation de commande") || false
   );
   const [isKitchenDashboardSelected, setIsKitchenDashboardSelected] = useState(
-    state.formData?.menuFeatures?.includes("Dashboard cuisine") || false
+    state.formData?.menuFeatures?.includes("Dashboard Cuisine") || false
   );
   const [isWaiterDashboardSelected, setIsWaiterDashboardSelected] = useState(
-    state.formData?.menuFeatures?.includes("Dashboard serveur") || false
+    state.formData?.menuFeatures?.includes("Dashboard Serveur") || false
   );
   const [isMenuManagementSelected, setIsMenuManagementSelected] = useState(
     state.formData?.menuSubscription ? true : false
