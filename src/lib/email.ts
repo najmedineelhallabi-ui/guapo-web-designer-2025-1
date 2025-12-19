@@ -611,22 +611,16 @@ function calculatePricing(data: {
     const minTotalTTC = discountedMinPrice + minVat;
     const maxTotalTTC = discountedMaxPrice + maxVat;
 
-    // Prix Menu Mensuel
+    // Prix Menu Mensuel (Total)
     const menuMonthlyHT = totalMonthlyForMenu;
     const menuMonthlyVat = Math.round(menuMonthlyHT * 0.21);
     const menuMonthlyTTC = menuMonthlyHT + menuMonthlyVat;
 
-    // Calculer le prix de base sans les fonctionnalités mensuelles pour le Model B
-    let baseSetupForSubscription = originalMinPrice;
-    if (isMenuProject && data.features) {
-      data.features.forEach(f => {
-        const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-        if (mPrice !== undefined) {
-          baseSetupForSubscription -= (PRICING.features as any)[f] || 0;
-        }
-      });
-    }
-    const discountedBaseSetup = Math.round(baseSetupForSubscription * 0.70);
+    // Frais de mise en service (Setup) pour le Modèle B
+    // C'est le prix total (minTotal) remisé à 30%
+    const discountedBaseSetup = Math.round(minTotal * 0.70);
+    const vatBaseSetup = Math.round(discountedBaseSetup * 0.21);
+    const totalBaseSetupTTC = discountedBaseSetup + vatBaseSetup;
 
     const hasRange = minTotal !== maxTotal;
 
@@ -651,7 +645,9 @@ function calculatePricing(data: {
       monthlySubscription,
       isMenuProject,
       totalMonthlyForMenu,
-      discountedBaseSetup
+      discountedBaseSetup,
+      vatBaseSetup,
+      totalBaseSetupTTC
     };
   }
 
@@ -734,7 +730,8 @@ export async function sendQuoteEmail(data: {
         const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
         
         // Si c'est un projet Menu et que la fonctionnalité est disponible en mensuel, 
-        // on ne montre pas le prix unique pour cette fonctionnalité.
+        // on ne montre pas le prix unique pour cette fonctionnalité (car elle passe en abonnement).
+        // MAIS pour le TYPE DE SITE, on montre toujours le prix unique.
         const showUnique = !(pricing.isMenuProject && mPrice !== undefined);
         
         tableRows.push({
@@ -853,197 +850,4 @@ export async function sendQuoteEmail(data: {
                 </div>
                 <div class="pst">
                   <div class="pr"><span>Prix catalogue HTVA</span><span>${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span></div>
-                  <div class="pr"><span>Réduction promotionnelle (-30%)</span><span style="color:#e11d48">-${pricing.hasRange ? `${pricing.minDiscount}€ - ${pricing.maxDiscount}€` : `${pricing.minDiscount}€`}</span></div>
-                  <div class="pr" style="border-top:1px solid #f1f5f9; margin-top:5px; padding-top:10px"><span><strong>Sous-total Projet HTVA</strong></span><strong>${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong></div>
-                  <div class="pr"><span>TVA (21%)</span><span>${pricing.hasRange ? `${pricing.minVat}€ - ${pricing.maxVat}€` : `${pricing.minVat}€`}</span></div>
-                  <div class="pt" style="margin-top:10px; font-size:18px">TOTAL PROJET : ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€ TVAC` : `${pricing.minTotalTTC}€ TVAC`}</div>
-                </div>
-
-                ${pricing.isMenuProject ? `
-                <div style="margin-top:20px; border-top:2px dashed #e2e8f0; padding-top:20px">
-                  <div style="font-size:14px; font-weight:700; color:#1e293b; margin-bottom:10px">➕ DÉTAILS PACK MENU (Abonnement Mensuel)</div>
-                  <div class="pst" style="border-color:#bae6fd; background:#f0f9ff">
-                    <div class="pr"><span>Prix Pack Menu HTVA</span><span>${pricing.menuMonthlyHT}€ / mois</span></div>
-                    <div class="pr"><span>TVA (21%)</span><span>${pricing.menuMonthlyVat}€ / mois</span></div>
-                    <div class="pr" style="margin-top:5px; border-top:1px solid #bae6fd; padding-top:5px">
-                      <span><strong>Total Mensuel TVAC</strong></span>
-                      <strong style="color:#0ea5e9">${pricing.menuMonthlyTTC}€ / mois</strong>
-                    </div>
-                    <div style="font-size:11px; color:#0ea5e9; font-weight:800; margin-top:5px">🎁 PREMIER MOIS OFFERT</div>
-                  </div>
-                </div>
-                ` : ''}
-              </div>
-
-          ${pricing.isMenuProject ? `
-          <div class="sh">💳 Modèle B : Système d'Abonnement</div>
-          <div class="ps" style="background:#f0f9ff;border-color:#bae6fd">
-            <div class="pst" style="border-color:#7dd3fc">
-              <div class="pr"><span>Abonnement mensuel HTVA</span><span>${pricing.totalMonthlyForMenu}€ / mois</span></div>
-              <div class="pr"><span>TVA (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€ / mois</span></div>
-              <div class="pr" style="margin-top:5px; border-top:1px solid #7dd3fc; padding-top:10px">
-                <span><strong>Total Mensuel TVAC</strong></span>
-                <strong style="color:#0ea5e9">${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ / mois</strong>
-              </div>
-              <div style="font-size:12px;color:#0ea5e9;margin-top:5px;font-weight:700">🎁 PREMIER MOIS OFFERT</div>
-            </div>
-          </div>` : ''}
-
-          <div style="text-align:center">
-            <a href="mailto:${escapeHtml(data.email)}" class="btn">Répondre au client</a>
-          </div>
-        </div>
-        <div class="ft">GUAPO Web Designer • Devis #QL-${Date.now().toString().slice(-6)}</div>
-      </body>
-    </html>
-  `;
-
-  // EMAIL 2: Pour le client
-  const quoteSummary = `Bonjour,\n\nJ'ai bien reçu mon estimation et j'aimerais en discuter davantage.\n\n--- RÉSUMÉ ---\nProjet: ${data.company || 'Ma création web'}\nType: ${translateOption(data.siteType, lang)}\nTotal estimé: ${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC`;
-  const mailtoQuestionLink = `mailto:info@guapowebdesigner.com?subject=Question sur mon devis - ${data.company || data.firstName}&body=${encodeURIComponent(quoteSummary)}`;
-
-  const clientEmailHtml = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <style>
-          body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;color:#334155;max-width:650px;margin:0 auto;padding:20px;background:#f8fafc}
-          .h{background:#1e293b;color:#fff;padding:40px 20px;border-radius:12px 12px 0 0;text-align:center}
-          .c{background:#fff;border:1px solid #e2e8f0;border-radius:0 0 12px 12px;padding:35px;box-shadow:0 10px 15px -3px rgba(0,0,0,0.1)}
-          ${tableStyles}
-          .ps {background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:25px;margin:25px 0}
-          .pt {background:#10b981;color:#fff;padding:15px;border-radius:8px;text-align:center;font-size:22px;font-weight:800;margin-top:10px}
-          .btn-green{display:inline-block;background:#10b981;color:#fff;padding:18px 36px;text-decoration:none;border-radius:8px;font-weight:700;margin:20px 0;font-size:16px;box-shadow:0 4px 6px rgba(16,185,129,0.2)}
-          .ft{text-align:center;margin-top:40px;color:#94a3b8;font-size:12px;border-top:1px solid #f1f5f9;padding-top:20px}
-        </style>
-      </head>
-      <body>
-        <div class="h">
-          <h1 style="margin:0;font-size:28px">Votre Estimation de Projet</h1>
-          <p style="margin:10px 0 0 0;font-size:16px;opacity:0.8">Prêt à donner vie à votre vision digitale ?</p>
-        </div>
-        <div class="c">
-          <p style="font-size:18px;margin-bottom:25px">Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
-          <p>Merci de votre confiance. Voici le récapitulatif détaillé pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
-          
-            <div style="font-weight:700;color:#1e293b;margin-top:30px;font-size:16px">📊 Configuration choisie</div>
-            <table class="ptbl">
-              <thead>
-                <tr>
-                  <th style="width: 50%;">Description</th>
-                  <th style="text-align:right; width: 25%;">Unique HT</th>
-                  <th style="text-align:right; width: 25%;">Mensuel HT</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${tableRows.map(row => `
-                  <tr>
-                    <td style="font-weight: 500;">${escapeHtml(row.item)}</td>
-                    <td style="text-align:right" class="p-val">${row.unique}</td>
-                    <td style="text-align:right" class="p-monthly">${row.monthly}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-  
-            <div style="margin:40px 0;text-align:center;font-weight:800;color:#1e293b;font-size:18px;border-top:2px dashed #e2e8f0;padding-top:30px">
-              CHOISISSEZ VOTRE MODÈLE DE PAIEMENT
-            </div>
-  
-            <div class="ps">
-              <div style="text-align:center;font-weight:800;color:#1e293b;margin-bottom:15px">MODÈLE A : PAIEMENT EN UNE FOIS (-30%)</div>
-              <p style="text-align:center;font-size:13px;color:#64748b;margin-bottom:20px">Payez l'intégralité maintenant et profitez de la réduction maximale.</p>
-              
-              <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #e2e8f0;margin-bottom:15px">
-                <div class="pr"><span>Prix catalogue HTVA</span><span>${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span></div>
-                <div class="pr"><span>Réduction promo (-30%)</span><span style="color:#e11d48">-${pricing.hasRange ? `${pricing.minDiscount}€ - ${pricing.maxDiscount}€` : `${pricing.minDiscount}€`}</span></div>
-                <div class="pr" style="border-top:1px solid #f1f5f9; margin-top:5px; padding-top:10px"><span><strong>Sous-total HTVA</strong></span><strong>${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong></div>
-                <div class="pr"><span>TVA (21%)</span><span>${pricing.hasRange ? `${pricing.minVat}€ - ${pricing.maxVat}€` : `${pricing.minVat}€`}</span></div>
-              </div>
-
-              <div class="pt">${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€ TVAC` : `${pricing.minTotalTTC}€ TVAC`}</div>
-
-              ${pricing.isMenuProject ? `
-              <div style="margin-top:20px; border-top:1px solid #e2e8f0; padding-top:15px">
-                <div style="font-size:13px; font-weight:700; color:#1e293b; margin-bottom:10px">➕ ABONNEMENT PACK MENU</div>
-                <div style="background:#f0f9ff; padding:12px; border-radius:8px; border:1px solid #bae6fd">
-                  <div class="pr"><span>Prix Pack Menu HTVA</span><span>${pricing.menuMonthlyHT}€ / mois</span></div>
-                  <div class="pr"><span>TVA (21%)</span><span>${pricing.menuMonthlyVat}€ / mois</span></div>
-                  <div class="pr" style="margin-top:5px; border-top:1px solid #bae6fd; padding-top:5px">
-                    <span><strong>Total Mensuel TVAC</strong></span>
-                    <strong style="color:#0ea5e9">${pricing.menuMonthlyTTC}€ / mois</strong>
-                  </div>
-                  <div style="font-size:11px; color:#0ea5e9; font-weight:800; margin-top:5px">🎁 PREMIER MOIS OFFERT</div>
-                </div>
-              </div>
-              ` : ''}
-            </div>
-
-            ${pricing.isMenuProject ? `
-            <div class="ps" style="background:#ecfdf5;border-color:#a7f3d0">
-              <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:15px">MODÈLE B : OPTION ABONNEMENT</div>
-              <p style="text-align:center;font-size:13px;color:#065f46;margin-bottom:20px">Réduisez votre investissement de départ avec un coût mensuel fixe.</p>
-              <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #a7f3d0;text-align:center">
-                <div class="pr" style="color:#065f46"><span>Abonnement HTVA</span><span>${pricing.totalMonthlyForMenu}€ / mois</span></div>
-                <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€ / mois</span></div>
-                <div style="font-size:22px;color:#059669;margin-top:10px;border-top:1px solid #a7f3d0;padding-top:10px">
-                  <strong>${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TVAC / mois</strong>
-                </div>
-                <div style="font-size:12px;color:#059669;margin-top:5px;font-weight:700">🎁 PREMIER MOIS OFFERT</div>
-              </div>
-            </div>` : ''}
-
-          <div style="text-align:center;margin-top:40px">
-            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-green">Valider ce projet</a>
-            <div style="margin-top:15px">
-              <a href="${mailtoQuestionLink}" style="color:#64748b;text-decoration:none;font-size:14px;font-weight:600">Poser une question sur ce devis →</a>
-            </div>
-          </div>
-
-          <div style="background:#f8fafc;padding:20px;border-radius:8px;margin-top:40px;font-size:13px;color:#64748b;line-height:1.6">
-            <strong>Et après ?</strong> Une fois le projet validé, notre équipe vous contactera sous 24h pour planifier le lancement de votre site.
-          </div>
-        </div>
-        <div class="ft">
-          © 2025 GUAPO Web Designer<br>
-          <a href="https://guapowebdesigner.com" style="color:#94a3b8;text-decoration:none">www.guapowebdesigner.com</a>
-        </div>
-      </body>
-    </html>
-  `;
-
-  try {
-    const ownerResult = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
-      to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
-      replyTo: data.email,
-      subject: t.owner.subject(data.firstName, data.lastName, pricing.discountedMinPrice, pricing.discountedMaxPrice, pricing.hasRange),
-      html: ownerEmailHtml,
-    });
-
-    const clientResult = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
-      to: data.email,
-      replyTo: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
-      subject: t.client.subject,
-      html: clientEmailHtml,
-    });
-
-    return { success: true };
-  } catch (error) {
-    console.error('❌ Email sending failed:', error);
-    throw error;
-  }
-}
-
-function escapeHtml(text: string): string {
-  const map: { [key: string]: string } = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;',
-  };
-  return text.replace(/[&<>"']/g, (m) => map[m]);
-}
+                  <div class="pr"><span>Réduction promotionnelle (-30%)</span><span style="color:#e11d48">-${
