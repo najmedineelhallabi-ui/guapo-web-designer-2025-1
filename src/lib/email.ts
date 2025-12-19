@@ -479,6 +479,14 @@ function calculatePricing(data: {
   if (data.menuSubscription) {
     const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
     const subPrice = PRICING.subscriptions[subKey];
+    
+    // Ajout au total unique (Model A)
+    const uniquePrice = (PRICING.features as any)[data.menuSubscription];
+    if (uniquePrice) {
+      minTotal += uniquePrice;
+      maxTotal += uniquePrice;
+    }
+
     if (subPrice) {
       monthlySubscription = subPrice;
       totalMonthlyForMenu += subPrice;
