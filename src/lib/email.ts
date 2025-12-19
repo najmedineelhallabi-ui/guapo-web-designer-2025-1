@@ -160,12 +160,23 @@ const optionTranslations = {
     en: "To discuss"
   },
   // Menu / Site de commande
-  "Menu / Site de commande (système de base)": {
-    fr: "Menu / Site de commande (système de base)",
-    nl: "Menu / Bestelsite (basissysteem)",
-    en: "Menu / Ordering site (base system)"
-  },
-  // Fonctionnalités Menu Client
+    "Menu / Site de commande (système de base)": {
+      fr: "Menu / Site de commande (système de base)",
+      nl: "Menu / Bestelsite (basissysteem)",
+      en: "Menu / Ordering site (base system)"
+    },
+    // Abonnements Menu
+    "Pack Menu Simple": {
+      fr: "Pack Menu Simple (25€/mois)",
+      nl: "Eenvoudig Menupakket (25€/maand)",
+      en: "Simple Menu Pack (25€/month)"
+    },
+    "Pack Menu Complet": {
+      fr: "Pack Menu Complet (35€/mois)",
+      nl: "Compleet Menupakket (35€/maand)",
+      en: "Complete Menu Pack (35€/month)"
+    },
+    // Fonctionnalités Menu Client
   "Ajout au panier": {
     fr: "Ajout au panier",
     nl: "Toevoegen aan winkelwagen",
