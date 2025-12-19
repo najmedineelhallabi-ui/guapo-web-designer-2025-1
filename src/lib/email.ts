@@ -724,18 +724,23 @@ export async function sendQuoteEmail(data: {
     }
   }
 
-  // 3. Fonctionnalités
-  if (data.features) {
-    data.features.forEach(f => {
-      const uPrice = (PRICING.features as any)[f];
-      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-      tableRows.push({
-        item: translateOption(f, lang),
-        unique: uPrice !== undefined ? (uPrice > 0 ? `${uPrice}€` : t.owner.included) : '-',
-        monthly: pricing.isMenuProject && mPrice !== undefined ? `${mPrice}€` : '-'
+    // 3. Fonctionnalités
+    if (data.features) {
+      data.features.forEach(f => {
+        const uPrice = (PRICING.features as any)[f];
+        const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
+        
+        // Si c'est un projet Menu et que la fonctionnalité est disponible en mensuel, 
+        // on ne montre pas le prix unique pour cette fonctionnalité.
+        const showUnique = !(pricing.isMenuProject && mPrice !== undefined);
+        
+        tableRows.push({
+          item: translateOption(f, lang),
+          unique: showUnique && uPrice !== undefined ? (uPrice > 0 ? `${uPrice}€` : t.owner.included) : '-',
+          monthly: pricing.isMenuProject && mPrice !== undefined ? `${mPrice}€` : '-'
+        });
       });
-    });
-  }
+    }
 
   // 4. Optimisation
   if (data.optimization) {
