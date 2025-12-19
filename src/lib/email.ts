@@ -875,45 +875,44 @@ export async function sendQuoteEmail(data: {
           <p style="font-size:18px;margin-bottom:25px">Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
           <p>Merci de votre confiance. Voici le récapitulatif détaillé pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
           
-          <div style="font-weight:700;color:#1e293b;margin-top:30px;font-size:16px">📊 Configuration choisie</div>
-          <table class="ptbl">
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th style="text-align:right">Investissement Unique</th>
-                <th style="text-align:right">Abonnement Mensuel</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${tableRows.map(row => `
+            <div style="font-weight:700;color:#1e293b;margin-top:30px;font-size:16px">📊 Configuration choisie</div>
+            <table class="ptbl">
+              <thead>
                 <tr>
-                  <td>${escapeHtml(row.item)}</td>
-                  <td style="text-align:right" class="p-val">${row.unique}</td>
-                  <td style="text-align:right" class="p-monthly">${row.monthly}</td>
+                  <th style="width: 50%;">Description</th>
+                  <th style="text-align:right; width: 25%;">Unique (HT)</th>
+                  <th style="text-align:right; width: 25%;">Mensuel (HT)</th>
                 </tr>
-              `).join('')}
-            </tbody>
-          </table>
-
-          <div style="margin:40px 0;text-align:center;font-weight:800;color:#1e293b;font-size:18px;border-top:2px dashed #e2e8f0;padding-top:30px">
-            CHOISISSEZ VOTRE MODÈLE DE PAIEMENT
-          </div>
-
-          <div class="ps">
-            <div style="text-align:center;font-weight:800;color:#1e293b;margin-bottom:15px">MODÈLE A : PAIEMENT EN UNE FOIS (-30%)</div>
-            <p style="text-align:center;font-size:13px;color:#64748b;margin-bottom:20px">Payez l'intégralité maintenant et profitez de la réduction maximale.</p>
-            <div class="pt">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ - ${Math.round(pricing.discountedMaxPrice * 1.21)}€ TTC` : `${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC`}</div>
-          </div>
-
-          ${pricing.isMenuProject ? `
-          <div class="ps" style="background:#ecfdf5;border-color:#a7f3d0">
-            <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:15px">MODÈLE B : OPTION ABONNEMENT</div>
-            <p style="text-align:center;font-size:13px;color:#065f46;margin-bottom:20px">Réduisez votre investissement de départ avec un coût mensuel fixe.</p>
-            <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #a7f3d0;text-align:center">
-              <div style="margin-bottom:10px font-size:15px"><strong>Setup initial : ${Math.round(pricing.discountedBaseSetup * 1.21)}€ TTC</strong></div>
-              <div style="font-size:20px;color:#059669"><strong>+ ${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</strong></div>
+              </thead>
+              <tbody>
+                ${tableRows.map(row => `
+                  <tr>
+                    <td style="font-weight: 500;">${escapeHtml(row.item)}</td>
+                    <td style="text-align:right" class="p-val">${row.unique}</td>
+                    <td style="text-align:right" class="p-monthly">${row.monthly}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+  
+            <div style="margin:40px 0;text-align:center;font-weight:800;color:#1e293b;font-size:18px;border-top:2px dashed #e2e8f0;padding-top:30px">
+              CHOISISSEZ VOTRE MODÈLE DE PAIEMENT
             </div>
-          </div>` : ''}
+  
+            <div class="ps">
+              <div style="text-align:center;font-weight:800;color:#1e293b;margin-bottom:15px">MODÈLE A : PAIEMENT EN UNE FOIS (-30%)</div>
+              <p style="text-align:center;font-size:13px;color:#64748b;margin-bottom:20px">Payez l'intégralité maintenant et profitez de la réduction maximale.</p>
+              <div class="pt">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ - ${Math.round(pricing.discountedMaxPrice * 1.21)}€ TTC` : `${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC`}</div>
+            </div>
+  
+            ${pricing.isMenuProject ? `
+            <div class="ps" style="background:#ecfdf5;border-color:#a7f3d0">
+              <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:15px">MODÈLE B : OPTION ABONNEMENT</div>
+              <p style="text-align:center;font-size:13px;color:#065f46;margin-bottom:20px">Réduisez votre investissement de départ avec un coût mensuel fixe.</p>
+              <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #a7f3d0;text-align:center">
+                <div style="font-size:20px;color:#059669"><strong>${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</strong></div>
+              </div>
+            </div>` : ''}
 
           <div style="text-align:center;margin-top:40px">
             <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-green">Valider ce projet</a>
