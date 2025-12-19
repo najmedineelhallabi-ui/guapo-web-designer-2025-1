@@ -475,28 +475,21 @@ function calculatePricing(data: {
     });
   }
 
-  // Abonnements Menu (Monthly) - Pack Gestion
-  if (data.menuSubscription) {
-    const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
-    const subPrice = PRICING.subscriptions[subKey];
-    
-    // Ajout au total unique (Model A)
-    const uniquePrice = (PRICING.features as any)[data.menuSubscription];
-    if (uniquePrice) {
-      minTotal += uniquePrice;
-      maxTotal += uniquePrice;
+    // Abonnements Menu (Monthly) - Pack Gestion
+    if (data.menuSubscription) {
+      const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
+      const subPrice = PRICING.subscriptions[subKey];
+      
+      if (subPrice) {
+        monthlySubscription = subPrice;
+        totalMonthlyForMenu += subPrice;
+        breakdown.push({
+          category: lang === 'fr' ? "Gestion du menu" : lang === 'nl' ? "Menu beheer" : "Menu management",
+          item: translateOption(data.menuSubscription, lang),
+          price: `${subPrice}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'}`
+        });
+      }
     }
-
-    if (subPrice) {
-      monthlySubscription = subPrice;
-      totalMonthlyForMenu += subPrice;
-      breakdown.push({
-        category: lang === 'fr' ? "Gestion du menu" : lang === 'nl' ? "Menu beheer" : "Menu management",
-        item: translateOption(data.menuSubscription, lang),
-        price: `${subPrice}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'}`
-      });
-    }
-  }
 
   // Pages supplémentaires
   if (data.pageCount) {
