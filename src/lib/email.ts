@@ -591,45 +591,65 @@ function calculatePricing(data: {
     }
   }
 
-  // Calculer les prix avec réduction -30%
-  const originalMinPrice = minTotal;
-  const originalMaxPrice = maxTotal;
-  const minDiscount = Math.round(originalMinPrice * 0.30);
-  const maxDiscount = Math.round(originalMaxPrice * 0.30);
-  const discountedMinPrice = originalMinPrice - minDiscount;
-  const discountedMaxPrice = originalMaxPrice - maxDiscount;
+    // Calculer les prix avec réduction -30%
+    const originalMinPrice = minTotal;
+    const originalMaxPrice = maxTotal;
+    const minDiscount = Math.round(originalMinPrice * 0.30);
+    const maxDiscount = Math.round(originalMaxPrice * 0.30);
+    const discountedMinPrice = originalMinPrice - minDiscount;
+    const discountedMaxPrice = originalMaxPrice - maxDiscount;
+    
+    // TVA sur le prix remisé
+    const minVat = Math.round(discountedMinPrice * 0.21);
+    const maxVat = Math.round(discountedMaxPrice * 0.21);
+    
+    // Total TTC unique
+    const minTotalTTC = discountedMinPrice + minVat;
+    const maxTotalTTC = discountedMaxPrice + maxVat;
 
-  // Calculer le prix de base sans les fonctionnalités mensuelles pour le Model B
-  let baseSetupForSubscription = originalMinPrice;
-  if (isMenuProject && data.features) {
-    data.features.forEach(f => {
-      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-      if (mPrice !== undefined) {
-        baseSetupForSubscription -= (PRICING.features as any)[f] || 0;
-      }
-    });
+    // Prix Menu Mensuel
+    const menuMonthlyHT = totalMonthlyForMenu;
+    const menuMonthlyVat = Math.round(menuMonthlyHT * 0.21);
+    const menuMonthlyTTC = menuMonthlyHT + menuMonthlyVat;
+
+    // Calculer le prix de base sans les fonctionnalités mensuelles pour le Model B
+    let baseSetupForSubscription = originalMinPrice;
+    if (isMenuProject && data.features) {
+      data.features.forEach(f => {
+        const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
+        if (mPrice !== undefined) {
+          baseSetupForSubscription -= (PRICING.features as any)[f] || 0;
+        }
+      });
+    }
+    const discountedBaseSetup = Math.round(baseSetupForSubscription * 0.70);
+
+    const hasRange = minTotal !== maxTotal;
+
+    return { 
+      minTotal, 
+      maxTotal, 
+      breakdown,
+      originalMinPrice,
+      originalMaxPrice,
+      minDiscount,
+      maxDiscount,
+      discountedMinPrice,
+      discountedMaxPrice,
+      minVat,
+      maxVat,
+      minTotalTTC,
+      maxTotalTTC,
+      menuMonthlyHT,
+      menuMonthlyVat,
+      menuMonthlyTTC,
+      hasRange,
+      monthlySubscription,
+      isMenuProject,
+      totalMonthlyForMenu,
+      discountedBaseSetup
+    };
   }
-  const discountedBaseSetup = Math.round(baseSetupForSubscription * 0.70);
-
-  const hasRange = minTotal !== maxTotal;
-
-  return { 
-    minTotal, 
-    maxTotal, 
-    breakdown,
-    originalMinPrice,
-    originalMaxPrice,
-    minDiscount,
-    maxDiscount,
-    discountedMinPrice,
-    discountedMaxPrice,
-    hasRange,
-    monthlySubscription,
-    isMenuProject,
-    totalMonthlyForMenu,
-    discountedBaseSetup
-  };
-}
 
 export async function sendQuoteEmail(data: {
   firstName: string;
