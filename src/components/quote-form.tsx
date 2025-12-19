@@ -756,54 +756,76 @@ export function QuoteForm() {
                 </div>
               </div>
 
-              {/* Abonnement Gestion Menu - REQUIRED */}
-              <div className="mt-10 pt-10 border-t border-accent/20">
-                <h4 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-                  <Wrench className="w-6 h-6 text-accent" />
-                  {t('quote.menu.subscription.title')} *
-                </h4>
-                
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <label className={`flex items-start gap-4 p-6 border-2 rounded-xl cursor-pointer transition-all group hover:scale-[1.02] ${state.formData?.menuSubscription === "Pack Menu Simple" ? 'border-accent bg-accent/10 shadow-lg' : 'border-border hover:border-accent/50 hover:bg-accent/5 shadow-sm'}`}>
+                {/* Menu Management (Subscription) */}
+                <div className="mt-8 pt-8 border-t border-accent/20">
+                  <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group mb-6">
                     <input
-                      type="radio"
-                      name="menuSubscription"
-                      value="Pack Menu Simple"
-                      defaultChecked={state.formData?.menuSubscription === "Pack Menu Simple"}
-                      className="w-6 h-6 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      type="checkbox"
+                      name="menuFeatures"
+                      value="Gestion menu"
+                      checked={isMenuManagementSelected}
+                      onChange={handleMenuManagementChange}
+                      className="w-6 h-6 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
                       disabled={isPending}
                     />
                     <div className="flex-1">
-                      <span className="font-bold text-lg text-foreground group-hover:text-accent transition-colors">{t('quote.menu.subscription.simple.name')}</span>
-                      <p className="text-sm text-foreground/70 mt-2 leading-relaxed">{t('quote.menu.subscription.simple.desc')}</p>
+                      <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.menuManagement')}</span>
+                      <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.resto.menuManagement.desc')}</p>
                     </div>
                   </label>
 
-                  <label className={`flex items-start gap-4 p-6 border-2 rounded-xl cursor-pointer transition-all group hover:scale-[1.02] ${state.formData?.menuSubscription === "Pack Menu Complet" ? 'border-accent bg-accent/10 shadow-lg' : 'border-border hover:border-accent/50 hover:bg-accent/5 shadow-sm'}`}>
-                    <input
-                      type="radio"
-                      name="menuSubscription"
-                      value="Pack Menu Complet"
-                      defaultChecked={state.formData?.menuSubscription === "Pack Menu Complet"}
-                      className="w-6 h-6 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <div className="flex-1">
-                      <span className="font-bold text-lg text-foreground group-hover:text-accent transition-colors">{t('quote.menu.subscription.complete.name')}</span>
-                      <p className="text-sm text-foreground/70 mt-2 leading-relaxed">{t('quote.menu.subscription.complete.desc')}</p>
+                  {isMenuManagementSelected && (
+                    <div className="animate-fade-in space-y-6">
+                      <h4 className="text-xl font-bold text-foreground mb-4 flex items-center gap-2">
+                        <CheckCircle className="w-5 h-5 text-accent" />
+                        {t('quote.menu.subscription.title')} *
+                      </h4>
+                      
+                      <div className="grid sm:grid-cols-2 gap-6">
+                        <label className={`flex items-start gap-4 p-6 border-2 rounded-xl cursor-pointer transition-all group hover:scale-[1.02] ${state.formData?.menuSubscription === "Pack Menu Simple" ? 'border-accent bg-accent/10 shadow-lg' : 'border-border hover:border-accent/50 hover:bg-accent/5 shadow-sm'}`}>
+                          <input
+                            type="radio"
+                            name="menuSubscription"
+                            value="Pack Menu Simple"
+                            defaultChecked={state.formData?.menuSubscription === "Pack Menu Simple"}
+                            className="w-6 h-6 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                            disabled={isPending}
+                            required={isMenuManagementSelected}
+                          />
+                          <div className="flex-1">
+                            <span className="font-bold text-lg text-foreground group-hover:text-accent transition-colors">{t('quote.menu.subscription.simple.name')}</span>
+                            <p className="text-sm text-foreground/70 mt-2 leading-relaxed">{t('quote.menu.subscription.simple.desc')}</p>
+                          </div>
+                        </label>
+
+                        <label className={`flex items-start gap-4 p-6 border-2 rounded-xl cursor-pointer transition-all group hover:scale-[1.02] ${state.formData?.menuSubscription === "Pack Menu Complet" ? 'border-accent bg-accent/10 shadow-lg' : 'border-border hover:border-accent/50 hover:bg-accent/5 shadow-sm'}`}>
+                          <input
+                            type="radio"
+                            name="menuSubscription"
+                            value="Pack Menu Complet"
+                            defaultChecked={state.formData?.menuSubscription === "Pack Menu Complet"}
+                            className="w-6 h-6 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                            disabled={isPending}
+                            required={isMenuManagementSelected}
+                          />
+                          <div className="flex-1">
+                            <span className="font-bold text-lg text-foreground group-hover:text-accent transition-colors">{t('quote.menu.subscription.complete.name')}</span>
+                            <p className="text-sm text-foreground/70 mt-2 leading-relaxed">{t('quote.menu.subscription.complete.desc')}</p>
+                          </div>
+                        </label>
+                      </div>
+                      
+                      {state.errors?.menuSubscription && (
+                        <p className="text-red-600 text-sm mt-4 flex items-center gap-2 font-semibold bg-red-50 p-3 rounded-lg border border-red-100">
+                          <AlertCircle className="w-4 h-4" />
+                          {state.errors.menuSubscription[0]}
+                        </p>
+                      )}
                     </div>
-                  </label>
+                  )}
                 </div>
-                
-                {state.errors?.menuSubscription && (
-                  <p className="text-red-600 text-sm mt-4 flex items-center gap-2 font-semibold bg-red-50 p-3 rounded-lg border border-red-100">
-                    <AlertCircle className="w-4 h-4" />
-                    {state.errors.menuSubscription[0]}
-                  </p>
-                )}
-              </div>
 
-              {/* Client Features */}
+                {/* Client Features */}
               <div className="mt-10 pt-10 border-t border-accent/20">
                 <h4 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
                   <User className="w-6 h-6 text-accent" />
