@@ -24,6 +24,14 @@ const quoteSchema = z.object({
     message: 'Vous devez accepter la politique de confidentialité pour continuer',
   }),
   language: z.enum(['fr', 'nl', 'en']).optional(),
+}).refine((data) => {
+  if (data.siteType === "Menu / Site de commande (système de base)") {
+    return !!data.menuSubscription;
+  }
+  return true;
+}, {
+  message: "Veuillez choisir un pack de gestion du menu",
+  path: ["menuSubscription"],
 });
 
 export type QuoteFormState = {
