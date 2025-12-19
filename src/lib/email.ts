@@ -1083,10 +1083,21 @@ ${items.map(({ item, price }) => `
   ${pricing.monthlySubscription > 0 ? `<div class="pr"><span style="color:#8b5cf6;font-weight:700">${lang === 'fr' ? 'Abonnement mensuel' : lang === 'nl' ? 'Maandelijks abonnement' : 'Monthly subscription'}</span><strong style="color:#8b5cf6">${pricing.monthlySubscription}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'} ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}</strong></div>` : ''}
   <div class="pr"><span>${t.client.vat}</span><strong style="color:#8b5cf6">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</strong></div>
   </div>
-<div class="pt">${t.client.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}</div>
-</div>
+  <div class="pt">${t.client.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}</div>
+  </div>
 
-<div class="mb">
+  ${pricing.isMenuProject ? `
+  <div class="mb" style="background:#fefce8;border-color:#eab308">
+    <h3 style="color:#854d0e;text-align:center;margin:0 0 8px 0;font-size:15px">💡 Modèle Business Alternatif</h3>
+    <p style="color:#713f12;font-size:12px;text-align:center;margin:8px 0">Réduisez votre investissement initial avec notre option abonnement.</p>
+    <div class="oc" style="border-color:#fbbf24">
+      <div style="font-weight:700;color:#854d0e;margin-bottom:5px;font-size:13px">Modèle B : Setup + Abonnement</div>
+      <div style="font-size:11px;color:#713f12">• Setup initial : ${Math.round(pricing.discountedBaseSetup * 1.21)}€ TTC</div>
+      <div style="font-size:11px;color:#713f12">• Mensualité : ${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</div>
+    </div>
+  </div>` : ''}
+
+  <div class="mb">
 <h3 style="color:#0369a1;text-align:center;margin:0 0 8px 0;font-size:15px">${t.client.whyMaintenance}</h3>
 <p style="color:#475569;font-size:12px;text-align:center;margin:8px 0">${t.client.maintenanceExplanation}</p>
 <div style="background:#fff;border-radius:5px;padding:10px;font-size:11px;color:#64748b">
