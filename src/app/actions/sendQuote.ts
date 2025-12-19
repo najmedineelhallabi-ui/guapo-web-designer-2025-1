@@ -108,6 +108,23 @@ export async function sendQuoteAction(
 
     const validatedData = quoteSchema.parse(rawData);
     
+    // Additional validation for menu subscription pack choice
+    if (validatedData.isMenuManagementSelected === 'true' && !validatedData.menuSubscription) {
+      const errorMsg = validatedData.language === 'nl' 
+        ? "Kies een menubeheerpakket" 
+        : validatedData.language === 'en'
+        ? "Please choose a menu management pack"
+        : "Veuillez choisir un pack de gestion du menu";
+        
+      return {
+        success: false,
+        errors: {
+          menuSubscription: [errorMsg]
+        },
+        formData: rawData as any
+      };
+    }
+    
     console.log('🔵 [ACTION] Data validated successfully');
     console.log('🔵 [ACTION] Calling sendQuoteEmail...');
 
