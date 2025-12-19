@@ -577,10 +577,13 @@ function calculatePricing(data: {
   let minTotal = 0;
   let maxTotal = 0;
   let monthlySubscription = 0;
+  let totalMonthlyForMenu = 0; // Pour le Model B (Abonnement fonctionnalités)
   const breakdown: { category: string; item: string; price: string }[] = [];
   const t = getT(lang);
 
-  // Type de site (prix de base) - TRADUIT
+  const isMenuProject = data.siteType.includes('Menu / Site de commande');
+
+  // Type de site (prix de base)
   const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
   const siteTypePrice = PRICING.siteTypes[siteTypeKey];
   if (siteTypePrice) {
@@ -588,19 +591,20 @@ function calculatePricing(data: {
     maxTotal += siteTypePrice.max;
     breakdown.push({
       category: t.owner.categorySiteType,
-      item: translateOption(data.siteType, lang), // TRADUIT
+      item: translateOption(data.siteType, lang),
       price: siteTypePrice.min === siteTypePrice.max 
         ? `${siteTypePrice.min}€` 
         : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`
     });
   }
 
-  // Abonnements Menu (Monthly)
+  // Abonnements Menu (Monthly) - Pack Gestion
   if (data.menuSubscription) {
     const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
     const subPrice = PRICING.subscriptions[subKey];
     if (subPrice) {
       monthlySubscription = subPrice;
+      totalMonthlyForMenu += subPrice;
       breakdown.push({
         category: lang === 'fr' ? "Gestion du menu" : lang === 'nl' ? "Menu beheer" : "Menu management",
         item: translateOption(data.menuSubscription, lang),
@@ -637,26 +641,36 @@ function calculatePricing(data: {
     }
   }
 
-  // Fonctionnalités - TRADUIT
+  // Fonctionnalités
   if (data.features && data.features.length > 0) {
     data.features.forEach(feature => {
+      // Pour le Model A (One-time)
       const featureKey = feature as keyof typeof PRICING.features;
       const price = PRICING.features[featureKey];
+      
+      // Pour le Model B (Monthly if applicable)
+      const monthlyPrice = (PRICING as any).monthlyMenuFeatures?.[feature];
+
       if (price !== undefined) {
         minTotal += price;
         maxTotal += price;
+        
+        if (isMenuProject && monthlyPrice !== undefined) {
+          totalMonthlyForMenu += monthlyPrice;
+        }
+
         breakdown.push({
           category: t.owner.categoryFeatures,
-          item: translateOption(feature, lang), // TRADUIT
+          item: translateOption(feature, lang) + (isMenuProject && monthlyPrice !== undefined ? ` (${monthlyPrice}€/${lang === 'fr' ? 'mois' : 'm'})` : ''),
           price: price > 0 ? `${price}€` : t.owner.included
         });
       }
     });
   }
 
-  // Langues sélectionnées (si multilingue activé) - TRADUIT
+  // Langues sélectionnées
   if (data.languages && data.languages.length > 0) {
-    const langList = [...data.languages].map(l => translateOption(l, lang)); // TRADUIT
+    const langList = [...data.languages].map(l => translateOption(l, lang));
     if (data.otherLanguages) {
       langList.push(`${t.owner.otherLang} ${data.otherLanguages}`);
     }
@@ -667,7 +681,7 @@ function calculatePricing(data: {
     });
   }
 
-  // Optimisation & Sécurité - TRADUIT
+  // Optimisation & Sécurité
   if (data.optimization && data.optimization.length > 0) {
     data.optimization.forEach(opt => {
       const optKey = opt as keyof typeof PRICING.optimization;
@@ -677,14 +691,14 @@ function calculatePricing(data: {
         maxTotal += price;
         breakdown.push({
           category: t.owner.categoryOptimization,
-          item: translateOption(opt, lang), // TRADUIT
+          item: translateOption(opt, lang),
           price: price > 0 ? `${price}€` : t.owner.included
         });
       }
     });
   }
 
-  // Nom de domaine - TRADUIT
+  // Nom de domaine
   if (data.domain) {
     const domainKey = data.domain as keyof typeof PRICING.domain;
     const price = PRICING.domain[domainKey];
@@ -693,7 +707,7 @@ function calculatePricing(data: {
       maxTotal += price;
       breakdown.push({
         category: t.owner.categoryDomain,
-        item: `${translateOption(data.domain, lang)} (${t.owner.firstYear})`, // TRADUIT
+        item: `${translateOption(data.domain, lang)} (${t.owner.firstYear})`,
         price: `${price}€`
       });
     }
@@ -707,7 +721,18 @@ function calculatePricing(data: {
   const discountedMinPrice = originalMinPrice - minDiscount;
   const discountedMaxPrice = originalMaxPrice - maxDiscount;
 
-  // Vérifier si on a une fourchette de prix ou un prix fixe
+  // Calculer le prix de base sans les fonctionnalités mensuelles pour le Model B
+  let baseSetupForSubscription = originalMinPrice;
+  if (isMenuProject && data.features) {
+    data.features.forEach(f => {
+      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
+      if (mPrice !== undefined) {
+        baseSetupForSubscription -= (PRICING.features as any)[f] || 0;
+      }
+    });
+  }
+  const discountedBaseSetup = Math.round(baseSetupForSubscription * 0.70);
+
   const hasRange = minTotal !== maxTotal;
 
   return { 
@@ -721,7 +746,10 @@ function calculatePricing(data: {
     discountedMinPrice,
     discountedMaxPrice,
     hasRange,
-    monthlySubscription
+    monthlySubscription,
+    isMenuProject,
+    totalMonthlyForMenu,
+    discountedBaseSetup
   };
 }
 
