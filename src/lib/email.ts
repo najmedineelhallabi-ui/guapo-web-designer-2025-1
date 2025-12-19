@@ -914,6 +914,7 @@ export async function sendQuoteEmail(data: {
               <p style="text-align:center;font-size:13px;color:#065f46;margin-bottom:20px">Réduisez votre investissement de départ avec un coût mensuel fixe.</p>
               <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #a7f3d0;text-align:center">
                 <div style="font-size:20px;color:#059669"><strong>${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</strong></div>
+                <div style="font-size:12px;color:#059669;margin-top:5px;font-weight:700">🎁 PREMIER MOIS OFFERT</div>
               </div>
             </div>` : ''}
 
