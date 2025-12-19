@@ -696,17 +696,16 @@ export async function sendQuoteEmail(data: {
   // Préparer les données pour le tableau
   const tableRows: { item: string; unique: string; monthly: string }[] = [];
   
-  // 1. Type de site
-  const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
-  const siteTypePrice = PRICING.siteTypes[siteTypeKey];
-  if (siteTypePrice) {
-    tableRows.push({
-      item: translateOption(data.siteType, lang),
-      // Si c'est un projet Menu, on ne montre pas le prix unique dans le tableau pour éviter la confusion avec le setup
-      unique: pricing.isMenuProject ? '-' : (siteTypePrice.min === siteTypePrice.max ? `${siteTypePrice.min}€` : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`),
-      monthly: '-'
-    });
-  }
+    // 1. Type de site
+    const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
+    const siteTypePrice = PRICING.siteTypes[siteTypeKey];
+    if (siteTypePrice) {
+      tableRows.push({
+        item: translateOption(data.siteType, lang),
+        unique: siteTypePrice.min === siteTypePrice.max ? `${siteTypePrice.min}€` : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`,
+        monthly: '-'
+      });
+    }
 
   // 2. Pages supplémentaires
   if (data.pageCount) {
