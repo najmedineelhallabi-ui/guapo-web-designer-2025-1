@@ -778,19 +778,19 @@ export function QuoteForm() {
                 {/* Dashboard Cuisine */}
                 <div>
                   <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Dashboard cuisine"
-                      checked={isKitchenDashboardSelected}
-                      onChange={handleKitchenDashboardChange}
-                      className="w-6 h-6 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <div className="flex-1">
-                      <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.kitchen')}</span>
-                      <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.resto.kitchen.desc')}</p>
-                    </div>
+                      <input
+                        type="checkbox"
+                        name="menuFeatures"
+                        value="Dashboard Cuisine"
+                        checked={isKitchenDashboardSelected}
+                        onChange={handleKitchenDashboardChange}
+                        className="w-6 h-6 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <div className="flex-1">
+                        <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.kitchen')} (20€/m)</span>
+                        <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.resto.kitchen.desc')}</p>
+                      </div>
                   </label>
 
                   {/* Sub-options for Kitchen Dashboard */}
