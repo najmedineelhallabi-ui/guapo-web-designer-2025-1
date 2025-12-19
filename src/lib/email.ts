@@ -803,15 +803,84 @@ export async function sendQuoteEmail(data: {
 
   console.log('💰 Pricing calculated:', `Original: ${pricing.originalMinPrice}€, Avec -30%: ${pricing.discountedMinPrice}€`);
 
-  // Grouper les éléments par catégorie - items déjà traduits dans calculatePricing()
-  const groupedBreakdown = pricing.breakdown.reduce((acc, item) => {
-    if (!acc[item.category]) {
-      acc[item.category] = [];
+  // Préparer les données pour le tableau
+  const tableRows: { item: string; unique: string; monthly: string }[] = [];
+  
+  // 1. Type de site
+  const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
+  const siteTypePrice = PRICING.siteTypes[siteTypeKey];
+  if (siteTypePrice) {
+    tableRows.push({
+      item: translateOption(data.siteType, lang),
+      unique: siteTypePrice.min === siteTypePrice.max ? `${siteTypePrice.min}€` : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`,
+      monthly: '-'
+    });
+  }
+
+  // 2. Pages supplémentaires
+  if (data.pageCount) {
+    const pageCount = parseInt(data.pageCount.toString());
+    let baseLimit = 3;
+    if (data.siteType.includes('1 à 3')) baseLimit = 3;
+    else if (data.siteType.includes('4 à 5')) baseLimit = 5;
+    else if (data.siteType.includes('6 à 8')) baseLimit = 8;
+    else if (data.siteType.includes('9 à 12')) baseLimit = 12;
+    
+    if (pageCount > baseLimit) {
+      const extra = pageCount - baseLimit;
+      const cost = extra * PAGE_EXTRA_COST;
+      tableRows.push({
+        item: t.owner.extraPages(extra),
+        unique: `${cost}€`,
+        monthly: '-'
+      });
     }
-    // Les items sont déjà traduits dans calculatePricing(), pas besoin de retraduire
-    acc[item.category].push({ item: item.item, price: item.price });
-    return acc;
-  }, {} as Record<string, { item: string; price: string }[]>);
+  }
+
+  // 3. Fonctionnalités
+  if (data.features) {
+    data.features.forEach(f => {
+      const uPrice = (PRICING.features as any)[f];
+      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
+      tableRows.push({
+        item: translateOption(f, lang),
+        unique: uPrice !== undefined ? (uPrice > 0 ? `${uPrice}€` : t.owner.included) : '-',
+        monthly: pricing.isMenuProject && mPrice !== undefined ? `${mPrice}€` : '-'
+      });
+    });
+  }
+
+  // 4. Optimisation
+  if (data.optimization) {
+    data.optimization.forEach(o => {
+      const price = (PRICING.optimization as any)[o];
+      tableRows.push({
+        item: translateOption(o, lang),
+        unique: price !== undefined ? (price > 0 ? `${price}€` : t.owner.included) : '-',
+        monthly: '-'
+      });
+    });
+  }
+
+  // 5. Domaine
+  if (data.domain) {
+    const dPrice = (PRICING.domain as any)[data.domain];
+    tableRows.push({
+      item: `${translateOption(data.domain, lang)} (${t.owner.firstYear})`,
+      unique: dPrice !== undefined && dPrice > 0 ? `${dPrice}€` : t.owner.included,
+      monthly: '-'
+    });
+  }
+
+  // 6. Abonnement Pack (Menu)
+  if (data.menuSubscription) {
+    const mPrice = (PRICING.subscriptions as any)[data.menuSubscription];
+    tableRows.push({
+      item: translateOption(data.menuSubscription, lang),
+      unique: '-',
+      monthly: `${mPrice}€`
+    });
+  }
 
   // EMAIL 1: Pour le propriétaire (AVEC RÉDUCTION -30%)
   const ownerEmailHtml = `
@@ -820,7 +889,7 @@ export async function sendQuoteEmail(data: {
       <head>
         <meta charset="utf-8">
         <style>
-          body{font-family:Arial,sans-serif;color:#333;max-width:600px;margin:0 auto;padding:15px;background:#f8f9fa}
+          body{font-family:Arial,sans-serif;color:#333;max-width:650px;margin:0 auto;padding:15px;background:#f8f9fa}
           .h{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:20px;border-radius:8px 8px 0 0;text-align:center}
           .c{background:#fff;border:2px solid #e2e8f0;border-radius:0 0 8px 8px;padding:20px}
           .sh{font-size:16px;font-weight:700;color:#6d28d9;margin:15px 0 10px 0;padding:8px 12px;background:#f3e8ff;border-left:4px solid#8b5cf6;border-radius:4px}
@@ -829,148 +898,102 @@ export async function sendQuoteEmail(data: {
           .ib{background:#f9fafb;padding:10px;border-radius:6px;border:2px solid#e5e7eb}
           .il{font-size:10px;color:#6b7280;font-weight:700;text-transform:uppercase;margin-bottom:4px}
           .iv{font-size:13px;color:#111;font-weight:700}
-          .dr{display:flex;justify-content:space-between;padding:8px 10px;background:#f9fafb;margin-bottom:6px;border-radius:4px;border:1px solid#e5e7eb;font-size:12px}
-          .dl{color:#6b7280;font-weight:600}
-          .dv{color:#111;font-weight:700}
-          .tw{background:#f9fafb;padding:10px;border-radius:6px;border:1px solid#e5e7eb;margin-bottom:6px}
-          .tl{font-size:11px;color:#6b7280;font-weight:600;margin-bottom:6px}
-          .tc{display:flex;flex-wrap:wrap;gap:6px}
-          .tag{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:6px 10px;border-radius:15px;font-size:11px;font-weight:700}
-          .ps{background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border:2px solid#8b5cf6;border-radius:8px;padding:15px;margin:15px 0}
-          .pg{background:#fff;border-radius:6px;padding:10px;margin-bottom:10px}
-          .pr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid#f3f4f6;font-size:12px}
-          .pr:last-child{border-bottom:none}
-          .pc{font-size:12px;font-weight:700;color:#8b5cf6;margin-top:8px;margin-bottom:4px;padding-bottom:2px;border-bottom:2px solid#e9d5ff}
-          .pc:first-child{margin-top:0}
-          .db{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:10px;border-radius:6px;margin:8px 0;text-align:center}
-          .pst{background:#f9fafb;padding:8px 10px;border-radius:6px;margin-top:10px;border:1px solid#e5e7eb}
-          .pt{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:10px;border-radius:6px;text-align:center;font-size:16px;font-weight:700;margin-top:6px}
-          .msg{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-left:4px solid#f59e0b;border-radius:6px;padding:12px;margin:15px 0}
-          .mt{font-size:12px;font-weight:700;color:#92400e;margin-bottom:6px}
-          .mtx{font-size:12px;color:#78350f;line-height:1.5;white-space:pre-wrap}
-          .mb{background:#f0f9ff;border:2px solid#0ea5e9;border-radius:8px;padding:12px;margin:15px 0}
-          .mh{font-size:14px;font-weight:700;color:#0369a1;text-align:center;margin:0 0 8px 0}
-          .mn{text-align:center;color:#64748b;font-size:11px;margin-bottom:10px;font-style:italic}
-          .oc{background:#fff;padding:10px;border-radius:6px;margin:6px 0;border:2px solid#0ea5e9}
-          .on{font-weight:700;color:#0369a1;margin-bottom:5px;font-size:12px}
-          .od{font-size:11px;color:#475569;line-height:1.5}
-          .gift{background:#fef3c7;padding:8px;border-radius:6px;margin:8px 0;text-align:center;font-weight:700;color:#78350f;border:2px solid#fbbf24;font-size:12px}
-          .btn{display:inline-block;background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:700;margin:8px 0;font-size:14px}
-          .bc{text-align:center;margin:12px 0}
-          .ft{text-align:center;margin-top:12px;padding-top:10px;border-top:1px solid#e2e8f0;color:#9ca3af;font-size:10px}
+          
+          /* Table Styles */
+          .ptbl {width:100%;border-collapse:collapse;margin:15px 0;font-size:12px;border:2px solid#e9d5ff;border-radius:8px;overflow:hidden}
+          .ptbl th {background:#f3e8ff;color:#6d28d9;padding:12px;text-align:left;border-bottom:2px solid#e9d5ff}
+          .ptbl td {padding:10px 12px;border-bottom:1px solid#f3f4f6;color:#374151}
+          .ptbl tr:last-child td {border-bottom:none}
+          .ptbl tr:nth-child(even) {background:#f9fafb}
+          .p-val {font-weight:700;color:#8b5cf6}
+          
+          .ps {background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border:2px solid#8b5cf6;border-radius:8px;padding:20px;margin:20px 0}
+          .db {background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:12px;border-radius:6px;margin:10px 0;text-align:center}
+          .pst {background:#fff;padding:12px;border-radius:6px;margin-top:10px;border:1px solid#e5e7eb}
+          .pr {display:flex;justify-content:space-between;padding:6px 0;font-size:12px;border-bottom:1px solid#f3f4f6}
+          .pr:last-child {border-bottom:none}
+          .pt {background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:12px;border-radius:6px;text-align:center;font-size:18px;font-weight:700;margin-top:8px}
+          
+          .mb{background:#f0f9ff;border:2px solid#0ea5e9;border-radius:8px;padding:15px;margin:20px 0}
+          .mh{font-size:16px;font-weight:700;color:#0369a1;text-align:center;margin:0 0 10px 0}
+          .oc{background:#fff;padding:12px;border-radius:6px;margin:8px 0;border:1px solid#0ea5e9}
+          .on{font-weight:700;color:#0369a1;margin-bottom:5px;font-size:13px}
+          .od{font-size:12px;color:#475569;line-height:1.5}
+          
+          .msg{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-left:4px solid#f59e0b;border-radius:6px;padding:15px;margin:20px 0}
+          .mtx{font-size:13px;color:#78350f;line-height:1.6;white-space:pre-wrap}
+          .btn{display:inline-block;background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:14px 28px;text-decoration:none;border-radius:6px;font-weight:700;margin:10px 0;font-size:15px}
+          .ft{text-align:center;margin-top:20px;padding-top:15px;border-top:1px solid#e2e8f0;color:#9ca3af;font-size:11px}
         </style>
       </head>
       <body>
-        <div class="h"><h1 style="margin:0;font-size:22px">${t.owner.title}</h1><p style="margin:5px 0 0 0;font-size:13px">${t.owner.subtitle}</p></div>
+        <div class="h"><h1 style="margin:0;font-size:24px">${t.owner.title}</h1><p style="margin:5px 0 0 0;font-size:14px">${t.owner.subtitle}</p></div>
         <div class="c">
           
           <div class="sh">👤 ${t.owner.clientInfo}</div>
           <div class="ig">
             <div class="ib"><div class="il">${t.owner.fullName}</div><div class="iv">${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</div></div>
             <div class="ib"><div class="il">${t.owner.email}</div><div class="iv">${escapeHtml(data.email)}</div></div>
-            ${data.company ? `<div class="ib"><div class="il">${t.owner.company}</div><div class="iv">${escapeHtml(data.company)}</div></div>` : ''}
-            ${data.sector ? `<div class="ib"><div class="il">${t.owner.sector}</div><div class="iv">${escapeHtml(data.sector)}</div></div>` : ''}
+            <div class="ib"><div class="il">${t.owner.company}</div><div class="iv">${escapeHtml(data.company || '-')}</div></div>
+            <div class="ib"><div class="il">${t.owner.sector}</div><div class="iv">${escapeHtml(data.sector || '-')}</div></div>
           </div>
 
           <div class="sh">📋 ${t.owner.projectDetails}</div>
           
-          <div class="dr"><div class="dl">${t.owner.siteType}</div><div class="dv">${escapeHtml(translatedSiteType)}</div></div>
-          ${data.pageCount ? `<div class="dr"><div class="dl">${t.owner.pages}</div><div class="dv">${escapeHtml(data.pageCount.toString())} pages</div></div>` : ''}
-          ${data.hosting ? `<div class="dr"><div class="dl">${t.owner.hosting}</div><div class="dv">${escapeHtml(translatedHosting)}</div></div>` : ''}
-          ${data.domain ? `<div class="dr"><div class="dl">${t.owner.domain}</div><div class="dv">${escapeHtml(translatedDomain)}</div></div>` : ''}
-          
-          ${translatedFeatures.length > 0 ? `
-          <div class="tw">
-            <div class="tl">⚡ ${t.owner.requestedFeatures}</div>
-            <div class="tc">${translatedFeatures.map(f => `<div class="tag">${escapeHtml(f)}</div>`).join('')}</div>
-          </div>` : ''}
-
-          ${translatedLanguages.length > 0 ? `
-          <div class="tw">
-            <div class="tl">🌐 ${t.owner.languages}</div>
-            <div class="tc">${translatedLanguages.map(l => `<div class="tag">${escapeHtml(l)}</div>`).join('')}${data.otherLanguages ? `<div class="tag">${t.owner.otherLang} ${escapeHtml(data.otherLanguages)}</div>` : ''}</div>
-          </div>` : ''}
-
-          ${translatedOptimization.length > 0 ? `
-          <div class="tw">
-            <div class="tl">🔒 ${t.owner.optimization}</div>
-            <div class="tc">${translatedOptimization.map(o => `<div class="tag">${escapeHtml(o)}</div>`).join('')}</div>
-          </div>` : ''}
+          <table class="ptbl">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th style="text-align:right">Unique (HT)</th>
+                <th style="text-align:right">Mensuel (HT)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows.map(row => `
+                <tr>
+                  <td>${escapeHtml(row.item)}</td>
+                  <td style="text-align:right" class="p-val">${row.unique}</td>
+                  <td style="text-align:right" class="p-val">${row.monthly}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
 
           <div class="sh">💰 ${t.owner.pricing}</div>
           
           <div class="ps">
-            <div class="pg">
-              ${Object.entries(groupedBreakdown).map(([category, items]) => `
-                <div class="pc">${t.owner.breakdown(category)}</div>
-                ${items.map(({ item, price }) => `<div class="pr"><span>${escapeHtml(item)}</span><strong style="color:#8b5cf6">${escapeHtml(price)}</strong></div>`).join('')}
-              `).join('')}
-            </div>
+            <div style="font-size:15px;font-weight:700;color:#6d28d9;margin-bottom:15px;text-align:center">MODÈLE A : PAIEMENT UNIQUE</div>
             <div class="db">
-              <div style="font-size:11px;opacity:0.9;margin-bottom:3px">${t.owner.discount}</div>
-              <div style="font-size:20px;font-weight:700">${pricing.hasRange ? `-${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
+              <div style="font-size:12px;opacity:0.9;margin-bottom:4px">${t.owner.discount}</div>
+              <div style="font-size:22px;font-weight:700">${pricing.hasRange ? `-${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
             </div>
-              <div class="pst">
-                <div class="pr"><span style="text-decoration:line-through;opacity:0.6">${t.owner.originalPrice}</span><span style="text-decoration:line-through;opacity:0.6">${pricing.hasRange ? `${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.originalMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</span></div>
-                <div class="pr"><span><strong>${t.owner.priceWithDiscount}</strong></span><strong style="color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.discountedMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.discountedMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</strong></div>
-                ${pricing.monthlySubscription > 0 ? `<div class="pr"><span style="color:#8b5cf6;font-weight:700">${lang === 'fr' ? 'Abonnement mensuel' : lang === 'nl' ? 'Maandelijks abonnement' : 'Monthly subscription'}</span><strong style="color:#8b5cf6">${pricing.monthlySubscription}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'} ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}</strong></div>` : ''}
-                <div class="pr"><span>${t.owner.vat}</span><strong style="color:#8b5cf6">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</strong></div>
-              </div>
-              <div class="pt">${t.owner.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}</div>
+            <div class="pst">
+              <div class="pr"><span style="text-decoration:line-through;opacity:0.6">${t.owner.originalPrice}</span><span style="text-decoration:line-through;opacity:0.6">${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span></div>
+              <div class="pr"><span><strong>${t.owner.priceWithDiscount}</strong></span><strong style="color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong></div>
+              <div class="pr"><span>${t.owner.vat}</span><strong style="color:#8b5cf6">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ - ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</strong></div>
             </div>
+            <div class="pt">${t.owner.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ - ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}</div>
+          </div>
 
-            ${pricing.isMenuProject ? `
-            <div class="sh">📋 Alternative Business Model (Menu)</div>
-            <div class="mb" style="background:#fefce8;border-color:#eab308">
-              <div class="mh" style="color:#854d0e">Model B : Setup + Abonnement</div>
-              <div class="mn">Option recommandée pour réduire l'investissement initial</div>
-              <div class="oc" style="border-color:#eab308">
-                <div class="on" style="color:#854d0e">Installation & Configuration : ${Math.round(pricing.discountedBaseSetup * 1.21)}€ TTC</div>
-                <div class="od">Comprend le système de base, le domaine et les optimisations</div>
-              </div>
-              <div class="oc" style="border-color:#eab308">
-                <div class="on" style="color:#854d0e">Mensualité : ${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</div>
-                <div class="od">Comprend les packs de gestion et les fonctionnalités actives</div>
-              </div>
-            </div>` : ''}
+          ${pricing.isMenuProject ? `
+          <div class="ps" style="background:linear-gradient(135deg,#fefce8,#fef9c3);border-color:#eab308">
+            <div style="font-size:15px;font-weight:700;color:#854d0e;margin-bottom:15px;text-align:center">MODÈLE B : SYSTÈME D'ABONNEMENT</div>
+            <div class="pst" style="border-color:#fbbf24">
+              <div class="pr"><span><strong>Installation & Setup (Unique -30% HT)</strong></span><strong style="color:#854d0e">${pricing.discountedBaseSetup}€</strong></div>
+              <div class="pr"><span><strong>Abonnement Mensuel Total (HT/mois)</strong></span><strong style="color:#854d0e">${pricing.totalMonthlyForMenu}€ / mois</strong></div>
+              <div class="pr"><span>TVA (21%) sur Setup</span><strong style="color:#854d0e">${Math.round(pricing.discountedBaseSetup * 0.21)}€</strong></div>
+            </div>
+            <div class="pt" style="background:linear-gradient(135deg,#eab308,#d97706)">Total Initial : ${Math.round(pricing.discountedBaseSetup * 1.21)}€ TTC</div>
+            <div style="text-align:center;font-size:13px;font-weight:700;color:#854d0e;margin-top:10px">+ ${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</div>
+          </div>` : ''}
 
-            ${data.message ? `
+          ${data.message ? `
           <div class="sh">💬 ${t.owner.clientMessage}</div>
           <div class="msg">
             <div class="mtx">${escapeHtml(data.message)}</div>
           </div>` : ''}
 
-          ${data.siteType.toLowerCase().includes('vitrine') || data.siteType.toLowerCase().includes('portfolio') || data.siteType.toLowerCase().includes('personnel') || data.siteType.toLowerCase().includes('showcase') ? `
-          <div class="sh">🔧 ${t.owner.maintenanceOptions}</div>
-          <div class="mb">
-            <div class="mh">${t.owner.maintenanceOptions}</div>
-            <div class="mn">${t.owner.notSelected}</div>
-            <div class="oc">
-              <div class="on">${t.owner.maintenanceShowcase}</div>
-              <div class="od">${t.owner.maintenanceShowcaseDetails}</div>
-            </div>
-            <div class="oc">
-              <div class="on">${t.owner.maintenancePerIntervention}</div>
-              <div class="od">${t.owner.maintenancePerInterventionDetails}</div>
-            </div>
-            <div class="gift">${t.owner.giftBanner}</div>
-          </div>` : data.siteType.toLowerCase().includes('boutique') || data.siteType.toLowerCase().includes('e-commerce') || data.siteType.toLowerCase().includes('ecommerce') || data.siteType.toLowerCase().includes('shop') || data.siteType.toLowerCase().includes('winkel') ? `
-          <div class="sh">🔧 ${t.owner.maintenanceEcommerce}</div>
-          <div class="mb">
-            <div class="mh">${t.owner.maintenanceEcommerce}</div>
-            <div class="mn">${t.owner.notSelected}</div>
-            <div class="oc">
-              <div class="on">${t.owner.maintenancePremium}</div>
-              <div class="od">${t.owner.maintenancePremiumDetails}</div>
-            </div>
-            <div class="oc">
-              <div class="on">${t.owner.maintenanceEcommercePerIntervention}</div>
-              <div class="od">${t.owner.maintenanceEcommercePerInterventionDetails}</div>
-            </div>
-            <div class="gift">${t.owner.giftBanner}</div>
-          </div>` : ''}
-
-          <div class="bc">
+          <div style="text-align:center;margin:20px 0">
             <a href="mailto:${escapeHtml(data.email)}" class="btn">📧 ${t.owner.replyToClient}</a>
           </div>
         </div>
@@ -979,123 +1002,110 @@ export async function sendQuoteEmail(data: {
     </html>
   `;
 
-  // EMAIL 2: Pour le client (VERSION ULTRA-OPTIMISÉE - MAXIMUM COMPACT AVEC -30%)
-  
-  // Créer un résumé du devis pour le bouton Question AVEC TRADUCTIONS
-  const quoteSummaryText = lang === 'fr' 
-    ? `Bonjour,
-
-J'ai reçu mon estimation de devis et j'aurais une question concernant mon projet :`
-    : lang === 'nl'
-    ? `Hallo,
-
-Ik heb mijn offerte schatting ontvangen en ik heb een vraag over mijn project:`
-    : `Hello,
-
-I received my quote estimate and I have a question about my project:`;
-
-  const quoteSummary = `${quoteSummaryText}
-
---- ${lang === 'fr' ? 'RÉSUMÉ DE MON DEVIS' : lang === 'nl' ? 'SAMENVATTING VAN MIJN OFFERTE' : 'MY QUOTE SUMMARY'} ---
-${lang === 'fr' ? 'Entreprise' : lang === 'nl' ? 'Bedrijf' : 'Company'}: ${data.company || (lang === 'fr' ? 'Mon projet' : lang === 'nl' ? 'Mijn project' : 'My project')}
-${lang === 'fr' ? 'Type de site' : lang === 'nl' ? 'Type website' : 'Website type'}: ${translatedSiteType}
-${lang === 'fr' ? 'Nombre de pages' : lang === 'nl' ? 'Aantal pagina\'s' : 'Number of pages'}: ${data.pageCount || (lang === 'fr' ? 'Non spécifié' : lang === 'nl' ? 'Niet gespecificeerd' : 'Not specified')}
-${translatedFeatures.length > 0 ? `${lang === 'fr' ? 'Fonctionnalités' : lang === 'nl' ? 'Functionaliteiten' : 'Features'}: ${translatedFeatures.join(', ')}` : ''}
-${translatedOptimization.length > 0 ? `${lang === 'fr' ? 'Optimisation' : lang === 'nl' ? 'Optimalisatie' : 'Optimization'}: ${translatedOptimization.join(', ')}` : ''}
-${data.hosting ? `${lang === 'fr' ? 'Hébergement' : lang === 'nl' ? 'Hosting' : 'Hosting'}: ${translatedHosting}` : ''}
-${data.domain ? `${lang === 'fr' ? 'Domaine' : lang === 'nl' ? 'Domein' : 'Domain'}: ${translatedDomain}` : ''}
-${data.menuSubscription ? `${lang === 'fr' ? 'Abonnement' : lang === 'nl' ? 'Abonnement' : 'Subscription'}: ${translateOption(data.menuSubscription, lang)}` : ''}
-
-${pricing.hasRange 
-  ? `${lang === 'fr' ? 'Prix original' : lang === 'nl' ? 'Originele prijs' : 'Original price'}: ${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}
-${lang === 'fr' ? 'Réduction -30%' : lang === 'nl' ? 'Korting -30%' : 'Discount -30%'}: -${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€
-${lang === 'fr' ? 'Prix final' : lang === 'nl' ? 'Eindprijs' : 'Final price'}: ${pricing.discountedMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.discountedMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'} (${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€ ${lang === 'fr' ? 'TTC' : lang === 'nl' ? 'incl. BTW' : 'incl. VAT'})`
-  : `${lang === 'fr' ? 'Prix original' : lang === 'nl' ? 'Originele prix' : 'Original price'}: ${pricing.originalMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}
-${lang === 'fr' ? 'Réduction -30%' : lang === 'nl' ? 'Korting -30%' : 'Discount -30%'}: -${pricing.minDiscount}€
-${lang === 'fr' ? 'Prix final' : lang === 'nl' ? 'Eindprijs' : 'Final price'}: ${pricing.discountedMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'} (${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'fr' ? 'TTC' : lang === 'nl' ? 'incl. BTW' : 'incl. VAT'})`
-}
-${pricing.monthlySubscription > 0 ? `${lang === 'fr' ? 'Abonnement mensuel' : lang === 'nl' ? 'Maandelijks abonnement' : 'Monthly subscription'}: ${pricing.monthlySubscription}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'}` : ''}
------------------------
-
-${lang === 'fr' ? 'Ma question' : lang === 'nl' ? 'Mijn vraag' : 'My question'}:
-[${lang === 'fr' ? 'Écrivez votre question ici' : lang === 'nl' ? 'Schrijf uw vraag hier' : 'Write your question here'}]
-
-${lang === 'fr' ? 'Cordialement' : lang === 'nl' ? 'Vriendelijke groeten' : 'Best regards'},
-${data.firstName} ${data.lastName}
-${data.email}`;
-
-  const mailtoQuestionLink = `mailto:info@guapowebdesigner.com?subject=${encodeURIComponent(`${lang === 'fr' ? 'Question concernant mon devis' : lang === 'nl' ? 'Vraag over mijn offerte' : 'Question about my quote'} - ${data.company || data.firstName}`)}&body=${encodeURIComponent(quoteSummary)}`;
-
+  // EMAIL 2: Pour le client (TABLEAU ET MODÈLES BUSINESS)
   const clientEmailHtml = `
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<style>
-body{font-family:Arial,sans-serif;color:#333;max-width:600px;margin:0 auto;padding:15px;background:#f8f9fa}
-.h{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:20px;border-radius:8px 8px 0 0;text-align:center}
-.c{background:#fff;border:2px solid #e2e8f0;border-radius:0 0 8px 8px;padding:20px}
-.ps{background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border:2px solid #8b5cf6;border-radius:8px;padding:15px;margin:15px 0}
-.pg{background:#fff;border-radius:6px;padding:10px;margin-bottom:10px}
-.pr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid#f3f4f6;font-size:12px}
-.pr:last-child{border-bottom:none}
-.pc{font-size:12px;font-weight:700;color:#8b5cf6;margin-top:8px;margin-bottom:4px;padding-bottom:2px;border-bottom:2px solid#e9d5ff}
-.pc:first-child{margin-top:0}
-.db{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:10px;border-radius:6px;margin:8px 0;text-align:center}
-.pst{background:#f9fafb;padding:8px 10px;border-radius:6px;margin-top:10px;border:1px solid#e5e7eb}
-.pt{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:10px;border-radius:6px;text-align:center;font-size:16px;font-weight:700;margin-top:6px}
-.mb{background:#f0f9ff;border:2px solid#0ea5e9;border-radius:8px;padding:12px;margin:15px 0}
-.mh{font-size:14px;font-weight:700;color:#0369a1;text-align:center;margin:0 0 8px 0}
-.mn{text-align:center;color:#64748b;font-size:11px;margin-bottom:10px;font-style:italic}
-.oc{background:#fff;padding:10px;border-radius:6px;margin:6px 0;border:2px solid#0ea5e9}
-.on{font-weight:700;color:#0369a1;margin-bottom:5px;font-size:12px}
-.od{font-size:11px;color:#475569;line-height:1.5}
-.gift{background:#fef3c7;padding:8px;border-radius:6px;margin:8px 0;text-align:center;font-weight:700;color:#78350f;border:2px solid#fbbf24;font-size:12px}
-.btn{display:inline-block;background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:700;margin:8px 0;font-size:14px}
-.btn-green{display:inline-block;background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:12px 24px;text-decoration:none;border-radius:6px;font-weight:700;margin:8px 0;font-size:14px;box-shadow:0 4px 12px rgba(16,185,129,0.3)}
-.bc{text-align:center;margin:12px 0}
-.ft{text-align:center;margin-top:12px;padding-top:10px;border-top:1px solid#e2e8f0;color:#9ca3af;font-size:10px}
-</style>
-</head>
-<body>
-<div class="h"><h1 style="margin:0;font-size:22px">${t.client.title}</h1></div>
-<div class="c">
-<p style="margin:10px 0">${t.client.greeting(escapeHtml(data.firstName), escapeHtml(data.lastName))}</p>
-<p style="margin:10px 0">${t.client.intro(escapeHtml(data.company || (lang === 'fr' ? 'votre projet' : lang === 'nl' ? 'uw project' : 'your project')))}</p>
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body{font-family:Arial,sans-serif;color:#333;max-width:650px;margin:0 auto;padding:15px;background:#f8f9fa}
+          .h{background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:20px;border-radius:8px 8px 0 0;text-align:center}
+          .c{background:#fff;border:2px solid #e2e8f0;border-radius:0 0 8px 8px;padding:25px}
+          
+          /* Table Styles */
+          .ptbl {width:100%;border-collapse:collapse;margin:15px 0;font-size:12px;border:2px solid#e9d5ff;border-radius:8px;overflow:hidden}
+          .ptbl th {background:#f3e8ff;color:#6d28d9;padding:12px;text-align:left;border-bottom:2px solid#e9d5ff}
+          .ptbl td {padding:10px 12px;border-bottom:1px solid#f3f4f6;color:#374151}
+          .ptbl tr:nth-child(even) {background:#f9fafb}
+          .p-val {font-weight:700;color:#8b5cf6}
+          
+          .ps {background:linear-gradient(135deg,#f3e8ff,#e9d5ff);border:2px solid#8b5cf6;border-radius:8px;padding:20px;margin:20px 0}
+          .db {background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:12px;border-radius:6px;margin:10px 0;text-align:center}
+          .pst {background:#fff;padding:12px;border-radius:6px;margin-top:10px;border:1px solid#e5e7eb}
+          .pr {display:flex;justify-content:space-between;padding:6px 0;font-size:12px;border-bottom:1px solid#f3f4f6}
+          .pr:last-child {border-bottom:none}
+          .pt {background:linear-gradient(135deg,#8b5cf6,#a855f7);color:#fff;padding:12px;border-radius:6px;text-align:center;font-size:18px;font-weight:700;margin-top:8px}
+          
+          .btn-green{display:inline-block;background:linear-gradient(135deg,#10b981,#059669);color:#fff;padding:14px 28px;text-decoration:none;border-radius:6px;font-weight:700;margin:10px 0;font-size:15px;box-shadow:0 4px 12px rgba(16,185,129,0.3)}
+          .btn-q{display:inline-block;background:#f3f4f6;color:#4b5563;padding:10px 20px;text-decoration:none;border-radius:6px;font-weight:600;margin:5px 0;font-size:13px;border:1px solid#e5e7eb}
+          .ft{text-align:center;margin-top:25px;padding-top:15px;border-top:1px solid#e2e8f0;color:#9ca3af;font-size:11px}
+        </style>
+      </head>
+      <body>
+        <div class="h"><h1 style="margin:0;font-size:24px">${t.client.title}</h1></div>
+        <div class="c">
+          <p style="margin:0 0 15px 0"><strong>${t.client.greeting(escapeHtml(data.firstName), escapeHtml(data.lastName))}</strong></p>
+          <p style="margin:0 0 20px 0">${t.client.intro(escapeHtml(data.company || (lang === 'fr' ? 'votre projet' : lang === 'nl' ? 'uw project' : 'your project')))}</p>
+          
+          <div style="font-size:16px;font-weight:700;color:#6d28d9;margin-bottom:15px">📊 Récapitulatif de votre configuration :</div>
+          
+          <table class="ptbl">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th style="text-align:right">Unique (HT)</th>
+                <th style="text-align:right">Mensuel (HT)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows.map(row => `
+                <tr>
+                  <td>${escapeHtml(row.item)}</td>
+                  <td style="text-align:right" class="p-val">${row.unique}</td>
+                  <td style="text-align:right" class="p-val">${row.monthly}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
 
-<div class="ps">
-<div style="font-size:16px;font-weight:700;color:#6d28d9;text-align:center;margin-bottom:12px">${t.client.estimationTitle}</div>
-<div class="pg">
-${Object.entries(groupedBreakdown).map(([category, items]) => `
-<div class="pc">${t.owner.breakdown(category)}</div>
-${items.map(({ item, price }) => `
-<div class="pr"><span>${escapeHtml(item)}</span><strong style="color:#8b5cf6">${escapeHtml(price)}</strong></div>
-`).join('')}
-`).join('')}
-</div>
-<div class="db">
-<div style="font-size:12px;opacity:0.9;margin-bottom:5px">${t.client.discount}</div>
-<div style="font-size:24px;font-weight:700">${pricing.hasRange ? `-${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
-</div>
-  <div class="pst">
-  <div class="pr"><span style="text-decoration:line-through;opacity:0.6">${t.client.originalPrice}</span><span style="text-decoration:line-through;opacity:0.6">${pricing.hasRange ? `${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.originalMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</span></div>
-  <div class="pr"><span><strong>${t.client.priceWithDiscount}</strong></span><strong style="color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.discountedMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.discountedMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</strong></div>
-  ${pricing.monthlySubscription > 0 ? `<div class="pr"><span style="color:#8b5cf6;font-weight:700">${lang === 'fr' ? 'Abonnement mensuel' : lang === 'nl' ? 'Maandelijks abonnement' : 'Monthly subscription'}</span><strong style="color:#8b5cf6">${pricing.monthlySubscription}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'} ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}</strong></div>` : ''}
-  <div class="pr"><span>${t.client.vat}</span><strong style="color:#8b5cf6">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</strong></div>
-  </div>
-  <div class="pt">${t.client.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}</div>
-  </div>
+          <div style="margin:25px 0;text-align:center;font-weight:700;color:#6d28d9;font-size:16px">--- Choisissez votre modèle de paiement ---</div>
 
-  ${pricing.isMenuProject ? `
-  <div class="mb" style="background:#fefce8;border-color:#eab308">
-    <h3 style="color:#854d0e;text-align:center;margin:0 0 8px 0;font-size:15px">💡 Modèle Business Alternatif</h3>
-    <p style="color:#713f12;font-size:12px;text-align:center;margin:8px 0">Réduisez votre investissement initial avec notre option abonnement.</p>
-    <div class="oc" style="border-color:#fbbf24">
-      <div style="font-weight:700;color:#854d0e;margin-bottom:5px;font-size:13px">Modèle B : Setup + Abonnement</div>
-      <div style="font-size:11px;color:#713f12">• Setup initial : ${Math.round(pricing.discountedBaseSetup * 1.21)}€ TTC</div>
-      <div style="font-size:11px;color:#713f12">• Mensualité : ${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</div>
-    </div>
-  </div>` : ''}
+          <!-- MODEL A -->
+          <div class="ps">
+            <div style="font-size:15px;font-weight:700;color:#6d28d9;margin-bottom:12px;text-align:center">MODÈLE A : INVESTISSEMENT UNIQUE</div>
+            <p style="text-align:center;font-size:12px;color:#6b7280;margin-bottom:15px">Payez l'ensemble du projet en une fois et profitez d'une réduction de 30%.</p>
+            <div class="db">
+              <div style="font-size:12px;opacity:0.9;margin-bottom:4px">${t.client.discount}</div>
+              <div style="font-size:24px;font-weight:700">${pricing.hasRange ? `-${pricing.minDiscount}€ à -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
+            </div>
+            <div class="pst">
+              <div class="pr"><span>${t.client.originalPrice}</span><span>${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span></div>
+              <div class="pr"><span><strong>${t.client.priceWithDiscount}</strong></span><strong style="color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong></div>
+            </div>
+            <div class="pt">${t.client.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ - ${Math.round(pricing.discountedMaxPrice * 1.21)}€ TTC` : `${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC`}</div>
+          </div>
+
+          ${pricing.isMenuProject ? `
+          <!-- MODEL B -->
+          <div class="ps" style="background:linear-gradient(135deg,#fefce8,#fef9c3);border-color:#eab308">
+            <div style="font-size:15px;font-weight:700;color:#854d0e;margin-bottom:12px;text-align:center">MODÈLE B : SYSTÈME D'ABONNEMENT</div>
+            <p style="text-align:center;font-size:12px;color:#854d0e;margin-bottom:15px">Réduisez votre investissement de départ en étalant le coût sur un abonnement mensuel.</p>
+            <div class="pst" style="border-color:#fbbf24">
+              <div class="pr"><span><strong>Setup Initial (Unique TTC)</strong></span><strong style="color:#854d0e">${Math.round(pricing.discountedBaseSetup * 1.21)}€</strong></div>
+              <div class="pr"><span><strong>Abonnement (TTC / mois)</strong></span><strong style="color:#854d0e">${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ / mois</strong></div>
+            </div>
+            <div class="pt" style="background:linear-gradient(135deg,#eab308,#d97706)">Total Initial : ${Math.round(pricing.discountedBaseSetup * 1.21)}€ TTC</div>
+            <div style="text-align:center;font-size:14px;font-weight:700;color:#854d0e;margin-top:10px">+ ${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</div>
+          </div>` : ''}
+
+          <div style="text-align:center;margin:30px 0">
+            <p style="font-size:14px;font-weight:700;margin-bottom:15px">Cette estimation vous convient-elle ?</p>
+            <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-green">✅ Valider mon projet</a>
+            <div style="margin-top:15px">
+              <a href="${mailtoQuestionLink}" class="btn-q">💬 Poser une question sur ce devis</a>
+            </div>
+          </div>
+
+          <div style="background:#f9fafb;border-left:4px solid#8b5cf6;padding:15px;border-radius:6px;margin-top:25px">
+            <p style="margin:0;font-size:13px;color:#4b5563"><strong>Et après ?</strong> Notre équipe vous contactera sous 24-48h pour finaliser les détails et lancer la création !</p>
+          </div>
+        </div>
+        <div class="ft">${t.client.footer}</div>
+      </body>
+    </html>
+  `;
+
 
   <div class="mb">
 <h3 style="color:#0369a1;text-align:center;margin:0 0 8px 0;font-size:15px">${t.client.whyMaintenance}</h3>
