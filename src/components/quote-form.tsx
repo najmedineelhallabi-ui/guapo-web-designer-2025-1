@@ -852,41 +852,47 @@ export function QuoteForm() {
                                 {t('quote.menu.subscription.title')} *
                               </h5>
                               
-                                <div className="grid sm:grid-cols-2 gap-4">
-                                  <label className={`flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${selectedMenuSubscription === "Pack Menu Simple" ? 'border-accent bg-accent/15 shadow-md' : 'border-border hover:border-accent/30 bg-accent/5'}`}>
-                                    <input
-                                      type="radio"
-                                      name="menuSubscription"
-                                      value="Pack Menu Simple"
-                                      checked={selectedMenuSubscription === "Pack Menu Simple"}
-                                      onChange={() => handleMenuSubscriptionSelect("Pack Menu Simple")}
-                                      className="w-5 h-5 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                                      disabled={isPending}
-                                      required={isMenuManagementSelected}
-                                    />
-                                    <div className="flex-1">
-                                      <span className="font-bold text-sm text-foreground">{t('quote.menu.subscription.simple.name')}</span>
-                                      <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.subscription.simple.desc')}</p>
-                                    </div>
-                                  </label>
-    
-                                  <label className={`flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${selectedMenuSubscription === "Pack Menu Complet" ? 'border-accent bg-accent/15 shadow-md' : 'border-border hover:border-accent/30 bg-accent/5'}`}>
-                                    <input
-                                      type="radio"
-                                      name="menuSubscription"
-                                      value="Pack Menu Complet"
-                                      checked={selectedMenuSubscription === "Pack Menu Complet"}
-                                      onChange={() => handleMenuSubscriptionSelect("Pack Menu Complet")}
-                                      className="w-5 h-5 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                                      disabled={isPending}
-                                      required={isMenuManagementSelected}
-                                    />
-                                    <div className="flex-1">
-                                      <span className="font-bold text-sm text-foreground">{t('quote.menu.subscription.complete.name')}</span>
-                                      <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.subscription.complete.desc')}</p>
-                                    </div>
-                                  </label>
-                                </div>
+                                  <div className="grid sm:grid-cols-2 gap-4">
+                                    <label className={`flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${selectedMenuSubscription === "Pack Menu Simple" ? 'border-accent bg-accent/15 shadow-md' : 'border-border hover:border-accent/30 bg-accent/5'}`}>
+                                      <input
+                                        type="radio"
+                                        name="menuSubscription"
+                                        value="Pack Menu Simple"
+                                        checked={selectedMenuSubscription === "Pack Menu Simple"}
+                                        onChange={() => handleMenuSubscriptionSelect("Pack Menu Simple")}
+                                        className="w-5 h-5 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                                        disabled={isPending}
+                                        required={isMenuManagementSelected}
+                                      />
+                                      <div className="flex-1">
+                                        <div className="flex justify-between items-start">
+                                          <span className="font-bold text-sm text-foreground">{t('quote.menu.subscription.simple.name')}</span>
+                                        </div>
+                                        <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.subscription.simple.desc')}</p>
+                                        <p className="text-[10px] text-accent font-bold mt-2">{t('quote.menu.subscription.freeMonth')}</p>
+                                      </div>
+                                    </label>
+      
+                                    <label className={`flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${selectedMenuSubscription === "Pack Menu Complet" ? 'border-accent bg-accent/15 shadow-md' : 'border-border hover:border-accent/30 bg-accent/5'}`}>
+                                      <input
+                                        type="radio"
+                                        name="menuSubscription"
+                                        value="Pack Menu Complet"
+                                        checked={selectedMenuSubscription === "Pack Menu Complet"}
+                                        onChange={() => handleMenuSubscriptionSelect("Pack Menu Complet")}
+                                        className="w-5 h-5 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                                        disabled={isPending}
+                                        required={isMenuManagementSelected}
+                                      />
+                                      <div className="flex-1">
+                                        <div className="flex justify-between items-start">
+                                          <span className="font-bold text-sm text-foreground">{t('quote.menu.subscription.complete.name')}</span>
+                                        </div>
+                                        <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.subscription.complete.desc')}</p>
+                                        <p className="text-[10px] text-accent font-bold mt-2">{t('quote.menu.subscription.freeMonth')}</p>
+                                      </div>
+                                    </label>
+                                  </div>
                             </div>
                           )}
 
