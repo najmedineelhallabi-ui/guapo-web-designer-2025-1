@@ -519,32 +519,36 @@ function calculatePricing(data: {
     }
   }
 
-  // Fonctionnalités
-  if (data.features && data.features.length > 0) {
-    data.features.forEach(feature => {
-      // Pour le Model A (One-time)
-      const featureKey = feature as keyof typeof PRICING.features;
-      const price = PRICING.features[featureKey];
-      
-      // Pour le Model B (Monthly if applicable)
-      const monthlyPrice = (PRICING as any).monthlyMenuFeatures?.[feature];
-
-      if (price !== undefined) {
-        minTotal += price;
-        maxTotal += price;
+    // Fonctionnalités
+    if (data.features && data.features.length > 0) {
+      data.features.forEach(feature => {
+        // Pour le Model A (One-time)
+        const featureKey = feature as keyof typeof PRICING.features;
+        const price = PRICING.features[featureKey];
         
-        if (isMenuProject && monthlyPrice !== undefined) {
-          totalMonthlyForMenu += monthlyPrice;
-        }
+        // Pour le Model B (Monthly if applicable)
+        const monthlyPrice = (PRICING as any).monthlyMenuFeatures?.[feature];
 
-        breakdown.push({
-          category: t.owner.categoryFeatures,
-          item: translateOption(feature, lang) + (isMenuProject && monthlyPrice !== undefined ? ` (${monthlyPrice}€/${lang === 'fr' ? 'mois' : 'm'})` : ''),
-          price: price > 0 ? `${price}€` : t.owner.included
-        });
-      }
-    });
-  }
+        if (price !== undefined) {
+          // Si c'est un projet Menu et que la fonctionnalité est disponible en mensuel,
+          // on ne l'ajoute PAS au total unique (Model A).
+          if (!(isMenuProject && monthlyPrice !== undefined)) {
+            minTotal += price;
+            maxTotal += price;
+          }
+          
+          if (isMenuProject && monthlyPrice !== undefined) {
+            totalMonthlyForMenu += monthlyPrice;
+          }
+
+          breakdown.push({
+            category: t.owner.categoryFeatures,
+            item: translateOption(feature, lang) + (isMenuProject && monthlyPrice !== undefined ? ` (${monthlyPrice}€/${lang === 'fr' ? 'mois' : 'm'})` : ''),
+            price: (isMenuProject && monthlyPrice !== undefined) ? '-' : (price > 0 ? `${price}€` : t.owner.included)
+          });
+        }
+      });
+    }
 
   // Langues sélectionnées
   if (data.languages && data.languages.length > 0) {
