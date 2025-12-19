@@ -48,8 +48,6 @@ export const PRICING = {
     "Statuts de commande cuisine": 180,
     "Dashboard Serveur": 320,
     "Statuts de commande serveur": 180,
-    "Pack Menu Simple": 400,
-    "Pack Menu Complet": 600,
   },
 
   // Prix mensuels alternatifs pour les fonctionnalités Menu
