@@ -603,15 +603,15 @@ function calculatePricing(data: {
     const discountedMinPrice = originalMinPrice - minDiscount;
     const discountedMaxPrice = originalMaxPrice - maxDiscount;
     
-    // TVA sur le prix remisé
+    // TVA sur le prix remisé (Model A)
     const minVat = Math.round(discountedMinPrice * 0.21);
     const maxVat = Math.round(discountedMaxPrice * 0.21);
     
-    // Total TTC unique
+    // Total TTC unique (Model A)
     const minTotalTTC = discountedMinPrice + minVat;
     const maxTotalTTC = discountedMaxPrice + maxVat;
 
-    // Prix Menu Mensuel (Total)
+    // Prix Menu Mensuel (Total) - Model A additionnel ou Model B mensuel
     const menuMonthlyHT = totalMonthlyForMenu;
     const menuMonthlyVat = Math.round(menuMonthlyHT * 0.21);
     const menuMonthlyTTC = menuMonthlyHT + menuMonthlyVat;
