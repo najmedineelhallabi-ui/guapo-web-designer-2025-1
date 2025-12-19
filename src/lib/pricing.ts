@@ -129,5 +129,5 @@ export function calculateEstimate(data: {
     maxTotal += domainPrice;
   }
 
-  return { minTotal, maxTotal };
+  return { minTotal, maxTotal, monthlySubscription };
 }

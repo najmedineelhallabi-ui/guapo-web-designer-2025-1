@@ -881,8 +881,6 @@ export function QuoteForm() {
                     )}
                   </div>
                 </div>
-              </div>
-                </div>
 
                 {/* Dashboard Serveur */}
                 <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">

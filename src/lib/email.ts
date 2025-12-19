@@ -165,17 +165,17 @@ const optionTranslations = {
       nl: "Menu / Bestelsite (basissysteem)",
       en: "Menu / Ordering site (base system)"
     },
-    // Abonnements Menu
-    "Pack Menu Simple": {
-      fr: "Pack Menu Simple (25€/mois)",
-      nl: "Eenvoudig Menupakket (25€/maand)",
-      en: "Simple Menu Pack (25€/month)"
-    },
-    "Pack Menu Complet": {
-      fr: "Pack Menu Complet (35€/mois)",
-      nl: "Compleet Menupakket (35€/maand)",
-      en: "Complete Menu Pack (35€/month)"
-    },
+      // Abonnements Menu
+      "Pack Menu Simple": {
+        fr: "Pack Menu Simple",
+        nl: "Eenvoudig Menupakket",
+        en: "Simple Menu Pack"
+      },
+      "Pack Menu Complet": {
+        fr: "Pack Menu Complet",
+        nl: "Compleet Menupakket",
+        en: "Complete Menu Pack"
+      },
     // Fonctionnalités Menu Client
   "Ajout au panier": {
     fr: "Ajout au panier",
@@ -882,11 +882,12 @@ export async function sendQuoteEmail(data: {
               <div style="font-size:11px;opacity:0.9;margin-bottom:3px">${t.owner.discount}</div>
               <div style="font-size:20px;font-weight:700">${pricing.hasRange ? `-${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
             </div>
-            <div class="pst">
-              <div class="pr"><span style="text-decoration:line-through;opacity:0.6">${t.owner.originalPrice}</span><span style="text-decoration:line-through;opacity:0.6">${pricing.hasRange ? `${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.originalMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</span></div>
-              <div class="pr"><span><strong>${t.owner.priceWithDiscount}</strong></span><strong style="color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.discountedMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.discountedMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</strong></div>
-              <div class="pr"><span>${t.owner.vat}</span><strong style="color:#8b5cf6">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</strong></div>
-            </div>
+              <div class="pst">
+                <div class="pr"><span style="text-decoration:line-through;opacity:0.6">${t.owner.originalPrice}</span><span style="text-decoration:line-through;opacity:0.6">${pricing.hasRange ? `${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.originalMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</span></div>
+                <div class="pr"><span><strong>${t.owner.priceWithDiscount}</strong></span><strong style="color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.discountedMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.discountedMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</strong></div>
+                ${pricing.monthlySubscription > 0 ? `<div class="pr"><span style="color:#8b5cf6;font-weight:700">${lang === 'fr' ? 'Abonnement mensuel' : lang === 'nl' ? 'Maandelijks abonnement' : 'Monthly subscription'}</span><strong style="color:#8b5cf6">${pricing.monthlySubscription}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'} ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}</strong></div>` : ''}
+                <div class="pr"><span>${t.owner.vat}</span><strong style="color:#8b5cf6">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</strong></div>
+              </div>
             <div class="pt">${t.owner.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}</div>
           </div>
 
@@ -1033,11 +1034,12 @@ ${items.map(({ item, price }) => `
 <div style="font-size:12px;opacity:0.9;margin-bottom:5px">${t.client.discount}</div>
 <div style="font-size:24px;font-weight:700">${pricing.hasRange ? `-${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€` : `-${pricing.minDiscount}€`}</div>
 </div>
-<div class="pst">
-<div class="pr"><span style="text-decoration:line-through;opacity:0.6">${t.client.originalPrice}</span><span style="text-decoration:line-through;opacity:0.6">${pricing.hasRange ? `${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.originalMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</span></div>
-<div class="pr"><span><strong>${t.client.priceWithDiscount}</strong></span><strong style="color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.discountedMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.discountedMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</strong></div>
-<div class="pr"><span>${t.client.vat}</span><strong style="color:#8b5cf6">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</strong></div>
-</div>
+  <div class="pst">
+  <div class="pr"><span style="text-decoration:line-through;opacity:0.6">${t.client.originalPrice}</span><span style="text-decoration:line-through;opacity:0.6">${pricing.hasRange ? `${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.originalMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</span></div>
+  <div class="pr"><span><strong>${t.client.priceWithDiscount}</strong></span><strong style="color:#8b5cf6">${pricing.hasRange ? `${pricing.discountedMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.discountedMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}` : `${pricing.discountedMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}`}</strong></div>
+  ${pricing.monthlySubscription > 0 ? `<div class="pr"><span style="color:#8b5cf6;font-weight:700">${lang === 'fr' ? 'Abonnement mensuel' : lang === 'nl' ? 'Maandelijks abonnement' : 'Monthly subscription'}</span><strong style="color:#8b5cf6">${pricing.monthlySubscription}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'} ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}</strong></div>` : ''}
+  <div class="pr"><span>${t.client.vat}</span><strong style="color:#8b5cf6">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 0.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 0.21)}€` : `${Math.round(pricing.discountedMinPrice * 0.21)}€`}</strong></div>
+  </div>
 <div class="pt">${t.client.totalTTC} ${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€` : `${Math.round(pricing.discountedMinPrice * 1.21)}€`}</div>
 </div>
 
