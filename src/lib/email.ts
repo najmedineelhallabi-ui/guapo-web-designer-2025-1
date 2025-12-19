@@ -960,15 +960,17 @@ ${translatedFeatures.length > 0 ? `${lang === 'fr' ? 'Fonctionnalités' : lang =
 ${translatedOptimization.length > 0 ? `${lang === 'fr' ? 'Optimisation' : lang === 'nl' ? 'Optimalisatie' : 'Optimization'}: ${translatedOptimization.join(', ')}` : ''}
 ${data.hosting ? `${lang === 'fr' ? 'Hébergement' : lang === 'nl' ? 'Hosting' : 'Hosting'}: ${translatedHosting}` : ''}
 ${data.domain ? `${lang === 'fr' ? 'Domaine' : lang === 'nl' ? 'Domein' : 'Domain'}: ${translatedDomain}` : ''}
+${data.menuSubscription ? `${lang === 'fr' ? 'Abonnement' : lang === 'nl' ? 'Abonnement' : 'Subscription'}: ${translateOption(data.menuSubscription, lang)}` : ''}
 
 ${pricing.hasRange 
   ? `${lang === 'fr' ? 'Prix original' : lang === 'nl' ? 'Originele prijs' : 'Original price'}: ${pricing.originalMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.originalMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}
 ${lang === 'fr' ? 'Réduction -30%' : lang === 'nl' ? 'Korting -30%' : 'Discount -30%'}: -${pricing.minDiscount}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} -${pricing.maxDiscount}€
 ${lang === 'fr' ? 'Prix final' : lang === 'nl' ? 'Eindprijs' : 'Final price'}: ${pricing.discountedMinPrice}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${pricing.discountedMaxPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'} (${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'en' ? 'to' : lang === 'nl' ? 'tot' : 'à'} ${Math.round(pricing.discountedMaxPrice * 1.21)}€ ${lang === 'fr' ? 'TTC' : lang === 'nl' ? 'incl. BTW' : 'incl. VAT'})`
-  : `${lang === 'fr' ? 'Prix original' : lang === 'nl' ? 'Originele prijs' : 'Original price'}: ${pricing.originalMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}
+  : `${lang === 'fr' ? 'Prix original' : lang === 'nl' ? 'Originele prix' : 'Original price'}: ${pricing.originalMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'}
 ${lang === 'fr' ? 'Réduction -30%' : lang === 'nl' ? 'Korting -30%' : 'Discount -30%'}: -${pricing.minDiscount}€
 ${lang === 'fr' ? 'Prix final' : lang === 'nl' ? 'Eindprijs' : 'Final price'}: ${pricing.discountedMinPrice}€ ${lang === 'fr' ? 'HT' : lang === 'nl' ? 'excl. BTW' : 'excl. VAT'} (${Math.round(pricing.discountedMinPrice * 1.21)}€ ${lang === 'fr' ? 'TTC' : lang === 'nl' ? 'incl. BTW' : 'incl. VAT'})`
 }
+${pricing.monthlySubscription > 0 ? `${lang === 'fr' ? 'Abonnement mensuel' : lang === 'nl' ? 'Maandelijks abonnement' : 'Monthly subscription'}: ${pricing.monthlySubscription}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'}` : ''}
 -----------------------
 
 ${lang === 'fr' ? 'Ma question' : lang === 'nl' ? 'Mijn vraag' : 'My question'}:
