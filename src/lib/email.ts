@@ -766,6 +766,7 @@ export async function sendQuoteEmail(data: {
     siteType: data.siteType,
     pageCount: data.pageCount,
     features: data.features,
+    menuSubscription: data.menuSubscription,
     languages: data.languages,
     otherLanguages: data.otherLanguages,
     optimization: data.optimization,
