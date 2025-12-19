@@ -763,7 +763,6 @@ export function QuoteForm() {
                       defaultChecked={state.formData?.menuSubscription === "Pack Menu Simple"}
                       className="w-6 h-6 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
                       disabled={isPending}
-                      required
                     />
                     <div className="flex-1">
                       <span className="font-bold text-lg text-foreground group-hover:text-accent transition-colors">{t('quote.menu.subscription.simple.name')}</span>
@@ -779,7 +778,6 @@ export function QuoteForm() {
                       defaultChecked={state.formData?.menuSubscription === "Pack Menu Complet"}
                       className="w-6 h-6 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
                       disabled={isPending}
-                      required
                     />
                     <div className="flex-1">
                       <span className="font-bold text-lg text-foreground group-hover:text-accent transition-colors">{t('quote.menu.subscription.complete.name')}</span>
