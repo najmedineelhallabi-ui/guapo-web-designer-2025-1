@@ -1048,27 +1048,39 @@ export async function sendQuoteEmail(data: {
     </html>
   `;
 
-  try {
-    const ownerResult = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
-      to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
-      replyTo: data.email,
-      subject: t.owner.subject(data.firstName, data.lastName, pricing.discountedMinPrice, pricing.discountedMaxPrice, pricing.hasRange),
-      html: ownerEmailHtml,
-    });
+    try {
+      const ownerResult = await resend.emails.send({
+        from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+        to: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
+        replyTo: data.email,
+        subject: t.owner.subject(data.firstName, data.lastName, pricing.discountedMinPrice, pricing.discountedMaxPrice, pricing.hasRange),
+        html: ownerEmailHtml,
+      });
 
-    const clientResult = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
-      to: data.email,
-      replyTo: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
-      subject: t.client.subject,
-      html: clientEmailHtml,
-    });
+      const clientResult = await resend.emails.send({
+        from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+        to: data.email,
+        replyTo: process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com',
+        subject: t.client.subject,
+        html: clientEmailHtml,
+      });
 
-    return { success: true };
-  } catch (error) {
-    console.error('❌ Email sending failed:', error);
-    throw error;
+      return { success: true };
+    } catch (error) {
+      console.error('❌ Email sending failed:', error);
+      throw error;
+    }
+  }
+
+  function escapeHtml(text: string): string {
+    const map: { [key: string]: string } = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    };
+    return text.replace(/[&<>"']/g, (m) => map[m]);
   }
 }
 
