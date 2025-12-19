@@ -44,10 +44,10 @@ export const PRICING = {
     "Confirmation de commande": 120,
     "Email automatique client": 160,
     // Fonctionnalités Menu / Site de commande - Restaurant
-    "Dashboard Cuisine": 320,
-    "Statuts de commande cuisine": 180,
-    "Dashboard Serveur": 320,
-    "Statuts de commande serveur": 180,
+    "Dashboard Cuisine": 0,
+    "Statuts de commande cuisine": 0,
+    "Dashboard Serveur": 0,
+    "Statuts de commande serveur": 0,
   },
 
   // Prix mensuels alternatifs pour les fonctionnalités Menu
