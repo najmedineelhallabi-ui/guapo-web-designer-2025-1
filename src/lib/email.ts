@@ -197,27 +197,27 @@ const optionTranslations = {
     nl: "Automatische klant email",
     en: "Automatic customer email"
   },
-  // Fonctionnalités Menu Restaurant
-  "Dashboard cuisine": {
-    fr: "Dashboard cuisine",
-    nl: "Keuken dashboard",
-    en: "Kitchen dashboard"
-  },
-  "Statuts de commande cuisine": {
-    fr: "Statuts de commande cuisine",
-    nl: "Keuken bestelstatus",
-    en: "Kitchen order status"
-  },
-  "Gestion menu": {
-    fr: "Gestion menu",
-    nl: "Menu beheer",
-    en: "Menu management"
-  },
-  "Dashboard serveur": {
-    fr: "Dashboard serveur",
-    nl: "Ober dashboard",
-    en: "Waiter dashboard"
-  },
+    // Fonctionnalités Menu Restaurant
+    "Dashboard Cuisine": {
+      fr: "Dashboard Cuisine",
+      nl: "Keuken dashboard",
+      en: "Kitchen dashboard"
+    },
+    "Statuts de commande cuisine": {
+      fr: "Statuts de commande cuisine",
+      nl: "Keuken bestelstatus",
+      en: "Kitchen order status"
+    },
+    "Gestion menu": {
+      fr: "Gestion menu",
+      nl: "Menu beheer",
+      en: "Menu management"
+    },
+    "Dashboard Serveur": {
+      fr: "Dashboard Serveur",
+      nl: "Ober dashboard",
+      en: "Waiter dashboard"
+    },
   "Statuts de commande serveur": {
     fr: "Statuts de commande serveur",
     nl: "Ober bestelstatus",
