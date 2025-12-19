@@ -38,10 +38,11 @@ export type QuoteFormState = {
       sector?: string;
       siteType?: string;
       pageCount?: number;
-      features?: string[];
-      menuFeatures?: string[];
-      languages?: string[];
-      otherLanguages?: string;
+        features?: string[];
+        menuFeatures?: string[];
+        menuSubscription?: string;
+        languages?: string[];
+        otherLanguages?: string;
       optimization?: string[];
       hosting?: string;
       domain?: string;
