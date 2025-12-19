@@ -740,15 +740,54 @@ export function QuoteForm() {
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-6 h-6 text-accent flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
-                      <p className="font-bold text-lg text-foreground">{t('quote.menu.base.name')}</p>
-                      <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.base.desc')}</p>
+                        <p className="font-bold text-lg text-foreground">{t('quote.menu.base.name')}</p>
+                        <p className="text-sm text-foreground/70 mt-1">{t('quote.menu.base.desc')}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-            {/* Client Features */}
-            {selectedSiteType && (
+                {/* Abonnement Gestion Menu */}
+                <div className="mt-8">
+                  <h4 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                    <Wrench className="w-5 h-5 text-accent" />
+                    {t('quote.menu.subscription.title')}
+                  </h4>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                      <input
+                        type="radio"
+                        name="menuSubscription"
+                        value="Pack Menu Simple"
+                        defaultChecked={state.formData?.menuSubscription === "Pack Menu Simple"}
+                        className="w-5 h-5 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <div className="flex-1">
+                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.subscription.simple.name')}</span>
+                        <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.subscription.simple.desc')}</p>
+                      </div>
+                    </label>
+
+                    <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                      <input
+                        type="radio"
+                        name="menuSubscription"
+                        value="Pack Menu Complet"
+                        defaultChecked={state.formData?.menuSubscription === "Pack Menu Complet"}
+                        className="w-5 h-5 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <div className="flex-1">
+                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.subscription.complete.name')}</span>
+                        <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.subscription.complete.desc')}</p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+              {/* Client Features */}
+              {selectedSiteType && (
               <>
                 <div className="mt-8">
                   <h4 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
