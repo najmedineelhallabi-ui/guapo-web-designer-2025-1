@@ -836,6 +836,7 @@ export async function sendQuoteEmail(data: {
           <div class="ps" style="background:#f0f9ff;border-color:#bae6fd">
             <div class="pst" style="border-color:#7dd3fc">
               <div class="pr"><span><strong>Abonnement mensuel</strong></span><strong style="color:#0ea5e9">${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</strong></div>
+              <div style="font-size:12px;color:#0ea5e9;margin-top:5px;font-weight:700">🎁 PREMIER MOIS OFFERT</div>
             </div>
           </div>` : ''}
 
