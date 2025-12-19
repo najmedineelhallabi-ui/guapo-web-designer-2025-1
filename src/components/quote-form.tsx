@@ -781,137 +781,105 @@ export function QuoteForm() {
                 </label>
 
                 {/* Sub-options for Kitchen Dashboard */}
-                <div className={`ml-8 grid sm:grid-cols-2 gap-4 transition-all duration-300 ${isKitchenDashboardSelected ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none absolute'}`}>
-                  <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-xl hover:border-accent/50 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Statuts de commande cuisine"
-                      disabled={isPending || !isKitchenDashboardSelected}
-                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                    />
-                    <div className="flex-1">
-                      <span className="font-bold text-foreground group-hover:text-accent transition-colors text-sm">{t('quote.menu.resto.status')}</span>
-                      <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.resto.status.desc')}</p>
-                    </div>
-                  </label>
-
-                  <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-xl hover:border-accent/50 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Gestion des stocks"
-                      disabled={isPending || !isKitchenDashboardSelected}
-                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                    />
-                    <div className="flex-1">
-                      <span className="font-bold text-foreground group-hover:text-accent transition-colors text-sm">{t('quote.menu.resto.stock')}</span>
-                      <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.resto.stock.desc')}</p>
-                    </div>
-                  </label>
-                </div>
-
-                {/* Dashboard Serveur */}
-                <label className="flex items-start gap-4 p-5 border-2 border-border rounded-xl hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
-                  <input
-                    type="checkbox"
-                    name="menuFeatures"
-                    value="Dashboard serveur"
-                    checked={isWaiterDashboardSelected}
-                    onChange={handleWaiterDashboardChange}
-                    className="w-6 h-6 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                    disabled={isPending}
-                  />
-                  <div className="flex-1">
-                    <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.waiter')}</span>
-                    <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.resto.waiter.desc')}</p>
-                  </div>
-                </label>
-
-                {/* Sub-options for Waiter Dashboard */}
-                <div className={`ml-8 transition-all duration-300 ${isWaiterDashboardSelected ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none absolute'}`}>
-                  <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-xl hover:border-accent/50 cursor-pointer transition-all group max-w-sm">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Statuts de commande serveur"
-                      disabled={isPending || !isWaiterDashboardSelected}
-                      className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                    />
-                    <div className="flex-1">
-                      <span className="font-bold text-foreground group-hover:text-accent transition-colors text-sm">{t('quote.menu.resto.waiterStatus')}</span>
-                      <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.resto.waiterStatus.desc')}</p>
-                    </div>
-                  </label>
-                </div>
-
-                {/* Gestion Menu (Subscription Trigger) */}
-                <div className="pt-4 border-t border-accent/10">
-                  <label className="flex items-start gap-4 p-5 border-2 border-accent/30 bg-accent/5 rounded-xl hover:border-accent/50 cursor-pointer transition-all group">
-                    <input
-                      type="checkbox"
-                      name="menuFeatures"
-                      value="Gestion menu"
-                      checked={isMenuManagementSelected}
-                      onChange={handleMenuManagementChange}
-                      className="w-6 h-6 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                      disabled={isPending}
-                    />
-                    <div className="flex-1">
-                      <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.menuManagement')}</span>
-                      <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.resto.menuManagement.desc')}</p>
-                    </div>
-                  </label>
-
-                  {isMenuManagementSelected && (
-                    <div className="mt-6 p-6 bg-white/50 border-2 border-accent/20 rounded-xl animate-in zoom-in-95 duration-300">
-                      <h5 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
-                        <CheckCircle className="w-5 h-5 text-accent" />
-                        {t('quote.menu.subscription.title')} *
-                      </h5>
-                      
-                      <div className="grid sm:grid-cols-2 gap-4">
-                        <label className={`flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${state.formData?.menuSubscription === "Pack Menu Simple" ? 'border-accent bg-accent/5 shadow-md' : 'border-border hover:border-accent/30 bg-white shadow-sm'}`}>
-                          <input
-                            type="radio"
-                            name="menuSubscription"
-                            value="Pack Menu Simple"
-                            defaultChecked={state.formData?.menuSubscription === "Pack Menu Simple"}
-                            className="w-5 h-5 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                            disabled={isPending}
-                            required={isMenuManagementSelected}
-                          />
-                          <div className="flex-1">
-                            <span className="font-bold text-sm text-foreground">{t('quote.menu.subscription.simple.name')}</span>
-                            <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.subscription.simple.desc')}</p>
-                          </div>
-                        </label>
-
-                        <label className={`flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${state.formData?.menuSubscription === "Pack Menu Complet" ? 'border-accent bg-accent/5 shadow-md' : 'border-border hover:border-accent/30 bg-white shadow-sm'}`}>
-                          <input
-                            type="radio"
-                            name="menuSubscription"
-                            value="Pack Menu Complet"
-                            defaultChecked={state.formData?.menuSubscription === "Pack Menu Complet"}
-                            className="w-5 h-5 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
-                            disabled={isPending}
-                            required={isMenuManagementSelected}
-                          />
-                          <div className="flex-1">
-                            <span className="font-bold text-sm text-foreground">{t('quote.menu.subscription.complete.name')}</span>
-                            <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.subscription.complete.desc')}</p>
-                          </div>
-                        </label>
+                <div className={`ml-8 space-y-4 transition-all duration-300 ${isKitchenDashboardSelected ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none absolute'}`}>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-xl hover:border-accent/50 cursor-pointer transition-all group">
+                      <input
+                        type="checkbox"
+                        name="menuFeatures"
+                        value="Statuts de commande cuisine"
+                        disabled={isPending || !isKitchenDashboardSelected}
+                        className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      />
+                      <div className="flex-1">
+                        <span className="font-bold text-foreground group-hover:text-accent transition-colors text-sm">{t('quote.menu.resto.status')}</span>
+                        <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.resto.status.desc')}</p>
                       </div>
-                      
-                      {state.errors?.menuSubscription && (
-                        <p className="text-red-600 text-xs mt-3 flex items-center gap-1 font-semibold">
-                          <AlertCircle className="w-3 h-3" />
-                          {state.errors.menuSubscription[0]}
-                        </p>
-                      )}
-                    </div>
-                  )}
+                    </label>
+
+                    <label className="flex items-start gap-4 p-4 border-2 border-accent/30 bg-accent/5 rounded-xl hover:border-accent/50 cursor-pointer transition-all group">
+                      <input
+                        type="checkbox"
+                        name="menuFeatures"
+                        value="Gestion des stocks"
+                        disabled={isPending || !isKitchenDashboardSelected}
+                        className="w-5 h-5 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                      />
+                      <div className="flex-1">
+                        <span className="font-bold text-foreground group-hover:text-accent transition-colors text-sm">{t('quote.menu.resto.stock')}</span>
+                        <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.resto.stock.desc')}</p>
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* Gestion Menu (Subscription Trigger) - Now inside Kitchen Dashboard sub-options */}
+                  <div className="pt-2">
+                    <label className="flex items-start gap-4 p-5 border-2 border-accent/30 bg-accent/5 rounded-xl hover:border-accent/50 cursor-pointer transition-all group">
+                      <input
+                        type="checkbox"
+                        name="menuFeatures"
+                        value="Gestion menu"
+                        checked={isMenuManagementSelected}
+                        onChange={handleMenuManagementChange}
+                        className="w-6 h-6 mt-0.5 rounded border-2 border-border text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending || !isKitchenDashboardSelected}
+                      />
+                      <div className="flex-1">
+                        <span className="font-bold text-foreground group-hover:text-accent transition-colors">{t('quote.menu.resto.menuManagement')}</span>
+                        <p className="text-xs text-foreground/70 mt-1">{t('quote.menu.resto.menuManagement.desc')}</p>
+                      </div>
+                    </label>
+
+                    {isMenuManagementSelected && isKitchenDashboardSelected && (
+                      <div className="mt-4 p-6 bg-white/50 border-2 border-accent/20 rounded-xl animate-in zoom-in-95 duration-300">
+                        <h5 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+                          <CheckCircle className="w-5 h-5 text-accent" />
+                          {t('quote.menu.subscription.title')} *
+                        </h5>
+                        
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <label className={`flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${state.formData?.menuSubscription === "Pack Menu Simple" ? 'border-accent bg-accent/5 shadow-md' : 'border-border hover:border-accent/30 bg-white shadow-sm'}`}>
+                            <input
+                              type="radio"
+                              name="menuSubscription"
+                              value="Pack Menu Simple"
+                              defaultChecked={state.formData?.menuSubscription === "Pack Menu Simple"}
+                              className="w-5 h-5 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                              disabled={isPending}
+                              required={isMenuManagementSelected}
+                            />
+                            <div className="flex-1">
+                              <span className="font-bold text-sm text-foreground">{t('quote.menu.subscription.simple.name')}</span>
+                              <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.subscription.simple.desc')}</p>
+                            </div>
+                          </label>
+
+                          <label className={`flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${state.formData?.menuSubscription === "Pack Menu Complet" ? 'border-accent bg-accent/5 shadow-md' : 'border-border hover:border-accent/30 bg-white shadow-sm'}`}>
+                            <input
+                              type="radio"
+                              name="menuSubscription"
+                              value="Pack Menu Complet"
+                              defaultChecked={state.formData?.menuSubscription === "Pack Menu Complet"}
+                              className="w-5 h-5 mt-0.5 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                              disabled={isPending}
+                              required={isMenuManagementSelected}
+                            />
+                            <div className="flex-1">
+                              <span className="font-bold text-sm text-foreground">{t('quote.menu.subscription.complete.name')}</span>
+                              <p className="text-[10px] text-foreground/70 mt-1">{t('quote.menu.subscription.complete.desc')}</p>
+                            </div>
+                          </label>
+                        </div>
+                        
+                        {state.errors?.menuSubscription && (
+                          <p className="text-red-600 text-xs mt-3 flex items-center gap-1 font-semibold">
+                            <AlertCircle className="w-3 h-3" />
+                            {state.errors.menuSubscription[0]}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
