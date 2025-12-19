@@ -946,15 +946,42 @@ export async function sendQuoteEmail(data: {
             <div class="ps">
               <div style="text-align:center;font-weight:800;color:#1e293b;margin-bottom:15px">MODÈLE A : PAIEMENT EN UNE FOIS (-30%)</div>
               <p style="text-align:center;font-size:13px;color:#64748b;margin-bottom:20px">Payez l'intégralité maintenant et profitez de la réduction maximale.</p>
-              <div class="pt">${pricing.hasRange ? `${Math.round(pricing.discountedMinPrice * 1.21)}€ - ${Math.round(pricing.discountedMaxPrice * 1.21)}€ TTC` : `${Math.round(pricing.discountedMinPrice * 1.21)}€ TTC`}</div>
+              
+              <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #e2e8f0;margin-bottom:15px">
+                <div class="pr"><span>Prix catalogue HTVA</span><span>${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span></div>
+                <div class="pr"><span>Réduction promo (-30%)</span><span style="color:#e11d48">-${pricing.hasRange ? `${pricing.minDiscount}€ - ${pricing.maxDiscount}€` : `${pricing.minDiscount}€`}</span></div>
+                <div class="pr" style="border-top:1px solid #f1f5f9; margin-top:5px; padding-top:10px"><span><strong>Sous-total HTVA</strong></span><strong>${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong></div>
+                <div class="pr"><span>TVA (21%)</span><span>${pricing.hasRange ? `${pricing.minVat}€ - ${pricing.maxVat}€` : `${pricing.minVat}€`}</span></div>
+              </div>
+
+              <div class="pt">${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€ TVAC` : `${pricing.minTotalTTC}€ TVAC`}</div>
+
+              ${pricing.isMenuProject ? `
+              <div style="margin-top:20px; border-top:1px solid #e2e8f0; padding-top:15px">
+                <div style="font-size:13px; font-weight:700; color:#1e293b; margin-bottom:10px">➕ ABONNEMENT PACK MENU</div>
+                <div style="background:#f0f9ff; padding:12px; border-radius:8px; border:1px solid #bae6fd">
+                  <div class="pr"><span>Prix Pack Menu HTVA</span><span>${pricing.menuMonthlyHT}€ / mois</span></div>
+                  <div class="pr"><span>TVA (21%)</span><span>${pricing.menuMonthlyVat}€ / mois</span></div>
+                  <div class="pr" style="margin-top:5px; border-top:1px solid #bae6fd; padding-top:5px">
+                    <span><strong>Total Mensuel TVAC</strong></span>
+                    <strong style="color:#0ea5e9">${pricing.menuMonthlyTTC}€ / mois</strong>
+                  </div>
+                  <div style="font-size:11px; color:#0ea5e9; font-weight:800; margin-top:5px">🎁 PREMIER MOIS OFFERT</div>
+                </div>
+              </div>
+              ` : ''}
             </div>
-  
+
             ${pricing.isMenuProject ? `
             <div class="ps" style="background:#ecfdf5;border-color:#a7f3d0">
               <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:15px">MODÈLE B : OPTION ABONNEMENT</div>
               <p style="text-align:center;font-size:13px;color:#065f46;margin-bottom:20px">Réduisez votre investissement de départ avec un coût mensuel fixe.</p>
               <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #a7f3d0;text-align:center">
-                <div style="font-size:20px;color:#059669"><strong>${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TTC / mois</strong></div>
+                <div class="pr" style="color:#065f46"><span>Abonnement HTVA</span><span>${pricing.totalMonthlyForMenu}€ / mois</span></div>
+                <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€ / mois</span></div>
+                <div style="font-size:22px;color:#059669;margin-top:10px;border-top:1px solid #a7f3d0;padding-top:10px">
+                  <strong>${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TVAC / mois</strong>
+                </div>
                 <div style="font-size:12px;color:#059669;margin-top:5px;font-weight:700">🎁 PREMIER MOIS OFFERT</div>
               </div>
             </div>` : ''}
