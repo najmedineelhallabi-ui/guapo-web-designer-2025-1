@@ -626,9 +626,25 @@ function calculatePricing(data: {
       });
     }
 
-    const discountedBaseSetup = Math.round(baseSetupForSubscription * 0.70);
+    // Total TVAC mensuel (Model B)
+    const totalMonthlyForMenuTVAC = Math.round(totalMonthlyForMenu * 1.21);
+
+    // Correction demandée pour Model B : 120€ HTVA fixe si Pack Menu Complet
+    let discountedBaseSetup = Math.round(baseSetupForSubscription * 0.70);
+    if (isMenuProject && data.menuSubscription === 'Pack Menu Complet') {
+      discountedBaseSetup = 120;
+    }
+
     const vatBaseSetup = Math.round(discountedBaseSetup * 0.21);
     const totalBaseSetupTTC = discountedBaseSetup + vatBaseSetup;
+
+    // Pour Model A (Menu Project), on ne fait pas de réduction -30% (demande utilisateur : 1910€ HTVA)
+    if (isMenuProject) {
+      discountedMinPrice = minTotal;
+      discountedMaxPrice = maxTotal;
+      minDiscount = 0;
+      maxDiscount = 0;
+    }
 
     const hasRange = minTotal !== maxTotal;
 
