@@ -890,8 +890,8 @@ export async function sendQuoteEmail(data: {
               <thead>
                 <tr>
                   <th style="width: 50%;">Description</th>
-                  <th style="text-align:right; width: 25%;">Unique (HT)</th>
-                  <th style="text-align:right; width: 25%;">Mensuel (HT)</th>
+                  <th style="text-align:right; width: 25%;">Unique HT</th>
+                  <th style="text-align:right; width: 25%;">Mensuel HT</th>
                 </tr>
               </thead>
               <tbody>
