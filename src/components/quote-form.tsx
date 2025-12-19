@@ -27,6 +27,9 @@ export function QuoteForm() {
   const [isWaiterDashboardSelected, setIsWaiterDashboardSelected] = useState(
     state.formData?.menuFeatures?.includes("Dashboard serveur") || false
   );
+  const [isMenuManagementSelected, setIsMenuManagementSelected] = useState(
+    state.formData?.menuSubscription ? true : false
+  );
   const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<string>('');
