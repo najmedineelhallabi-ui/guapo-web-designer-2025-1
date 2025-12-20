@@ -122,14 +122,11 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     }
   }
 
-  // 3. Languages (Model A: Unique, Model B: maybe included in packs or to be added)
+  // 3. Languages (Model A: Unique)
   if (data.languages && data.languages.length > 1) {
     const multiPrice = PRICING.features["Multilingue"];
     minTotalHT += multiPrice;
     maxTotalHT += multiPrice;
-    // For Model B, if multiple languages are selected, we could add a monthly fee
-    // but the current pricing doesn't specify one for Model B. 
-    // We'll keep it simple or assume it's included in the Pack for Model B.
   }
 
   // 4. Features
@@ -154,7 +151,7 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     });
   }
 
-  // 5. Subscription Pack (Monthly for BOTH models if it's a menu project)
+  // 5. Subscription Pack
   if (data.menuSubscription) {
     const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
     const subPrice = PRICING.subscriptions[subKey];
@@ -185,17 +182,15 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     }
   }
 
-  // Promotion -30% on Model A Unique Price (Investment)
+  const tvaRate = 0.21;
   const discountRate = 0.30;
+
+  // Model A Investment Calculation
   const discountMin = Math.round(minTotalHT * discountRate);
   const discountMax = Math.round(maxTotalHT * discountRate);
-  
   const discountedMinHT = minTotalHT - discountMin;
   const discountedMaxHT = maxTotalHT - discountMax;
   
-  const tvaRate = 0.21;
-  
-  // Model A Totals
   const tvaMinA = Math.round(discountedMinHT * tvaRate);
   const tvaMaxA = Math.round(discountedMaxHT * tvaRate);
   const minTotalTTCA = discountedMinHT + tvaMinA;
@@ -206,7 +201,7 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   const monthlyTVAA = Math.round(monthlyHTA * tvaRate);
   const monthlyTTCA = monthlyHTA + monthlyTVAA;
 
-  // Model B Totals (Monthly only)
+  // Model B Monthly
   const monthlyHTB = totalMonthlyModelB;
   const monthlyTVAB = Math.round(monthlyHTB * tvaRate);
   const monthlyTTCB = monthlyHTB + monthlyTVAB;
@@ -214,7 +209,6 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   return {
     isMenuProject,
     hasRange: minTotalHT !== maxTotalHT,
-    // Model A Investment
     baseMinHT: minTotalHT,
     baseMaxHT: maxTotalHT,
     discountMin,
@@ -225,11 +219,9 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     tvaMaxA,
     minTotalTTCA,
     maxTotalTTCA,
-    // Model A Monthly
     monthlyHTA,
     monthlyTVAA,
     monthlyTTCA,
-    // Model B Monthly
     monthlyHTB,
     monthlyTVAB,
     monthlyTTCB,
