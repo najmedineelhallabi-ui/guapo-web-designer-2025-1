@@ -615,31 +615,12 @@ function calculatePricing(data: {
     const maxTotalTTC = discountedMaxPrice + maxVat;
 
 
-    // Prix Menu Mensuel (Total) - Model A additionnel ou Model B mensuel
-    const menuMonthlyHT = totalMonthlyForMenu;
-    const menuMonthlyVat = Math.round(menuMonthlyHT * 0.21);
-    const menuMonthlyTTC = menuMonthlyHT + menuMonthlyVat;
-
+    // Modèle B : Calcul des frais de mise en service et abonnement
+    let totalMonthlyForMenu = monthlySubscription; // On prend le prix du pack (25 ou 35)
+    
     // Frais de mise en service (Setup) pour le Modèle B
-    // On part du total creation (minTotal) et on retire le prix UNIQUE des features qui passent en mensuel
-    let baseSetupForSubscription = minTotal;
-    if (isMenuProject && data.features) {
-      data.features.forEach(f => {
-        const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-        if (mPrice !== undefined) {
-           const uPrice = (PRICING.features as any)[f];
-           if (uPrice !== undefined) {
-             baseSetupForSubscription -= uPrice;
-           }
-        }
-      });
-    }
-
-    // Total TVAC mensuel (Model B)
-    const totalMonthlyForMenuTVAC = Math.round(totalMonthlyForMenu * 1.21);
-
-    // Correction demandée pour Model B : 120€ HTVA fixe si Pack Menu Complet
-    let discountedBaseSetup = Math.round(baseSetupForSubscription * 0.70);
+    // Le setup fee est de 120€ HTVA pour le Pack Menu Complet (demande utilisateur)
+    let discountedBaseSetup = Math.round(minTotal * 0.70); // Par défaut -30% sur le projet
     if (isMenuProject && data.menuSubscription === 'Pack Menu Complet') {
       discountedBaseSetup = 120;
     }
@@ -647,7 +628,13 @@ function calculatePricing(data: {
     const vatBaseSetup = Math.round(discountedBaseSetup * 0.21);
     const totalBaseSetupTTC = discountedBaseSetup + vatBaseSetup;
 
-    // Pour Model A (Menu Project), on ne fait pas de réduction -30% (demande utilisateur : 1910€ HTVA)
+    // Pour Model A (Menu Project), on ne fait pas de réduction -30%
+    // Le total doit être de 1910€ HTVA (800€ base + 1110€ options)
+    let discountedMinPrice = Math.round(minTotal * 0.70);
+    let discountedMaxPrice = Math.round(maxTotal * 0.70);
+    let minDiscount = Math.round(minTotal * 0.30);
+    let maxDiscount = Math.round(maxTotal * 0.30);
+
     if (isMenuProject) {
       discountedMinPrice = minTotal;
       discountedMaxPrice = maxTotal;
