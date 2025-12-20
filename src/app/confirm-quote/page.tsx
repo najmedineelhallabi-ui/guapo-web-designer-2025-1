@@ -16,29 +16,38 @@ function ConfirmQuoteContent() {
   const email = searchParams.get("email") || "";
   const company = searchParams.get("company") || "";
   const siteType = searchParams.get("siteType") || "";
-  const minPrice = searchParams.get("minPrice") || "";
-  const maxPrice = searchParams.get("maxPrice") || "";
-  const maintenanceType = searchParams.get("maintenanceType") || "";
+    const minPrice = searchParams.get("minPrice") || "";
+    const maxPrice = searchParams.get("maxPrice") || "";
+    const maintenanceType = searchParams.get("maintenanceType") || "";
+    const model = searchParams.get("model") || "";
+    const monthlyPrice = searchParams.get("monthlyPrice") || "";
+    const packName = searchParams.get("packName") || "";
+    const ref = searchParams.get("ref") || "";
 
-  useEffect(() => {
-    const sendConfirmation = async () => {
-      try {
-        const response = await fetch("/api/confirm-quote", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            email,
-            company,
-            siteType,
-            minPrice,
-            maxPrice,
-            maintenanceType,
-          }),
-        });
+    useEffect(() => {
+      const sendConfirmation = async () => {
+        try {
+          const response = await fetch("/api/confirm-quote", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              firstName,
+              lastName,
+              email,
+              company,
+              siteType,
+              minPrice,
+              maxPrice,
+              maintenanceType,
+              model,
+              monthlyPrice,
+              packName,
+              ref
+            }),
+          });
+
 
         const data = await response.json();
 
