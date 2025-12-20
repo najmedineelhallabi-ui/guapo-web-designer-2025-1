@@ -204,7 +204,7 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     menuMonthlyTVA,
     menuMonthlyTTC,
     // For specific UI parts
-    monthlyBreakdown: finalMonthlyBreakdown,
+    monthlyBreakdown: monthlyBreakdown,
     totalMonthlyTTCForModelB: menuMonthlyTTC
   };
 }
