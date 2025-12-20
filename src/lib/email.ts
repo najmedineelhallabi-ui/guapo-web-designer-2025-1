@@ -204,14 +204,15 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   const maxTotalTTCA = discountedMaxHT + tvaMaxA;
 
   // Model A Monthly
-  const monthlyHTA = totalMonthlyModelA;
-  const monthlyTVAA = Math.round(monthlyHTA * tvaRate);
-  const monthlyTTCA = monthlyHTA + monthlyTVAA;
+    const monthlyHTA = totalMonthlyModelA;
+    const monthlyTVAA = Math.round(monthlyHTA * tvaRate * 100) / 100; // More precise
+    const monthlyTTCA = Math.round((monthlyHTA + monthlyTVAA) * 100) / 100;
 
-  // Model B Monthly
-  const monthlyHTB = totalMonthlyModelB;
-  const monthlyTVAB = Math.round(monthlyHTB * tvaRate);
-  const monthlyTTCB = monthlyHTB + monthlyTVAB;
+    // Model B Monthly
+    const monthlyHTB = totalMonthlyModelB;
+    const monthlyTVAB = Math.round(monthlyHTB * tvaRate * 100) / 100;
+    const monthlyTTCB = Math.round((monthlyHTB + monthlyTVAB) * 100) / 100;
+
 
   return {
     isMenuProject,
