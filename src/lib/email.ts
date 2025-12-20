@@ -154,14 +154,19 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   }
 
   // 5. Subscription Pack
+  let selectedPackName = "";
   if (data.menuSubscription) {
     const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
     const subPrice = PRICING.subscriptions[subKey];
     if (subPrice) {
+      selectedPackName = translateOption(data.menuSubscription, lang);
       totalMonthlyModelA = subPrice;
       totalMonthlyModelB += subPrice;
-      monthlyBreakdownB.unshift({ item: translateOption(data.menuSubscription, lang), price: subPrice });
+      monthlyBreakdownB.unshift({ item: selectedPackName, price: subPrice });
     }
+  } else if (!isMenuProject) {
+    // Default maintenance for standard showcase sites in Model A
+    totalMonthlyModelA = 25; 
   }
 
   // 6. Optimization
