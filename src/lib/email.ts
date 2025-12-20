@@ -92,122 +92,139 @@ function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (m) => map[m]);
 }
 
-function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
-  let minTotal = 0, maxTotal = 0, monthlySubscription = 0, totalMonthlyForMenu = 0;
-  const t = getT(lang);
-  const isMenuProject = data.siteType.includes('Menu / Site de commande');
+  function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
+    let minTotal = 0, maxTotal = 0, monthlySubscription = 0, totalMonthlyForMenu = 0;
+    const isMenuProject = data.siteType.includes('Menu / Site de commande');
+    const monthlyBreakdown: any[] = [];
 
-  const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
-  const siteTypePrice = PRICING.siteTypes[siteTypeKey];
-  if (siteTypePrice) {
-    minTotal += siteTypePrice.min;
-    maxTotal += siteTypePrice.max;
-  }
-
-  if (data.menuSubscription) {
-    const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
-    const subPrice = PRICING.subscriptions[subKey];
-    if (subPrice) {
-      monthlySubscription = subPrice;
-      totalMonthlyForMenu = subPrice;
-      monthlyBreakdown.push({ item: translateOption(data.menuSubscription, lang), price: subPrice });
+    const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
+    const siteTypePrice = PRICING.siteTypes[siteTypeKey];
+    if (siteTypePrice) {
+      minTotal += siteTypePrice.min;
+      maxTotal += siteTypePrice.max;
     }
-  }
 
-  if (data.pageCount) {
-    const pageCount = parseInt(data.pageCount.toString());
-    let limit = 3;
-    if (data.siteType.includes('4 à 5')) limit = 5;
-    else if (data.siteType.includes('6 à 8')) limit = 8;
-    else if (data.siteType.includes('9 à 12')) limit = 12;
-    if (pageCount > limit) {
-      const extra = pageCount - limit;
-      minTotal += extra * PAGE_EXTRA_COST;
-      maxTotal += extra * PAGE_EXTRA_COST;
-    }
-  }
-
-  if (data.features) {
-    data.features.forEach((f: string) => {
-      const price = (PRICING.features as any)[f];
-      if (price !== undefined) {
-        minTotal += price; maxTotal += price;
+    if (data.menuSubscription) {
+      const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
+      const subPrice = PRICING.subscriptions[subKey];
+      if (subPrice) {
+        monthlySubscription = subPrice;
+        totalMonthlyForMenu = subPrice;
+        monthlyBreakdown.push({ item: translateOption(data.menuSubscription, lang), price: subPrice });
       }
-    });
-  }
-
-  if (data.optimization) {
-    data.optimization.forEach((o: string) => {
-      const price = (PRICING.optimization as any)[o];
-      if (price !== undefined) { minTotal += price; maxTotal += price; }
-    });
-  }
-
-  if (data.domain) {
-    const price = (PRICING.domain as any)[data.domain];
-    if (price !== undefined && price > 0) { minTotal += price; maxTotal += price; }
-  }
-
-  // Monthly breakdown and totals for Model B
-  const monthlyBreakdown: any[] = [];
-  if (data.menuSubscription) {
-    const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
-    const subPrice = PRICING.subscriptions[subKey];
-    if (subPrice) {
-      totalMonthlyForMenu = subPrice;
-      monthlyBreakdown.push({ item: translateOption(data.menuSubscription, lang), price: subPrice });
     }
-  }
 
-  if (isMenuProject && data.features) {
-    data.features.forEach((f: string) => {
-      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-      if (mPrice !== undefined) {
-        if (!data.menuSubscription) {
-          totalMonthlyForMenu += mPrice;
+    if (data.pageCount) {
+      const pageCount = parseInt(data.pageCount.toString());
+      let limit = 3;
+      if (data.siteType.includes('4 à 5')) limit = 5;
+      else if (data.siteType.includes('6 à 8')) limit = 8;
+      else if (data.siteType.includes('9 à 12')) limit = 12;
+      if (pageCount > limit) {
+        const extra = pageCount - limit;
+        minTotal += extra * PAGE_EXTRA_COST;
+        maxTotal += extra * PAGE_EXTRA_COST;
+      }
+    }
+
+    if (data.features) {
+      data.features.forEach((f: string) => {
+        const price = (PRICING.features as any)[f];
+        if (price !== undefined) {
+          minTotal += price; 
+          maxTotal += price;
         }
-        // Always show in breakdown, but price 0 if included in pack
-        monthlyBreakdown.push({ 
-          item: translateOption(f, lang), 
-          price: data.menuSubscription ? 0 : mPrice,
-          isIncluded: !!data.menuSubscription 
-        });
-      }
-    });
-  }
-  
-  // Cap the monthly total based on the subscription pack if selected, or default to max pack price
-  let monthlyCap = 35;
-  if (data.menuSubscription === "Pack Menu Simple") monthlyCap = 25;
-  if (isMenuProject && totalMonthlyForMenu > monthlyCap) totalMonthlyForMenu = monthlyCap;
+      });
+    }
 
-  return {
-    isMenuProject,
-    hasRange: minTotal !== maxTotal,
-    // Base prices
-    baseMinHT: minTotal,
-    baseMaxHT: maxTotal,
-    // Discount info
-    discountMin,
-    discountMax,
-    // HT after discount
-    discountedMinHT,
-    discountedMaxHT,
-    // TVA
-    tvaMin,
-    tvaMax,
-    // TTC
-    minTotalTTC,
-    maxTotalTTC,
-    // Monthly (Model B or Pack for Model A Menu)
-    menuMonthlyHT,
-    menuMonthlyTVA,
-    menuMonthlyTTC,
-    // For specific UI parts
-    monthlyBreakdown: monthlyBreakdown,
-    totalMonthlyTTCForModelB: menuMonthlyTTC
-  };
-}
+    if (data.optimization) {
+      data.optimization.forEach((o: string) => {
+        const price = (PRICING.optimization as any)[o];
+        if (price !== undefined) { 
+          minTotal += price; 
+          maxTotal += price; 
+        }
+      });
+    }
+
+    if (data.domain) {
+      const price = (PRICING.domain as any)[data.domain];
+      if (price !== undefined && price > 0) { 
+        minTotal += price; 
+        maxTotal += price; 
+      }
+    }
+
+    // Model B logic (Abonnement)
+    if (isMenuProject && data.features) {
+      data.features.forEach((f: string) => {
+        const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
+        if (mPrice !== undefined) {
+          if (!data.menuSubscription) {
+            totalMonthlyForMenu += mPrice;
+          }
+          // Always show in breakdown, but price 0 if included in pack
+          monthlyBreakdown.push({ 
+            item: translateOption(f, lang), 
+            price: data.menuSubscription ? 0 : mPrice,
+            isIncluded: !!data.menuSubscription 
+          });
+        }
+      });
+    }
+    
+    // Cap the monthly total based on the subscription pack if selected, or default to max pack price
+    let monthlyCap = 35;
+    if (data.menuSubscription === "Pack Menu Simple") monthlyCap = 25;
+    if (isMenuProject && totalMonthlyForMenu > monthlyCap) totalMonthlyForMenu = monthlyCap;
+
+    // Promotion logic - 30% discount on Model A (investment)
+    const discountRate = 0.30;
+    const discountMin = Math.round(minTotal * discountRate);
+    const discountMax = Math.round(maxTotal * discountRate);
+    
+    const discountedMinHT = minTotal - discountMin;
+    const discountedMaxHT = maxTotal - discountMax;
+    
+    const tvaRate = 0.21;
+    const tvaMin = Math.round(discountedMinHT * tvaRate);
+    const tvaMax = Math.round(discountedMaxHT * tvaRate);
+    
+    const minTotalTTC = discountedMinHT + tvaMin;
+    const maxTotalTTC = discountedMaxHT + tvaMax;
+
+    // Monthly fees (TTC)
+    const menuMonthlyHT = totalMonthlyForMenu;
+    const menuMonthlyTVA = Math.round(menuMonthlyHT * tvaRate);
+    const menuMonthlyTTC = menuMonthlyHT + menuMonthlyTVA;
+
+    return {
+      isMenuProject,
+      hasRange: minTotal !== maxTotal,
+      // Base prices
+      baseMinHT: minTotal,
+      baseMaxHT: maxTotal,
+      // Discount info
+      discountMin,
+      discountMax,
+      // HT after discount
+      discountedMinHT,
+      discountedMaxHT,
+      // TVA
+      tvaMin,
+      tvaMax,
+      // TTC
+      minTotalTTC,
+      maxTotalTTC,
+      // Monthly (Model B or Pack for Model A Menu)
+      menuMonthlyHT,
+      menuMonthlyTVA,
+      menuMonthlyTTC,
+      // For specific UI parts
+      monthlyBreakdown: monthlyBreakdown,
+      totalMonthlyTTCForModelB: menuMonthlyTTC
+    };
+  }
 
 export async function sendQuoteEmail(data: any) {
   const lang = data.language || 'fr';
