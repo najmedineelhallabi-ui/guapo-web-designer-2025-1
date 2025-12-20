@@ -124,9 +124,11 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
 
   // 3. Languages (Model A: Unique)
   if (data.languages && data.languages.length > 1) {
+    // Each additional language adds to the setup cost
     const multiPrice = PRICING.features["Multilingue"];
-    minTotalHT += multiPrice;
-    maxTotalHT += multiPrice;
+    const extraLanguagesCount = data.languages.length - 1;
+    minTotalHT += extraLanguagesCount * multiPrice;
+    maxTotalHT += extraLanguagesCount * multiPrice;
   }
 
   // 4. Features
