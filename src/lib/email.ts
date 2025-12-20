@@ -1018,25 +1018,37 @@ export async function sendQuoteEmail(data: {
                   ` : ''}
                 </div>
   
-                ${pricing.isMenuProject ? `
-                <div class="ps" style="background:#ecfdf5;border-color:#a7f3d0">
-                  <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:15px">MODÈLE B : OPTION ABONNEMENT</div>
-                  <p style="text-align:center;font-size:13px;color:#065f46;margin-bottom:20px">Réduisez votre investissement de départ avec un coût mensuel fixe.</p>
-                  <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #a7f3d0">
-                    <div class="pr" style="color:#065f46"><span>Frais de mise en service HTVA</span><span>${pricing.discountedBaseSetup}€</span></div>
-                    <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${pricing.vatBaseSetup}€</span></div>
-                    <div class="pr" style="margin-bottom:15px; color:#065f46"><span><strong>Total Mise en service TVAC</strong></span><strong>${pricing.totalBaseSetupTTC}€</strong></div>
-                    
-                    <div style="border-top:1px dashed #a7f3d0; padding-top:15px">
-                      <div class="pr" style="color:#065f46"><span>Abonnement HTVA</span><span>${pricing.totalMonthlyForMenu}€ / mois</span></div>
-                      <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€ / mois</span></div>
-                      <div style="font-size:22px;color:#059669;margin-top:10px;border-top:1px solid #a7f3d0;padding-top:10px;text-align:center">
-                        <strong>${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TVAC / mois</strong>
+                  ${pricing.isMenuProject ? `
+                  <div class="ps" style="background:#ecfdf5;border-color:#a7f3d0">
+                    <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:15px">MODÈLE B : OPTION ABONNEMENT</div>
+                    <p style="text-align:center;font-size:13px;color:#065f46;margin-bottom:20px">Réduisez votre investissement de départ avec un coût mensuel fixe.</p>
+                    <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #a7f3d0">
+                      <div class="pr" style="color:#065f46"><span>Frais de mise en service HTVA</span><span>${pricing.discountedBaseSetup}€</span></div>
+                      <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${pricing.vatBaseSetup}€</span></div>
+                      <div class="pr" style="margin-bottom:15px; color:#065f46"><span><strong>Total Mise en service TVAC</strong></span><strong>${pricing.totalBaseSetupTTC}€</strong></div>
+                      
+                      <div style="border-top:1px dashed #a7f3d0; padding-top:15px">
+                        <div style="font-size:11px; font-weight:700; color:#065f46; margin-bottom:10px; text-transform:uppercase">Détails de l'abonnement :</div>
+                        ${pricing.monthlyBreakdown.map(item => `
+                          <div class="pr" style="color:#065f46; font-size:12px">
+                            <span>${escapeHtml(item.item)}</span>
+                            <span>${item.price}€ / mois</span>
+                          </div>
+                        `).join('')}
+                        
+                        <div class="pr" style="margin-top:10px; border-top:1px solid #a7f3d0; padding-top:10px; color:#065f46">
+                          <span><strong>Prix Pack Mensuel HTVA</strong></span>
+                          <strong>${pricing.totalMonthlyForMenu}€ / mois</strong>
+                        </div>
+                        <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€ / mois</span></div>
+                        <div style="font-size:22px;color:#059669;margin-top:10px;border-top:1px solid #a7f3d0;padding-top:10px;text-align:center">
+                          <strong>${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TVAC / mois</strong>
+                        </div>
+                        <div style="font-size:12px;color:#059669;margin-top:5px;font-weight:700;text-align:center">🎁 PREMIER MOIS OFFERT</div>
                       </div>
-                      <div style="font-size:12px;color:#059669;margin-top:5px;font-weight:700;text-align:center">🎁 PREMIER MOIS OFFERT</div>
                     </div>
-                  </div>
-                </div>` : ''}
+                  </div>` : ''}
+
   
             <div style="text-align:center;margin-top:40px">
               <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-green">Valider ce projet</a>
