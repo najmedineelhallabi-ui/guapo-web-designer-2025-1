@@ -131,10 +131,8 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   if (data.features) {
     data.features.forEach((f: string) => {
       const price = (PRICING.features as any)[f];
-      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
       if (price !== undefined) {
         minTotal += price; maxTotal += price;
-        if (isMenuProject && mPrice !== undefined) monthlyBreakdown.push({ item: translateOption(f, lang), price: mPrice });
       }
     });
   }
@@ -151,10 +149,31 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     if (price !== undefined && price > 0) { minTotal += price; maxTotal += price; }
   }
 
+  // Monthly breakdown and totals for Model B
+  const monthlyBreakdown: any[] = [];
+  if (data.menuSubscription) {
+    const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
+    const subPrice = PRICING.subscriptions[subKey];
+    if (subPrice) {
+      totalMonthlyForMenu = subPrice;
+      monthlyBreakdown.push({ item: translateOption(data.menuSubscription, lang), price: subPrice });
+    }
+  }
+
   if (isMenuProject && data.features) {
     data.features.forEach((f: string) => {
       const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-      if (mPrice !== undefined) totalMonthlyForMenu += mPrice;
+      if (mPrice !== undefined) {
+        if (!data.menuSubscription) {
+          totalMonthlyForMenu += mPrice;
+        }
+        // Always show in breakdown, but price 0 if included in pack
+        monthlyBreakdown.push({ 
+          item: translateOption(f, lang), 
+          price: data.menuSubscription ? 0 : mPrice,
+          isIncluded: !!data.menuSubscription 
+        });
+      }
     });
   }
   
@@ -162,43 +181,6 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   let monthlyCap = 35;
   if (data.menuSubscription === "Pack Menu Simple") monthlyCap = 25;
   if (isMenuProject && totalMonthlyForMenu > monthlyCap) totalMonthlyForMenu = monthlyCap;
-
-  // Calcul Promotion -30% (Modèle A)
-  const discountRate = 0.3;
-  const discountMin = Math.round(minTotal * discountRate);
-  const discountMax = Math.round(maxTotal * discountRate);
-  
-  const discountedMinHT = minTotal - discountMin;
-  const discountedMaxHT = maxTotal - discountMax;
-  
-  const tvaMin = Math.round(discountedMinHT * 0.21);
-  const tvaMax = Math.round(discountedMaxHT * 0.21);
-  
-  const minTotalTTC = discountedMinHT + tvaMin;
-  const maxTotalTTC = discountedMaxHT + tvaMax;
-
-  // Modèle B (Abonnement)
-  const menuMonthlyHT = totalMonthlyForMenu;
-  const menuMonthlyTVA = Math.round(menuMonthlyHT * 0.21);
-  const menuMonthlyTTC = menuMonthlyHT + menuMonthlyTVA;
-
-  // For specific UI parts
-  // Filter monthly breakdown to show what's actually contributing or included
-  const finalMonthlyBreakdown = [...monthlyBreakdown];
-  if (isMenuProject && data.features) {
-    data.features.forEach((f: string) => {
-      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-      if (mPrice !== undefined) {
-        // If we already reached the cap with the pack, show features as "Inclus"
-        const isIncluded = data.menuSubscription !== undefined;
-        finalMonthlyBreakdown.push({ 
-          item: translateOption(f, lang), 
-          price: isIncluded ? 0 : mPrice,
-          isIncluded: isIncluded
-        });
-      }
-    });
-  }
 
   return {
     isMenuProject,
