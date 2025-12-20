@@ -357,12 +357,13 @@ export async function sendQuoteEmail(data: any) {
           <span style="font-size:13px">Sur votre investissement initial jusqu'au 31/12/2025</span>
         </div>
 
-        <table>
-          <thead><tr><th>Détails de votre projet</th><th style="text-align:right">Mensuel</th></tr></thead>
-          <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right;color:#0ea5e9">${r.monthly}</td></tr>`).join('')}</tbody>
-        </table>
+          <table>
+            <thead><tr><th>Détails de votre projet</th><th style="text-align:right">Mensuel</th></tr></thead>
+            <tbody>${tableRows.filter(r => !pricing.isMenuProject || r.monthly !== '-').map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right;color:#0ea5e9">${r.monthly}</td></tr>`).join('')}</tbody>
+          </table>
 
-          ${pricing.isMenuProject ? `
+            ${pricing.isMenuProject ? `
+
                 <div class="box" style="background:#ecfdf5;border:2px solid #10b981; padding:20px;">
                   <div style="font-weight:800;text-align:center;font-size:18px;color:#065f46;margin-bottom:5px">OFFRE ABONNEMENT TOUT-EN-UN</div>
                   <div style="font-size:12px;text-align:center;color:#059669;margin-bottom:20px">Zéro investissement, tout est inclus dans le mensuel</div>
