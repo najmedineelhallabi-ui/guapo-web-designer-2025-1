@@ -629,6 +629,11 @@ function calculatePricing(data: {
 
     // On ajoute le prix de base de l'abonnement (25 ou 35) au total mensuel
     totalMonthlyForModelB += monthlySubscription;
+    
+    // Capping at Pack price (35€) for Model B if it's a Menu project
+    if (isMenuProject && totalMonthlyForModelB > 35) {
+      totalMonthlyForModelB = 35;
+    }
 
     // Frais de mise en service (Setup) pour le Modèle B
     // FIX: Pour les projets Menu, le setup est désormais de 0€
