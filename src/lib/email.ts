@@ -959,6 +959,9 @@ export async function sendQuoteEmail(data: {
             .pr:last-child {border-bottom:none}
             .pt {background:#10b981;color:#fff;padding:15px;border-radius:8px;text-align:center;font-size:22px;font-weight:800;margin-top:10px}
             .btn-green{display:inline-block;background:#10b981;color:#fff;padding:18px 36px;text-decoration:none;border-radius:8px;font-weight:700;margin:20px 0;font-size:16px;box-shadow:0 4px 6px rgba(16,185,129,0.2)}
+            .btn-model{display:inline-block;padding:14px 20px;text-decoration:none;border-radius:8px;font-weight:700;margin-top:20px;font-size:14px;text-align:center;width:100%;box-sizing:border-box}
+            .btn-a{background:#1e293b;color:#fff}
+            .btn-b{background:#10b981;color:#fff}
             .ft{text-align:center;margin-top:40px;color:#94a3b8;font-size:12px;border-top:1px solid #f1f5f9;padding-top:20px}
           </style>
         </head>
@@ -992,78 +995,85 @@ export async function sendQuoteEmail(data: {
               </table>
     
               <div style="margin:40px 0;text-align:center;font-weight:800;color:#1e293b;font-size:18px;border-top:2px dashed #e2e8f0;padding-top:30px">
-                CHOISISSEZ VOTRE MODÈLE DE PAIEMENT
+                COMPAREZ ET CHOISISSEZ VOTRE MODÈLE
               </div>
     
-                <div class="ps">
-                  <div style="text-align:center;font-weight:800;color:#1e293b;margin-bottom:15px">MODÈLE A : PAIEMENT EN UNE FOIS (-30%)</div>
-                  <p style="text-align:center;font-size:13px;color:#64748b;margin-bottom:20px">Payez l'intégralité de la création maintenant et profitez de la réduction maximale.</p>
-                  
-                  <div class="pst">
-                    <div class="pr"><span>Prix catalogue HTVA</span><span>${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span></div>
-                    <div class="pr"><span>Réduction promo (-30%)</span><span style="color:#e11d48">-${pricing.hasRange ? `${pricing.minDiscount}€ - ${pricing.maxDiscount}€` : `${pricing.minDiscount}€`}</span></div>
-                    <div class="pr" style="border-top:1px solid #f1f5f9; margin-top:5px; padding-top:10px"><span><strong>Sous-total Projet HTVA</strong></span><strong>${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong></div>
-                    <div class="pr"><span>TVA sur projet (21%)</span><span>${pricing.hasRange ? `${pricing.minVat}€ - ${pricing.maxVat}€` : `${pricing.minVat}€`}</span></div>
-                    <div class="pr" style="margin-top:10px; border-top:2px solid #e2e8f0; padding-top:10px">
-                      <span><strong>TOTAL CRÉATION TVAC</strong></span>
-                      <strong style="font-size:18px; color:#10b981">${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
-                    </div>
-                  </div>
-  
-                  ${pricing.isMenuProject ? `
-                  <div style="margin-top:20px; border-top:1px solid #e2e8f0; padding-top:15px">
-                    <div style="font-size:13px; font-weight:700; color:#1e293b; margin-bottom:10px">➕ ABONNEMENT PACK MENU (Mensuel)</div>
-                    <div style="background:#f0f9ff; padding:12px; border-radius:8px; border:1px solid #bae6fd">
-                      <div class="pr"><span>Prix Pack Menu HTVA</span><span>${pricing.menuMonthlyHT}€ / mois</span></div>
-                      <div class="pr"><span>TVA (21%)</span><span>${pricing.menuMonthlyVat}€ / mois</span></div>
-                      <div class="pr" style="margin-top:5px; border-top:1px solid #bae6fd; padding-top:5px">
-                        <span><strong>Total Mensuel TVAC</strong></span>
-                        <strong style="color:#0ea5e9">${pricing.menuMonthlyTTC}€ / mois</strong>
-                      </div>
-                      <div style="font-size:11px; color:#0ea5e9; font-weight:800; margin-top:5px">🎁 PREMIER MOIS OFFERT</div>
-                    </div>
-                  </div>
-                  ` : ''}
-                </div>
-  
-                  ${pricing.isMenuProject ? `
-                  <div class="ps" style="background:#ecfdf5;border-color:#a7f3d0">
-                    <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:15px">MODÈLE B : OPTION ABONNEMENT</div>
-                    <p style="text-align:center;font-size:13px;color:#065f46;margin-bottom:20px">Réduisez votre investissement de départ avec un coût mensuel fixe.</p>
-                    <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #a7f3d0">
-                      <div class="pr" style="color:#065f46"><span>Frais de mise en service HTVA</span><span>${pricing.discountedBaseSetup}€</span></div>
-                      <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${pricing.vatBaseSetup}€</span></div>
-                      <div class="pr" style="margin-bottom:15px; color:#065f46"><span><strong>Total Mise en service TVAC</strong></span><strong>${pricing.totalBaseSetupTTC}€</strong></div>
-                      
-                      <div style="border-top:1px dashed #a7f3d0; padding-top:15px">
-                        <div style="font-size:11px; font-weight:700; color:#065f46; margin-bottom:10px; text-transform:uppercase">Détails de l'abonnement :</div>
-                        ${pricing.monthlyBreakdown.map(item => `
-                          <div class="pr" style="color:#065f46; font-size:12px">
-                            <span>${escapeHtml(item.item)}</span>
-                            <span>${item.price}€ / mois</span>
-                          </div>
-                        `).join('')}
-                        
-                        <div class="pr" style="margin-top:10px; border-top:1px solid #a7f3d0; padding-top:10px; color:#065f46">
-                          <span><strong>Prix Pack Mensuel HTVA</strong></span>
-                          <strong>${pricing.totalMonthlyForMenu}€ / mois</strong>
-                        </div>
-                        <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€ / mois</span></div>
-                        <div style="font-size:22px;color:#059669;margin-top:10px;border-top:1px solid #a7f3d0;padding-top:10px;text-align:center">
-                          <strong>${Math.round(pricing.totalMonthlyForMenu * 1.21)}€ TVAC / mois</strong>
-                        </div>
-                        <div style="font-size:12px;color:#059669;margin-top:5px;font-weight:700;text-align:center">🎁 PREMIER MOIS OFFERT</div>
+              ${pricing.isMenuProject ? `
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 20px 0;">
+                <tr>
+                  <td width="48%" valign="top" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:20px;">
+                    <div style="text-align:center;font-weight:800;color:#1e293b;margin-bottom:10px;font-size:14px">MODÈLE A</div>
+                    <div style="text-align:center;font-weight:bold;color:#1e293b;margin-bottom:15px;font-size:12px;text-transform:uppercase">Investissement Unique</div>
+                    
+                    <div class="pst" style="padding:10px; font-size:12px">
+                      <div class="pr"><span>Prix création HTVA</span><span>${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</span></div>
+                      <div class="pr"><span>TVA (21%)</span><span>${pricing.hasRange ? `${pricing.minVat}€ - ${pricing.maxVat}€` : `${pricing.minVat}€`}</span></div>
+                      <div class="pr" style="margin-top:5px; border-top:1px solid #e2e8f0; padding-top:5px">
+                        <span><strong>TOTAL CRÉATION</strong></span>
+                        <strong style="color:#1e293b">${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
                       </div>
                     </div>
-                  </div>` : ''}
+                    
+                    <div style="margin-top:15px; background:#f0f9ff; padding:10px; border-radius:8px; border:1px solid #bae6fd; font-size:12px">
+                      <div class="pr"><span>Abonnement Mensuel</span><span>${pricing.menuMonthlyHT}€ HT</span></div>
+                      <div class="pr"><span>Total Mensuel TVAC</span><strong style="color:#0ea5e9">${pricing.menuMonthlyTTC}€</strong></div>
+                      <div style="font-size:10px; color:#0ea5e9; font-weight:800; margin-top:5px">🎁 1ER MOIS OFFERT</div>
+                    </div>
 
-  
-            <div style="text-align:center;margin-top:40px">
-              <a href="https://guapowebdesigner.com/confirm-quote?firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-green">Valider ce projet</a>
-              <div style="margin-top:15px">
+                    <a href="https://guapowebdesigner.com/confirm-quote?model=A&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-model btn-a">CHOISIR MODÈLE A</a>
+                  </td>
+                  
+                  <td width="4%"></td>
+                  
+                  <td width="48%" valign="top" style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:12px; padding:20px;">
+                    <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:10px;font-size:14px">MODÈLE B</div>
+                    <div style="text-align:center;font-weight:bold;color:#065f46;margin-bottom:15px;font-size:12px;text-transform:uppercase">Option Abonnement</div>
+                    
+                    <div class="pst" style="padding:10px; font-size:12px; border-color:#a7f3d0">
+                      <div class="pr" style="color:#065f46"><span>Mise en service HT</span><span>${pricing.discountedBaseSetup}€</span></div>
+                      <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${pricing.vatBaseSetup}€</span></div>
+                      <div class="pr" style="margin-top:5px; border-top:1px solid #a7f3d0; padding-top:5px; color:#065f46">
+                        <span><strong>TOTAL INITIAL</strong></span>
+                        <strong>${pricing.totalBaseSetupTTC}€</strong>
+                      </div>
+                    </div>
+
+                    <div style="margin-top:15px; background:#fff; padding:10px; border-radius:8px; border:1px solid #a7f3d0; font-size:12px">
+                      <div class="pr" style="color:#065f46"><span>Abonnement Mensuel</span><span>${pricing.totalMonthlyForMenu}€ HT</span></div>
+                      <div class="pr" style="margin-top:5px; border-top:1px solid #a7f3d0; padding-top:5px">
+                        <span><strong>TOTAL MENSUEL TVAC</strong></span>
+                        <strong style="color:#059669">${Math.round(pricing.totalMonthlyForMenu * 1.21)}€</strong>
+                      </div>
+                      <div style="font-size:10px; color:#059669; font-weight:800; margin-top:5px">🎁 1ER MOIS OFFERT</div>
+                    </div>
+
+                    <a href="https://guapowebdesigner.com/confirm-quote?model=B&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-model btn-b">CHOISIR MODÈLE B</a>
+                  </td>
+                </tr>
+              </table>
+              ` : `
+              <div class="ps">
+                <div style="text-align:center;font-weight:800;color:#1e293b;margin-bottom:15px">VOTRE ESTIMATION (-30%)</div>
+                <div class="pst">
+                  <div class="pr"><span>Prix catalogue HTVA</span><span>${pricing.hasRange ? `${pricing.originalMinPrice}€ - ${pricing.originalMaxPrice}€` : `${pricing.originalMinPrice}€`}</span></div>
+                  <div class="pr"><span>Réduction promo (-30%)</span><span style="color:#e11d48">-${pricing.hasRange ? `${pricing.minDiscount}€ - ${pricing.maxDiscount}€` : `${pricing.minDiscount}€`}</span></div>
+                  <div class="pr" style="border-top:1px solid #f1f5f9; margin-top:5px; padding-top:10px"><span><strong>Sous-total Projet HTVA</strong></span><strong>${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</strong></div>
+                  <div class="pr"><span>TVA sur projet (21%)</span><span>${pricing.hasRange ? `${pricing.minVat}€ - ${pricing.maxVat}€` : `${pricing.minVat}€`}</span></div>
+                  <div class="pr" style="margin-top:10px; border-top:2px solid #e2e8f0; padding-top:10px">
+                    <span><strong>TOTAL PROJET TVAC</strong></span>
+                    <strong style="font-size:22px; color:#10b981">${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
+                  </div>
+                </div>
+                <div style="text-align:center">
+                  <a href="https://guapowebdesigner.com/confirm-quote?model=A&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-green">VALIDER CE PROJET</a>
+                </div>
+              </div>
+              `}
+    
+              <div style="text-align:center;margin-top:30px">
                 <a href="${mailtoQuestionLink}" style="color:#64748b;text-decoration:none;font-size:14px;font-weight:600">Poser une question sur ce devis →</a>
               </div>
-            </div>
+
   
             <div style="background:#f8fafc;padding:20px;border-radius:8px;margin-top:40px;font-size:13px;color:#64748b;line-height:1.6">
               <strong>Et après ?</strong> Une fois le projet validé, notre équipe vous contactera sous 24h pour planifier le lancement de votre site.
