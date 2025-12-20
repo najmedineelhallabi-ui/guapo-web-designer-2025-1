@@ -94,7 +94,7 @@ function escapeHtml(text: string): string {
 
 function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   let minTotal = 0, maxTotal = 0, monthlySubscription = 0, totalMonthlyForMenu = 0;
-  const monthlyBreakdown: any[] = [], breakdown: any[] = [];
+  const monthlyBreakdown: any[] = [];
   const t = getT(lang);
   const isMenuProject = data.siteType.includes('Menu / Site de commande');
 
@@ -103,7 +103,6 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   if (siteTypePrice) {
     minTotal += siteTypePrice.min;
     maxTotal += siteTypePrice.max;
-    breakdown.push({ category: t.owner.categorySiteType, item: translateOption(data.siteType, lang), price: siteTypePrice.min === siteTypePrice.max ? `${siteTypePrice.min}€` : `${siteTypePrice.min}€ - ${siteTypePrice.max}€` });
   }
 
   if (data.menuSubscription) {
@@ -160,24 +159,51 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   }
   if (isMenuProject && totalMonthlyForMenu > 35) totalMonthlyForMenu = 35;
 
-  const discountedMinPrice = isMenuProject ? minTotal : Math.round(minTotal * 0.7);
-  const discountedMaxPrice = isMenuProject ? maxTotal : Math.round(maxTotal * 0.7);
-  const minTotalTTC = Math.round(discountedMinPrice * 1.21);
-  const maxTotalTTC = Math.round(discountedMaxPrice * 1.21);
-  const menuMonthlyTTC = Math.round(monthlySubscription * 1.21);
+  // Calcul Promotion -30% (Modèle A)
+  const discountRate = 0.3;
+  const discountMin = Math.round(minTotal * discountRate);
+  const discountMax = Math.round(maxTotal * discountRate);
+  
+  const discountedMinHT = minTotal - discountMin;
+  const discountedMaxHT = maxTotal - discountMax;
+  
+  const tvaMin = Math.round(discountedMinHT * 0.21);
+  const tvaMax = Math.round(discountedMaxHT * 0.21);
+  
+  const minTotalTTC = discountedMinHT + tvaMin;
+  const maxTotalTTC = discountedMaxHT + tvaMax;
 
+  // Modèle B (Abonnement)
+  const menuMonthlyHT = totalMonthlyForMenu;
+  const menuMonthlyTVA = Math.round(menuMonthlyHT * 0.21);
+  const menuMonthlyTTC = menuMonthlyHT + menuMonthlyTVA;
+
+  // Anciens noms pour compatibilité si nécessaire ou nouveaux noms clairs
   return {
     isMenuProject,
     hasRange: minTotal !== maxTotal,
-    discountedMinPrice,
-    discountedMaxPrice,
+    // Base prices
+    baseMinHT: minTotal,
+    baseMaxHT: maxTotal,
+    // Discount info
+    discountMin,
+    discountMax,
+    // HT after discount
+    discountedMinHT,
+    discountedMaxHT,
+    // TVA
+    tvaMin,
+    tvaMax,
+    // TTC
     minTotalTTC,
     maxTotalTTC,
-    menuMonthlyHT: monthlySubscription,
+    // Monthly (Model B or Pack for Model A Menu)
+    menuMonthlyHT,
+    menuMonthlyTVA,
     menuMonthlyTTC,
-    totalMonthlyForMenu,
+    // For specific UI parts
     monthlyBreakdown,
-    totalMonthlyTTCForModelB: Math.round(totalMonthlyForMenu * 1.21)
+    totalMonthlyTTCForModelB: menuMonthlyTTC
   };
 }
 
