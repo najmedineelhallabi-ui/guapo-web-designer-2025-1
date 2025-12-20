@@ -164,8 +164,8 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
       totalMonthlyModelB += subPrice;
       monthlyBreakdownB.unshift({ item: selectedPackName, price: subPrice });
     }
-  } else if (!isMenuProject) {
-    // Default maintenance for standard showcase sites in Model A
+  } else {
+    // Default maintenance for all non-menu sites or if no subscription selected
     totalMonthlyModelA = 25; 
   }
 
