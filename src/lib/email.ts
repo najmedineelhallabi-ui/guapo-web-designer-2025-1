@@ -319,26 +319,43 @@ export async function sendQuoteEmail(data: any) {
   const ownerEmailHtml = `
     <html><head><style>${commonStyles}</style></head><body>
       <div class="c">
-        <div class="h"><h2>${t.owner.title} #${refId}</h2></div>
-        <p><strong>Client:</strong> ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}<br><strong>Email:</strong> ${data.email}<br><strong>Projet:</strong> ${escapeHtml(data.company || '-')}</p>
+        <div class="h"><h2>🎨 Nouveau Devis #${refId}</h2></div>
+        
+        <div class="box">
+          <p><strong>Client:</strong> ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</p>
+          <p><strong>Email:</strong> ${data.email}</p>
+          ${data.company ? `<p><strong>Entreprise:</strong> ${escapeHtml(data.company)}</p>` : ''}
+          <p><strong>Type de projet:</strong> ${escapeHtml(data.siteType)}</p>
+        </div>
+
+        <h3>Détails de la demande :</h3>
         <table>
-          <thead><tr><th>Élément</th><th style="text-align:right">Mensuel</th></tr></thead>
-          <tbody>${tableRows.filter(r => r.monthly !== '-').map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right;color:#0ea5e9">${r.monthly}</td></tr>`).join('')}</tbody>
+          <thead><tr><th>Option</th><th style="text-align:right">HTVA</th></tr></thead>
+          <tbody>
+            ${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right">${r.unique !== '-' ? r.unique : r.monthly}</td></tr>`).join('')}
+          </tbody>
         </table>
-          <div class="box">
-            <strong>Calcul Modèle A (Investissement):</strong><br>
-            Base HTVA: ${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}<br>
-            Promo -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA<br>
-            Total HTVA: ${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}<br>
-            TVA (21%): ${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}<br>
-            <strong>TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</strong>
-            <br><br>
-            <strong>Mensuel Modèle A:</strong> ${pricing.selectedPackName ? `Pack ${pricing.selectedPackName}` : 'Maintenance & plateforme'}: ${pricing.monthlyHTA}€ HTVA (${pricing.monthlyTTCA}€ TVAC)
+
+        <div class="box" style="background:#f1f5f9; border-left: 4px solid #1e293b;">
+          <h3 style="margin-top:0">RÉSUMÉ POUR LE CLIENT</h3>
+          
+          <div style="margin-bottom:15px">
+            <strong>MODÈLE A (Achat) :</strong><br>
+            Investissement initial : <strong>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`} TVAC</strong><br>
+            Abonnement mensuel : <strong>${pricing.monthlyTTCA}€ / mois TVAC</strong>
           </div>
 
-        ${pricing.isMenuProject ? `<div class="box" style="background:#ecfdf5"><strong>Modèle B (Abonnement):</strong> Mensuel ${pricing.monthlyTTCB}€/m TVAC</div>` : ''}
+          ${pricing.isMenuProject || true ? `
+            <div style="padding-top:10px; border-top:1px solid #cbd5e1">
+              <strong>MODÈLE B (Abonnement All-in) :</strong><br>
+              Investissement initial : <strong>0€</strong><br>
+              Abonnement mensuel : <strong>${pricing.monthlyTTCB}€ / mois TVAC</strong>
+            </div>
+          ` : ''}
+        </div>
+
+        <a href="mailto:${data.email}" class="btn btn-a">RÉPONDRE AU CLIENT</a>
         <div style="font-size:10px;color:#94a3b8;text-align:center;margin-top:20px">Ref: ${refId} | ${new Date().toLocaleString('fr-BE')}</div>
-        <a href="mailto:${data.email}" class="btn btn-a">Répondre au client</a>
       </div>
     </body></html>
   `;
