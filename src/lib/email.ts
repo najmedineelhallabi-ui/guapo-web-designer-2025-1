@@ -241,7 +241,7 @@ export async function sendQuoteEmail(data: any) {
   const lang = data.language || 'fr';
   const pricing = calculatePricing(data, lang);
   const t = getT(lang);
-  const refId = Date.now().toString().slice(-6);
+  const refId = Math.random().toString(36).substring(2, 8).toUpperCase();
 
   const tableRows: any[] = [];
   const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
@@ -305,15 +305,15 @@ export async function sendQuoteEmail(data: any) {
           <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right">${r.unique}</td><td style="text-align:right">${r.monthly}</td></tr>`).join('')}</tbody>
         </table>
         <div class="box">
-          <strong>Calcul Modèle A:</strong><br>
+          <strong>Calcul Modèle A (Investissement):</strong><br>
           Base HTVA: ${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}<br>
           Promo -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA<br>
           Total HTVA: ${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}<br>
-          TVA (21%): ${pricing.hasRange ? `${pricing.tvaMin}€ - ${pricing.tvaMax}€` : `${pricing.tvaMin}€`}<br>
-          <strong>TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
-          ${pricing.isMenuProject ? `<br><br>Abonnement Pack: ${pricing.menuMonthlyTTC}€/m TVAC` : ''}
+          TVA (21%): ${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}<br>
+          <strong>TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</strong>
+          ${pricing.isMenuProject ? `<br><br>Abonnement Pack: ${pricing.monthlyTTCA}€/m TVAC` : ''}
         </div>
-        ${pricing.isMenuProject ? `<div class="box" style="background:#ecfdf5"><strong>Modèle B (Abonnement):</strong> Mensuel ${pricing.totalMonthlyTTCForModelB}€/m TVAC</div>` : ''}
+        ${pricing.isMenuProject ? `<div class="box" style="background:#ecfdf5"><strong>Modèle B (Abonnement):</strong> Mensuel ${pricing.monthlyTTCB}€/m TVAC</div>` : ''}
         <div style="font-size:10px;color:#94a3b8;text-align:center;margin-top:20px">Ref: ${refId} | ${new Date().toLocaleString('fr-BE')}</div>
         <a href="mailto:${data.email}" class="btn btn-a">Répondre au client</a>
       </div>
@@ -359,17 +359,17 @@ export async function sendQuoteEmail(data: any) {
                 </div>
                 <div style="display:flex;justify-content:space-between;margin-bottom:5px">
                   <span>TVA (21%) :</span>
-                  <span>${pricing.hasRange ? `${pricing.tvaMin}€ - ${pricing.tvaMax}€` : `${pricing.tvaMin}€`}</span>
+                  <span>${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}</span>
                 </div>
                 <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:2px solid #1e293b;font-size:16px;font-weight:800">
                   <span>TOTAL TVAC :</span>
-                  <span>${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</span>
+                  <span>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</span>
                 </div>
                 <div style="margin-top:15px;font-size:12px;color:#64748b;text-align:center">
-                  + Maintenance & plateforme: <strong>${pricing.menuMonthlyTTC}€/mois TVAC</strong>
+                  + Maintenance & plateforme: <strong>${pricing.monthlyTTCA}€/mois TVAC</strong>
                 </div>
               </div>
-              <a href="https://guapowebdesigner.com/confirm-quote?model=A&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn btn-a">CHOISIR CE MODÈLE</a>
+              <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}" class="btn btn-a">CHOISIR CE MODÈLE</a>
             </div>
 
             <div class="box" style="background:#ecfdf5;border:2px solid #10b981">
@@ -382,22 +382,22 @@ export async function sendQuoteEmail(data: any) {
                   <span style="color:#10b981;font-weight:800">0€ OFFERT</span>
                 </div>
                 <div style="margin:10px 0;font-size:11px;color:#64748b">
-                  ${pricing.monthlyBreakdown.map((i: any) => `<div style="display:flex;justify-content:space-between"><span>• ${escapeHtml(i.item)}</span><span>${i.price === 0 ? 'Inclus' : `${i.price}€/m`}</span></div>`).join('')}
+                  ${pricing.monthlyBreakdownB.map((i: any) => `<div style="display:flex;justify-content:space-between"><span>• ${escapeHtml(i.item)}</span><span>${i.price === 0 ? 'Inclus' : `${i.price}€/m`}</span></div>`).join('')}
                 </div>
                 <div style="display:flex;justify-content:space-between;margin-bottom:5px;padding-top:10px;border-top:1px solid #f1f5f9">
                   <span>Total HTVA :</span>
-                  <span><strong>${pricing.menuMonthlyHT}€/mois</strong></span>
+                  <span><strong>${pricing.monthlyHTB}€/mois</strong></span>
                 </div>
                 <div style="display:flex;justify-content:space-between;margin-bottom:5px">
                   <span>TVA (21%) :</span>
-                  <span>${pricing.menuMonthlyTVA}€/mois</span>
+                  <span>${pricing.monthlyTVAB}€/mois</span>
                 </div>
                 <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:2px solid #10b981;font-size:16px;font-weight:800;color:#065f46">
                   <span>TOTAL TVAC :</span>
-                  <span>${pricing.menuMonthlyTTC}€/mois</span>
+                  <span>${pricing.monthlyTTCB}€/mois</span>
                 </div>
               </div>
-              <a href="https://guapowebdesigner.com/confirm-quote?model=B&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn btn-b">CHOISIR CE MODÈLE</a>
+              <a href="https://guapowebdesigner.com/confirm-quote?model=B&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}" class="btn btn-b">CHOISIR CE MODÈLE</a>
             </div>
           </div>
         ` : `
@@ -418,19 +418,19 @@ export async function sendQuoteEmail(data: any) {
               </div>
               <div style="display:flex;justify-content:space-between;margin-bottom:8px">
                 <span>TVA (21%) :</span>
-                <span>${pricing.hasRange ? `${pricing.tvaMin}€ - ${pricing.tvaMax}€` : `${pricing.tvaMin}€`}</span>
+                <span>${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}</span>
               </div>
               <div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:15px;border-top:2px solid #1e293b;font-size:22px;font-weight:900;color:#1e293b">
                 <span>TOTAL TVAC :</span>
-                <span>${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</span>
+                <span>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</span>
               </div>
             </div>
-            <a href="https://guapowebdesigner.com/confirm-quote?model=A&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn btn-a" style="margin-top:20px">LANCER MON PROJET</a>
+            <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}" class="btn btn-a" style="margin-top:20px">LANCER MON PROJET</a>
           </div>
         `}
         <div style="text-align:center;margin-top:30px;color:#64748b;font-size:13px">
           Besoin d'ajuster ce devis ? <a href="mailto:info@guapowebdesigner.com" style="color:#1e293b;font-weight:700">Répondez simplement à cet email.</a>
-          <br><br><span style="font-size:10px">Référence unique : ${refId}</span>
+          <br><br><span style="font-size:10px">Référence unique : #${refId}</span>
         </div>
       </div>
     </body></html>
@@ -444,7 +444,7 @@ export async function sendQuoteEmail(data: any) {
       from, 
       to: toOwner, 
       replyTo: data.email, 
-      subject: `[Devis #${refId}] ${data.firstName} ${data.lastName}`, 
+      subject: `[#${refId}] Devis - ${data.firstName} ${data.lastName}`, 
       html: ownerEmailHtml 
     });
     
@@ -452,7 +452,7 @@ export async function sendQuoteEmail(data: any) {
       from, 
       to: data.email, 
       replyTo: toOwner, 
-      subject: `✅ Votre estimation #${refId} - GUAPO Web Designer`, 
+      subject: `✅ [#${refId}] Votre estimation - GUAPO Web Designer`, 
       html: clientEmailHtml 
     });
 
