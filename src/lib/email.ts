@@ -733,22 +733,19 @@ export async function sendQuoteEmail(data: {
     }
   }
 
-    // 3. Fonctionnalités
-    if (data.features) {
-      data.features.forEach(f => {
-        const uPrice = (PRICING.features as any)[f];
-        const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-        
-        // Toujours montrer le prix unique (pour le Modèle A)
-        const showUnique = true;
-        
-        tableRows.push({
-          item: translateOption(f, lang),
-          unique: showUnique && uPrice !== undefined ? (uPrice > 0 ? `${uPrice}€` : t.owner.included) : '-',
-          monthly: pricing.isMenuProject && mPrice !== undefined ? `${mPrice}€` : '-'
+      // 3. Fonctionnalités
+      if (data.features) {
+        data.features.forEach(f => {
+          const uPrice = (PRICING.features as any)[f];
+          
+          // Toujours montrer le prix unique (pour le Modèle A)
+          tableRows.push({
+            item: translateOption(f, lang),
+            unique: uPrice !== undefined ? (uPrice > 0 ? `${uPrice}€` : t.owner.included) : '-',
+            monthly: '-' // On ne montre plus les prix mensuels individuels pour éviter la confusion
+          });
         });
-      });
-    }
+      }
 
   // 4. Optimisation
   if (data.optimization) {
