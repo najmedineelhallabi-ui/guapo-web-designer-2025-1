@@ -314,9 +314,12 @@ export async function sendQuoteEmail(data: any) {
 
   const clientEmailHtml = `
     <html><head><style>${commonStyles}</style></head><body>
+      <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">
+        Votre devis personnalisé #${refId} - ${new Date().toLocaleString('fr-BE')}
+      </div>
       <div class="c">
         <div class="h"><h1>${t.client.title}</h1></div>
-        <div style="text-align:right;font-size:11px;color:#94a3b8;margin-bottom:10px">Devis #${refId}</div>
+        <div style="text-align:right;font-size:11px;color:#94a3b8;margin-bottom:10px">Réf: ${refId}</div>
         <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
         <p>Voici votre estimation personnalisée pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
         
