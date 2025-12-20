@@ -1005,25 +1005,26 @@ export async function sendQuoteEmail(data: {
                       <div style="text-align:center;font-weight:800;color:#1e293b;margin-bottom:5px;font-size:14px">MODÈLE A</div>
                       <div style="text-align:center;font-weight:bold;color:#1e293b;margin-bottom:12px;font-size:11px;text-transform:uppercase">Investissement Unique</div>
                       
-                      <div style="font-size:12px; color:#64748b; margin-bottom:12px; line-height:1.4">
-                        Paiement complet du projet pour une pleine propriété dès le départ. Idéal pour optimiser la rentabilité à long terme.
-                      </div>
-
-                      <div class="pst" style="padding:10px; font-size:12px">
-                        <div class="pr"><span>Prix création HTVA</span><span>${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</span></div>
-                        <div class="pr"><span>TVA (21%)</span><span>${pricing.hasRange ? `${pricing.minVat}€ - ${pricing.maxVat}€` : `${pricing.minVat}€`}</span></div>
-                        <div class="pr" style="margin-top:5px; border-top:1px solid #e2e8f0; padding-top:5px">
-                          <span><strong>TOTAL CRÉATION</strong></span>
-                          <strong style="color:#1e293b">${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
+                        <div style="font-size:12px; color:#64748b; margin-bottom:12px; line-height:1.4">
+                          Paiement complet du projet pour une pleine propriété dès le départ. Idéal pour optimiser la rentabilité à long terme.
                         </div>
-                      </div>
-                      
-                      <div style="margin-top:12px; background:#f0f9ff; padding:10px; border-radius:8px; border:1px solid #bae6fd; font-size:12px">
-                        <div style="font-weight:700; color:#0369a1; margin-bottom:4px; font-size:11px">ABONNEMENT PACK</div>
-                        <div class="pr"><span>Abonnement Mensuel</span><span>${pricing.menuMonthlyHT}€ HT</span></div>
-                        <div class="pr"><span>Total Mensuel TVAC</span><strong style="color:#0ea5e9">${pricing.menuMonthlyTTC}€</strong></div>
-                        <div style="font-size:10px; color:#0ea5e9; font-weight:800; margin-top:4px">🎁 1ER MOIS OFFERT</div>
-                      </div>
+
+                        <div class="pst" style="padding:10px; font-size:12px">
+                          <div class="pr"><span>Prix création HTVA</span><span>${pricing.hasRange ? `${pricing.discountedMinPrice}€ - ${pricing.discountedMaxPrice}€` : `${pricing.discountedMinPrice}€`}</span></div>
+                          <div class="pr"><span>TVA (21%)</span><span>${pricing.hasRange ? `${pricing.minVat}€ - ${pricing.maxVat}€` : `${pricing.minVat}€`}</span></div>
+                          <div class="pr" style="margin-top:5px; border-top:1px solid #e2e8f0; padding-top:5px">
+                            <span><strong>TOTAL CRÉATION</strong></span>
+                            <strong style="color:#1e293b">${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
+                          </div>
+                        </div>
+                        
+                        <div style="margin-top:12px; background:#f0f9ff; padding:10px; border-radius:8px; border:1px solid #bae6fd; font-size:12px">
+                          <div style="font-weight:700; color:#0369a1; margin-bottom:4px; font-size:11px">ABONNEMENT PACK</div>
+                          <div style="font-size:11px; color:#64748b; margin-bottom:8px">Accès plateforme, maintenance et support.</div>
+                          <div class="pr"><span>Abonnement Mensuel</span><span>${pricing.menuMonthlyHT}€ HT</span></div>
+                          <div class="pr"><span>Total Mensuel TVAC</span><strong style="color:#0ea5e9">${pricing.menuMonthlyTTC}€</strong></div>
+                          <div style="font-size:10px; color:#0ea5e9; font-weight:800; margin-top:4px">🎁 1ER MOIS OFFERT</div>
+                        </div>
 
                       <a href="https://guapowebdesigner.com/confirm-quote?model=A&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-model btn-a">CHOISIR MODÈLE A</a>
                     </td>
