@@ -663,13 +663,15 @@ function calculatePricing(data: {
       menuMonthlyTTC,
       hasRange,
       monthlySubscription,
-      isMenuProject,
-      totalMonthlyForMenu: finalMonthlyForMenu,
-      discountedBaseSetup,
-      vatBaseSetup,
-      totalBaseSetupTTC
-    };
-  }
+        isMenuProject,
+        totalMonthlyForMenu: finalMonthlyForMenu,
+        monthlyBreakdown,
+        discountedBaseSetup,
+        vatBaseSetup,
+        totalBaseSetupTTC
+      };
+    }
+
 
 export async function sendQuoteEmail(data: {
   firstName: string;
