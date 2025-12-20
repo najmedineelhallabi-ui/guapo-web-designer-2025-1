@@ -26,8 +26,8 @@ export async function POST(request: NextRequest) {
             .section { margin-bottom: 20px; padding: 15px; border-radius: 10px; background: #f8fafc; border: 1px solid #f1f5f9; }
             .label { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; margin-bottom: 5px; }
             .value { font-size: 16px; color: #1e293b; font-weight: 700; }
-            .price-container { background: #f1f5f9; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-top: 15px; }
-            .price-value { font-size: 24px; font-weight: 900; color: #0f172a; }
+            .price-container { background: #ffffff; border-radius: 12px; padding: 25px; border: 2px solid #e2e8f0; margin-top: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+            .price-value { font-size: 28px; font-weight: 900; color: #0f172a; }
             .btn { display: block; background: #1e293b; color: white !important; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: 800; text-align: center; margin-top: 20px; }
           </style>
         </head>
