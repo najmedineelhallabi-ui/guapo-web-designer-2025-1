@@ -253,10 +253,15 @@ export async function sendQuoteEmail(data: any) {
           <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right">${r.unique}</td><td style="text-align:right">${r.monthly}</td></tr>`).join('')}</tbody>
         </table>
         <div class="box">
-          <strong>Modèle A:</strong> ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`} TVAC
-          ${pricing.isMenuProject ? `<br>Abonnement: ${pricing.menuMonthlyTTC}€/m TVAC` : ''}
+          <strong>Modèle A (Vente):</strong><br>
+          Sous-total: ${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`} HTVA<br>
+          Promo -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA<br>
+          Total HTVA: ${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}<br>
+          TVA (21%): ${pricing.hasRange ? `${pricing.tvaMin}€ - ${pricing.tvaMax}€` : `${pricing.tvaMin}€`}<br>
+          <strong>TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
+          ${pricing.isMenuProject ? `<br><br>Abonnement Pack: ${pricing.menuMonthlyTTC}€/m TVAC` : ''}
         </div>
-        ${pricing.isMenuProject ? `<div class="box" style="background:#ecfdf5"><strong>Modèle B:</strong> Mise en service 0€, Mensuel ${pricing.totalMonthlyTTCForModelB}€/m TVAC</div>` : ''}
+        ${pricing.isMenuProject ? `<div class="box" style="background:#ecfdf5"><strong>Modèle B (Abonnement):</strong> 0€ HTVA, Mensuel ${pricing.totalMonthlyTTCForModelB}€/m TVAC</div>` : ''}
         <a href="mailto:${data.email}" class="btn btn-a">Répondre au client</a>
       </div>
     </body></html>
@@ -268,18 +273,30 @@ export async function sendQuoteEmail(data: any) {
         <div class="h"><h1>${t.client.title}</h1></div>
         <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
         <p>Voici l'estimation pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
+        
+        <div style="background:#fefce8;border:1px solid #fef08a;padding:10px;border-radius:8px;margin-bottom:15px;text-align:center">
+          <span style="font-size:16px">🎁 <strong>PROMOTION EXCEPTIONNELLE -30%</strong></span><br>
+          <span style="font-size:12px;color:#854d0e">Valable sur votre investissement initial jusqu'au 31/12/2025</span>
+        </div>
+
         <table>
-          <thead><tr><th>Description</th><th style="text-align:right">Unique</th><th style="text-align:right">Mensuel</th></tr></thead>
-          <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right"><strong>${r.unique}</strong></td><td style="text-align:right;color:#0ea5e9"><strong>${r.monthly}</strong></td></tr>`).join('')}</tbody>
+          <thead><tr><th>Description</th><th style="text-align:right">HTVA</th><th style="text-align:right">Mensuel</th></tr></thead>
+          <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right">${r.unique}</td><td style="text-align:right;color:#0ea5e9">${r.monthly}</td></tr>`).join('')}</tbody>
         </table>
+
         ${pricing.isMenuProject ? `
           <div style="display:table;width:100%;border-spacing:10px 0;margin:20px 0">
             <div style="display:table-cell;width:50%;vertical-align:top" class="box">
               <div style="font-weight:800;text-align:center">MODÈLE A</div>
               <div style="font-size:10px;text-align:center;color:#64748b;margin-bottom:10px">INVESTISSEMENT UNIQUE</div>
-              <div style="font-size:11px;margin-bottom:10px">Propriété complète. Idéal pour la rentabilité.</div>
+              
               <div style="font-size:12px;border-top:1px solid #e2e8f0;padding-top:8px">
-                Projet: <strong>${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`} TVAC</strong><br>
+                Prix normal: <span style="text-decoration:line-through">${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}</span> HTVA<br>
+                <span style="color:#16a34a">Promotion -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA</span><br>
+                Total HTVA: <strong>${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}</strong><br>
+                TVA (21%): ${pricing.hasRange ? `${pricing.tvaMin}€ - ${pricing.tvaMax}€` : `${pricing.tvaMin}€`}<br>
+                <div style="font-size:14px;margin-top:5px;font-weight:800">TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</div>
+                <br>
                 Abonnement Pack: <strong>${pricing.menuMonthlyTTC}€/m TVAC</strong>
                 <div style="font-size:9px;color:#64748b;margin-top:4px">(Gestion, maintenance, accès plateforme)</div>
               </div>
@@ -288,21 +305,33 @@ export async function sendQuoteEmail(data: any) {
             <div style="display:table-cell;width:50%;vertical-align:top" class="box" style="background:#ecfdf5;border-color:#a7f3d0">
               <div style="font-weight:800;text-align:center;color:#065f46">MODÈLE B</div>
               <div style="font-size:10px;text-align:center;color:#059669;margin-bottom:10px">OPTION ABONNEMENT</div>
-              <div style="font-size:11px;margin-bottom:10px;color:#065f46">0€ d'investissement initial.</div>
               <div style="font-size:12px;border-top:1px solid #a7f3d0;padding-top:8px;color:#065f46">
                 Mise en service: <strong>0€</strong><br>
                 ${pricing.monthlyBreakdown.map((i: any) => `<div style="font-size:10px">${escapeHtml(i.item)}: ${i.price}€/m</div>`).join('')}
-                <strong>Total: ${pricing.totalMonthlyTTCForModelB}€/m TVAC</strong>
+                <div style="font-size:14px;margin-top:5px;font-weight:800">Total: ${pricing.totalMonthlyTTCForModelB}€/m TVAC</div>
               </div>
               <a href="https://guapowebdesigner.com/confirm-quote?model=B&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn btn-b">CHOISIR MODÈLE B</a>
             </div>
           </div>
         ` : `
           <div class="box" style="text-align:center">
-            <div style="font-size:18px;font-weight:800;color:#10b981">TOTAL: ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`} TVAC</div>
+            <div style="font-weight:800;margin-bottom:10px">VOTRE ESTIMATION DÉTAILLÉE</div>
+            <div style="text-align:left;max-width:300px;margin:0 auto;font-size:13px">
+              Sous-total: ${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`} HTVA<br>
+              <span style="color:#16a34a">Promotion -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA</span><br>
+              Total HTVA: <strong>${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}</strong><br>
+              TVA (21%): ${pricing.hasRange ? `${pricing.tvaMin}€ - ${pricing.tvaMax}€` : `${pricing.tvaMin}€`}<br>
+              <div style="font-size:18px;font-weight:800;color:#10b981;margin-top:10px;border-top:2px solid #e2e8f0;padding-top:10px">TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</div>
+            </div>
             <a href="https://guapowebdesigner.com/confirm-quote?model=A&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn btn-b">VALIDER LE PROJET</a>
           </div>
         `}
+        <div style="text-align:center;margin-top:20px">
+          <a href="mailto:info@guapowebdesigner.com" style="color:#64748b;font-size:12px;text-decoration:none">Une question ? Répondez à cet email.</a>
+        </div>
+      </div>
+    </body></html>
+  `;
         <div style="text-align:center;margin-top:20px">
           <a href="mailto:info@guapowebdesigner.com" style="color:#64748b;font-size:12px;text-decoration:none">Une question ? Répondez à cet email.</a>
         </div>
