@@ -143,39 +143,44 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
 
       // Model B: Monthly price
       const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-      if (isMenuProject && mPrice !== undefined) {
-        totalMonthlyModelB += mPrice;
-        monthlyBreakdownB.push({ 
-          item: translateOption(f, lang), 
-          price: mPrice
-        });
-      }
-    });
-  }
+    if (isMenuProject && mPrice !== undefined) {
+          totalMonthlyModelB += mPrice;
+          monthlyBreakdownB.push({ 
+            item: translateOption(f, lang), 
+            price: mPrice
+          });
+        }
+      });
+    }
 
-  // 5. Subscription Pack
-  let selectedPackName = "";
-  if (data.menuSubscription) {
-    const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
-    const subPrice = PRICING.subscriptions[subKey];
-    if (subPrice) {
-      selectedPackName = translateOption(data.menuSubscription, lang);
-      // Pour le Modèle A, le mensuel est le prix du pack + 30€ de maintenance de base
-      totalMonthlyModelA = subPrice + 30;
-      // Pour le Modèle B, c'est cumulatif avec les fonctionnalités + 30€ de système de base
-      totalMonthlyModelB += subPrice + 30;
-      
-      monthlyBreakdownB.unshift({ item: "Système de base & maintenance", price: 30 });
-      monthlyBreakdownB.unshift({ item: selectedPackName, price: subPrice });
+    // 5. Subscription Pack
+    let selectedPackName = "";
+    if (data.menuSubscription) {
+      const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
+      const subPrice = PRICING.subscriptions[subKey];
+      if (subPrice) {
+        selectedPackName = translateOption(data.menuSubscription, lang);
+        // Pour le Modèle A (Achat), on ne paye que la maintenance de base (30€) car on a déjà acheté le système
+        totalMonthlyModelA = 30;
+        // Pour le Modèle B (Abonnement All-in), c'est cumulatif avec les fonctionnalités + 30€ de système de base
+        totalMonthlyModelB += subPrice + 30;
+        
+        monthlyBreakdownB.unshift({ item: "Système de base & maintenance", price: 30 });
+        monthlyBreakdownB.unshift({ item: selectedPackName, price: subPrice });
+      }
+    } else {
+      // Maintenance par défaut pour tous les projets
+      totalMonthlyModelA = 30; 
+      if (isMenuProject) {
+        totalMonthlyModelB += 30;
+        monthlyBreakdownB.push({ item: "Système de base & maintenance", price: 30 });
+      } else {
+        // Pour les sites vitrines en abonnement, on pourrait calculer un prix, 
+        // mais le client semble vouloir privilégier l'achat (Modèle A) ou l'abonnement Resto.
+        // On met 0 par défaut ce qui permettra de masquer le Modèle B plus bas s'il n'est pas configuré.
+        totalMonthlyModelB = 0; 
+      }
     }
-  } else {
-    // Maintenance par défaut pour tous les projets
-    totalMonthlyModelA = 30; 
-    if (isMenuProject) {
-      totalMonthlyModelB += 30;
-      monthlyBreakdownB.push({ item: "Système de base & maintenance", price: 30 });
-    }
-  }
 
   // 6. Optimization
   if (data.optimization) {
