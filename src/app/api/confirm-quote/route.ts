@@ -6,34 +6,12 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { firstName, lastName, email, company, siteType, minPrice, maxPrice, maintenanceType } = body;
+    const { firstName, lastName, email, company, siteType, minPrice, maxPrice, maintenanceType, model, monthlyPrice, packName, ref } = body;
 
     console.log('📧 Sending confirmation email from client to owner...');
 
-    // Calculer la TVA (21%)
-    const minPriceNum = parseFloat(minPrice) || 0;
-    const maxPriceNum = parseFloat(maxPrice) || 0;
-    const tvaRate = 0.21;
-    
-    const minPriceTVA = Math.round(minPriceNum * tvaRate);
-    const maxPriceTVA = Math.round(maxPriceNum * tvaRate);
-    
-    const minPriceTTC = Math.round(minPriceNum * (1 + tvaRate));
-    const maxPriceTTC = Math.round(maxPriceNum * (1 + tvaRate));
-
-    // Calculer la TVA pour la maintenance si applicable
-    let maintenanceTTC = '';
-    if (maintenanceType) {
-      if (maintenanceType.includes('300€/an')) {
-        maintenanceTTC = '363€ TTC/an';
-      } else if (maintenanceType.includes('700€/an')) {
-        maintenanceTTC = '847€ TTC/an';
-      } else if (maintenanceType.includes('100€')) {
-        maintenanceTTC = '121€ TTC';
-      } else if (maintenanceType.includes('150€')) {
-        maintenanceTTC = '181.50€ TTC';
-      }
-    }
+    const isModelA = model === 'A';
+    const isModelB = model === 'B';
 
     // Email pour le propriétaire confirmant l'intérêt du client
     const ownerEmailHtml = `
