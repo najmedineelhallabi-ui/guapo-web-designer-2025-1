@@ -616,7 +616,7 @@ function calculatePricing(data: {
       maxDiscount = 0;
     }
     
-    // Modèle B : Calcul des frais de mise en service et abonnement
+    // Modèle B : Somme des prix mensuels des options
     let totalMonthlyForModelB = 0;
     if (isMenuProject && data.features) {
       data.features.forEach(f => {
@@ -631,7 +631,7 @@ function calculatePricing(data: {
     totalMonthlyForModelB += monthlySubscription;
 
     // Frais de mise en service (Setup) pour le Modèle B
-    // Le setup fee est de 0€ HTVA selon la nouvelle demande
+    // FIX: Pour les projets Menu, le setup est désormais de 0€
     let discountedBaseSetup = isMenuProject ? 0 : Math.round(minTotal * 0.70);
     
     const vatBaseSetup = Math.round(discountedBaseSetup * 0.21);
