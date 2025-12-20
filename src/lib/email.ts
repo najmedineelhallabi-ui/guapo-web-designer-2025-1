@@ -170,14 +170,14 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
       }
       monthlyBreakdownB.unshift({ item: selectedPackName, price: subPrice });
     }
-  } else {
-    // Default maintenance for vitrine sites in Model A
-    totalMonthlyModelA = isMenuProject ? 30 : 25; 
-    if (isMenuProject) {
-      totalMonthlyModelB += 30;
-      monthlyBreakdownB.push({ item: "Système de base commande", price: 30 });
+    } else {
+      // Default maintenance for vitrine sites in Model A
+      totalMonthlyModelA = 30; 
+      if (isMenuProject) {
+        totalMonthlyModelB += 30;
+        monthlyBreakdownB.push({ item: "Système de base commande", price: 30 });
+      }
     }
-  }
 
   // 6. Optimization
   if (data.optimization) {
