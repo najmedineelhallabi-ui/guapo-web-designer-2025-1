@@ -92,147 +92,148 @@ function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (m) => map[m]);
 }
 
-    function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
-      let minTotal = 0, maxTotal = 0, monthlySubscription = 0, totalMonthlyForMenu = 0;
-      const isMenuProject = data.siteType.includes('Menu / Site de commande');
-      const monthlyBreakdown: any[] = [];
+function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
+  let minTotal = 0, maxTotal = 0, monthlySubscription = 0, totalMonthlyForMenu = 0;
+  const isMenuProject = data.siteType.includes('Menu / Site de commande');
+  const monthlyBreakdown: any[] = [];
 
-      // 1. Base Site Type Price
-      const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
-      const siteTypePrice = PRICING.siteTypes[siteTypeKey];
-      if (siteTypePrice) {
-        minTotal += siteTypePrice.min;
-        maxTotal += siteTypePrice.max;
-      }
+  // 1. Base Site Type Price
+  const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
+  const siteTypePrice = PRICING.siteTypes[siteTypeKey];
+  if (siteTypePrice) {
+    minTotal += siteTypePrice.min;
+    maxTotal += siteTypePrice.max;
+  }
 
-      // 2. Extra Pages
-      if (data.pageCount) {
-        const pageCount = parseInt(data.pageCount.toString());
-        let limit = 3;
-        if (data.siteType.includes('4 à 5')) limit = 5;
-        else if (data.siteType.includes('6 à 8')) limit = 8;
-        else if (data.siteType.includes('9 à 12')) limit = 12;
-        if (pageCount > limit) {
-          const extra = pageCount - limit;
-          minTotal += extra * PAGE_EXTRA_COST;
-          maxTotal += extra * PAGE_EXTRA_COST;
-        }
-      }
-
-      // 3. Languages
-      if (data.languages && data.languages.length > 1) {
-        const multiPrice = PRICING.features["Multilingue"];
-        minTotal += multiPrice;
-        maxTotal += multiPrice;
-      }
-
-      // 4. Features (Unique & Monthly)
-      if (data.features) {
-        data.features.forEach((f: string) => {
-          // Unique price for Model A
-          const uPrice = (PRICING.features as any)[f];
-          if (uPrice !== undefined) {
-            minTotal += uPrice; 
-            maxTotal += uPrice;
-          }
-
-          // Monthly price for Model B (if applicable)
-          const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-          if (isMenuProject && mPrice !== undefined) {
-            totalMonthlyForMenu += mPrice;
-            monthlyBreakdown.push({ 
-              item: translateOption(f, lang), 
-              price: mPrice,
-              isIncluded: false 
-            });
-          }
-        });
-      }
-
-      // 5. Subscription Pack (Model B base or Pack for Model A)
-      if (data.menuSubscription) {
-        const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
-        const subPrice = PRICING.subscriptions[subKey];
-        if (subPrice) {
-          monthlySubscription = subPrice;
-          totalMonthlyForMenu += subPrice;
-          monthlyBreakdown.unshift({ item: translateOption(data.menuSubscription, lang), price: subPrice });
-        }
-      }
-
-      // 6. Optimization
-      if (data.optimization) {
-        data.optimization.forEach((o: string) => {
-          const price = (PRICING.optimization as any)[o];
-          if (price !== undefined) { 
-            minTotal += price; 
-            maxTotal += price; 
-          }
-        });
-      }
-
-      // 7. Domain
-      if (data.domain) {
-        const price = (PRICING.domain as any)[data.domain];
-        if (price !== undefined && price > 0) { 
-          minTotal += price; 
-          maxTotal += price; 
-        }
-      }
-
-      // Promotion logic - 30% discount on Model A (investment)
-      // VALID UNTIL 31/12/2025
-      const discountRate = 0.30;
-      const discountMin = Math.round(minTotal * discountRate);
-      const discountMax = Math.round(maxTotal * discountRate);
-      
-      const discountedMinHT = minTotal - discountMin;
-      const discountedMaxHT = maxTotal - discountMax;
-      
-      const tvaRate = 0.21;
-      const tvaMin = Math.round(discountedMinHT * tvaRate);
-      const tvaMax = Math.round(discountedMaxHT * tvaRate);
-      
-      const minTotalTTC = discountedMinHT + tvaMin;
-      const maxTotalTTC = discountedMaxHT + tvaMax;
-
-      // Monthly fees (TTC)
-      const menuMonthlyHT = totalMonthlyForMenu;
-      const menuMonthlyTVA = Math.round(menuMonthlyHT * tvaRate);
-      const menuMonthlyTTC = menuMonthlyHT + menuMonthlyTVA;
-
-      return {
-        isMenuProject,
-        hasRange: minTotal !== maxTotal,
-        // Base prices
-        baseMinHT: minTotal,
-        baseMaxHT: maxTotal,
-        // Discount info
-        discountMin,
-        discountMax,
-        // HT after discount
-        discountedMinHT,
-        discountedMaxHT,
-        // TVA
-        tvaMin,
-        tvaMax,
-        // TTC
-        minTotalTTC,
-        maxTotalTTC,
-        // Monthly
-        menuMonthlyHT,
-        menuMonthlyTVA,
-        menuMonthlyTTC,
-        // For specific UI parts
-        monthlyBreakdown,
-        totalMonthlyTTCForModelB: menuMonthlyTTC
-      };
+  // 2. Extra Pages
+  if (data.pageCount) {
+    const pageCount = parseInt(data.pageCount.toString());
+    let limit = 3;
+    if (data.siteType.includes('4 à 5')) limit = 5;
+    else if (data.siteType.includes('6 à 8')) limit = 8;
+    else if (data.siteType.includes('9 à 12')) limit = 12;
+    if (pageCount > limit) {
+      const extra = pageCount - limit;
+      minTotal += extra * PAGE_EXTRA_COST;
+      maxTotal += extra * PAGE_EXTRA_COST;
     }
+  }
+
+  // 3. Languages
+  if (data.languages && data.languages.length > 1) {
+    const multiPrice = PRICING.features["Multilingue"];
+    minTotal += multiPrice;
+    maxTotal += multiPrice;
+  }
+
+  // 4. Features (Unique & Monthly)
+  if (data.features) {
+    data.features.forEach((f: string) => {
+      // Unique price for Model A
+      const uPrice = (PRICING.features as any)[f];
+      if (uPrice !== undefined) {
+        minTotal += uPrice; 
+        maxTotal += uPrice;
+      }
+
+      // Monthly price for Model B (if applicable)
+      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
+      if (isMenuProject && mPrice !== undefined) {
+        totalMonthlyForMenu += mPrice;
+        monthlyBreakdown.push({ 
+          item: translateOption(f, lang), 
+          price: mPrice,
+          isIncluded: false 
+        });
+      }
+    });
+  }
+
+  // 5. Subscription Pack (Model B base or Pack for Model A)
+  if (data.menuSubscription) {
+    const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
+    const subPrice = PRICING.subscriptions[subKey];
+    if (subPrice) {
+      monthlySubscription = subPrice;
+      totalMonthlyForMenu += subPrice;
+      monthlyBreakdown.unshift({ item: translateOption(data.menuSubscription, lang), price: subPrice });
+    }
+  }
+
+  // 6. Optimization
+  if (data.optimization) {
+    data.optimization.forEach((o: string) => {
+      const price = (PRICING.optimization as any)[o];
+      if (price !== undefined) { 
+        minTotal += price; 
+        maxTotal += price; 
+      }
+    });
+  }
+
+  // 7. Domain
+  if (data.domain) {
+    const price = (PRICING.domain as any)[data.domain];
+    if (price !== undefined && price > 0) { 
+      minTotal += price; 
+      maxTotal += price; 
+    }
+  }
+
+  // Promotion logic - 30% discount on Model A (investment)
+  // VALID UNTIL 31/12/2025
+  const discountRate = 0.30;
+  const discountMin = Math.round(minTotal * discountRate);
+  const discountMax = Math.round(maxTotal * discountRate);
+  
+  const discountedMinHT = minTotal - discountMin;
+  const discountedMaxHT = maxTotal - discountMax;
+  
+  const tvaRate = 0.21;
+  const tvaMin = Math.round(discountedMinHT * tvaRate);
+  const tvaMax = Math.round(discountedMaxHT * tvaRate);
+  
+  const minTotalTTC = discountedMinHT + tvaMin;
+  const maxTotalTTC = discountedMaxHT + tvaMax;
+
+  // Monthly fees (TTC)
+  const menuMonthlyHT = totalMonthlyForMenu;
+  const menuMonthlyTVA = Math.round(menuMonthlyHT * tvaRate);
+  const menuMonthlyTTC = menuMonthlyHT + menuMonthlyTVA;
+
+  return {
+    isMenuProject,
+    hasRange: minTotal !== maxTotal,
+    // Base prices
+    baseMinHT: minTotal,
+    baseMaxHT: maxTotal,
+    // Discount info
+    discountMin,
+    discountMax,
+    // HT after discount
+    discountedMinHT,
+    discountedMaxHT,
+    // TVA
+    tvaMin,
+    tvaMax,
+    // TTC
+    minTotalTTC,
+    maxTotalTTC,
+    // Monthly
+    menuMonthlyHT,
+    menuMonthlyTVA,
+    menuMonthlyTTC,
+    // For specific UI parts
+    monthlyBreakdown,
+    totalMonthlyTTCForModelB: menuMonthlyTTC
+  };
+}
 
 export async function sendQuoteEmail(data: any) {
   const lang = data.language || 'fr';
   const pricing = calculatePricing(data, lang);
   const t = getT(lang);
+  const refId = Date.now().toString().slice(-6);
 
   const tableRows: any[] = [];
   const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
@@ -286,56 +287,36 @@ export async function sendQuoteEmail(data: any) {
     .promo-banner{background:#fefce8;border:1px solid #fef08a;padding:12px;border-radius:8px;margin-bottom:20px;text-align:center;color:#854d0e}
   `;
 
-    const ownerEmailHtml = `
-      <html><head><style>${commonStyles}</style></head><body>
-        <div class="c">
-          <div class="h"><h2>${t.owner.title} #${refId}</h2></div>
-          <p><strong>Client:</strong> ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}<br><strong>Email:</strong> ${data.email}<br><strong>Projet:</strong> ${escapeHtml(data.company || '-')}</p>
-          <table>
-            <thead><tr><th>Élément</th><th style="text-align:right">Unique</th><th style="text-align:right">Mensuel</th></tr></thead>
-            <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right">${r.unique}</td><td style="text-align:right">${r.monthly}</td></tr>`).join('')}</tbody>
-          </table>
-          <div class="box">
-            <strong>Calcul Modèle A:</strong><br>
-            Base HTVA: ${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}<br>
-            Promo -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA<br>
-            Total HTVA: ${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}<br>
-            TVA (21%): ${pricing.hasRange ? `${pricing.tvaMin}€ - ${pricing.tvaMax}€` : `${pricing.tvaMin}€`}<br>
-            <strong>TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
-            ${pricing.isMenuProject ? `<br><br>Abonnement Pack: ${pricing.menuMonthlyTTC}€/m TVAC` : ''}
-          </div>
-          ${pricing.isMenuProject ? `<div class="box" style="background:#ecfdf5"><strong>Modèle B (Abonnement):</strong> Mensuel ${pricing.totalMonthlyTTCForModelB}€/m TVAC</div>` : ''}
-          <div style="font-size:10px;color:#94a3b8;text-align:center;margin-top:20px">Ref: ${refId} | ${new Date().toLocaleString('fr-BE')}</div>
-          <a href="mailto:${data.email}" class="btn btn-a">Répondre au client</a>
+  const ownerEmailHtml = `
+    <html><head><style>${commonStyles}</style></head><body>
+      <div class="c">
+        <div class="h"><h2>${t.owner.title} #${refId}</h2></div>
+        <p><strong>Client:</strong> ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}<br><strong>Email:</strong> ${data.email}<br><strong>Projet:</strong> ${escapeHtml(data.company || '-')}</p>
+        <table>
+          <thead><tr><th>Élément</th><th style="text-align:right">Unique</th><th style="text-align:right">Mensuel</th></tr></thead>
+          <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right">${r.unique}</td><td style="text-align:right">${r.monthly}</td></tr>`).join('')}</tbody>
+        </table>
+        <div class="box">
+          <strong>Calcul Modèle A:</strong><br>
+          Base HTVA: ${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}<br>
+          Promo -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA<br>
+          Total HTVA: ${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}<br>
+          TVA (21%): ${pricing.hasRange ? `${pricing.tvaMin}€ - ${pricing.tvaMax}€` : `${pricing.tvaMin}€`}<br>
+          <strong>TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
+          ${pricing.isMenuProject ? `<br><br>Abonnement Pack: ${pricing.menuMonthlyTTC}€/m TVAC` : ''}
         </div>
-      </body></html>
-    `;
-
-    const clientEmailHtml = `
-      <html><head><style>${commonStyles}</style></head><body>
-        <div class="c">
-          <div class="h"><h1>${t.client.title}</h1></div>
-          <div style="text-align:right;font-size:11px;color:#94a3b8;margin-bottom:10px">Devis #${refId}</div>
-          <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
-          <p>Voici votre estimation personnalisée pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
-          
-          <div class="promo-banner">
-            <span style="font-size:18px">🎁 <strong>PROMO -30% APPLIQUÉE</strong></span><br>
-            <span style="font-size:13px">Sur votre investissement initial jusqu'au 31/12/2025</span>
-          </div>
-          <!-- ... -->
-          <div style="text-align:center;margin-top:30px;color:#64748b;font-size:13px">
-            Besoin d'ajuster ce devis ? <a href="mailto:info@guapowebdesigner.com" style="color:#1e293b;font-weight:700">Répondez simplement à cet email.</a>
-            <br><br><span style="font-size:10px">Référence unique : ${refId}</span>
-          </div>
-        </div>
-      </body></html>
-    `;
+        ${pricing.isMenuProject ? `<div class="box" style="background:#ecfdf5"><strong>Modèle B (Abonnement):</strong> Mensuel ${pricing.totalMonthlyTTCForModelB}€/m TVAC</div>` : ''}
+        <div style="font-size:10px;color:#94a3b8;text-align:center;margin-top:20px">Ref: ${refId} | ${new Date().toLocaleString('fr-BE')}</div>
+        <a href="mailto:${data.email}" class="btn btn-a">Répondre au client</a>
+      </div>
+    </body></html>
+  `;
 
   const clientEmailHtml = `
     <html><head><style>${commonStyles}</style></head><body>
       <div class="c">
         <div class="h"><h1>${t.client.title}</h1></div>
+        <div style="text-align:right;font-size:11px;color:#94a3b8;margin-bottom:10px">Devis #${refId}</div>
         <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
         <p>Voici votre estimation personnalisée pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
         
@@ -441,6 +422,7 @@ export async function sendQuoteEmail(data: any) {
         `}
         <div style="text-align:center;margin-top:30px;color:#64748b;font-size:13px">
           Besoin d'ajuster ce devis ? <a href="mailto:info@guapowebdesigner.com" style="color:#1e293b;font-weight:700">Répondez simplement à cet email.</a>
+          <br><br><span style="font-size:10px">Référence unique : ${refId}</span>
         </div>
       </div>
     </body></html>
@@ -449,7 +431,6 @@ export async function sendQuoteEmail(data: any) {
   try {
     const from = process.env.EMAIL_FROM || 'onboarding@resend.dev';
     const toOwner = process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com';
-    const refId = Date.now().toString().slice(-6);
 
     await resend.emails.send({ 
       from, 
