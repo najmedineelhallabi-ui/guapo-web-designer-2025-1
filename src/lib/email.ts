@@ -284,22 +284,31 @@ export async function sendQuoteEmail(data: any) {
     </body></html>
   `;
 
-    const from = process.env.EMAIL_FROM || 'onboarding@resend.dev';
-    const toOwner = process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com';
+    try {
+      const from = process.env.EMAIL_FROM || 'onboarding@resend.dev';
+      const toOwner = process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com';
 
-    await resend.emails.send({ 
-      from, 
-      to: toOwner, 
-      replyTo: data.email, 
-      subject: `Devis: ${data.firstName} ${data.lastName}`, 
-      html: ownerEmailHtml 
-    });
-    
-    await resend.emails.send({ 
-      from, 
-      to: data.email, 
-      replyTo: toOwner, 
-      subject: t.client.subject, 
-      html: clientEmailHtml 
-    });
+      console.log('Sending emails from:', from);
+
+      await resend.emails.send({ 
+        from, 
+        to: toOwner, 
+        replyTo: data.email, 
+        subject: `Devis: ${data.firstName} ${data.lastName}`, 
+        html: ownerEmailHtml 
+      });
+      
+      await resend.emails.send({ 
+        from, 
+        to: data.email, 
+        replyTo: toOwner, 
+        subject: t.client.subject, 
+        html: clientEmailHtml 
+      });
+
+      return { success: true };
+    } catch (error) {
+      console.error('Email error details:', error);
+      throw error;
+    }
 }
