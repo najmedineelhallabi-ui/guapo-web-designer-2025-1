@@ -532,22 +532,26 @@ function calculatePricing(data: {
           const price = PRICING.features[featureKey];
           const monthlyPrice = (PRICING as any).monthlyMenuFeatures?.[feature];
 
-          if (price !== undefined) {
-            // Toujours ajouter au total unique (Model A)
-            minTotal += price;
-            maxTotal += price;
-            
-            // Pour le Model B (Abonnement), on cumule le prix mensuel
-            if (isMenuProject && monthlyPrice !== undefined) {
-              totalMonthlyForMenu += monthlyPrice;
+            if (price !== undefined) {
+              // Toujours ajouter au total unique (Model A)
+              minTotal += price;
+              maxTotal += price;
+              
+              // Pour le Model B (Abonnement), on ajoute à la liste du breakdown
+              if (isMenuProject && monthlyPrice !== undefined) {
+                monthlyBreakdown.push({ 
+                  item: translateOption(feature, lang), 
+                  price: monthlyPrice 
+                });
+              }
+
+              breakdown.push({
+                category: t.owner.categoryFeatures,
+                item: translateOption(feature, lang) + (isMenuProject && monthlyPrice !== undefined ? ` (${monthlyPrice}€/${lang === 'fr' ? 'mois' : 'm'})` : ''),
+                price: price > 0 ? `${price}€` : t.owner.included
+              });
             }
 
-            breakdown.push({
-              category: t.owner.categoryFeatures,
-              item: translateOption(feature, lang) + (isMenuProject && monthlyPrice !== undefined ? ` (${monthlyPrice}€/${lang === 'fr' ? 'mois' : 'm'})` : ''),
-              price: price > 0 ? `${price}€` : t.owner.included
-            });
-          }
         });
       }
 
