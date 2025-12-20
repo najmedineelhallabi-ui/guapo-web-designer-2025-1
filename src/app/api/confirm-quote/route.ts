@@ -56,29 +56,30 @@ export async function POST(request: NextRequest) {
                 <div class="value">${escapeHtml(siteType)}</div>
               </div>
 
-              <div class="price-container">
-                ${isModelA ? `
-                  <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #e2e8f0;">
-                    <div class="label">💰 Investissement Initial (Achat)</div>
-                    <div class="price-value">${minPrice === maxPrice ? `${minPrice}€` : `${minPrice}€ - ${maxPrice}€`} TVAC</div>
-                  </div>
-                  <div>
-                    <div class="label">🛠️ Maintenance Mensuelle</div>
-                    <div class="price-value" style="font-size:20px; color:#3b82f6">${monthlyPrice}€ / mois TVAC</div>
-                    <div style="font-size:12px;color:#64748b;margin-top:4px">${escapeHtml(packName || 'Maintenance & Support')}</div>
-                  </div>
-                ` : `
-                  <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #e2e8f0;">
-                    <div class="label">💰 Investissement Initial</div>
-                    <div class="price-value" style="color:#10b981">0€ (OFFERT)</div>
-                  </div>
-                  <div>
-                    <div class="label">🔄 Abonnement Mensuel All-In</div>
-                    <div class="price-value" style="color:#059669">${monthlyPrice}€ / mois TVAC</div>
-                    <div style="font-size:12px;color:#64748b;margin-top:4px">${escapeHtml(packName || 'Abonnement complet')}</div>
-                  </div>
-                `}
-              </div>
+                <div class="price-container">
+                  ${isModelA ? `
+                    <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #e2e8f0;">
+                      <div class="label">💰 Investissement Initial (Achat)</div>
+                      <div class="price-value" style="color: #1e293b;">${minPrice === maxPrice ? `${minPrice}€` : `${minPrice}€ - ${maxPrice}€`} <span style="font-size:12px; font-weight:400; color:#64748b;">TVAC</span></div>
+                    </div>
+                    <div>
+                      <div class="label">🛠️ Maintenance Mensuelle</div>
+                      <div class="price-value" style="font-size:20px; color:#3b82f6">${monthlyPrice}€ / mois <span style="font-size:12px; font-weight:400; color:#64748b;">TVAC</span></div>
+                      <div style="font-size:12px;color:#64748b;margin-top:4px; font-weight: 700;">${escapeHtml(packName || 'Maintenance & Support')}</div>
+                    </div>
+                  ` : `
+                    <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #e2e8f0;">
+                      <div class="label">💰 Investissement Initial</div>
+                      <div class="price-value" style="color:#10b981">0€ <span style="font-size:12px; font-weight:400; opacity:0.8;">(OFFERT)</span></div>
+                    </div>
+                    <div>
+                      <div class="label">🔄 Abonnement Mensuel All-In</div>
+                      <div class="price-value" style="color:#059669">${monthlyPrice}€ / mois <span style="font-size:12px; font-weight:400; opacity:0.8;">TVAC</span></div>
+                      <div style="font-size:12px;color:#64748b;margin-top:4px; font-weight: 700;">${escapeHtml(packName || 'Abonnement complet')}</div>
+                    </div>
+                  `}
+                </div>
+
 
               <a href="mailto:${email}" class="btn">RÉPONDRE AU CLIENT</a>
             </div>
