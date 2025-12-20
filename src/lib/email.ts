@@ -364,29 +364,32 @@ export async function sendQuoteEmail(data: any) {
           </table>
         </div>
 
-        <div class="box" style="background:#f1f5f9; border-top: 2px solid #e2e8f0;">
-          <h3 style="margin-top:0; font-size: 16px; color: #1e293b;">💰 RÉSUMÉ DES OFFRES GÉNÉRÉES</h3>
-          
-          <div style="display: grid; gap: 10px;">
-            <div style="padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0;">
-              <div style="font-weight: 800; color: #1e293b; font-size: 12px; margin-bottom: 5px;">MODÈLE A (ACHAT)</div>
-              <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <span style="font-size: 18px; font-weight: 900;">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`} <span style="font-size: 12px; font-weight: 400; color: #64748b;">TVAC</span></span>
-                <span style="font-size: 13px; color: #3b82f6; font-weight: 700;">+ ${pricing.monthlyTTCA}€/m</span>
+          <div class="box" style="background:#f1f5f9; border-top: 2px solid #e2e8f0;">
+            <h3 style="margin-top:0; font-size: 16px; color: #1e293b;">💰 RÉSUMÉ DES OFFRES GÉNÉRÉES</h3>
+            
+            <div style="display: grid; gap: 10px;">
+              ${pricing.isMenuProject ? '' : `
+              <div style="padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <div style="font-weight: 800; color: #1e293b; font-size: 12px; margin-bottom: 5px;">MODÈLE A (ACHAT)</div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                  <span style="font-size: 18px; font-weight: 900;">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`} <span style="font-size: 12px; font-weight: 400; color: #64748b;">TVAC</span></span>
+                  <span style="font-size: 13px; color: #3b82f6; font-weight: 700;">+ ${pricing.monthlyTTCA}€/m</span>
+                </div>
               </div>
-            </div>
+              `}
 
-            ${pricing.monthlyTTCB > 0 ? `
-            <div style="padding: 12px; background: #ecfdf5; border-radius: 8px; border: 1px solid #10b981;">
-              <div style="font-weight: 800; color: #065f46; font-size: 12px; margin-bottom: 5px;">MODÈLE B (ABONNEMENT)</div>
-              <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                <span style="font-size: 18px; font-weight: 900; color: #059669;">${pricing.monthlyTTCB}€ <span style="font-size: 12px; font-weight: 400; color: #065f46; opacity: 0.7;">/ mois TVAC</span></span>
-                <span style="font-size: 13px; color: #059669; font-weight: 700;">Invest: 0€</span>
+              ${pricing.monthlyTTCB > 0 ? `
+              <div style="padding: 12px; background: #ecfdf5; border-radius: 8px; border: 1px solid #10b981;">
+                <div style="font-weight: 800; color: #065f46; font-size: 12px; margin-bottom: 5px;">MODÈLE B (ABONNEMENT)</div>
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                  <span style="font-size: 18px; font-weight: 900; color: #059669;">${pricing.monthlyTTCB}€ <span style="font-size: 12px; font-weight: 400; color: #065f46; opacity: 0.7;">/ mois TVAC</span></span>
+                  <span style="font-size: 13px; color: #059669; font-weight: 700;">Invest: 0€</span>
+                </div>
               </div>
+              ` : ''}
             </div>
-            ` : ''}
           </div>
-        </div>
+
 
         <a href="mailto:${data.email}" class="btn" style="background: #1e293b; color: white; text-decoration: none; display: block; padding: 15px; text-align: center; border-radius: 8px; font-weight: 800; margin-top: 20px;">RÉPONDRE AU CLIENT DIRECTEMENT</a>
         
