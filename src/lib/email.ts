@@ -202,12 +202,18 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     }
   }
 
-  const tvaRate = 0.21;
-  const discountRate = 0.30;
+    const tvaRate = 0.21;
+    let discountRate = 0.30;
+    
+    // Pas de promo 30% pour les projets Menu/Commande
+    if (isMenuProject) {
+      discountRate = 0;
+    }
 
-  // Model A Investment Calculation
-  const discountMin = Math.round(minTotalHT * discountRate);
-  const discountMax = Math.round(maxTotalHT * discountRate);
+    // Model A Investment Calculation
+    const discountMin = Math.round(minTotalHT * discountRate);
+    const discountMax = Math.round(maxTotalHT * discountRate);
+
   const discountedMinHT = minTotalHT - discountMin;
   const discountedMaxHT = maxTotalHT - discountMax;
   
