@@ -20,20 +20,22 @@ export async function POST(request: NextRequest) {
           <style>
             body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 20px; background: #f8fafc; }
             .card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; }
-            .header { background: ${isModelB ? '#10b981' : '#1e293b'}; color: white; padding: 40px 30px; text-align: center; }
-            .content { padding: 35px; }
-            .choice-badge { display: inline-block; padding: 12px 24px; border-radius: 50px; font-weight: 900; font-size: 16px; text-transform: uppercase; margin-bottom: 30px; letter-spacing: 1px; }
-            .badge-a { background: #eff6ff; color: #1e40af; border: 2px solid #dbeafe; }
-            .badge-b { background: #ecfdf5; color: #065f46; border: 2px solid #d1fae5; }
-            .section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #f1f5f9; }
-            .label { font-size: 12px; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; margin-bottom: 8px; }
-            .value { font-size: 18px; color: #0f172a; font-weight: 700; }
-            .price-container { background: #f1f5f9; border-radius: 12px; padding: 25px; margin-top: 10px; }
-            .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-            .price-label { font-weight: 600; color: #475569; }
-            .price-value { font-size: 24px; font-weight: 900; color: ${isModelB ? '#059669' : '#1e293b'}; }
-            .footer { text-align: center; padding: 30px; color: #94a3b8; font-size: 13px; }
-            .btn { display: block; background: #1e293b; color: white !important; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 800; text-align: center; margin-top: 30px; font-size: 16px; }
+            .header { background: ${isModelB ? '#10b981' : '#1e293b'}; color: white; padding: 40px 30px; text-align: center; border-radius: 16px 16px 0 0; }
+            .content { padding: 35px; background: white; }
+            .choice-badge { display: inline-block; padding: 12px 24px; border-radius: 50px; font-weight: 900; font-size: 16px; text-transform: uppercase; margin-bottom: 30px; letter-spacing: 1px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+            .badge-a { background: #1e293b; color: #ffffff; border: 2px solid #334155; }
+            .badge-b { background: #10b981; color: #ffffff; border: 2px solid #059669; }
+            .section { margin-bottom: 25px; padding: 20px; border-radius: 12px; background: #ffffff; border: 1px solid #f1f5f9; }
+            .label { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; font-weight: 800; margin-bottom: 10px; }
+            .value { font-size: 18px; color: #1e293b; font-weight: 700; }
+            .price-container { background: #f8fafc; border-radius: 16px; padding: 30px; border: 2px solid #e2e8f0; margin-top: 20px; }
+            .price-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #cbd5e1; }
+            .price-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+            .price-label { font-weight: 700; color: #475569; font-size: 14px; }
+            .price-value { font-size: 26px; font-weight: 900; color: #0f172a; }
+            .monthly-tag { font-size: 14px; color: #3b82f6; font-weight: 700; background: #eff6ff; padding: 4px 12px; border-radius: 20px; margin-top: 5px; display: inline-block; }
+            .btn { display: block; background: #1e293b; color: white !important; padding: 20px; border-radius: 12px; text-decoration: none; font-weight: 800; text-align: center; margin-top: 30px; font-size: 18px; box-shadow: 0 4px 15px rgba(30,41,59,0.3); }
+            .footer { text-align: center; padding: 30px; color: #94a3b8; font-size: 12px; font-weight: 500; }
           </style>
         </head>
         <body>
