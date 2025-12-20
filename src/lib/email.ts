@@ -1026,7 +1026,7 @@ export async function sendQuoteEmail(data: {
                   <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:15px">MODÈLE B : OPTION ABONNEMENT</div>
                   <p style="text-align:center;font-size:13px;color:#065f46;margin-bottom:20px">Réduisez votre investissement de départ avec un coût mensuel fixe.</p>
                   <div style="background:#fff;padding:15px;border-radius:8px;border:1px solid #a7f3d0">
-                    <div class="pr" style="color:#065f46"><span>Frais de mise en service HTVA (-30%)</span><span>${pricing.discountedBaseSetup}€</span></div>
+                    <div class="pr" style="color:#065f46"><span>Frais de mise en service HTVA</span><span>${pricing.discountedBaseSetup}€</span></div>
                     <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${pricing.vatBaseSetup}€</span></div>
                     <div class="pr" style="margin-bottom:15px; color:#065f46"><span><strong>Total Mise en service TVAC</strong></span><strong>${pricing.totalBaseSetupTTC}€</strong></div>
                     
