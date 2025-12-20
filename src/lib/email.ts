@@ -332,12 +332,6 @@ export async function sendQuoteEmail(data: any) {
       </div>
     </body></html>
   `;
-        <div style="text-align:center;margin-top:20px">
-          <a href="mailto:info@guapowebdesigner.com" style="color:#64748b;font-size:12px;text-decoration:none">Une question ? Répondez à cet email.</a>
-        </div>
-      </div>
-    </body></html>
-  `;
 
     try {
       const from = process.env.EMAIL_FROM || 'onboarding@resend.dev';
