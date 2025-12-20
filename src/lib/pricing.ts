@@ -109,7 +109,7 @@ export function calculateEstimate(data: {
   if (data.menuSubscription) {
     const subPrice = PRICING.subscriptions[data.menuSubscription as keyof typeof PRICING.subscriptions];
     if (subPrice) {
-      monthlySubscription = subPrice;
+      monthlySubscription += subPrice;
     }
   }
 
@@ -120,6 +120,12 @@ export function calculateEstimate(data: {
       if (featurePrice) {
         minTotal += featurePrice;
         maxTotal += featurePrice;
+      }
+
+      // Ajouter aussi le prix mensuel si applicable (pour l'affichage du total mensuel)
+      const monthlyPrice = (PRICING as any).monthlyMenuFeatures?.[feature];
+      if (monthlyPrice) {
+        monthlySubscription += monthlyPrice;
       }
     });
   }
