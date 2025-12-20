@@ -408,7 +408,7 @@ export async function sendQuoteEmail(data: any) {
                   </div>
 
                   <div style="margin-top:25px;font-size:14px;color:#64748b;text-align:center;background:#f8fafc;padding:15px;border-radius:10px;border:1px solid #e2e8f0">
-                    + Maintenance & plateforme : <strong>${pricing.monthlyHTA}€/mois HTVA</strong><br>
+                    + ${pricing.selectedPackName ? `Pack ${pricing.selectedPackName}` : 'Maintenance & plateforme'} : <strong>${pricing.monthlyHTA}€/mois HTVA</strong><br>
                     <span style="font-size:12px">(${pricing.monthlyTTCA}€/mois TVAC)</span>
                   </div>
                 </div>
