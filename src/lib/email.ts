@@ -455,41 +455,47 @@ function calculatePricing(data: {
   let maxTotal = 0;
   let monthlySubscription = 0;
   let totalMonthlyForMenu = 0; // Pour le Model B (Abonnement fonctionnalités)
-  const breakdown: { category: string; item: string; price: string }[] = [];
-  const t = getT(lang);
+    const monthlyBreakdown: { item: string; price: number }[] = [];
+    const breakdown: { category: string; item: string; price: string }[] = [];
+    const t = getT(lang);
 
-  const isMenuProject = data.siteType.includes('Menu / Site de commande');
+    const isMenuProject = data.siteType.includes('Menu / Site de commande');
 
-  // Type de site (prix de base)
-  const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
-  const siteTypePrice = PRICING.siteTypes[siteTypeKey];
-  if (siteTypePrice) {
-    minTotal += siteTypePrice.min;
-    maxTotal += siteTypePrice.max;
-    breakdown.push({
-      category: t.owner.categorySiteType,
-      item: translateOption(data.siteType, lang),
-      price: siteTypePrice.min === siteTypePrice.max 
-        ? `${siteTypePrice.min}€` 
-        : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`
-    });
-  }
-
-    // Abonnements Menu (Monthly) - Pack Gestion
-    if (data.menuSubscription) {
-      const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
-      const subPrice = PRICING.subscriptions[subKey];
-      
-      if (subPrice) {
-        monthlySubscription = subPrice;
-        totalMonthlyForMenu += subPrice;
-        breakdown.push({
-          category: lang === 'fr' ? "Gestion du menu" : lang === 'nl' ? "Menu beheer" : "Menu management",
-          item: translateOption(data.menuSubscription, lang),
-          price: `${subPrice}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'}`
-        });
-      }
+    // Type de site (prix de base)
+    const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
+    const siteTypePrice = PRICING.siteTypes[siteTypeKey];
+    if (siteTypePrice) {
+      minTotal += siteTypePrice.min;
+      maxTotal += siteTypePrice.max;
+      breakdown.push({
+        category: t.owner.categorySiteType,
+        item: translateOption(data.siteType, lang),
+        price: siteTypePrice.min === siteTypePrice.max 
+          ? `${siteTypePrice.min}€` 
+          : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`
+      });
     }
+
+      // Abonnements Menu (Monthly) - Pack Gestion
+      if (data.menuSubscription) {
+        const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
+        const subPrice = PRICING.subscriptions[subKey];
+        
+        if (subPrice) {
+          monthlySubscription = subPrice;
+          totalMonthlyForMenu = subPrice; // Initialisé avec le prix du pack
+          monthlyBreakdown.push({ 
+            item: translateOption(data.menuSubscription, lang), 
+            price: subPrice 
+          });
+          breakdown.push({
+            category: lang === 'fr' ? "Gestion du menu" : lang === 'nl' ? "Menu beheer" : "Menu management",
+            item: translateOption(data.menuSubscription, lang),
+            price: `${subPrice}€ / ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maand' : 'month'}`
+          });
+        }
+      }
+
 
   // Pages supplémentaires
   if (data.pageCount) {
