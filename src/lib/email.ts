@@ -160,23 +160,22 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     const subPrice = PRICING.subscriptions[subKey];
     if (subPrice) {
       selectedPackName = translateOption(data.menuSubscription, lang);
-      // Pour le Modèle A, le mensuel est UNIQUEMENT le prix du pack
-      // On ne rajoute plus 30€ sur le pack, le pack EST le coût mensuel
-      totalMonthlyModelA = subPrice;
+      // Pour le Modèle A, le mensuel est le prix du pack + 30€ de maintenance de base
+      totalMonthlyModelA = subPrice + 30;
       // Pour le Modèle B, c'est cumulatif avec les fonctionnalités + 30€ de système de base
       totalMonthlyModelB += subPrice + 30;
       
-      monthlyBreakdownB.unshift({ item: "Système de base commande", price: 30 });
+      monthlyBreakdownB.unshift({ item: "Système de base & maintenance", price: 30 });
       monthlyBreakdownB.unshift({ item: selectedPackName, price: subPrice });
     }
-    } else {
-      // Maintenance par défaut pour sites vitrines
-      totalMonthlyModelA = 30; 
-      if (isMenuProject) {
-        totalMonthlyModelB += 30;
-        monthlyBreakdownB.push({ item: "Système de base commande", price: 30 });
-      }
+  } else {
+    // Maintenance par défaut pour tous les projets
+    totalMonthlyModelA = 30; 
+    if (isMenuProject) {
+      totalMonthlyModelB += 30;
+      monthlyBreakdownB.push({ item: "Système de base & maintenance", price: 30 });
     }
+  }
 
   // 6. Optimization
   if (data.optimization) {
