@@ -102,19 +102,8 @@ export async function POST(request: NextRequest) {
         </body>
       </html>
     `;
-
-              <a href="mailto:${email}" class="btn">CONTACTER LE CLIENT</a>
-              
-              <div style="text-align:center; margin-top:30px; font-size:11px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px;">
-                Guapo Web Designer Automations © 2025
-              </div>
-            </div>
-          </div>
-        </body>
-      </html>
-    `;
-
-    const result = await resend.emails.send({
+  
+      const result = await resend.emails.send({
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: 'info@guapowebdesigner.com',
       replyTo: email,
