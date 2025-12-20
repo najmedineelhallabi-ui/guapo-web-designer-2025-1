@@ -311,15 +311,17 @@ export async function sendQuoteEmail(data: any) {
           <thead><tr><th>Élément</th><th style="text-align:right">Unique</th><th style="text-align:right">Mensuel</th></tr></thead>
           <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right">${r.unique}</td><td style="text-align:right">${r.monthly}</td></tr>`).join('')}</tbody>
         </table>
-        <div class="box">
-          <strong>Calcul Modèle A (Investissement):</strong><br>
-          Base HTVA: ${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}<br>
-          Promo -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA<br>
-          Total HTVA: ${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}<br>
-          TVA (21%): ${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}<br>
-          <strong>TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</strong>
-          ${pricing.isMenuProject ? `<br><br>Abonnement Pack: ${pricing.monthlyTTCA}€/m TVAC` : ''}
-        </div>
+          <div class="box">
+            <strong>Calcul Modèle A (Investissement):</strong><br>
+            Base HTVA: ${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}<br>
+            Promo -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA<br>
+            Total HTVA: ${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}<br>
+            TVA (21%): ${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}<br>
+            <strong>TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</strong>
+            <br><br>
+            <strong>Mensuel Modèle A:</strong> ${pricing.selectedPackName ? `Pack ${pricing.selectedPackName}` : 'Maintenance & plateforme'}: ${pricing.monthlyHTA}€ HTVA (${pricing.monthlyTTCA}€ TVAC)
+          </div>
+
         ${pricing.isMenuProject ? `<div class="box" style="background:#ecfdf5"><strong>Modèle B (Abonnement):</strong> Mensuel ${pricing.monthlyTTCB}€/m TVAC</div>` : ''}
         <div style="font-size:10px;color:#94a3b8;text-align:center;margin-top:20px">Ref: ${refId} | ${new Date().toLocaleString('fr-BE')}</div>
         <a href="mailto:${data.email}" class="btn btn-a">Répondre au client</a>
