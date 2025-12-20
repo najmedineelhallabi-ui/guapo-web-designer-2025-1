@@ -293,14 +293,15 @@ export async function sendQuoteEmail(data: any) {
     tableRows.push({ item: translateOption(data.domain, lang), unique: price !== undefined ? (price > 0 ? `${price}€` : 'Inclus') : '-', monthly: '-' });
   }
 
-  if (data.menuSubscription) {
-    const mPrice = (PRICING.subscriptions as any)[data.menuSubscription];
-    tableRows.push({ item: translateOption(data.menuSubscription, lang), unique: '-', monthly: `${mPrice}€` });
-  } else if (pricing.isMenuProject) {
-    tableRows.push({ item: "Système de base commande", unique: '-', monthly: "30€" });
-  } else {
-    tableRows.push({ item: "Maintenance & plateforme", unique: '-', monthly: "30€" });
-  }
+    if (data.menuSubscription) {
+      const mPrice = (PRICING.subscriptions as any)[data.menuSubscription];
+      tableRows.push({ item: translateOption(data.menuSubscription, lang), unique: '-', monthly: `${mPrice}€` });
+      tableRows.push({ item: "Système de base & maintenance", unique: '-', monthly: "30€" });
+    } else if (pricing.isMenuProject) {
+      tableRows.push({ item: "Système de base & maintenance", unique: '-', monthly: "30€" });
+    } else {
+      tableRows.push({ item: "Maintenance & plateforme", unique: '-', monthly: "30€" });
+    }
 
   const commonStyles = `
     body{font-family:sans-serif;color:#334155;margin:0;padding:20px;background:#f8fafc}
