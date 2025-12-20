@@ -617,15 +617,23 @@ function calculatePricing(data: {
     }
     
     // Modèle B : Calcul des frais de mise en service et abonnement
-    const finalMonthlyForMenu = monthlySubscription; // On prend le prix du pack (25 ou 35)
-    
-    // Frais de mise en service (Setup) pour le Modèle B
-    // Le setup fee est de 120€ HTVA pour le Pack Menu Complet (demande utilisateur)
-    let discountedBaseSetup = Math.round(minTotal * 0.70); // Par défaut -30% sur le projet
-    if (isMenuProject && data.menuSubscription === 'Pack Menu Complet') {
-      discountedBaseSetup = 120;
+    let totalMonthlyForModelB = 0;
+    if (isMenuProject && data.features) {
+      data.features.forEach(f => {
+        const monthlyPrice = (PRICING as any).monthlyMenuFeatures?.[f];
+        if (monthlyPrice !== undefined) {
+          totalMonthlyForModelB += monthlyPrice;
+        }
+      });
     }
 
+    // On ajoute le prix de base de l'abonnement (25 ou 35) au total mensuel
+    totalMonthlyForModelB += monthlySubscription;
+
+    // Frais de mise en service (Setup) pour le Modèle B
+    // Le setup fee est de 0€ HTVA selon la nouvelle demande
+    let discountedBaseSetup = isMenuProject ? 0 : Math.round(minTotal * 0.70);
+    
     const vatBaseSetup = Math.round(discountedBaseSetup * 0.21);
     const totalBaseSetupTTC = discountedBaseSetup + vatBaseSetup;
 
@@ -639,8 +647,8 @@ function calculatePricing(data: {
     const minTotalTTC = discountedMinPrice + minVat;
     const maxTotalTTC = discountedMaxPrice + maxVat;
 
-    // Prix Menu Mensuel (Total) - Model A additionnel ou Model B mensuel
-    const menuMonthlyHT = finalMonthlyForMenu;
+    // Prix Menu Mensuel (Total) - Model A additionnel
+    const menuMonthlyHT = monthlySubscription; // Pour le modèle A, on garde le prix du pack
     const menuMonthlyVat = Math.round(menuMonthlyHT * 0.21);
     const menuMonthlyTTC = menuMonthlyHT + menuMonthlyVat;
 
@@ -664,7 +672,7 @@ function calculatePricing(data: {
       hasRange,
       monthlySubscription,
         isMenuProject,
-        totalMonthlyForMenu: finalMonthlyForMenu,
+        totalMonthlyForMenu: totalMonthlyForModelB,
         monthlyBreakdown,
         discountedBaseSetup,
         vatBaseSetup,
