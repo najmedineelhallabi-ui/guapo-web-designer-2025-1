@@ -440,13 +440,9 @@ export async function sendQuoteEmail(data: any) {
       html: ownerEmailHtml 
     });
     
-    await resend.emails.send({ 
-      from, 
-      to: data.email, 
-      replyTo: toOwner, 
-      subject: `✅ [#${refId}] Votre estimation - GUAPO Web Designer`, 
-      html: clientEmailHtml 
-    });
+    subject: `✅ [#${refId}] Votre estimation - ${data.company || 'Projet Web'} - GUAPO`, 
+    html: clientEmailHtml 
+  });
 
     return { success: true };
   } catch (error) {
