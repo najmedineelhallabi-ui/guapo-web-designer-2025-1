@@ -232,7 +232,8 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     monthlyHTB,
     monthlyTVAB,
     monthlyTTCB,
-    monthlyBreakdownB
+    monthlyBreakdownB,
+    selectedPackName
   };
 }
 
