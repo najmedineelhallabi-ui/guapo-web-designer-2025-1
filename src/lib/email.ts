@@ -342,23 +342,25 @@ export async function sendQuoteEmail(data: any) {
           </tbody>
         </table>
 
-        <div class="box" style="background:#f1f5f9; border-left: 4px solid #1e293b;">
-          <h3 style="margin-top:0">RÉSUMÉ POUR LE CLIENT</h3>
-          
-          <div style="margin-bottom:15px">
-            <strong>MODÈLE A (Achat) :</strong><br>
-            Investissement initial : <strong>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`} TVAC</strong><br>
-            Abonnement mensuel : <strong>${pricing.monthlyTTCA}€ / mois TVAC</strong>
-          </div>
+          <div class="box" style="background:#f1f5f9; border-left: 4px solid #1e293b;">
+            <h3 style="margin-top:0">RÉSUMÉ DES OPTIONS</h3>
+            
+            ${!pricing.isMenuProject ? `
+            <div style="margin-bottom:15px; padding: 10px; background: #fff; border-radius: 8px;">
+              <div style="font-weight: 800; color: #1e293b; border-bottom: 1px solid #e2e8f0; margin-bottom: 8px; padding-bottom: 4px;">MODÈLE A (Achat + Maintenance)</div>
+              Investissement initial : <strong>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`} TVAC</strong><br>
+              Abonnement maintenance : <strong>${pricing.monthlyTTCA}€ / mois TVAC</strong>
+            </div>
+            ` : ''}
 
-          ${pricing.isMenuProject || true ? `
-            <div style="padding-top:10px; border-top:1px solid #cbd5e1">
-              <strong>MODÈLE B (Abonnement All-in) :</strong><br>
+            ${pricing.isMenuProject ? `
+            <div style="padding: 10px; background: #ecfdf5; border-radius: 8px; border: 1px solid #10b981;">
+              <div style="font-weight: 800; color: #065f46; border-bottom: 1px solid #a7f3d0; margin-bottom: 8px; padding-bottom: 4px;">MODÈLE B (Abonnement All-in)</div>
               Investissement initial : <strong>0€</strong><br>
               Abonnement mensuel : <strong>${pricing.monthlyTTCB}€ / mois TVAC</strong>
             </div>
-          ` : ''}
-        </div>
+            ` : ''}
+          </div>
 
         <a href="mailto:${data.email}" class="btn btn-a">RÉPONDRE AU CLIENT</a>
         <div style="font-size:10px;color:#94a3b8;text-align:center;margin-top:20px">Ref: ${refId} | ${new Date().toLocaleString('fr-BE')}</div>
