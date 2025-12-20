@@ -1031,46 +1031,46 @@ export async function sendQuoteEmail(data: {
                     
                     <td width="4%"></td>
                     
-                    <td width="48%" valign="top" style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:12px; padding:20px;">
-                      <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:5px;font-size:14px">MODÈLE B</div>
-                      <div style="text-align:center;font-weight:bold;color:#065f46;margin-bottom:12px;font-size:11px;text-transform:uppercase">Option Abonnement</div>
-                      
-                      <div style="font-size:12px; color:#065f46; margin-bottom:12px; line-height:1.4; opacity:0.8">
-                        Lancez votre projet avec un investissement initial réduit à 0€ et un abonnement mensuel tout inclus.
-                      </div>
-
-                      <div class="pst" style="padding:10px; font-size:12px; border-color:#a7f3d0">
-                        <div class="pr" style="color:#065f46"><span>Mise en service HT</span><span>${pricing.discountedBaseSetup}€</span></div>
-                        <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>${pricing.vatBaseSetup}€</span></div>
-                        <div class="pr" style="margin-top:5px; border-top:1px solid #a7f3d0; padding-top:5px; color:#065f46">
-                          <span><strong>TOTAL INITIAL</strong></span>
-                          <strong>${pricing.totalBaseSetupTTC}€</strong>
-                        </div>
-                      </div>
-
-                      <div style="margin-top:12px; background:#fff; padding:10px; border-radius:8px; border:1px solid #a7f3d0; font-size:12px">
-                        <div style="font-weight:700; color:#059669; margin-bottom:6px; font-size:11px; text-transform:uppercase">DÉTAIL ABONNEMENT :</div>
-                        ${pricing.monthlyBreakdown.map(item => `
-                          <div class="pr" style="color:#065f46; font-size:11px; padding:4px 0">
-                            <span>${escapeHtml(item.item)}</span>
-                            <span>${item.price}€/m</span>
-                          </div>
-                        `).join('')}
+                      <td width="48%" valign="top" style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:12px; padding:20px;">
+                        <div style="text-align:center;font-weight:800;color:#065f46;margin-bottom:5px;font-size:14px">MODÈLE B</div>
+                        <div style="text-align:center;font-weight:bold;color:#065f46;margin-bottom:12px;font-size:11px;text-transform:uppercase">Option Abonnement</div>
                         
-                        <div class="pr" style="margin-top:8px; border-top:1px solid #a7f3d0; padding-top:8px">
-                          <span><strong>TOTAL MENSUEL HT</strong></span>
-                          <strong>${pricing.totalMonthlyForMenu}€</strong>
+                        <div style="font-size:12px; color:#065f46; margin-bottom:12px; line-height:1.4; opacity:0.8">
+                          Lancez votre projet avec 0€ d'investissement initial et un abonnement mensuel calculé selon vos options.
                         </div>
-                        <div class="pr"><span>TVA (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€</span></div>
-                        <div class="pr" style="margin-top:4px; border-top:1px solid #a7f3d0; padding-top:4px">
-                          <span><strong>TOTAL MENSUEL TVAC</strong></span>
-                          <strong style="color:#059669; font-size:14px">${Math.round(pricing.totalMonthlyForMenu * 1.21)}€</strong>
-                        </div>
-                        <div style="font-size:10px; color:#059669; font-weight:800; margin-top:4px">🎁 1ER MOIS OFFERT</div>
-                      </div>
 
-                      <a href="https://guapowebdesigner.com/confirm-quote?model=B&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-model btn-b">CHOISIR MODÈLE B</a>
-                    </td>
+                        <div class="pst" style="padding:10px; font-size:12px; border-color:#a7f3d0; background:#fff">
+                          <div class="pr" style="color:#065f46"><span>Mise en service HT</span><strong>0€</strong></div>
+                          <div class="pr" style="color:#065f46"><span>TVA (21%)</span><span>0€</span></div>
+                          <div class="pr" style="margin-top:5px; border-top:1px solid #a7f3d0; padding-top:5px; color:#065f46">
+                            <span><strong>TOTAL INITIAL</strong></span>
+                            <strong style="color:#059669">0€</strong>
+                          </div>
+                        </div>
+
+                        <div style="margin-top:12px; background:#fff; padding:10px; border-radius:8px; border:1px solid #a7f3d0; font-size:12px">
+                          <div style="font-weight:700; color:#059669; margin-bottom:6px; font-size:11px; text-transform:uppercase">DÉTAIL ABONNEMENT :</div>
+                          ${pricing.monthlyBreakdown.map(item => `
+                            <div class="pr" style="color:#065f46; font-size:11px; padding:4px 0">
+                              <span>${escapeHtml(item.item)}</span>
+                              <span>${item.price}€/m</span>
+                            </div>
+                          `).join('')}
+                          
+                          <div class="pr" style="margin-top:8px; border-top:1px solid #a7f3d0; padding-top:8px">
+                            <span><strong>TOTAL MENSUEL HT</strong></span>
+                            <strong>${pricing.totalMonthlyForMenu}€</strong>
+                          </div>
+                          <div class="pr"><span>TVA (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€</span></div>
+                          <div class="pr" style="margin-top:4px; border-top:1px solid #a7f3d0; padding-top:4px">
+                            <span><strong>TOTAL MENSUEL TVAC</strong></span>
+                            <strong style="color:#059669; font-size:14px">${Math.round(pricing.totalMonthlyForMenu * 1.21)}€</strong>
+                          </div>
+                          <div style="font-size:11px; color:#059669; font-weight:800; margin-top:4px; text-align:center; background:#d1fae5; padding:4px; border-radius:4px">🎁 1ER MOIS OFFERT</div>
+                        </div>
+
+                        <a href="https://guapowebdesigner.com/confirm-quote?model=B&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-model btn-b">CHOISIR MODÈLE B</a>
+                      </td>
                   </tr>
 
               </table>
