@@ -415,34 +415,39 @@ export async function sendQuoteEmail(data: any) {
                 <a href="https://guapowebdesigner.com/confirm-quote?model=B&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}" class="btn btn-b" style="margin-top:20px">CHOISIR CE MODÈLE</a>
               </div>
             </div>
-          ` : `
-            <div class="box" style="text-align:center;padding:30px;border:2px solid #1e293b">
-              <div style="font-weight:900;margin-bottom:20px;font-size:20px;color:#1e293b;text-transform:uppercase">Récapitulatif de votre investissement</div>
-              <div style="background:#fff;padding:25px;border-radius:12px;border:1px solid #e2e8f0;text-align:left;box-shadow:0 2px 4px rgba(0,0,0,0.05)">
-                <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                  <span>Prix normal :</span>
-                  <span style="text-decoration:line-through;color:#94a3b8">${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`} HTVA</span>
+            ` : `
+              <div class="box" style="text-align:center;padding:30px;border:2px solid #1e293b">
+                <div style="font-weight:900;margin-bottom:20px;font-size:20px;color:#1e293b;text-transform:uppercase">Récapitulatif de votre investissement</div>
+                <div style="background:#fff;padding:25px;border-radius:12px;border:1px solid #e2e8f0;text-align:left;box-shadow:0 2px 4px rgba(0,0,0,0.05)">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+                    <span>Prix normal :</span>
+                    <span style="text-decoration:line-through;color:#94a3b8">${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`} HTVA</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:10px;color:#16a34a;font-weight:700">
+                    <span>Promotion -30% :</span>
+                    <span>-${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:10px;padding-top:10px;border-top:1px solid #f1f5f9">
+                    <span>Total HTVA :</span>
+                    <span><strong>${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}</strong></span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+                    <span>TVA (21%) :</span>
+                    <span>${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;margin-top:20px;padding-top:20px;border-top:3px solid #1e293b;font-size:26px;font-weight:900;color:#1e293b">
+                    <span>TOTAL TVAC :</span>
+                    <span>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</span>
+                  </div>
+
+                  <div style="margin-top:25px;font-size:14px;color:#64748b;text-align:center;background:#f8fafc;padding:15px;border-radius:10px;border:1px solid #e2e8f0">
+                    + Maintenance & plateforme : <strong>${pricing.monthlyHTA}€/mois HTVA</strong><br>
+                    <span style="font-size:12px">(${pricing.monthlyTTCA}€/mois TVAC)</span>
+                  </div>
                 </div>
-                <div style="display:flex;justify-content:space-between;margin-bottom:10px;color:#16a34a;font-weight:700">
-                  <span>Promotion -30% :</span>
-                  <span>-${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-bottom:10px;padding-top:10px;border-top:1px solid #f1f5f9">
-                  <span>Total HTVA :</span>
-                  <span><strong>${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}</strong></span>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                  <span>TVA (21%) :</span>
-                  <span>${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-top:20px;padding-top:20px;border-top:3px solid #1e293b;font-size:26px;font-weight:900;color:#1e293b">
-                  <span>TOTAL TVAC :</span>
-                  <span>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</span>
-                </div>
+                <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}" class="btn btn-a" style="margin-top:25px;font-size:16px">LANCER MON PROJET</a>
               </div>
-              <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}" class="btn btn-a" style="margin-top:25px;font-size:16px">LANCER MON PROJET</a>
-            </div>
-          `}
+            `}
         <div style="text-align:center;margin-top:30px;color:#64748b;font-size:13px">
           Besoin d'ajuster ce devis ? <a href="mailto:info@guapowebdesigner.com" style="color:#1e293b;font-weight:700">Répondez simplement à cet email.</a>
           <br><br><span style="font-size:10px">Référence unique : #${refId}</span>
