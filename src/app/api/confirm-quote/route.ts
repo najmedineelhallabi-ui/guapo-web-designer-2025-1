@@ -44,41 +44,49 @@ export async function POST(request: NextRequest) {
                 </div>
               </div>
 
-              <div class="section">
-                <div class="label">Client</div>
-                <div class="value">${escapeHtml(firstName)} ${escapeHtml(lastName)}</div>
-                <div style="font-size:14px;color:#64748b">${escapeHtml(email)}</div>
-                ${company ? `<div style="margin-top:10px;font-weight:700">🏢 ${escapeHtml(company)}</div>` : ''}
-              </div>
+                <div class="section">
+                  <div class="label">📅 Date & Réf</div>
+                  <div class="value">${new Date().toLocaleString('fr-BE')}</div>
+                  <div style="font-size:12px;color:#64748b">ID Session: ${ref || 'N/A'}</div>
+                </div>
 
-              <div class="section">
-                <div class="label">Projet</div>
-                <div class="value">${escapeHtml(siteType)}</div>
-              </div>
+                <div class="section">
+                  <div class="label">👤 Client</div>
+                  <div class="value">${escapeHtml(firstName)} ${escapeHtml(lastName)}</div>
+                  <div style="font-size:14px;color:#64748b">${escapeHtml(email)}</div>
+                  ${company ? `<div style="margin-top:10px;font-weight:700">🏢 ${escapeHtml(company)}</div>` : ''}
+                </div>
+
+                <div class="section">
+                  <div class="label">🌐 Projet Sélectionné</div>
+                  <div class="value">${escapeHtml(siteType)}</div>
+                </div>
 
                 <div class="price-container">
+                  <div class="label" style="text-align:center; margin-bottom:15px; background:#f1f5f9; padding:5px; border-radius:4px;">💰 OFFRE ACCEPTÉE</div>
                   ${isModelA ? `
                     <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #e2e8f0;">
-                      <div class="label">💰 Investissement Initial (Achat)</div>
-                      <div class="price-value" style="color: #1e293b;">${minPrice === maxPrice ? `${minPrice}€` : `${minPrice}€ - ${maxPrice}€`} <span style="font-size:12px; font-weight:400; color:#64748b;">TVAC</span></div>
+                      <div class="label">Investissement Initial (Achat)</div>
+                      <div class="price-value" style="color: #1e293b;">${minPrice === maxPrice ? `${minPrice}€` : `${minPrice}€ - ${maxPrice}€`} <span style="font-size:14px; font-weight:400; color:#64748b;">TVAC</span></div>
                     </div>
                     <div>
                       <div class="label">🛠️ Maintenance Mensuelle</div>
-                      <div class="price-value" style="font-size:20px; color:#3b82f6">${monthlyPrice}€ / mois <span style="font-size:12px; font-weight:400; color:#64748b;">TVAC</span></div>
-                      <div style="font-size:12px;color:#64748b;margin-top:4px; font-weight: 700;">${escapeHtml(packName || 'Maintenance & Support')}</div>
+                      <div class="price-value" style="font-size:22px; color:#3b82f6">${monthlyPrice}€ / mois <span style="font-size:14px; font-weight:400; color:#64748b;">TVAC</span></div>
+                      <div style="font-size:13px;color:#64748b;margin-top:4px; font-weight: 700;">Pack: ${escapeHtml(packName || 'Maintenance')}</div>
                     </div>
                   ` : `
                     <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #e2e8f0;">
-                      <div class="label">💰 Investissement Initial</div>
-                      <div class="price-value" style="color:#10b981">0€ <span style="font-size:12px; font-weight:400; opacity:0.8;">(OFFERT)</span></div>
+                      <div class="label">Investissement Initial</div>
+                      <div class="price-value" style="color:#10b981">0€ <span style="font-size:14px; font-weight:400; opacity:0.8;">(OFFERT)</span></div>
                     </div>
                     <div>
                       <div class="label">🔄 Abonnement Mensuel All-In</div>
-                      <div class="price-value" style="color:#059669">${monthlyPrice}€ / mois <span style="font-size:12px; font-weight:400; opacity:0.8;">TVAC</span></div>
-                      <div style="font-size:12px;color:#64748b;margin-top:4px; font-weight: 700;">${escapeHtml(packName || 'Abonnement complet')}</div>
+                      <div class="price-value" style="color:#059669">${monthlyPrice}€ / mois <span style="font-size:14px; font-weight:400; opacity:0.8;">TVAC</span></div>
+                      <div style="font-size:13px;color:#64748b;margin-top:4px; font-weight: 700;">Pack: ${escapeHtml(packName || 'Abonnement complet')}</div>
                     </div>
                   `}
                 </div>
+
 
 
               <a href="mailto:${email}" class="btn">RÉPONDRE AU CLIENT</a>
