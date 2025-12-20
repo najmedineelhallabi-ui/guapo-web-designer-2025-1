@@ -157,7 +157,11 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
       if (mPrice !== undefined) totalMonthlyForMenu += mPrice;
     });
   }
-  if (isMenuProject && totalMonthlyForMenu > 35) totalMonthlyForMenu = 35;
+  
+  // Cap the monthly total based on the subscription pack if selected, or default to max pack price
+  let monthlyCap = 35;
+  if (data.menuSubscription === "Pack Menu Simple") monthlyCap = 25;
+  if (isMenuProject && totalMonthlyForMenu > monthlyCap) totalMonthlyForMenu = monthlyCap;
 
   // Calcul Promotion -30% (Modèle A)
   const discountRate = 0.3;
@@ -178,7 +182,24 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   const menuMonthlyTVA = Math.round(menuMonthlyHT * 0.21);
   const menuMonthlyTTC = menuMonthlyHT + menuMonthlyTVA;
 
-  // Anciens noms pour compatibilité si nécessaire ou nouveaux noms clairs
+  // For specific UI parts
+  // Filter monthly breakdown to show what's actually contributing or included
+  const finalMonthlyBreakdown = [...monthlyBreakdown];
+  if (isMenuProject && data.features) {
+    data.features.forEach((f: string) => {
+      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
+      if (mPrice !== undefined) {
+        // If we already reached the cap with the pack, show features as "Inclus"
+        const isIncluded = data.menuSubscription !== undefined;
+        finalMonthlyBreakdown.push({ 
+          item: translateOption(f, lang), 
+          price: isIncluded ? 0 : mPrice,
+          isIncluded: isIncluded
+        });
+      }
+    });
+  }
+
   return {
     isMenuProject,
     hasRange: minTotal !== maxTotal,
@@ -202,7 +223,7 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     menuMonthlyTVA,
     menuMonthlyTTC,
     // For specific UI parts
-    monthlyBreakdown,
+    monthlyBreakdown: finalMonthlyBreakdown,
     totalMonthlyTTCForModelB: menuMonthlyTTC
   };
 }
