@@ -139,13 +139,11 @@ function escapeHtml(text: string): string {
           // Monthly price for Model B (if applicable)
           const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
           if (isMenuProject && mPrice !== undefined) {
-            if (!data.menuSubscription) {
-              totalMonthlyForMenu += mPrice;
-            }
+            totalMonthlyForMenu += mPrice;
             monthlyBreakdown.push({ 
               item: translateOption(f, lang), 
-              price: data.menuSubscription ? 0 : mPrice,
-              isIncluded: !!data.menuSubscription 
+              price: mPrice,
+              isIncluded: false 
             });
           }
         });
@@ -157,7 +155,7 @@ function escapeHtml(text: string): string {
         const subPrice = PRICING.subscriptions[subKey];
         if (subPrice) {
           monthlySubscription = subPrice;
-          totalMonthlyForMenu = subPrice; // Pack replaces individual monthly sums
+          totalMonthlyForMenu += subPrice;
           monthlyBreakdown.unshift({ item: translateOption(data.menuSubscription, lang), price: subPrice });
         }
       }
