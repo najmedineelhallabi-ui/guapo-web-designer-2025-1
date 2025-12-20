@@ -606,17 +606,8 @@ function calculatePricing(data: {
       maxDiscount = 0;
     }
     
-    // TVA sur le prix remisé (Model A)
-    const minVat = Math.round(discountedMinPrice * 0.21);
-    const maxVat = Math.round(discountedMaxPrice * 0.21);
-    
-    // Total TTC unique (Model A)
-    const minTotalTTC = discountedMinPrice + minVat;
-    const maxTotalTTC = discountedMaxPrice + maxVat;
-
-
     // Modèle B : Calcul des frais de mise en service et abonnement
-    let totalMonthlyForMenu = monthlySubscription; // On prend le prix du pack (25 ou 35)
+    const totalMonthlyForMenu = monthlySubscription; // On prend le prix du pack (25 ou 35)
     
     // Frais de mise en service (Setup) pour le Modèle B
     // Le setup fee est de 120€ HTVA pour le Pack Menu Complet (demande utilisateur)
@@ -628,21 +619,20 @@ function calculatePricing(data: {
     const vatBaseSetup = Math.round(discountedBaseSetup * 0.21);
     const totalBaseSetupTTC = discountedBaseSetup + vatBaseSetup;
 
-    // Pour Model A (Menu Project), on ne fait pas de réduction -30%
-    // Le total doit être de 1910€ HTVA (800€ base + 1110€ options)
-    let discountedMinPrice = Math.round(minTotal * 0.70);
-    let discountedMaxPrice = Math.round(maxTotal * 0.70);
-    let minDiscount = Math.round(minTotal * 0.30);
-    let maxDiscount = Math.round(maxTotal * 0.30);
-
-    if (isMenuProject) {
-      discountedMinPrice = minTotal;
-      discountedMaxPrice = maxTotal;
-      minDiscount = 0;
-      maxDiscount = 0;
-    }
-
     const hasRange = minTotal !== maxTotal;
+
+    // TVA sur le prix remisé (Model A)
+    const minVat = Math.round(discountedMinPrice * 0.21);
+    const maxVat = Math.round(discountedMaxPrice * 0.21);
+    
+    // Total TTC unique (Model A)
+    const minTotalTTC = discountedMinPrice + minVat;
+    const maxTotalTTC = discountedMaxPrice + maxVat;
+
+    // Prix Menu Mensuel (Total) - Model A additionnel ou Model B mensuel
+    const menuMonthlyHT = totalMonthlyForMenu;
+    const menuMonthlyVat = Math.round(menuMonthlyHT * 0.21);
+    const menuMonthlyTTC = menuMonthlyHT + menuMonthlyVat;
 
     return { 
       minTotal, 
