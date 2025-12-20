@@ -122,18 +122,34 @@ function ConfirmQuoteContent() {
             </div>
 
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
-              <p className="text-sm text-gray-600">
-                <strong>Votre projet :</strong> {siteType}
-              </p>
-              <p className="text-sm text-gray-600">
-                <strong>Estimation :</strong> {minPrice}€ - {maxPrice}€
-              </p>
-              {maintenanceType && (
-                <p className="text-sm text-gray-600 mt-2">
-                  <strong>Maintenance choisie :</strong> {maintenanceType}
+                <p className="text-sm text-gray-600">
+                  <strong>Votre projet :</strong> {siteType}
                 </p>
-              )}
-            </div>
+                {model === 'A' ? (
+                  <>
+                    <p className="text-sm text-gray-600">
+                      <strong>Estimation Achat :</strong> {minPrice === maxPrice ? `${minPrice}€` : `${minPrice}€ - ${maxPrice}€`} TVAC
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      <strong>Mensuel Maintenance :</strong> {monthlyPrice}€ / mois TVAC
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm text-gray-600">
+                      <strong>Investissement Initial :</strong> 0€ (OFFERT)
+                    </p>
+                    <p className="text-sm text-gray-600 font-bold text-green-700">
+                      <strong>Abonnement All-In :</strong> {monthlyPrice}€ / mois TVAC
+                    </p>
+                  </>
+                )}
+                {packName && (
+                  <p className="text-sm text-gray-600 mt-2">
+                    <strong>Pack :</strong> {packName}
+                  </p>
+                )}
+              </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
