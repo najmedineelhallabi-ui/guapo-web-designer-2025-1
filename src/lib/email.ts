@@ -607,7 +607,7 @@ function calculatePricing(data: {
     }
     
     // Modèle B : Calcul des frais de mise en service et abonnement
-    const totalMonthlyForMenu = monthlySubscription; // On prend le prix du pack (25 ou 35)
+    const finalMonthlyForMenu = monthlySubscription; // On prend le prix du pack (25 ou 35)
     
     // Frais de mise en service (Setup) pour le Modèle B
     // Le setup fee est de 120€ HTVA pour le Pack Menu Complet (demande utilisateur)
@@ -630,7 +630,7 @@ function calculatePricing(data: {
     const maxTotalTTC = discountedMaxPrice + maxVat;
 
     // Prix Menu Mensuel (Total) - Model A additionnel ou Model B mensuel
-    const menuMonthlyHT = totalMonthlyForMenu;
+    const menuMonthlyHT = finalMonthlyForMenu;
     const menuMonthlyVat = Math.round(menuMonthlyHT * 0.21);
     const menuMonthlyTTC = menuMonthlyHT + menuMonthlyVat;
 
@@ -654,7 +654,7 @@ function calculatePricing(data: {
       hasRange,
       monthlySubscription,
       isMenuProject,
-      totalMonthlyForMenu,
+      totalMonthlyForMenu: finalMonthlyForMenu,
       discountedBaseSetup,
       vatBaseSetup,
       totalBaseSetupTTC
