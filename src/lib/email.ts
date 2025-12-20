@@ -160,15 +160,23 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     const subPrice = PRICING.subscriptions[subKey];
     if (subPrice) {
       selectedPackName = translateOption(data.menuSubscription, lang);
-      // For Model A, monthly is ONLY the pack price
-      totalMonthlyModelA = subPrice;
-      // For Model B, it's cumulative with features
-      totalMonthlyModelB += subPrice;
+      // For Model A, monthly is ONLY the pack price + 30€ base system if Menu
+      totalMonthlyModelA = subPrice + (isMenuProject ? 30 : 0);
+      // For Model B, it's cumulative with features + 30€ base system
+      totalMonthlyModelB += subPrice + (isMenuProject ? 30 : 0);
+      
+      if (isMenuProject) {
+        monthlyBreakdownB.unshift({ item: "Système de base commande", price: 30 });
+      }
       monthlyBreakdownB.unshift({ item: selectedPackName, price: subPrice });
     }
   } else {
     // Default maintenance for vitrine sites in Model A
-    totalMonthlyModelA = 25; 
+    totalMonthlyModelA = isMenuProject ? 30 : 25; 
+    if (isMenuProject) {
+      totalMonthlyModelB += 30;
+      monthlyBreakdownB.push({ item: "Système de base commande", price: 30 });
+    }
   }
 
   // 6. Optimization
