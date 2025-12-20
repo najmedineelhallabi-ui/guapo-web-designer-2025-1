@@ -261,6 +261,7 @@ export async function sendQuoteEmail(data: any) {
 
   if (data.features) {
     data.features.forEach((f: string) => {
+      if (f === "Multilingue") return; // Handled separately
       const uPrice = (PRICING.features as any)[f];
       const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
       tableRows.push({ 
