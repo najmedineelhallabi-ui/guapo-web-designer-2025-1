@@ -93,16 +93,19 @@ function escapeHtml(text: string): string {
 }
 
 function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
-  let minTotal = 0, maxTotal = 0, monthlySubscription = 0, totalMonthlyForMenu = 0;
+  let minTotalHT = 0, maxTotalHT = 0;
+  let totalMonthlyModelA = 0;
+  let totalMonthlyModelB = 0;
+  
   const isMenuProject = data.siteType.includes('Menu / Site de commande');
-  const monthlyBreakdown: any[] = [];
+  const monthlyBreakdownB: any[] = [];
 
-  // 1. Base Site Type Price
+  // 1. Base Site Type Price (Model A)
   const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
   const siteTypePrice = PRICING.siteTypes[siteTypeKey];
   if (siteTypePrice) {
-    minTotal += siteTypePrice.min;
-    maxTotal += siteTypePrice.max;
+    minTotalHT += siteTypePrice.min;
+    maxTotalHT += siteTypePrice.max;
   }
 
   // 2. Extra Pages
@@ -114,49 +117,51 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     else if (data.siteType.includes('9 à 12')) limit = 12;
     if (pageCount > limit) {
       const extra = pageCount - limit;
-      minTotal += extra * PAGE_EXTRA_COST;
-      maxTotal += extra * PAGE_EXTRA_COST;
+      minTotalHT += extra * PAGE_EXTRA_COST;
+      maxTotalHT += extra * PAGE_EXTRA_COST;
     }
   }
 
-  // 3. Languages
+  // 3. Languages (Model A: Unique, Model B: maybe included in packs or to be added)
   if (data.languages && data.languages.length > 1) {
     const multiPrice = PRICING.features["Multilingue"];
-    minTotal += multiPrice;
-    maxTotal += multiPrice;
+    minTotalHT += multiPrice;
+    maxTotalHT += multiPrice;
+    // For Model B, if multiple languages are selected, we could add a monthly fee
+    // but the current pricing doesn't specify one for Model B. 
+    // We'll keep it simple or assume it's included in the Pack for Model B.
   }
 
-  // 4. Features (Unique & Monthly)
+  // 4. Features
   if (data.features) {
     data.features.forEach((f: string) => {
-      // Unique price for Model A
+      // Model A: Unique price
       const uPrice = (PRICING.features as any)[f];
       if (uPrice !== undefined) {
-        minTotal += uPrice; 
-        maxTotal += uPrice;
+        minTotalHT += uPrice; 
+        maxTotalHT += uPrice;
       }
 
-      // Monthly price for Model B (if applicable)
+      // Model B: Monthly price
       const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
       if (isMenuProject && mPrice !== undefined) {
-        totalMonthlyForMenu += mPrice;
-        monthlyBreakdown.push({ 
+        totalMonthlyModelB += mPrice;
+        monthlyBreakdownB.push({ 
           item: translateOption(f, lang), 
-          price: mPrice,
-          isIncluded: false 
+          price: mPrice
         });
       }
     });
   }
 
-  // 5. Subscription Pack (Model B base or Pack for Model A)
+  // 5. Subscription Pack (Monthly for BOTH models if it's a menu project)
   if (data.menuSubscription) {
     const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
     const subPrice = PRICING.subscriptions[subKey];
     if (subPrice) {
-      monthlySubscription = subPrice;
-      totalMonthlyForMenu += subPrice;
-      monthlyBreakdown.unshift({ item: translateOption(data.menuSubscription, lang), price: subPrice });
+      totalMonthlyModelA = subPrice;
+      totalMonthlyModelB += subPrice;
+      monthlyBreakdownB.unshift({ item: translateOption(data.menuSubscription, lang), price: subPrice });
     }
   }
 
@@ -165,8 +170,8 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     data.optimization.forEach((o: string) => {
       const price = (PRICING.optimization as any)[o];
       if (price !== undefined) { 
-        minTotal += price; 
-        maxTotal += price; 
+        minTotalHT += price; 
+        maxTotalHT += price; 
       }
     });
   }
@@ -175,57 +180,60 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   if (data.domain) {
     const price = (PRICING.domain as any)[data.domain];
     if (price !== undefined && price > 0) { 
-      minTotal += price; 
-      maxTotal += price; 
+      minTotalHT += price; 
+      maxTotalHT += price; 
     }
   }
 
-  // Promotion logic - 30% discount on Model A (investment)
-  // VALID UNTIL 31/12/2025
+  // Promotion -30% on Model A Unique Price (Investment)
   const discountRate = 0.30;
-  const discountMin = Math.round(minTotal * discountRate);
-  const discountMax = Math.round(maxTotal * discountRate);
+  const discountMin = Math.round(minTotalHT * discountRate);
+  const discountMax = Math.round(maxTotalHT * discountRate);
   
-  const discountedMinHT = minTotal - discountMin;
-  const discountedMaxHT = maxTotal - discountMax;
+  const discountedMinHT = minTotalHT - discountMin;
+  const discountedMaxHT = maxTotalHT - discountMax;
   
   const tvaRate = 0.21;
-  const tvaMin = Math.round(discountedMinHT * tvaRate);
-  const tvaMax = Math.round(discountedMaxHT * tvaRate);
   
-  const minTotalTTC = discountedMinHT + tvaMin;
-  const maxTotalTTC = discountedMaxHT + tvaMax;
+  // Model A Totals
+  const tvaMinA = Math.round(discountedMinHT * tvaRate);
+  const tvaMaxA = Math.round(discountedMaxHT * tvaRate);
+  const minTotalTTCA = discountedMinHT + tvaMinA;
+  const maxTotalTTCA = discountedMaxHT + tvaMaxA;
 
-  // Monthly fees (TTC)
-  const menuMonthlyHT = totalMonthlyForMenu;
-  const menuMonthlyTVA = Math.round(menuMonthlyHT * tvaRate);
-  const menuMonthlyTTC = menuMonthlyHT + menuMonthlyTVA;
+  // Model A Monthly
+  const monthlyHTA = totalMonthlyModelA;
+  const monthlyTVAA = Math.round(monthlyHTA * tvaRate);
+  const monthlyTTCA = monthlyHTA + monthlyTVAA;
+
+  // Model B Totals (Monthly only)
+  const monthlyHTB = totalMonthlyModelB;
+  const monthlyTVAB = Math.round(monthlyHTB * tvaRate);
+  const monthlyTTCB = monthlyHTB + monthlyTVAB;
 
   return {
     isMenuProject,
-    hasRange: minTotal !== maxTotal,
-    // Base prices
-    baseMinHT: minTotal,
-    baseMaxHT: maxTotal,
-    // Discount info
+    hasRange: minTotalHT !== maxTotalHT,
+    // Model A Investment
+    baseMinHT: minTotalHT,
+    baseMaxHT: maxTotalHT,
     discountMin,
     discountMax,
-    // HT after discount
     discountedMinHT,
     discountedMaxHT,
-    // TVA
-    tvaMin,
-    tvaMax,
-    // TTC
-    minTotalTTC,
-    maxTotalTTC,
-    // Monthly
-    menuMonthlyHT,
-    menuMonthlyTVA,
-    menuMonthlyTTC,
-    // For specific UI parts
-    monthlyBreakdown,
-    totalMonthlyTTCForModelB: menuMonthlyTTC
+    tvaMinA,
+    tvaMaxA,
+    minTotalTTCA,
+    maxTotalTTCA,
+    // Model A Monthly
+    monthlyHTA,
+    monthlyTVAA,
+    monthlyTTCA,
+    // Model B Monthly
+    monthlyHTB,
+    monthlyTVAB,
+    monthlyTTCB,
+    monthlyBreakdownB
   };
 }
 
