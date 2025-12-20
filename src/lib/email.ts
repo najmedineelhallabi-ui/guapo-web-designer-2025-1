@@ -384,7 +384,7 @@ export async function sendQuoteEmail(data: any) {
                     </div>
 
                 </div>
-                <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}" class="btn btn-a" style="margin-top:20px">CHOISIR CE MODÈLE</a>
+                <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotalTTCA}&maxPrice=${pricing.maxTotalTTCA}&monthlyPrice=${pricing.monthlyTTCA}&packName=${encodeURIComponent(pricing.selectedPackName || 'Maintenance')}" class="btn btn-a" style="margin-top:20px">CHOISIR CE MODÈLE</a>
               </div>
 
               <div class="box" style="background:#ecfdf5;border:2px solid #10b981; padding:20px;">
@@ -413,7 +413,7 @@ export async function sendQuoteEmail(data: any) {
                     <span>${pricing.monthlyTTCB}€/mois</span>
                   </div>
                 </div>
-                <a href="https://guapowebdesigner.com/confirm-quote?model=B&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}" class="btn btn-b" style="margin-top:20px">CHOISIR CE MODÈLE</a>
+                <a href="https://guapowebdesigner.com/confirm-quote?model=B&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&monthlyPrice=${pricing.monthlyTTCB}&packName=${encodeURIComponent(pricing.selectedPackName || 'Abonnement complet')}" class="btn btn-b" style="margin-top:20px">CHOISIR CE MODÈLE</a>
               </div>
             </div>
             ` : `
@@ -446,7 +446,7 @@ export async function sendQuoteEmail(data: any) {
                     <span style="font-size:12px">(${pricing.monthlyTTCA}€/mois TVAC)</span>
                   </div>
                 </div>
-                <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}" class="btn btn-a" style="margin-top:25px;font-size:16px">LANCER MON PROJET</a>
+                <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotalTTCA}&maxPrice=${pricing.maxTotalTTCA}&monthlyPrice=${pricing.monthlyTTCA}&packName=${encodeURIComponent(pricing.selectedPackName || 'Maintenance')}" class="btn btn-a" style="margin-top:25px;font-size:16px">LANCER MON PROJET</a>
               </div>
             `}
         <div style="text-align:center;margin-top:30px;color:#64748b;font-size:13px">
