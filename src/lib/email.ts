@@ -368,21 +368,22 @@ export async function sendQuoteEmail(data: any) {
               ${data.pageCount ? `<div style="color: #64748b; font-size: 13px; margin-top: 4px;">Estimation : ${data.pageCount} pages</div>` : ''}
             </div>
 
-            <div style="margin: 25px 0;">
-              <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px;">📈 Détail des prix (HTVA)</div>
-              <div style="background: #f8fafc; border-radius: 12px; padding: 15px; border: 1px solid #e2e8f0;">
-                ${tableRows.map(r => {
-                  const price = r.unique !== '-' ? r.unique : r.monthly;
-                  if (price === '0€' || price === '-') return '';
-                  return `
-                    <div class="price-row">
-                      <span class="price-label">${escapeHtml(r.item)}</span>
-                      <span class="price-val">${price === 'Inclus' ? '<span style="color:#10b981">INCLUS</span>' : price}</span>
-                    </div>
-                  `;
-                }).join('')}
+              <div style="margin: 25px 0;">
+                <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px;">📈 Détail des prix (HTVA)</div>
+                <div style="background: #f8fafc; border-radius: 12px; padding: 15px; border: 1px solid #e2e8f0;">
+                  ${tableRows.map(r => {
+                    const price = r.unique !== '-' ? r.unique : r.monthly;
+                    if (price === '-') return '';
+                    const isZero = price === '0€' || price === 'Inclus' || price === '0€ HT / mois';
+                    return `
+                      <div class="price-row">
+                        <span class="price-label">${escapeHtml(r.item)} ${r.monthly !== '-' ? '<span style="font-size:10px; color:#94a3b8;">(Mensuel)</span>' : ''}</span>
+                        <span class="price-val">${isZero ? '<span style="color:#10b981">INCLUS</span>' : price}</span>
+                      </div>
+                    `;
+                  }).join('')}
+                </div>
               </div>
-            </div>
 
             <div class="box" style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 20px; border-radius: 16px;">
               <div style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 15px; text-align: center;">💰 Offres envoyées au client</div>
