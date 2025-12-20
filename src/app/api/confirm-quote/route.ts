@@ -92,13 +92,14 @@ export async function POST(request: NextRequest) {
       </html>
     `;
 
-    const result = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
-      to: 'info@guapowebdesigner.com',
-      replyTo: email,
-      subject: `✅ CHOIX ${model} : ${firstName} ${lastName} (${ref || 'SANS-REF'})`,
-      html: ownerEmailHtml,
-    });
+      const result = await resend.emails.send({
+        from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+        to: 'info@guapowebdesigner.com',
+        replyTo: email,
+        subject: `✅ CHOIX ${model} : ${firstName} ${lastName} (${company || 'SANS-ENTREPRISE'})`,
+        html: ownerEmailHtml,
+      });
+
 
 
     console.log('✅ Confirmation email sent successfully!', result);
