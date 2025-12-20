@@ -286,29 +286,51 @@ export async function sendQuoteEmail(data: any) {
     .promo-banner{background:#fefce8;border:1px solid #fef08a;padding:12px;border-radius:8px;margin-bottom:20px;text-align:center;color:#854d0e}
   `;
 
-  const ownerEmailHtml = `
-    <html><head><style>${commonStyles}</style></head><body>
-      <div class="c">
-        <div class="h"><h2>${t.owner.title}</h2></div>
-        <p><strong>Client:</strong> ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}<br><strong>Email:</strong> ${data.email}<br><strong>Projet:</strong> ${escapeHtml(data.company || '-')}</p>
-        <table>
-          <thead><tr><th>Élément</th><th style="text-align:right">Unique</th><th style="text-align:right">Mensuel</th></tr></thead>
-          <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right">${r.unique}</td><td style="text-align:right">${r.monthly}</td></tr>`).join('')}</tbody>
-        </table>
-        <div class="box">
-          <strong>Calcul Modèle A:</strong><br>
-          Base HTVA: ${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}<br>
-          Promo -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA<br>
-          Total HTVA: ${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}<br>
-          TVA (21%): ${pricing.hasRange ? `${pricing.tvaMin}€ - ${pricing.tvaMax}€` : `${pricing.tvaMin}€`}<br>
-          <strong>TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
-          ${pricing.isMenuProject ? `<br><br>Abonnement Pack: ${pricing.menuMonthlyTTC}€/m TVAC` : ''}
+    const ownerEmailHtml = `
+      <html><head><style>${commonStyles}</style></head><body>
+        <div class="c">
+          <div class="h"><h2>${t.owner.title} #${refId}</h2></div>
+          <p><strong>Client:</strong> ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}<br><strong>Email:</strong> ${data.email}<br><strong>Projet:</strong> ${escapeHtml(data.company || '-')}</p>
+          <table>
+            <thead><tr><th>Élément</th><th style="text-align:right">Unique</th><th style="text-align:right">Mensuel</th></tr></thead>
+            <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right">${r.unique}</td><td style="text-align:right">${r.monthly}</td></tr>`).join('')}</tbody>
+          </table>
+          <div class="box">
+            <strong>Calcul Modèle A:</strong><br>
+            Base HTVA: ${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}<br>
+            Promo -30%: -${pricing.hasRange ? `${pricing.discountMin}€ - ${pricing.discountMax}€` : `${pricing.discountMin}€`} HTVA<br>
+            Total HTVA: ${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}<br>
+            TVA (21%): ${pricing.hasRange ? `${pricing.tvaMin}€ - ${pricing.tvaMax}€` : `${pricing.tvaMin}€`}<br>
+            <strong>TOTAL TVAC: ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`}</strong>
+            ${pricing.isMenuProject ? `<br><br>Abonnement Pack: ${pricing.menuMonthlyTTC}€/m TVAC` : ''}
+          </div>
+          ${pricing.isMenuProject ? `<div class="box" style="background:#ecfdf5"><strong>Modèle B (Abonnement):</strong> Mensuel ${pricing.totalMonthlyTTCForModelB}€/m TVAC</div>` : ''}
+          <div style="font-size:10px;color:#94a3b8;text-align:center;margin-top:20px">Ref: ${refId} | ${new Date().toLocaleString('fr-BE')}</div>
+          <a href="mailto:${data.email}" class="btn btn-a">Répondre au client</a>
         </div>
-        ${pricing.isMenuProject ? `<div class="box" style="background:#ecfdf5"><strong>Modèle B (Abonnement):</strong> Mensuel ${pricing.totalMonthlyTTCForModelB}€/m TVAC</div>` : ''}
-        <a href="mailto:${data.email}" class="btn btn-a">Répondre au client</a>
-      </div>
-    </body></html>
-  `;
+      </body></html>
+    `;
+
+    const clientEmailHtml = `
+      <html><head><style>${commonStyles}</style></head><body>
+        <div class="c">
+          <div class="h"><h1>${t.client.title}</h1></div>
+          <div style="text-align:right;font-size:11px;color:#94a3b8;margin-bottom:10px">Devis #${refId}</div>
+          <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
+          <p>Voici votre estimation personnalisée pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
+          
+          <div class="promo-banner">
+            <span style="font-size:18px">🎁 <strong>PROMO -30% APPLIQUÉE</strong></span><br>
+            <span style="font-size:13px">Sur votre investissement initial jusqu'au 31/12/2025</span>
+          </div>
+          <!-- ... -->
+          <div style="text-align:center;margin-top:30px;color:#64748b;font-size:13px">
+            Besoin d'ajuster ce devis ? <a href="mailto:info@guapowebdesigner.com" style="color:#1e293b;font-weight:700">Répondez simplement à cet email.</a>
+            <br><br><span style="font-size:10px">Référence unique : ${refId}</span>
+          </div>
+        </div>
+      </body></html>
+    `;
 
   const clientEmailHtml = `
     <html><head><style>${commonStyles}</style></head><body>
