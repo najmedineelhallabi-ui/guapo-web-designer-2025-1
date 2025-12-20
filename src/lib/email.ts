@@ -284,12 +284,22 @@ export async function sendQuoteEmail(data: any) {
     </body></html>
   `;
 
-  try {
-    await resend.emails.send({ from: 'onboarding@resend.dev', to: 'info@guapowebdesigner.com', replyTo: data.email, subject: `Devis: ${data.firstName} ${data.lastName}`, html: ownerEmailHtml });
-    await resend.emails.send({ from: 'onboarding@resend.dev', to: data.email, replyTo: 'info@guapowebdesigner.com', subject: t.client.subject, html: clientEmailHtml });
-    return { success: true };
-  } catch (error) {
-    console.error('Email error:', error);
-    throw error;
-  }
+    const from = process.env.EMAIL_FROM || 'onboarding@resend.dev';
+    const toOwner = process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com';
+
+    await resend.emails.send({ 
+      from, 
+      to: toOwner, 
+      replyTo: data.email, 
+      subject: `Devis: ${data.firstName} ${data.lastName}`, 
+      html: ownerEmailHtml 
+    });
+    
+    await resend.emails.send({ 
+      from, 
+      to: data.email, 
+      replyTo: toOwner, 
+      subject: t.client.subject, 
+      html: clientEmailHtml 
+    });
 }
