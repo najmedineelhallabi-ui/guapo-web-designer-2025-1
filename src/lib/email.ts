@@ -328,8 +328,12 @@ export async function sendQuoteEmail(data: any) {
               <div style="font-size:10px;text-align:center;color:#059669;margin-bottom:10px">OPTION ABONNEMENT</div>
               <div style="font-size:12px;border-top:1px solid #a7f3d0;padding-top:8px;color:#065f46">
                 Mise en service: <strong>0€</strong><br>
-                ${pricing.monthlyBreakdown.map((i: any) => `<div style="font-size:10px">${escapeHtml(i.item)}: ${i.price}€/m</div>`).join('')}
-                <div style="font-size:14px;margin-top:5px;font-weight:800">Total: ${pricing.totalMonthlyTTCForModelB}€/m TVAC</div>
+                ${pricing.monthlyBreakdown.map((i: any) => `<div style="font-size:10px">${escapeHtml(i.item)}: ${i.price === 0 ? 'Inclus' : `${i.price}€/m`}</div>`).join('')}
+                <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #a7f3d0">
+                  Sous-total: ${pricing.menuMonthlyHT}€/m HTVA<br>
+                  TVA (21%): ${pricing.menuMonthlyTVA}€/m<br>
+                  <div style="font-size:14px;margin-top:5px;font-weight:800">TOTAL: ${pricing.menuMonthlyTTC}€/m TVAC</div>
+                </div>
               </div>
               <a href="https://guapowebdesigner.com/confirm-quote?model=B&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn btn-b">CHOISIR MODÈLE B</a>
             </div>
