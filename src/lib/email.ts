@@ -243,7 +243,14 @@ export async function sendQuoteEmail(data: any) {
   if (siteTypePrice) tableRows.push({ item: translateOption(data.siteType, lang), unique: siteTypePrice.min === siteTypePrice.max ? `${siteTypePrice.min}€` : `${siteTypePrice.min}€ - ${siteTypePrice.max}€`, monthly: '-' });
 
   if (data.languages && data.languages.length > 1) {
-    tableRows.push({ item: translateOption("Multilingue", lang), unique: `${PRICING.features["Multilingue"]}€`, monthly: '-' });
+    const multiPrice = PRICING.features["Multilingue"];
+    const extraCount = data.languages.length - 1;
+    const totalMultiPrice = extraCount * multiPrice;
+    tableRows.push({ 
+      item: translateOption("Multilingue", lang) + ` (${extraCount} supp.)`, 
+      unique: `${totalMultiPrice}€`, 
+      monthly: '-' 
+    });
   }
 
   if (data.features) {
