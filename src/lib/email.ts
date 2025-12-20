@@ -160,12 +160,14 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     const subPrice = PRICING.subscriptions[subKey];
     if (subPrice) {
       selectedPackName = translateOption(data.menuSubscription, lang);
+      // For Model A, monthly is ONLY the pack price
       totalMonthlyModelA = subPrice;
+      // For Model B, it's cumulative with features
       totalMonthlyModelB += subPrice;
       monthlyBreakdownB.unshift({ item: selectedPackName, price: subPrice });
     }
   } else {
-    // Default maintenance for all non-menu sites or if no subscription selected
+    // Default maintenance for vitrine sites in Model A
     totalMonthlyModelA = 25; 
   }
 
@@ -203,15 +205,15 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   const minTotalTTCA = discountedMinHT + tvaMinA;
   const maxTotalTTCA = discountedMaxHT + tvaMaxA;
 
-  // Model A Monthly
-    const monthlyHTA = totalMonthlyModelA;
-    const monthlyTVAA = Math.round(monthlyHTA * tvaRate * 100) / 100; // More precise
-    const monthlyTTCA = Math.round((monthlyHTA + monthlyTVAA) * 100) / 100;
+  // Model A Monthly (maintenance/pack)
+  const monthlyHTA = totalMonthlyModelA;
+  const monthlyTVAA = Math.round(monthlyHTA * tvaRate * 100) / 100;
+  const monthlyTTCA = Math.round((monthlyHTA + monthlyTVAA) * 100) / 100;
 
-    // Model B Monthly
-    const monthlyHTB = totalMonthlyModelB;
-    const monthlyTVAB = Math.round(monthlyHTB * tvaRate * 100) / 100;
-    const monthlyTTCB = Math.round((monthlyHTB + monthlyTVAB) * 100) / 100;
+  // Model B Monthly (subscription all-in)
+  const monthlyHTB = totalMonthlyModelB;
+  const monthlyTVAB = Math.round(monthlyHTB * tvaRate * 100) / 100;
+  const monthlyTTCB = Math.round((monthlyHTB + monthlyTVAB) * 100) / 100;
 
 
   return {
