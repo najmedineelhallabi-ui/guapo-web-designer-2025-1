@@ -329,75 +329,107 @@ export async function sendQuoteEmail(data: any) {
   `;
 
   const ownerEmailHtml = `
-    <html><head><style>${commonStyles}</style></head><body>
-      <div class="c">
-        <div class="h" style="background: #6366f1;">
-          <h2 style="margin:0">🎨 Nouvelle demande #${refId}</h2>
-          <p style="margin:5px 0 0 0; font-size: 14px; opacity: 0.8;">Reçue le ${new Date().toLocaleString('fr-BE')}</p>
-        </div>
-        
-        <div class="box" style="border-left: 4px solid #6366f1;">
-          <div style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 800; margin-bottom: 10px;">👤 INFORMATIONS CLIENT</div>
-          <p style="margin: 5px 0;"><strong>Nom:</strong> ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</p>
-          <p style="margin: 5px 0;"><strong>Email:</strong> <a href="mailto:${data.email}">${data.email}</a></p>
-          ${data.company ? `<p style="margin: 5px 0;"><strong>Entreprise:</strong> ${escapeHtml(data.company)}</p>` : ''}
-          <p style="margin: 5px 0;"><strong>Langue:</strong> ${lang.toUpperCase()}</p>
-        </div>
-
-        <div class="box" style="border-left: 4px solid #1e293b;">
-          <div style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 800; margin-bottom: 10px;">🌐 PROJET</div>
-          <p style="margin: 5px 0;"><strong>Type:</strong> ${escapeHtml(data.siteType)}</p>
-          ${data.pageCount ? `<p style="margin: 5px 0;"><strong>Estimation pages:</strong> ${data.pageCount}</p>` : ''}
-        </div>
-
-        <div style="margin: 20px 0;">
-          <div style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 800; margin-bottom: 10px;">📝 OPTIONS SÉLECTIONNÉES</div>
-          <table>
-            <thead><tr><th>Détail</th><th style="text-align:right">HTVA</th></tr></thead>
-            <tbody>
-              ${tableRows.map(r => {
-                const price = r.unique !== '-' ? r.unique : r.monthly;
-                if (price === '0€') return ''; // Masquer les lignes à 0€ si elles sont redondantes
-                return `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right; font-weight: 600;">${price === 'Inclus' ? '<span style="color:#10b981">INCLUS</span>' : price}</td></tr>`;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>
-
-          <div class="box" style="background:#f1f5f9; border-top: 2px solid #e2e8f0;">
-            <h3 style="margin-top:0; font-size: 16px; color: #1e293b;">💰 RÉSUMÉ DES OFFRES GÉNÉRÉES</h3>
-            
-            <div style="display: grid; gap: 10px;">
-              ${pricing.isMenuProject ? '' : `
-              <div style="padding: 12px; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0;">
-                <div style="font-weight: 800; color: #1e293b; font-size: 12px; margin-bottom: 5px;">MODÈLE A (ACHAT)</div>
-                <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                  <span style="font-size: 18px; font-weight: 900;">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`} <span style="font-size: 12px; font-weight: 400; color: #64748b;">TVAC</span></span>
-                  <span style="font-size: 13px; color: #3b82f6; font-weight: 700;">+ ${pricing.monthlyTTCA}€/m</span>
-                </div>
-              </div>
-              `}
-
-              ${pricing.monthlyTTCB > 0 ? `
-              <div style="padding: 12px; background: #ecfdf5; border-radius: 8px; border: 1px solid #10b981;">
-                <div style="font-weight: 800; color: #065f46; font-size: 12px; margin-bottom: 5px;">MODÈLE B (ABONNEMENT)</div>
-                <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                  <span style="font-size: 18px; font-weight: 900; color: #059669;">${pricing.monthlyTTCB}€ <span style="font-size: 12px; font-weight: 400; color: #065f46; opacity: 0.7;">/ mois TVAC</span></span>
-                  <span style="font-size: 13px; color: #059669; font-weight: 700;">Invest: 0€</span>
-                </div>
-              </div>
-              ` : ''}
-            </div>
+    <html>
+      <head>
+        <style>
+          ${commonStyles}
+          .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; }
+          .tag-client { background: #e0e7ff; color: #4338ca; }
+          .tag-project { background: #f1f5f9; color: #475569; }
+          .price-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
+          .price-label { font-size: 13px; color: #64748b; }
+          .price-val { font-weight: 700; color: #1e293b; }
+        </style>
+      </head>
+      <body>
+        <div class="c">
+          <div class="h" style="background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);">
+            <h2 style="margin:0; letter-spacing: -0.5px;">🎨 Nouveau Devis #${refId}</h2>
+            <p style="margin:5px 0 0 0; font-size: 13px; opacity: 0.9;">Demande reçue le ${new Date().toLocaleString('fr-BE')}</p>
           </div>
+          
+          <div style="padding: 0 5px;">
+            <div class="box" style="border-left: 4px solid #6366f1; background: #fff;">
+              <div class="tag tag-client">Client</div>
+              <div style="font-size: 18px; font-weight: 800; color: #1e293b; margin-bottom: 5px;">
+                ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}
+              </div>
+              <div style="color: #475569; font-size: 14px;">
+                📧 <a href="mailto:${data.email}" style="color: #6366f1; text-decoration: none; font-weight: 600;">${data.email}</a>
+              </div>
+              ${data.company ? `<div style="color: #475569; font-size: 14px; margin-top: 5px;">🏢 <strong>${escapeHtml(data.company)}</strong></div>` : ''}
+              <div style="color: #94a3b8; font-size: 12px; margin-top: 10px;">📍 Langue: ${lang.toUpperCase()} | Réf: #${refId}</div>
+            </div>
 
+            <div class="box" style="border-left: 4px solid #1e293b; background: #fff;">
+              <div class="tag tag-project">Configuration</div>
+              <div style="font-size: 16px; font-weight: 700; color: #1e293b;">${escapeHtml(data.siteType)}</div>
+              ${data.pageCount ? `<div style="color: #64748b; font-size: 13px; margin-top: 4px;">Estimation : ${data.pageCount} pages</div>` : ''}
+            </div>
 
-        <a href="mailto:${data.email}" class="btn" style="background: #1e293b; color: white; text-decoration: none; display: block; padding: 15px; text-align: center; border-radius: 8px; font-weight: 800; margin-top: 20px;">RÉPONDRE AU CLIENT DIRECTEMENT</a>
-        
-        <div style="font-size:10px;color:#94a3b8;text-align:center;margin-top:20px">
-          Réf: ${refId} | Identifiant unique de session
+            <div style="margin: 25px 0;">
+              <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px;">📈 Détail des prix (HTVA)</div>
+              <div style="background: #f8fafc; border-radius: 12px; padding: 15px; border: 1px solid #e2e8f0;">
+                ${tableRows.map(r => {
+                  const price = r.unique !== '-' ? r.unique : r.monthly;
+                  if (price === '0€' || price === '-') return '';
+                  return `
+                    <div class="price-row">
+                      <span class="price-label">${escapeHtml(r.item)}</span>
+                      <span class="price-val">${price === 'Inclus' ? '<span style="color:#10b981">INCLUS</span>' : price}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <div class="box" style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 20px; border-radius: 16px;">
+              <div style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 15px; text-align: center;">💰 Offres envoyées au client</div>
+              
+              <div style="display: grid; gap: 12px;">
+                ${pricing.isMenuProject ? '' : `
+                  <div style="padding: 15px; background: white; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="color: #1e293b; font-size: 12px; font-weight: 800; margin-bottom: 8px;">MODÈLE A (ACHAT)</div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                      <div>
+                        <div style="font-size: 20px; font-weight: 900; color: #1e293b;">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</div>
+                        <div style="font-size: 11px; color: #94a3b8;">Investissement Total TVAC</div>
+                      </div>
+                      <div style="text-align: right;">
+                        <div style="font-size: 16px; font-weight: 700; color: #6366f1;">+ ${pricing.monthlyTTCA}€<span style="font-size: 11px;">/m</span></div>
+                        <div style="font-size: 11px; color: #94a3b8;">Maintenance</div>
+                      </div>
+                    </div>
+                  </div>
+                `}
+
+                ${pricing.monthlyTTCB > 0 ? `
+                  <div style="padding: 15px; background: #ecfdf5; border-radius: 12px; border: 1px solid #10b981; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                    <div style="color: #065f46; font-size: 12px; font-weight: 800; margin-bottom: 8px;">MODÈLE B (ABONNEMENT)</div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                      <div>
+                        <div style="font-size: 24px; font-weight: 900; color: #059669;">${pricing.monthlyTTCB}€<span style="font-size: 14px;">/mois</span></div>
+                        <div style="font-size: 11px; color: #065f46; opacity: 0.7;">Abonnement All-In TVAC</div>
+                      </div>
+                      <div style="text-align: right;">
+                        <div style="font-size: 16px; font-weight: 700; color: #059669;">OFFERT</div>
+                        <div style="font-size: 11px; color: #065f46; opacity: 0.7;">Investissement</div>
+                      </div>
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+
+            <a href="mailto:${data.email}" class="btn" style="background: #1e293b; color: white; text-decoration: none; display: block; padding: 18px; text-align: center; border-radius: 12px; font-weight: 800; margin-top: 25px; font-size: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">RÉPONDRE AU CLIENT</a>
+          </div>
+          
+          <div style="font-size:10px; color:#94a3b8; text-align:center; margin-top:30px; text-transform: uppercase; letter-spacing: 1px;">
+            Guapo Automations © 2025 | Session: ${refId}
+          </div>
         </div>
-      </div>
-    </body></html>
+      </body>
+    </html>
   `;
 
   const clientEmailHtml = `
