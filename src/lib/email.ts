@@ -94,7 +94,6 @@ function escapeHtml(text: string): string {
 
 function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   let minTotal = 0, maxTotal = 0, monthlySubscription = 0, totalMonthlyForMenu = 0;
-  const monthlyBreakdown: any[] = [];
   const t = getT(lang);
   const isMenuProject = data.siteType.includes('Menu / Site de commande');
 
