@@ -379,94 +379,68 @@ export async function sendQuoteEmail(data: any) {
         <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
         <p>Voici votre estimation personnalisée pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
         
-        <div class="promo-banner">
-          <span style="font-size:18px">🎁 <strong>PROMO -30% APPLIQUÉE</strong></span><br>
-          <span style="font-size:13px">Sur votre investissement initial jusqu'au 31/12/2025</span>
-        </div>
+          <div class="promo-banner">
+            <span style="font-size:18px">🎁 <strong>PROMO -30% APPLIQUÉE</strong></span><br>
+            <span style="font-size:13px">Sur votre investissement initial jusqu'au 31/12/2025</span>
+          </div>
 
-          <table>
-            <thead><tr><th>Détails de votre projet</th><th style="text-align:right">Mensuel</th></tr></thead>
-            <tbody>${tableRows.filter(r => !pricing.isMenuProject || r.monthly !== '-').map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right;color:#0ea5e9">${r.monthly}</td></tr>`).join('')}</tbody>
-          </table>
-
-            ${pricing.isMenuProject ? `
-
-                <div class="box" style="background:#ecfdf5;border:2px solid #10b981; padding:20px;">
-                  <div style="font-weight:800;text-align:center;font-size:18px;color:#065f46;margin-bottom:5px">OFFRE ABONNEMENT TOUT-EN-UN</div>
-                  <div style="font-size:12px;text-align:center;color:#059669;margin-bottom:20px">Zéro investissement, tout est inclus dans le mensuel</div>
-                  
-                  <div style="background:#fff;padding:20px;border-radius:10px;border:1px solid #a7f3d0">
-                    <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                      <span>Investissement initial :</span>
-                      <span style="color:#10b981;font-weight:900;font-size:16px">0€ OFFERT</span>
-                    </div>
-                    <div style="margin:15px 0;font-size:12px;color:#4b5563;background:#f0fdf4;padding:12px;border-radius:8px">
-                      <div style="font-weight:700;margin-bottom:8px;color:#166534">Détail de votre abonnement :</div>
-                      ${pricing.monthlyBreakdownB.map((i: any) => `<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>• ${escapeHtml(i.item)}</span><span>${i.price === 0 ? 'Inclus' : `${i.price}€ HT / mois`}</span></div>`).join('')}
-                    </div>
-                    <div style="display:flex;justify-content:space-between;margin-bottom:8px;padding-top:10px;border-top:1px solid #f1f5f9">
-                      <span>Total HTVA :</span>
-                      <span><strong>${pricing.monthlyHTB}€ / mois</strong></span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-                      <span>TVA (21%) :</span>
-                      <span>${pricing.monthlyTVAB}€ / mois</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:15px;border-top:2px solid #10b981;font-size:20px;font-weight:900;color:#065f46">
-                      <span>TOTAL TVAC :</span>
-                      <span>${pricing.monthlyTTCB}€ / mois</span>
-                    </div>
-                  </div>
-                  <a href="https://guapowebdesigner.com/confirm-quote?model=B&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&monthlyPrice=${pricing.monthlyTTCB}&packName=${encodeURIComponent(pricing.selectedPackName || 'Abonnement complet')}" class="btn btn-b" style="margin-top:20px">CHOISIR CE MODÈLE</a>
+          ${pricing.isMenuProject ? `
+            <div class="box" style="background:#ecfdf5;border:2px solid #10b981; padding:20px;">
+              <div style="font-weight:800;text-align:center;font-size:18px;color:#065f46;margin-bottom:5px">MODÈLE B : ABONNEMENT TOUT-EN-UN</div>
+              <div style="font-size:12px;text-align:center;color:#059669;margin-bottom:20px">Zéro investissement, tout est inclus dans le mensuel</div>
+              
+              <div style="background:#fff;padding:20px;border-radius:10px;border:1px solid #a7f3d0">
+                <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+                  <span>Investissement initial :</span>
+                  <span style="color:#10b981;font-weight:900;font-size:16px">0€ OFFERT</span>
                 </div>
-              ` : `
-
-              <div class="box" style="text-align:center;padding:30px;border:2px solid #1e293b">
-                <div style="font-weight:900;margin-bottom:20px;font-size:20px;color:#1e293b;text-transform:uppercase">Option A : Propriétaire</div>
-                <div style="background:#fff;padding:25px;border-radius:12px;border:1px solid #e2e8f0;text-align:left;box-shadow:0 2px 4px rgba(0,0,0,0.05)">
-                  <div style="font-weight:700;color:#1e293b;margin-bottom:15px;border-bottom:1px solid #f1f5f9;padding-bottom:10px">Règlement unique (Système)</div>
-                  
-                  <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                    <span>Investissement HTVA :</span>
-                    <span><strong>${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}</strong></span>
-                  </div>
-                  <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                    <span>TVA (21%) :</span>
-                    <span>${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}</span>
-                  </div>
-                  <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:2px solid #1e293b;font-size:22px;font-weight:900;color:#1e293b">
-                    <span>TOTAL TVAC :</span>
-                    <span>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</span>
-                  </div>
-
-                  <div style="margin-top:25px;font-size:14px;color:#64748b;text-align:center;background:#f8fafc;padding:15px;border-radius:10px;border:1px solid #e2e8f0">
-                    <div style="font-weight:700;color:#1e293b;margin-bottom:5px">+ ${pricing.selectedPackName ? `Pack ${pricing.selectedPackName}` : 'Maintenance & plateforme'}</div>
-                    <strong>${pricing.monthlyHTA}€ / mois HTVA</strong><br>
-                    <span style="font-size:12px">(${pricing.monthlyTTCA}€ / mois TVAC)</span>
-                  </div>
+                <div style="margin:15px 0;font-size:12px;color:#4b5563;background:#f0fdf4;padding:12px;border-radius:8px">
+                  <div style="font-weight:700;margin-bottom:8px;color:#166534">Détail de votre abonnement :</div>
+                  ${pricing.monthlyBreakdownB.map((i: any) => `<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>• ${escapeHtml(i.item)}</span><span>${i.price === 0 ? 'Inclus' : `${i.price}€ HT / mois`}</span></div>`).join('')}
                 </div>
-                <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotalTTCA}&maxPrice=${pricing.maxTotalTTCA}&monthlyPrice=${pricing.monthlyTTCA}&packName=${encodeURIComponent(pricing.selectedPackName || 'Maintenance')}" class="btn btn-a" style="margin-top:25px;font-size:16px">CHOISIR CE MODÈLE</a>
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px;padding-top:10px;border-top:1px solid #f1f5f9">
+                  <span>Total HTVA :</span>
+                  <span><strong>${pricing.monthlyHTB}€ / mois</strong></span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+                  <span>TVA (21%) :</span>
+                  <span>${pricing.monthlyTVAB}€ / mois</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:15px;border-top:2px solid #10b981;font-size:20px;font-weight:900;color:#065f46">
+                  <span>TOTAL TVAC :</span>
+                  <span>${pricing.monthlyTTCB}€ / mois</span>
+                </div>
               </div>
-
-              <div style="margin:40px 0;text-align:center;color:#94a3b8">OU</div>
-
-              <div class="box" style="background:#ecfdf5;border:2px solid #10b981; padding:20px;">
-                <div style="font-weight:800;text-align:center;font-size:18px;color:#065f46;margin-bottom:5px">Option B : Abonnement</div>
-                <div style="font-size:12px;text-align:center;color:#059669;margin-bottom:20px">Tout inclus, zéro investissement initial</div>
+              <a href="https://guapowebdesigner.com/confirm-quote?model=B&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&monthlyPrice=${pricing.monthlyTTCB}&packName=${encodeURIComponent(pricing.selectedPackName || 'Abonnement complet')}" class="btn btn-b" style="margin-top:20px">CHOISIR CE MODÈLE</a>
+            </div>
+          ` : `
+            <div class="box" style="text-align:center;padding:30px;border:2px solid #1e293b">
+              <div style="font-weight:900;margin-bottom:20px;font-size:20px;color:#1e293b;text-transform:uppercase">MODÈLE A : PROPRIÉTAIRE</div>
+              <div style="background:#fff;padding:25px;border-radius:12px;border:1px solid #e2e8f0;text-align:left;box-shadow:0 2px 4px rgba(0,0,0,0.05)">
+                <div style="font-weight:700;color:#1e293b;margin-bottom:15px;border-bottom:1px solid #f1f5f9;padding-bottom:10px">Règlement unique (Système)</div>
                 
-                <div style="background:#fff;padding:20px;border-radius:10px;border:1px solid #a7f3d0;text-align:left">
-                  <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                    <span>Investissement initial :</span>
-                    <span style="color:#10b981;font-weight:900;font-size:16px">0€ OFFERT</span>
-                  </div>
-                  <div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:15px;border-top:2px solid #10b981;font-size:20px;font-weight:900;color:#065f46">
-                    <span>TOTAL TVAC :</span>
-                    <span>${pricing.monthlyTTCB}€ / mois</span>
-                  </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+                  <span>Investissement HTVA :</span>
+                  <span><strong>${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}</strong></span>
                 </div>
-                <a href="https://guapowebdesigner.com/confirm-quote?model=B&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&monthlyPrice=${pricing.monthlyTTCB}&packName=${encodeURIComponent(pricing.selectedPackName || 'Abonnement complet')}" class="btn btn-b" style="margin-top:20px">CHOISIR CE MODÈLE</a>
+                <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+                  <span>TVA (21%) :</span>
+                  <span>${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:2px solid #1e293b;font-size:22px;font-weight:900;color:#1e293b">
+                  <span>TOTAL TVAC :</span>
+                  <span>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</span>
+                </div>
+
+                <div style="margin-top:25px;font-size:14px;color:#64748b;text-align:center;background:#f8fafc;padding:15px;border-radius:10px;border:1px solid #e2e8f0">
+                  <div style="font-weight:700;color:#1e293b;margin-bottom:5px">Abonnement Maintenance</div>
+                  <strong>${pricing.monthlyHTA}€ / mois HTVA</strong><br>
+                  <span style="font-size:12px">(${pricing.monthlyTTCA}€ / mois TVAC)</span>
+                </div>
               </div>
-            `}
+              <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotalTTCA}&maxPrice=${pricing.maxTotalTTCA}&monthlyPrice=${pricing.monthlyTTCA}&packName=${encodeURIComponent(pricing.selectedPackName || 'Maintenance')}" class="btn btn-a" style="margin-top:25px;font-size:16px">CHOISIR CE MODÈLE</a>
+            </div>
+          `}
         <div style="text-align:center;margin-top:30px;color:#64748b;font-size:13px">
           Besoin d'ajuster ce devis ? <a href="mailto:info@guapowebdesigner.com" style="color:#1e293b;font-weight:700">Répondez simplement à cet email.</a>
           <br><br><span style="font-size:10px">Référence unique : #${refId}</span>
