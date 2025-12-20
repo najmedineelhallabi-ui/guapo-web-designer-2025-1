@@ -324,8 +324,8 @@ export async function sendQuoteEmail(data: any) {
         <div class="h"><h2>${t.owner.title} #${refId}</h2></div>
         <p><strong>Client:</strong> ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}<br><strong>Email:</strong> ${data.email}<br><strong>Projet:</strong> ${escapeHtml(data.company || '-')}</p>
         <table>
-          <thead><tr><th>Élément</th><th style="text-align:right">Unique</th><th style="text-align:right">Mensuel</th></tr></thead>
-          <tbody>${tableRows.map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right">${r.unique}</td><td style="text-align:right">${r.monthly}</td></tr>`).join('')}</tbody>
+          <thead><tr><th>Élément</th><th style="text-align:right">Mensuel</th></tr></thead>
+          <tbody>${tableRows.filter(r => r.monthly !== '-').map(r => `<tr><td>${escapeHtml(r.item)}</td><td style="text-align:right;color:#0ea5e9">${r.monthly}</td></tr>`).join('')}</tbody>
         </table>
           <div class="box">
             <strong>Calcul Modèle A (Investissement):</strong><br>
