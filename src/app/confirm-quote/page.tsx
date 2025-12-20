@@ -136,9 +136,10 @@ function ConfirmQuoteContent() {
                   </>
                 ) : (
                   <>
-                    <p className="text-sm text-gray-600">
-                      <strong>Investissement Initial :</strong> 0€ (OFFERT)
-                    </p>
+                      <p className="text-sm text-gray-600">
+                        <strong>Investissement Initial :</strong> <span className="text-green-600 font-bold">OFFERT</span>
+                      </p>
+
                     <p className="text-sm text-gray-600 font-bold text-green-700">
                       <strong>Abonnement All-In :</strong> {monthlyPrice}€ / mois TVAC
                     </p>
