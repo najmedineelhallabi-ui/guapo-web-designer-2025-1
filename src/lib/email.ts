@@ -794,25 +794,149 @@ export async function sendQuoteEmail(data: {
     });
   }
 
-  // 6. Abonnement Pack (Menu)
-  if (data.menuSubscription) {
-    const mPrice = (PRICING.subscriptions as any)[data.menuSubscription];
-    tableRows.push({
-      item: translateOption(data.menuSubscription, lang),
-      unique: '-',
-      monthly: `${mPrice}€`
-    });
-  }
+    // 6. Abonnement Pack (Menu)
+    if (data.menuSubscription) {
+      const mPrice = (PRICING.subscriptions as any)[data.menuSubscription];
+      tableRows.push({
+        item: translateOption(data.menuSubscription, lang),
+        unique: '-',
+        monthly: `${mPrice}€`
+      });
+    }
 
-  // Styles CSS partagés pour les tableaux
-  const tableStyles = `
-    .ptbl {width:100%;border-collapse:collapse;margin:15px 0;font-size:12px;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden}
-    .ptbl th {background:#f8fafc;color:#64748b;padding:12px;text-align:left;border-bottom:2px solid #e2e8f0;text-transform:uppercase;letter-spacing:0.05em}
-    .ptbl td {padding:12px;border-bottom:1px solid #f1f5f9;color:#334155}
-    .ptbl tr:last-child td {border-bottom:none}
-    .p-val {font-weight:700;color:#8b5cf6}
-    .p-monthly {color:#0ea5e9;font-weight:700}
-  `;
+    // EMAIL 1: Pour le propriétaire
+    const ownerEmailHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body{font-family:sans-serif;color:#334155;max-width:600px;margin:0 auto;padding:20px;background:#f1f5f9}
+            .h{background:#8b5cf6;color:#fff;padding:20px;border-radius:10px 10px 0 0;text-align:center}
+            .c{background:#fff;padding:20px;border-radius:0 0 10px 10px;border:1px solid #e2e8f0}
+            .sh{font-size:12px;font-weight:800;color:#7c3aed;margin:15px 0 10px 0;text-transform:uppercase}
+            .tbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
+            .tbl th{background:#f8fafc;padding:8px;text-align:left;border-bottom:1px solid #e2e8f0}
+            .tbl td{padding:8px;border-bottom:1px solid #f1f5f9}
+            .ps{background:#fdf2f8;border:1px solid #fbcfe8;padding:15px;border-radius:8px;margin:15px 0}
+            .pt{background:#8b5cf6;color:#fff;padding:10px;border-radius:5px;text-align:center;font-size:16px;font-weight:800}
+            .btn{display:inline-block;background:#8b5cf6;color:#fff;padding:12px 20px;text-decoration:none;border-radius:5px;font-weight:700;margin:10px 0}
+          </style>
+        </head>
+        <body>
+          <div class="h"><h2>${t.owner.title}</h2></div>
+          <div class="c">
+            <div class="sh">Client</div>
+            <p><strong>${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</strong> (${escapeHtml(data.email)})<br>${escapeHtml(data.company || '')}</p>
+            
+            <div class="sh">Configuration</div>
+            <table class="tbl">
+              <thead><tr><th>Élément</th><th style="text-align:right">Unique</th><th style="text-align:right">Mensuel</th></tr></thead>
+              <tbody>
+                ${tableRows.map(row => `<tr><td>${escapeHtml(row.item)}</td><td style="text-align:right">${row.unique}</td><td style="text-align:right;color:#0ea5e9">${row.monthly}</td></tr>`).join('')}
+              </tbody>
+            </table>
+
+            <div class="sh">💰 Modèle A (Unique)</div>
+            <div class="ps">
+              <p>Total Projet: <strong>${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`} TVAC</strong></p>
+              ${pricing.isMenuProject ? `<p>Abonnement: ${pricing.menuMonthlyTTC}€/m TVAC</p>` : ''}
+            </div>
+
+            ${pricing.isMenuProject ? `
+            <div class="sh">💳 Modèle B (Abonnement)</div>
+            <div class="ps" style="background:#f0f9ff;border-color:#bae6fd">
+              <p>Mise en service: <strong>${pricing.totalBaseSetupTTC}€ TVAC</strong></p>
+              <p>Mensuel: <strong>${Math.round(pricing.totalMonthlyForMenu * 1.21)}€/m TVAC</strong></p>
+            </div>
+            ` : ''}
+
+            <div style="text-align:center"><a href="mailto:${escapeHtml(data.email)}" class="btn">Répondre au client</a></div>
+          </div>
+        </body>
+      </html>
+    `;
+
+    // EMAIL 2: Pour le client
+    const clientEmailHtml = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body{font-family:sans-serif;color:#334155;max-width:600px;margin:0 auto;padding:20px;background:#f8fafc}
+            .h{background:#1e293b;color:#fff;padding:30px 20px;border-radius:10px 10px 0 0;text-align:center}
+            .c{background:#fff;padding:25px;border-radius:0 0 10px 10px;border:1px solid #e2e8f0}
+            .tbl{width:100%;border-collapse:collapse;margin:15px 0;font-size:12px}
+            .tbl th{background:#f8fafc;padding:10px;text-align:left;border-bottom:1px solid #e2e8f0}
+            .tbl td{padding:10px;border-bottom:1px solid #f1f5f9}
+            .box{border:1px solid #e2e8f0;border-radius:10px;padding:15px;background:#f8fafc}
+            .btn-model{display:block;padding:12px;text-decoration:none;border-radius:6px;font-weight:700;margin-top:15px;font-size:13px;text-align:center}
+            .btn-a{background:#1e293b;color:#fff}
+            .btn-b{background:#10b981;color:#fff}
+            .ft{text-align:center;margin-top:20px;color:#94a3b8;font-size:11px}
+          </style>
+        </head>
+        <body>
+          <div class="h"><h1>Votre Estimation</h1></div>
+          <div class="c">
+            <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
+            <p>Voici le récapitulatif détaillé pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
+            
+            <table class="tbl">
+              <thead><tr><th>Description</th><th style="text-align:right">Unique HT</th><th style="text-align:right">Mensuel HT</th></tr></thead>
+              <tbody>
+                ${tableRows.map(row => `<tr><td>${escapeHtml(row.item)}</td><td style="text-align:right;font-weight:bold">${row.unique}</td><td style="text-align:right;color:#0ea5e9;font-weight:bold">${row.monthly}</td></tr>`).join('')}
+              </tbody>
+            </table>
+
+            <div style="margin:20px 0;text-align:center;font-weight:bold;font-size:16px;color:#1e293b">VOTRE CHOIX DE MODÈLE</div>
+
+            ${pricing.isMenuProject ? `
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="48%" valign="top" class="box">
+                  <div style="font-weight:800;font-size:14px;text-align:center">MODÈLE A</div>
+                  <div style="font-size:10px;text-align:center;margin-bottom:10px;color:#64748b">INVESTISSEMENT UNIQUE</div>
+                  <div style="font-size:11px;line-height:1.3;margin-bottom:10px">Pleine propriété du projet. Idéal pour la rentabilité à long terme.</div>
+                  <div style="font-size:12px;border-top:1px solid #e2e8f0;padding-top:8px">
+                    Projet: <strong>${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`} TVAC</strong><br>
+                    Abonnement Pack: <strong>${pricing.menuMonthlyTTC}€/m TVAC</strong>
+                    <div style="font-size:9px;color:#64748b;margin-top:4px">(Gestion, maintenance, accès plateforme)</div>
+                  </div>
+                  <a href="https://guapowebdesigner.com/confirm-quote?model=A&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-model btn-a">CHOISIR MODÈLE A</a>
+                </td>
+                <td width="4%"></td>
+                <td width="48%" valign="top" class="box" style="background:#ecfdf5;border-color:#a7f3d0">
+                  <div style="font-weight:800;font-size:14px;text-align:center;color:#065f46">MODÈLE B</div>
+                  <div style="font-size:10px;text-align:center;margin-bottom:10px;color:#059669">OPTION ABONNEMENT</div>
+                  <div style="font-size:11px;line-height:1.3;margin-bottom:10px;color:#065f46">0€ d'investissement initial. Paiement par abonnement mensuel.</div>
+                  <div style="font-size:11px;border-top:1px solid #a7f3d0;padding-top:8px;color:#065f46">
+                    Mise en service: <strong>0€</strong><br>
+                    ${pricing.monthlyBreakdown.map(i => `<div style="font-size:10px;opacity:0.8">${escapeHtml(i.item)}: ${i.price}€/m</div>`).join('')}
+                    <strong>Mensuel Total: ${Math.round(pricing.totalMonthlyForMenu * 1.21)}€/m TVAC</strong>
+                    <div style="font-size:9px;font-weight:bold;margin-top:4px;color:#059669">🎁 1ER MOIS OFFERT</div>
+                  </div>
+                  <a href="https://guapowebdesigner.com/confirm-quote?model=B&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-model btn-b">CHOISIR MODÈLE B</a>
+                </td>
+              </tr>
+            </table>
+            ` : `
+            <div class="box" style="text-align:center">
+              <div style="font-size:18px;font-weight:800;color:#10b981;margin-bottom:10px">TOTAL: ${pricing.hasRange ? `${pricing.minTotalTTC}€ - ${pricing.maxTotalTTC}€` : `${pricing.minTotalTTC}€`} TVAC</div>
+              <p style="font-size:12px;color:#64748b">Réduction de 30% incluse dans ce tarif.</p>
+              <a href="https://guapowebdesigner.com/confirm-quote?model=A&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}" class="btn-model btn-b" style="display:inline-block;padding:15px 40px">VALIDER CE PROJET</a>
+            </div>
+            `}
+
+            <div style="text-align:center;margin-top:20px">
+              <a href="mailto:info@guapowebdesigner.com" style="color:#64748b;font-size:12px;text-decoration:none">Une question ? Répondez simplement à cet email.</a>
+            </div>
+          </div>
+          <div class="ft">© 2025 GUAPO Web Designer</div>
+        </body>
+      </html>
+    `;
 
   // EMAIL 1: Pour le propriétaire
   const ownerEmailHtml = `
