@@ -24,31 +24,19 @@ export const PRICING = {
   },
 
   // Fonctionnalités
-  features: {
-    "Formulaire de contact simple": 80,
-    "Formulaire de demande de devis": 120,
-    "Envoi automatique d'emails de confirmation (pour devis)": 85,
-    "Système de prise de rendez-vous en ligne (avec emails automatiques)": 170,
-    "Ajouter au calendrier (Google Calendar, Outlook, ICS, etc.)": 60,
-    "Multilingue": 155,
-    // Fonctionnalités E-commerce
-    "Catalogue de produits": 300,
-    "Panier d'achat": 0,
-    "Passerelle de paiement (Stripe, PayPal, etc.)": 185,
-    "Gestion des commandes": 250,
-    "Gestion des stocks": 350,
-    "Comptes clients": 200,
-    // Fonctionnalités Menu / Site de commande - Client
-    "Ajout au panier": 180,
-    "Sur place / à emporter": 130,
-    "Confirmation de commande": 120,
-    "Email automatique client": 160,
-    // Fonctionnalités Menu / Site de commande - Restaurant
-    "Dashboard Cuisine": 320,
-    "Statuts de commande cuisine": 80,
-    "Dashboard Serveur": 240,
-    "Statuts de commande serveur": 60,
-  },
+    features: {
+      "Formulaire de contact simple": 80,
+      "Formulaire de demande de devis": 120,
+      "Envoi automatique d'emails de confirmation (pour devis)": 85,
+      "Système de prise de rendez-vous en ligne (avec emails automatiques)": 170,
+      "Ajouter au calendrier (Google Calendar, Outlook, ICS, etc.)": 60,
+      "Intégration calendrier (Google Calendar, etc.)": 60, // Alias for form
+      "Multilingue": 155,
+      // ...
+      "Dashboard Serveur": 240,
+      "Statuts de commande serveur": 60,
+      "Gestion menu": 0, // Inclus dans le pack
+    },
 
   // Prix mensuels alternatifs pour les fonctionnalités Menu
   monthlyMenuFeatures: {
