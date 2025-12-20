@@ -439,10 +439,13 @@ export async function sendQuoteEmail(data: any) {
       subject: `[#${refId}] Devis - ${data.firstName} ${data.lastName}`, 
       html: ownerEmailHtml 
     });
-    
-    subject: `✅ [#${refId}] Votre estimation - ${data.company || 'Projet Web'} - GUAPO`, 
-    html: clientEmailHtml 
-  });
+    await resend.emails.send({ 
+      from, 
+      to: data.email, 
+      replyTo: toOwner, 
+      subject: `✅ [#${refId}] Votre estimation - ${data.company || 'Projet Web'} - GUAPO`, 
+      html: clientEmailHtml 
+    });
 
     return { success: true };
   } catch (error) {
