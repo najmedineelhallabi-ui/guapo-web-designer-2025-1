@@ -206,7 +206,8 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     let discountRate = 0.30;
     
     // Pas de promo 30% pour les projets Menu/Commande
-    if (isMenuProject) {
+    const isActuallyMenu = data.siteType.toLowerCase().includes('menu') || data.siteType.toLowerCase().includes('commande');
+    if (isActuallyMenu) {
       discountRate = 0;
     }
 
