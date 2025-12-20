@@ -298,6 +298,10 @@ export async function sendQuoteEmail(data: any) {
   if (data.menuSubscription) {
     const mPrice = (PRICING.subscriptions as any)[data.menuSubscription];
     tableRows.push({ item: translateOption(data.menuSubscription, lang), unique: '-', monthly: `${mPrice}€` });
+  } else if (pricing.isMenuProject) {
+    tableRows.push({ item: "Système de base commande", unique: '-', monthly: "30€" });
+  } else {
+    tableRows.push({ item: "Maintenance & plateforme", unique: '-', monthly: "30€" });
   }
 
   const commonStyles = `
