@@ -125,16 +125,19 @@ function ConfirmQuoteContent() {
                 <p className="text-sm text-gray-600">
                   <strong>Votre projet :</strong> {siteType}
                 </p>
-                {model === 'A' ? (
-                  <>
-                    <p className="text-sm text-gray-600">
-                      <strong>Estimation Achat :</strong> {minPrice === maxPrice ? `${minPrice}€` : `${minPrice}€ - ${maxPrice}€`} TVAC
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      <strong>Mensuel Maintenance :</strong> {monthlyPrice}€ / mois TVAC
-                    </p>
-                  </>
-                ) : (
+                  {model === 'A' ? (
+                    <>
+                      <p className="text-sm text-gray-600">
+                        <strong>Estimation Achat :</strong> {minPrice === maxPrice ? `${minPrice}€` : `${minPrice}€ - ${maxPrice}€`} TVAC
+                      </p>
+                      {siteType.includes('Menu') ? null : (
+                        <p className="text-sm text-gray-600">
+                          <strong>Mensuel Maintenance :</strong> {monthlyPrice}€ / mois TVAC
+                        </p>
+                      )}
+                    </>
+                  ) : (
+
                   <>
                       <p className="text-sm text-gray-600">
                         <strong>Investissement Initial :</strong> <span className="text-green-600 font-bold">OFFERT</span>
