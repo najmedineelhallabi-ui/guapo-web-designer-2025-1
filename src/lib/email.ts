@@ -453,9 +453,9 @@ export async function sendQuoteEmail(data: any) {
 
     await resend.emails.send({ 
       from, 
-      to: toOwner, 
+      to: 'info@guapowebdesigner.com', // Forcé pour être sûr
       replyTo: data.email, 
-      subject: `[#${refId}] Devis - ${data.firstName} ${data.lastName}`, 
+      subject: `🎨 [#${refId}] DEVIS : ${data.firstName} ${data.lastName} (${data.company || 'Projet'})`, 
       html: ownerEmailHtml 
     });
     await resend.emails.send({ 
