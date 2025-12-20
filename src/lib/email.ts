@@ -408,10 +408,12 @@ export async function sendQuoteEmail(data: any) {
         <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
         <p>Voici votre estimation personnalisée pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
         
+          ${pricing.isMenuProject ? '' : `
           <div class="promo-banner">
             <span style="font-size:18px">🎁 <strong>PROMO -30% APPLIQUÉE</strong></span><br>
             <span style="font-size:13px">Sur votre investissement initial jusqu'au 31/12/2025</span>
           </div>
+          `}
 
           <div class="box" style="background:#f8fafc; border: 1px solid #e2e8f0; margin-bottom: 30px;">
             <h3 style="margin-top:0; color:#1e293b; font-size:16px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">VOTRE PROJET</h3>
