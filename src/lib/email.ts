@@ -900,7 +900,18 @@ export async function sendQuoteEmail(data: {
                 </div>
                 
                 <div style="border-top: 1px dashed #7dd3fc; padding-top: 15px;">
-                  <div class="pr"><span>Abonnement mensuel HTVA</span><span>${pricing.totalMonthlyForMenu}€ / mois</span></div>
+                  <div style="font-size:11px; font-weight:700; color:#0369a1; margin-bottom:10px; text-transform:uppercase">Détails de l'abonnement :</div>
+                  ${pricing.monthlyBreakdown.map(item => `
+                    <div class="pr" style="color:#0369a1; font-size:12px">
+                      <span>${escapeHtml(item.item)}</span>
+                      <span>${item.price}€ / mois</span>
+                    </div>
+                  `).join('')}
+                  
+                  <div class="pr" style="margin-top:10px; border-top:1px solid #7dd3fc; padding-top:10px">
+                    <span><strong>Prix Pack Mensuel HTVA</strong></span>
+                    <strong>${pricing.totalMonthlyForMenu}€ / mois</strong>
+                  </div>
                   <div class="pr"><span>TVA sur abonnement (21%)</span><span>${Math.round(pricing.totalMonthlyForMenu * 0.21)}€ / mois</span></div>
                   <div class="pr" style="margin-top:5px; border-top:1px solid #7dd3fc; padding-top:10px">
                     <span><strong>Total Mensuel TVAC</strong></span>
