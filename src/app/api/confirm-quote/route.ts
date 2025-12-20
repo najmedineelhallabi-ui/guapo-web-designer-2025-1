@@ -58,24 +58,24 @@ export async function POST(request: NextRequest) {
 
               <div class="price-container">
                 ${isModelA ? `
-                  <div style="margin-bottom:15px">
-                    <div class="label">Investissement Initial</div>
+                  <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #e2e8f0;">
+                    <div class="label">💰 Investissement Initial (Achat)</div>
                     <div class="price-value">${minPrice === maxPrice ? `${minPrice}€` : `${minPrice}€ - ${maxPrice}€`} TVAC</div>
                   </div>
                   <div>
-                    <div class="label">Mensuel</div>
-                    <div class="price-value" style="font-size:18px; color:#3b82f6">${monthlyPrice}€ / mois TVAC</div>
-                    <div style="font-size:12px;color:#64748b">${escapeHtml(packName || 'Maintenance')}</div>
+                    <div class="label">🛠️ Maintenance Mensuelle</div>
+                    <div class="price-value" style="font-size:20px; color:#3b82f6">${monthlyPrice}€ / mois TVAC</div>
+                    <div style="font-size:12px;color:#64748b;margin-top:4px">${escapeHtml(packName || 'Maintenance & Support')}</div>
                   </div>
                 ` : `
-                  <div style="margin-bottom:15px">
-                    <div class="label">Investissement Initial</div>
+                  <div style="margin-bottom:20px; padding-bottom:15px; border-bottom:1px dashed #e2e8f0;">
+                    <div class="label">💰 Investissement Initial</div>
                     <div class="price-value" style="color:#10b981">0€ (OFFERT)</div>
                   </div>
                   <div>
-                    <div class="label">Mensuel All-In</div>
-                    <div class="price-value">${monthlyPrice}€ / mois TVAC</div>
-                    <div style="font-size:12px;color:#64748b">${escapeHtml(packName || 'Abonnement')}</div>
+                    <div class="label">🔄 Abonnement Mensuel All-In</div>
+                    <div class="price-value" style="color:#059669">${monthlyPrice}€ / mois TVAC</div>
+                    <div style="font-size:12px;color:#64748b;margin-top:4px">${escapeHtml(packName || 'Abonnement complet')}</div>
                   </div>
                 `}
               </div>
