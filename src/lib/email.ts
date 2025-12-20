@@ -377,9 +377,11 @@ export async function sendQuoteEmail(data: any) {
                     <span>TOTAL TVAC :</span>
                     <span>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</span>
                   </div>
-                  <div style="margin-top:20px;font-size:13px;color:#64748b;text-align:center;background:#f8fafc;padding:10px;border-radius:6px">
-                    + Maintenance & plateforme: <strong>${pricing.monthlyTTCA}€/mois TVAC</strong>
-                  </div>
+                    <div style="margin-top:20px;font-size:13px;color:#64748b;text-align:center;background:#f8fafc;padding:12px;border-radius:8px">
+                      + ${pricing.selectedPackName ? `Pack ${pricing.selectedPackName}` : 'Maintenance & plateforme'}: <strong>${pricing.monthlyHTA}€/mois HTVA</strong><br>
+                      <span style="font-size:11px">(${pricing.monthlyTTCA}€/mois TVAC)</span>
+                    </div>
+
                 </div>
                 <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}" class="btn btn-a" style="margin-top:20px">CHOISIR CE MODÈLE</a>
               </div>
