@@ -97,8 +97,9 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   let totalMonthlyModelA = 0;
   let totalMonthlyModelB = 0;
   
-  const isMenuProject = data.siteType.includes('Menu / Site de commande');
-  const monthlyBreakdownB: any[] = [];
+    const isActuallyMenu = data.siteType.toLowerCase().includes('menu') || data.siteType.toLowerCase().includes('commande');
+    const isMenuProject = isActuallyMenu;
+    const monthlyBreakdownB: any[] = [];
 
   // 1. Base Site Type Price (Model A)
   const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
