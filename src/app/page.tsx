@@ -442,7 +442,22 @@ export default function Home() {
             <p className="text-foreground/80 text-lg">{t("portfolio.subtitle")}</p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {/* Guapo Menu */}
+            <a href="https://www.guapomenu.com" target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
+              <div className="aspect-video bg-white backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg flex items-center justify-center p-8">
+                <Image 
+                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
+                  alt="Guapo Menu Logo"
+                  width={400}
+                  height={200}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                />
+              </div>
+              <h3 className="font-semibold mb-2 text-lg">Guapo Menu</h3>
+              <p className="text-sm text-foreground/60">www.guapomenu.com</p>
+            </a>
+
             {/* Fisc & Business */}
             <a href="https://www.fiscand.business" target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
               <div className="aspect-video bg-white backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg flex items-center justify-center p-8">
