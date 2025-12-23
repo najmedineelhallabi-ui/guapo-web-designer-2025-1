@@ -340,46 +340,25 @@ export async function sendQuoteEmail(data: any) {
               }).join('')}
             </table>
 
-            <div class="section-title">🚀 Résumé des Offres Clients</div>
+            <div class="section-title">🚀 Résumé de l'Offre Client</div>
             <div class="box" style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 20px; border-radius: 16px; margin-top: 10px;">
               <div style="display: grid; gap: 15px;">
-                ${pricing.isMenuProject ? '' : `
-                  <div style="padding: 18px; background: white; border-radius: 14px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                      <div style="background: #1e293b; color: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.5px;">MODÈLE A (ACHAT)</div>
-                      <div style="font-size: 11px; color: #94a3b8; font-weight: 700;">TVAC</div>
+                <div style="padding: 18px; background: white; border-radius: 14px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="background: #1e293b; color: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.5px;">MODÈLE A (ACHAT)</div>
+                    <div style="font-size: 11px; color: #94a3b8; font-weight: 700;">TVAC</div>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div>
+                      <div style="font-size: 22px; font-weight: 900; color: #1e293b; letter-spacing: -0.5px;">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</div>
+                      <div style="font-size: 11px; color: #64748b; font-weight: 600;">Investissement Total</div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                      <div>
-                        <div style="font-size: 22px; font-weight: 900; color: #1e293b; letter-spacing: -0.5px;">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</div>
-                        <div style="font-size: 11px; color: #64748b; font-weight: 600;">Investissement Total</div>
-                      </div>
-                      <div style="text-align: right;">
-                        <div style="font-size: 16px; font-weight: 800; color: #6366f1;">+ ${pricing.monthlyTTCA}€<span style="font-size: 11px; font-weight: 600;">/m</span></div>
-                        <div style="font-size: 11px; color: #64748b; font-weight: 600;">Maintenance</div>
-                      </div>
+                    <div style="text-align: right;">
+                      <div style="font-size: 16px; font-weight: 800; color: #6366f1;">+ ${pricing.monthlyTTCA}€<span style="font-size: 11px; font-weight: 600;">/m</span></div>
+                      <div style="font-size: 11px; color: #64748b; font-weight: 600;">Maintenance</div>
                     </div>
                   </div>
-                `}
-
-                ${pricing.monthlyTTCB > 0 ? `
-                  <div style="padding: 18px; background: #ecfdf4; border-radius: 14px; border: 1px solid #10b981; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                      <div style="background: #10b981; color: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.5px;">MODÈLE B (ABONNEMENT)</div>
-                      <div style="font-size: 11px; color: #065f46; opacity: 0.6; font-weight: 700;">TVAC</div>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                      <div>
-                        <div style="font-size: 26px; font-weight: 900; color: #059669; letter-spacing: -1px;">${pricing.monthlyTTCB}€<span style="font-size: 15px; font-weight: 700;">/mois</span></div>
-                        <div style="font-size: 11px; color: #065f46; font-weight: 600;">Abonnement All-In</div>
-                      </div>
-                      <div style="text-align: right;">
-                        <div style="font-size: 16px; font-weight: 900; color: #059669;">OFFERT</div>
-                        <div style="font-size: 11px; color: #065f46; font-weight: 600;">Investissement</div>
-                      </div>
-                    </div>
-                  </div>
-                ` : ''}
+                </div>
               </div>
             </div>
 
