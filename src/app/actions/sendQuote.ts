@@ -12,27 +12,16 @@ const quoteSchema = z.object({
   siteType: z.string().min(1, 'Veuillez sélectionner un type de site'),
   pageCount: z.coerce.number().int().positive().optional(),
     features: z.array(z.string()).optional(),
-    menuFeatures: z.array(z.string()).optional(),
-    menuSubscription: z.string().optional(),
     languages: z.array(z.string()).optional(),
   otherLanguages: z.string().optional(),
   optimization: z.array(z.string()).optional(),
     hosting: z.string().optional(),
     domain: z.string().min(1, 'Veuillez sélectionner une option pour le nom de domaine'),
     message: z.string().min(10, 'Le message doit contenir au moins 10 caractères').max(5000),
-    isMenuManagementSelected: z.string().optional(),
     rgpdConsent: z.string().refine((val) => val === 'on', {
       message: 'Vous devez accepter la politique de confidentialité pour continuer',
     }),
     language: z.enum(['fr', 'nl', 'en']).optional(),
-  }).refine((data) => {
-    if (data.isMenuManagementSelected === 'true') {
-      return !!data.menuSubscription;
-    }
-    return true;
-  }, {
-    message: "Veuillez choisir un pack de gestion du menu",
-    path: ["menuSubscription"],
   });
 
 export type QuoteFormState = {
