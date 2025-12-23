@@ -94,15 +94,10 @@ function escapeHtml(text: string): string {
 
 function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   let minTotalHT = 0, maxTotalHT = 0;
-  let totalMonthlyModelA = 0;
-  let totalMonthlyModelB = 0;
+  let totalMonthlyModelA = 30; // Maintenance par défaut pour tous les projets
   let discountRate = 0.30; // 30% promo par défaut
   let tvaRate = 0.21; // TVA 21%
   
-    const isActuallyMenu = data.siteType.toLowerCase().includes('menu') || data.siteType.toLowerCase().includes('commande');
-    const isMenuProject = isActuallyMenu;
-    const monthlyBreakdownB: any[] = [];
-
   // 1. Base Site Type Price (Model A)
   const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
   const siteTypePrice = PRICING.siteTypes[siteTypeKey];
@@ -143,49 +138,10 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
         minTotalHT += uPrice; 
         maxTotalHT += uPrice;
       }
+    });
+  }
 
-      // Model B: Monthly price
-      const mPrice = (PRICING as any).monthlyMenuFeatures?.[f];
-    if (isMenuProject && mPrice !== undefined) {
-          totalMonthlyModelB += mPrice;
-          monthlyBreakdownB.push({ 
-            item: translateOption(f, lang), 
-            price: mPrice
-          });
-        }
-      });
-    }
-
-    // 5. Subscription Pack
-    let selectedPackName = "";
-    if (data.menuSubscription) {
-      const subKey = data.menuSubscription as keyof typeof PRICING.subscriptions;
-      const subPrice = PRICING.subscriptions[subKey];
-      if (subPrice) {
-        selectedPackName = translateOption(data.menuSubscription, lang);
-        // Pour le Modèle A (Achat), on ne paye que la maintenance de base (30€) car on a déjà acheté le système
-        totalMonthlyModelA = 30;
-        // Pour le Modèle B (Abonnement All-in), c'est cumulatif avec les fonctionnalités + 30€ de système de base
-        totalMonthlyModelB += subPrice + 30;
-        
-        monthlyBreakdownB.unshift({ item: "Système de base & maintenance", price: 30 });
-        monthlyBreakdownB.unshift({ item: selectedPackName, price: subPrice });
-      }
-    } else {
-      // Maintenance par défaut pour tous les projets
-      totalMonthlyModelA = 30; 
-      if (isMenuProject) {
-        totalMonthlyModelB += 30;
-        monthlyBreakdownB.push({ item: "Système de base & maintenance", price: 30 });
-      } else {
-        // Pour les sites vitrines en abonnement, on pourrait calculer un prix, 
-        // mais le client semble vouloir privilégier l'achat (Modèle A) ou l'abonnement Resto.
-        // On met 0 par défaut ce qui permettra de masquer le Modèle B plus bas s'il n'est pas configuré.
-        totalMonthlyModelB = 0; 
-      }
-    }
-
-  // 6. Optimization
+  // 5. Optimization
   if (data.optimization) {
     data.optimization.forEach((o: string) => {
       const price = (PRICING.optimization as any)[o];
@@ -196,7 +152,7 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     });
   }
 
-  // 7. Domain
+  // 6. Domain
   if (data.domain) {
     const price = (PRICING.domain as any)[data.domain];
     if (price !== undefined && price > 0) { 
@@ -205,14 +161,9 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     }
   }
 
-    // Pas de promo 30% pour les projets Menu/Commande
-    if (isActuallyMenu) {
-      discountRate = 0;
-    }
-
-    // Model A Investment Calculation
-    const discountMin = Math.round(minTotalHT * discountRate);
-    const discountMax = Math.round(maxTotalHT * discountRate);
+  // Model A Investment Calculation
+  const discountMin = Math.round(minTotalHT * discountRate);
+  const discountMax = Math.round(maxTotalHT * discountRate);
 
   const discountedMinHT = minTotalHT - discountMin;
   const discountedMaxHT = maxTotalHT - discountMax;
@@ -227,14 +178,8 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   const monthlyTVAA = Math.round(monthlyHTA * tvaRate * 100) / 100;
   const monthlyTTCA = Math.round((monthlyHTA + monthlyTVAA) * 100) / 100;
 
-  // Model B Monthly (subscription all-in)
-  const monthlyHTB = totalMonthlyModelB;
-  const monthlyTVAB = Math.round(monthlyHTB * tvaRate * 100) / 100;
-  const monthlyTTCB = Math.round((monthlyHTB + monthlyTVAB) * 100) / 100;
-
-
   return {
-    isMenuProject,
+    isMenuProject: false,
     hasRange: minTotalHT !== maxTotalHT,
     baseMinHT: minTotalHT,
     baseMaxHT: maxTotalHT,
@@ -249,11 +194,11 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     monthlyHTA,
     monthlyTVAA,
     monthlyTTCA,
-    monthlyHTB,
-    monthlyTVAB,
-    monthlyTTCB,
-    monthlyBreakdownB,
-    selectedPackName
+    monthlyHTB: 0,
+    monthlyTVAB: 0,
+    monthlyTTCB: 0,
+    monthlyBreakdownB: [],
+    selectedPackName: ""
   };
 }
 
