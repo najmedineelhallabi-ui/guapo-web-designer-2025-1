@@ -45,33 +45,25 @@ export function QuoteForm() {
     }
   }, [state.success]);
 
-  const handleProjectTypeSelect = (type: 'vitrine' | 'ecommerce' | 'menu') => {
-    setProjectType(type);
-    setIsEcommerce(type === 'ecommerce');
-    setIsMenu(type === 'menu');
-    
-    if (type === 'menu') {
-      setSelectedSiteType("Menu / Site de commande (système de base)");
-      setShowFeatures(false);
-      setShowOptimization(false);
-    } else {
+    const handleProjectTypeSelect = (type: 'vitrine' | 'ecommerce') => {
+      setProjectType(type);
+      setIsEcommerce(type === 'ecommerce');
+      
       setSelectedSiteType('');
       setShowFeatures(true);
       setShowOptimization(true);
-    }
-    
-    setStep('questions');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+      
+      setStep('questions');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
-  const handleBackToTypeSelection = () => {
-    setStep('type');
-    setProjectType('');
-    setIsEcommerce(false);
-    setIsMenu(false);
-    setSelectedSiteType('');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    const handleBackToTypeSelection = () => {
+      setStep('type');
+      setProjectType('');
+      setIsEcommerce(false);
+      setSelectedSiteType('');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
   const handleSiteTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
