@@ -161,7 +161,7 @@ export function QuoteForm() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {/* Site Vitrine Card */}
           <button
             type="button"
@@ -254,55 +254,6 @@ export function QuoteForm() {
               </div>
               
               <div className="flex items-center gap-2 text-secondary font-semibold mt-4">
-                <span>{t('quote.type.start')}</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-              </div>
-            </div>
-          </button>
-
-          {/* Menu / Site de commande Card */}
-          <button
-            type="button"
-            onClick={() => handleProjectTypeSelect('menu')}
-            className="group relative bg-gradient-to-br from-accent/20 to-primary/20 hover:from-accent/30 hover:to-primary/30 border-2 border-accent/40 hover:border-accent/60 rounded-2xl p-8 text-left transition-all hover:scale-105 hover:shadow-2xl shadow-lg"
-          >
-            <div className="absolute top-4 right-4">
-              <UtensilsCrossed className="w-12 h-12 text-accent opacity-20 group-hover:opacity-40 transition-opacity" />
-            </div>
-            
-            <div className="relative z-10">
-              <div className="w-16 h-16 bg-gradient-to-r from-accent to-primary rounded-xl flex items-center justify-center mb-6 shadow-lg">
-                <UtensilsCrossed className="w-8 h-8 text-white" />
-              </div>
-              
-              <h3 className="text-2xl font-bold mb-3 text-foreground group-hover:text-accent transition-colors">
-                {t('quote.type.menu')}
-              </h3>
-              
-              <p className="text-foreground/80 mb-6 leading-relaxed">
-                {t('quote.type.menu.desc')}
-              </p>
-              
-              <div className="space-y-2 mb-6">
-                <div className="flex items-center gap-2 text-sm text-foreground/70">
-                  <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
-                  <span>{t('quote.type.menu.feature1')}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-foreground/70">
-                  <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
-                  <span>{t('quote.type.menu.feature2')}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-foreground/70">
-                  <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
-                  <span>{t('quote.type.menu.feature3')}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-foreground/70">
-                  <CheckCircle className="w-4 h-4 text-accent flex-shrink-0" />
-                  <span>{t('quote.type.menu.feature4')}</span>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-2 text-accent font-semibold mt-4">
                 <span>{t('quote.type.start')}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </div>
