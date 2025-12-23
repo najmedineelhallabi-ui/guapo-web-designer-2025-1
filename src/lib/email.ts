@@ -96,6 +96,8 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   let minTotalHT = 0, maxTotalHT = 0;
   let totalMonthlyModelA = 0;
   let totalMonthlyModelB = 0;
+  let discountRate = 0.30; // 30% promo par défaut
+  let tvaRate = 0.21; // TVA 21%
   
     const isActuallyMenu = data.siteType.toLowerCase().includes('menu') || data.siteType.toLowerCase().includes('commande');
     const isMenuProject = isActuallyMenu;
