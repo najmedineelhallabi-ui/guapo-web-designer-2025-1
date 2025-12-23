@@ -257,8 +257,6 @@ export function QuoteForm() {
         <input type="hidden" name="projectType" value={projectType} />
         {/* Hidden field for language */}
         <input type="hidden" name="language" value={language} />
-        {/* Hidden field for menu subscription pack choice requirement */}
-        <input type="hidden" name="isMenuManagementSelected" value={isMenuManagementSelected ? 'true' : 'false'} />
 
         {/* Success message */}
         {state.success && (
