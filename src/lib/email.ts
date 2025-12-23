@@ -332,88 +332,104 @@ export async function sendQuoteEmail(data: any) {
       <head>
         <style>
           ${commonStyles}
-          .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; }
+          .tag { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
           .tag-client { background: #e0e7ff; color: #4338ca; }
           .tag-project { background: #f1f5f9; color: #475569; }
-          .price-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
-          .price-label { font-size: 13px; color: #64748b; }
-          .price-val { font-weight: 700; color: #1e293b; }
+          .price-table { width: 100%; border-collapse: separate; border-spacing: 0 4px; margin: 15px 0; }
+          .price-row { background: #f8fafc; }
+          .price-row td { padding: 12px 15px; border: 1px solid #e2e8f0; border-style: solid none; }
+          .price-row td:first-child { border-left-style: solid; border-radius: 8px 0 0 8px; font-weight: 600; color: #475569; }
+          .price-row td:last-child { border-right-style: solid; border-radius: 0 8px 8px 0; text-align: right; font-weight: 700; color: #1e293b; }
+          .section-title { font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px; margin: 25px 0 10px 0; display: flex; align-items: center; gap: 8px; }
+          .section-title::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
         </style>
       </head>
       <body>
         <div class="c">
-          <div class="h" style="background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);">
-            <h2 style="margin:0; letter-spacing: -0.5px;">🎨 Nouveau Devis #${refId}</h2>
-            <p style="margin:5px 0 0 0; font-size: 13px; opacity: 0.9;">Demande reçue le ${new Date().toLocaleString('fr-BE')}</p>
+          <div class="h" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+            <div style="font-size: 32px; margin-bottom: 10px;">📋</div>
+            <h2 style="margin:0; letter-spacing: -0.5px; text-transform: uppercase;">Nouveau Devis #${refId}</h2>
+            <p style="margin:5px 0 0 0; font-size: 13px; opacity: 0.8;">Réception : ${new Date().toLocaleString('fr-BE')}</p>
           </div>
           
           <div style="padding: 0 5px;">
-            <div class="box" style="border-left: 4px solid #6366f1; background: #fff;">
-              <div class="tag tag-client">Client</div>
-              <div style="font-size: 18px; font-weight: 800; color: #1e293b; margin-bottom: 5px;">
+            <div class="box" style="border-left: 4px solid #6366f1; background: #fff; margin-bottom: 20px;">
+              <div class="tag tag-client">Coordonnées Client</div>
+              <div style="font-size: 20px; font-weight: 800; color: #1e293b; margin-bottom: 8px;">
                 ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}
               </div>
-              <div style="color: #475569; font-size: 14px;">
-                📧 <a href="mailto:${data.email}" style="color: #6366f1; text-decoration: none; font-weight: 600;">${data.email}</a>
-              </div>
-              ${data.company ? `<div style="color: #475569; font-size: 14px; margin-top: 5px;">🏢 <strong>${escapeHtml(data.company)}</strong></div>` : ''}
-              <div style="color: #94a3b8; font-size: 12px; margin-top: 10px;">📍 Langue: ${lang.toUpperCase()} | Réf: #${refId}</div>
-            </div>
-
-            <div class="box" style="border-left: 4px solid #1e293b; background: #fff;">
-              <div class="tag tag-project">Configuration</div>
-              <div style="font-size: 16px; font-weight: 700; color: #1e293b;">${escapeHtml(data.siteType)}</div>
-              ${data.pageCount ? `<div style="color: #64748b; font-size: 13px; margin-top: 4px;">Estimation : ${data.pageCount} pages</div>` : ''}
-            </div>
-
-              <div style="margin: 25px 0;">
-                <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 12px;">📈 Détail des prix (HTVA)</div>
-                <div style="background: #f8fafc; border-radius: 12px; padding: 15px; border: 1px solid #e2e8f0;">
-                  ${tableRows.map(r => {
-                    const price = r.unique !== '-' ? r.unique : r.monthly;
-                    if (price === '-') return '';
-                    const isZero = price === '0€' || price === 'Inclus' || price === '0€ HT / mois';
-                    return `
-                      <div class="price-row">
-                        <span class="price-label">${escapeHtml(r.item)} ${r.monthly !== '-' ? '<span style="font-size:10px; color:#94a3b8;">(Mensuel)</span>' : ''}</span>
-                        <span class="price-val">${isZero ? '<span style="color:#10b981">INCLUS</span>' : price}</span>
-                      </div>
-                    `;
-                  }).join('')}
+              <div style="display: flex; flex-direction: column; gap: 5px;">
+                <div style="color: #475569; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 16px;">📧</span> <a href="mailto:${data.email}" style="color: #6366f1; text-decoration: none; font-weight: 600;">${data.email}</a>
                 </div>
+                ${data.company ? `
+                <div style="color: #475569; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 16px;">🏢</span> <strong>${escapeHtml(data.company)}</strong>
+                </div>` : ''}
               </div>
+              <div style="color: #94a3b8; font-size: 11px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #f1f5f9; font-weight: 600;">
+                LANGUE: ${lang.toUpperCase()} | RÉFÉRENCE: #${refId}
+              </div>
+            </div>
 
-            <div class="box" style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 20px; border-radius: 16px;">
-              <div style="font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 15px; text-align: center;">💰 Offres envoyées au client</div>
-              
-              <div style="display: grid; gap: 12px;">
+            <div class="section-title">📦 Configuration du Projet</div>
+            <div class="box" style="border-left: 4px solid #1e293b; background: #fff; margin-bottom: 0;">
+              <div style="font-size: 17px; font-weight: 800; color: #1e293b;">${escapeHtml(translateOption(data.siteType, lang))}</div>
+              ${data.pageCount ? `<div style="color: #64748b; font-size: 13px; margin-top: 6px; display: flex; align-items: center; gap: 5px;"><span style="color: #1e293b; font-weight: 700;">•</span> Estimation : ${data.pageCount} pages</div>` : ''}
+              ${data.menuSubscription ? `<div style="color: #64748b; font-size: 13px; margin-top: 4px; display: flex; align-items: center; gap: 5px;"><span style="color: #10b981; font-weight: 700;">•</span> Pack : ${escapeHtml(translateOption(data.menuSubscription, lang))}</div>` : ''}
+            </div>
+
+            <div class="section-title">💰 Détail des Prix (HTVA)</div>
+            <table class="price-table">
+              ${tableRows.map(r => {
+                const price = r.unique !== '-' ? r.unique : r.monthly;
+                if (price === '-') return '';
+                const isZero = price === '0€' || price === 'Inclus' || price === '0€ HT / mois';
+                return `
+                  <tr class="price-row">
+                    <td>${escapeHtml(r.item)} ${r.monthly !== '-' ? '<span style="font-size:10px; color:#94a3b8; font-weight:normal;">(Mensuel)</span>' : ''}</td>
+                    <td>${isZero ? '<span style="color:#10b981">OFFERT</span>' : price}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </table>
+
+            <div class="section-title">🚀 Résumé des Offres Clients</div>
+            <div class="box" style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 20px; border-radius: 16px; margin-top: 10px;">
+              <div style="display: grid; gap: 15px;">
                 ${pricing.isMenuProject ? '' : `
-                  <div style="padding: 15px; background: white; border-radius: 12px; border: 1px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                    <div style="color: #1e293b; font-size: 12px; font-weight: 800; margin-bottom: 8px;">MODÈLE A (ACHAT)</div>
+                  <div style="padding: 18px; background: white; border-radius: 14px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                      <div style="background: #1e293b; color: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.5px;">MODÈLE A (ACHAT)</div>
+                      <div style="font-size: 11px; color: #94a3b8; font-weight: 700;">TVAC</div>
+                    </div>
                     <div style="display: flex; justify-content: space-between; align-items: flex-end;">
                       <div>
-                        <div style="font-size: 20px; font-weight: 900; color: #1e293b;">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</div>
-                        <div style="font-size: 11px; color: #94a3b8;">Investissement Total TVAC</div>
+                        <div style="font-size: 22px; font-weight: 900; color: #1e293b; letter-spacing: -0.5px;">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</div>
+                        <div style="font-size: 11px; color: #64748b; font-weight: 600;">Investissement Total</div>
                       </div>
                       <div style="text-align: right;">
-                        <div style="font-size: 16px; font-weight: 700; color: #6366f1;">+ ${pricing.monthlyTTCA}€<span style="font-size: 11px;">/m</span></div>
-                        <div style="font-size: 11px; color: #94a3b8;">Maintenance</div>
+                        <div style="font-size: 16px; font-weight: 800; color: #6366f1;">+ ${pricing.monthlyTTCA}€<span style="font-size: 11px; font-weight: 600;">/m</span></div>
+                        <div style="font-size: 11px; color: #64748b; font-weight: 600;">Maintenance</div>
                       </div>
                     </div>
                   </div>
                 `}
 
                 ${pricing.monthlyTTCB > 0 ? `
-                  <div style="padding: 15px; background: #ecfdf5; border-radius: 12px; border: 1px solid #10b981; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                    <div style="color: #065f46; font-size: 12px; font-weight: 800; margin-bottom: 8px;">MODÈLE B (ABONNEMENT)</div>
+                  <div style="padding: 18px; background: #ecfdf4; border-radius: 14px; border: 1px solid #10b981; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                      <div style="background: #10b981; color: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.5px;">MODÈLE B (ABONNEMENT)</div>
+                      <div style="font-size: 11px; color: #065f46; opacity: 0.6; font-weight: 700;">TVAC</div>
+                    </div>
                     <div style="display: flex; justify-content: space-between; align-items: flex-end;">
                       <div>
-                        <div style="font-size: 24px; font-weight: 900; color: #059669;">${pricing.monthlyTTCB}€<span style="font-size: 14px;">/mois</span></div>
-                        <div style="font-size: 11px; color: #065f46; opacity: 0.7;">Abonnement All-In TVAC</div>
+                        <div style="font-size: 26px; font-weight: 900; color: #059669; letter-spacing: -1px;">${pricing.monthlyTTCB}€<span style="font-size: 15px; font-weight: 700;">/mois</span></div>
+                        <div style="font-size: 11px; color: #065f46; font-weight: 600;">Abonnement All-In</div>
                       </div>
                       <div style="text-align: right;">
-                        <div style="font-size: 16px; font-weight: 700; color: #059669;">OFFERT</div>
-                        <div style="font-size: 11px; color: #065f46; opacity: 0.7;">Investissement</div>
+                        <div style="font-size: 16px; font-weight: 900; color: #059669;">OFFERT</div>
+                        <div style="font-size: 11px; color: #065f46; font-weight: 600;">Investissement</div>
                       </div>
                     </div>
                   </div>
@@ -421,11 +437,11 @@ export async function sendQuoteEmail(data: any) {
               </div>
             </div>
 
-            <a href="mailto:${data.email}" class="btn" style="background: #1e293b; color: white; text-decoration: none; display: block; padding: 18px; text-align: center; border-radius: 12px; font-weight: 800; margin-top: 25px; font-size: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">RÉPONDRE AU CLIENT</a>
+            <a href="mailto:${data.email}" class="btn" style="background: #1e293b; color: white; text-decoration: none; display: block; padding: 20px; text-align: center; border-radius: 14px; font-weight: 900; margin-top: 30px; font-size: 16px; box-shadow: 0 10px 15px -3px rgba(30,41,59,0.2);">CONVERSER AVEC LE CLIENT</a>
           </div>
           
-          <div style="font-size:10px; color:#94a3b8; text-align:center; margin-top:30px; text-transform: uppercase; letter-spacing: 1px;">
-            Guapo Automations © 2025 | Session: ${refId}
+          <div style="font-size:10px; color:#94a3b8; text-align:center; margin-top:40px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">
+            Guapo Automations © 2025 | Powered by Resend
           </div>
         </div>
       </body>
