@@ -13,23 +13,10 @@ export function QuoteForm() {
     {}
   );
   const [step, setStep] = useState<'type' | 'questions'>(state.formData?.siteType ? 'questions' : 'type');
-  const [projectType, setProjectType] = useState<'vitrine' | 'ecommerce' | 'menu' | ''>('');
+  const [projectType, setProjectType] = useState<'vitrine' | 'ecommerce' | ''>('');
   const [isEcommerce, setIsEcommerce] = useState(false);
-  const [isMenu, setIsMenu] = useState(false);
   const [isQuoteFormSelected, setIsQuoteFormSelected] = useState(false);
   const [isMultilingualSelected, setIsMultilingualSelected] = useState(false);
-  const [isMenuConfirmationSelected, setIsMenuConfirmationSelected] = useState(
-    state.formData?.menuFeatures?.includes("Confirmation de commande") || false
-  );
-  const [isKitchenDashboardSelected, setIsKitchenDashboardSelected] = useState(
-    state.formData?.menuFeatures?.includes("Dashboard Cuisine") || false
-  );
-  const [isWaiterDashboardSelected, setIsWaiterDashboardSelected] = useState(
-    state.formData?.menuFeatures?.includes("Dashboard Serveur") || false
-  );
-  const [isMenuManagementSelected, setIsMenuManagementSelected] = useState(
-    state.formData?.menuSubscription ? true : false
-  );
   const [selectedSiteType, setSelectedSiteType] = useState<string>('');
   const [allInclusiveOptimization, setAllInclusiveOptimization] = useState(false);
   const [selectedDomain, setSelectedDomain] = useState<string>('');
@@ -40,9 +27,6 @@ export function QuoteForm() {
       if (projectType === 'vitrine' || projectType === 'ecommerce') {
         setShowFeatures(true);
         setShowOptimization(true);
-      } else if (projectType === 'menu') {
-        setShowFeatures(false);
-        setShowOptimization(false);
       }
     }, [projectType]);
   
