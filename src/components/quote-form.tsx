@@ -278,23 +278,21 @@ export function QuoteForm() {
       </button>
 
       {/* Project type indicator */}
-      <div className="mb-10 p-6 bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          {projectType === 'vitrine' ? (
-            <Globe className="w-6 h-6 text-primary" />
-          ) : projectType === 'ecommerce' ? (
-            <ShoppingCart className="w-6 h-6 text-secondary" />
-          ) : (
-            <UtensilsCrossed className="w-6 h-6 text-accent" />
-          )}
-          <div>
-            <p className="text-sm text-foreground/70">{t('quote.selected')}</p>
-            <p className="font-bold text-lg">
-              {projectType === 'vitrine' ? t('quote.type.showcase') : projectType === 'ecommerce' ? t('quote.type.ecommerce') : t('quote.type.menu')}
-            </p>
+        <div className="mb-10 p-6 bg-gradient-to-r from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            {projectType === 'vitrine' ? (
+              <Globe className="w-6 h-6 text-primary" />
+            ) : (
+              <ShoppingCart className="w-6 h-6 text-secondary" />
+            )}
+            <div>
+              <p className="text-sm text-foreground/70">{t('quote.selected')}</p>
+              <p className="font-bold text-lg">
+                {projectType === 'vitrine' ? t('quote.type.showcase') : t('quote.type.ecommerce')}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
 
       <form action={formAction} className="space-y-10">
         {/* Honeypot field for spam protection */}
