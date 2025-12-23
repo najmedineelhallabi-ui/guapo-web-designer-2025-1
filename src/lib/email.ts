@@ -381,55 +381,23 @@ export async function sendQuoteEmail(data: any) {
       <div class="c">
         <div class="h"><h1>${t.client.title}</h1></div>
         <div style="text-align:right;font-size:11px;color:#94a3b8;margin-bottom:10px">Réf: ${refId}</div>
-        <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
-        <p>Voici votre estimation personnalisée pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
-        
-          ${pricing.isMenuProject ? '' : `
-          <div class="promo-banner">
-            <span style="font-size:18px">🎁 <strong>PROMO -30% APPLIQUÉE</strong></span><br>
-            <span style="font-size:13px">Sur votre investissement initial jusqu'au 31/12/2025</span>
-          </div>
-          `}
-
-          <div class="box" style="background:#f8fafc; border: 1px solid #e2e8f0; margin-bottom: 30px;">
-            <h3 style="margin-top:0; color:#1e293b; font-size:16px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">VOTRE PROJET</h3>
-            <div style="font-size:14px;">
-              • Type : <strong>${escapeHtml(translateOption(data.siteType, lang))}</strong><br>
-              ${data.pageCount ? `• Pages : <strong>${data.pageCount}</strong><br>` : ''}
-              ${data.languages && data.languages.length > 1 ? `• Langues : <strong>${data.languages.join(', ')}</strong><br>` : ''}
+          <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
+          <p>Voici votre estimation personnalisée pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
+          
+            <div class="promo-banner">
+              <span style="font-size:18px">🎁 <strong>PROMO -30% APPLIQUÉE</strong></span><br>
+              <span style="font-size:13px">Sur votre investissement initial jusqu'au 31/12/2025</span>
             </div>
-          </div>
-
-          ${pricing.isMenuProject ? `
-            <div class="box" style="background:#ecfdf5;border:2px solid #10b981; padding:20px;">
-              <div style="font-weight:800;text-align:center;font-size:18px;color:#065f46;margin-bottom:5px">MODÈLE B : ABONNEMENT TOUT-EN-UN</div>
-              <div style="font-size:12px;text-align:center;color:#059669;margin-bottom:20px">Zéro investissement, tout est inclus dans le mensuel</div>
-              
-              <div style="background:#fff;padding:20px;border-radius:10px;border:1px solid #a7f3d0">
-                <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                  <span>Investissement initial :</span>
-                  <span style="color:#10b981;font-weight:900;font-size:16px">0€ OFFERT</span>
-                </div>
-                <div style="margin:15px 0;font-size:12px;color:#4b5563;background:#f0fdf4;padding:12px;border-radius:8px">
-                  <div style="font-weight:700;margin-bottom:8px;color:#166534">Détail de votre abonnement :</div>
-                  ${pricing.monthlyBreakdownB.map((i: any) => `<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>• ${escapeHtml(i.item)}</span><span>${i.price === 0 ? 'Inclus' : `${i.price}€ HT / mois`}</span></div>`).join('')}
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-bottom:8px;padding-top:10px;border-top:1px solid #f1f5f9">
-                  <span>Total HTVA :</span>
-                  <span><strong>${pricing.monthlyHTB}€ / mois</strong></span>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-                  <span>TVA (21%) :</span>
-                  <span>${pricing.monthlyTVAB}€ / mois</span>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-top:15px;padding-top:15px;border-top:2px solid #10b981;font-size:20px;font-weight:900;color:#065f46">
-                  <span>TOTAL TVAC :</span>
-                  <span>${pricing.monthlyTTCB}€ / mois</span>
-                </div>
+  
+            <div class="box" style="background:#f8fafc; border: 1px solid #e2e8f0; margin-bottom: 30px;">
+              <h3 style="margin-top:0; color:#1e293b; font-size:16px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">VOTRE PROJET</h3>
+              <div style="font-size:14px;">
+                • Type : <strong>${escapeHtml(translateOption(data.siteType, lang))}</strong><br>
+                ${data.pageCount ? `• Pages : <strong>${data.pageCount}</strong><br>` : ''}
+                ${data.languages && data.languages.length > 1 ? `• Langues : <strong>${data.languages.join(', ')}</strong><br>` : ''}
               </div>
-              <a href="https://guapowebdesigner.com/confirm-quote?model=B&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&monthlyPrice=${pricing.monthlyTTCB}&packName=${encodeURIComponent(pricing.selectedPackName || 'Abonnement complet')}" class="btn btn-b" style="margin-top:20px">CHOISIR CE MODÈLE</a>
             </div>
-          ` : `
+  
             <div class="box" style="text-align:center;padding:30px;border:2px solid #1e293b">
               <div style="font-weight:900;margin-bottom:20px;font-size:20px;color:#1e293b;text-transform:uppercase">MODÈLE A : PROPRIÉTAIRE</div>
               <div style="background:#fff;padding:25px;border-radius:12px;border:1px solid #e2e8f0;text-align:left;box-shadow:0 2px 4px rgba(0,0,0,0.05)">
@@ -456,7 +424,6 @@ export async function sendQuoteEmail(data: any) {
               </div>
               <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotalTTCA}&maxPrice=${pricing.maxTotalTTCA}&monthlyPrice=${pricing.monthlyTTCA}&packName=${encodeURIComponent(pricing.selectedPackName || 'Maintenance')}" class="btn btn-a" style="margin-top:25px;font-size:16px">CHOISIR CE MODÈLE</a>
             </div>
-          `}
         <div style="text-align:center;margin-top:30px;color:#64748b;font-size:13px">
           Besoin d'ajuster ce devis ? <a href="mailto:info@guapowebdesigner.com" style="color:#1e293b;font-weight:700">Répondez simplement à cet email.</a>
           <br><br><span style="font-size:10px">Référence unique : #${refId}</span>
