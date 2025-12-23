@@ -625,7 +625,7 @@ export default function Home() {
               href="https://www.guapomenu.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative p-8 rounded-2xl bg-white backdrop-blur-sm border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden"
+              className="group relative p-8 rounded-2xl bg-white border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden"
             >
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                 <UtensilsCrossed className="w-24 h-24 text-accent -rotate-12" />
