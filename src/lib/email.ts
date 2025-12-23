@@ -203,9 +203,6 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     }
   }
 
-    const tvaRate = 0.21;
-    let discountRate = 0.30;
-    
     // Pas de promo 30% pour les projets Menu/Commande
     const isActuallyMenu = data.siteType.toLowerCase().includes('menu') || data.siteType.toLowerCase().includes('commande');
     if (isActuallyMenu) {
