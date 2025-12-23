@@ -37,8 +37,6 @@ export type QuoteFormState = {
       siteType?: string;
       pageCount?: number;
         features?: string[];
-        menuFeatures?: string[];
-        menuSubscription?: string;
         languages?: string[];
         otherLanguages?: string;
       optimization?: string[];
@@ -70,8 +68,6 @@ export async function sendQuoteAction(
       siteType: formData.get('siteType'),
       pageCount: formData.get('pageCount') ? Number(formData.get('pageCount')) : undefined,
         features: formData.getAll('features') as string[],
-        menuFeatures: formData.getAll('menuFeatures') as string[],
-        menuSubscription: formData.get('menuSubscription') as string || undefined,
         languages: formData.getAll('languages') as string[],
       otherLanguages: formData.get('otherLanguages') as string || undefined,
       optimization: formData.getAll('optimization') as string[],
@@ -79,7 +75,6 @@ export async function sendQuoteAction(
       domain: formData.get('domain'),
       message: formData.get('message'),
       rgpdConsent: formData.get('rgpdConsent'),
-      isMenuManagementSelected: formData.get('isMenuManagementSelected'),
       language: formData.get('language') as 'fr' | 'nl' | 'en' || 'fr',
     };
 
@@ -97,31 +92,8 @@ export async function sendQuoteAction(
 
     const validatedData = quoteSchema.parse(rawData);
     
-    // Additional validation for menu subscription pack choice
-    if (validatedData.isMenuManagementSelected === 'true' && !validatedData.menuSubscription) {
-      const errorMsg = validatedData.language === 'nl' 
-        ? "Kies een menubeheerpakket" 
-        : validatedData.language === 'en'
-        ? "Please choose a menu management pack"
-        : "Veuillez choisir un pack de gestion du menu";
-        
-      return {
-        success: false,
-        errors: {
-          menuSubscription: [errorMsg]
-        },
-        formData: rawData as any
-      };
-    }
-    
     console.log('🔵 [ACTION] Data validated successfully');
     console.log('🔵 [ACTION] Calling sendQuoteEmail...');
-
-    // Combine features and menuFeatures for pricing calculation
-    const allFeatures = [
-      ...(validatedData.features || []),
-      ...(validatedData.menuFeatures || [])
-    ];
 
     // Send email using the centralized email function (includes pricing)
     await sendQuoteEmail({
@@ -132,8 +104,7 @@ export async function sendQuoteAction(
       sector: validatedData.sector,
       siteType: validatedData.siteType,
       pageCount: validatedData.pageCount,
-        features: allFeatures,
-        menuSubscription: validatedData.menuSubscription,
+        features: validatedData.features || [],
         languages: validatedData.languages,
       otherLanguages: validatedData.otherLanguages,
       optimization: validatedData.optimization,
