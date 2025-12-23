@@ -445,13 +445,13 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Guapo Menu */}
             <a href="https://www.guapomenu.com" target="_blank" rel="noopener noreferrer" className="group cursor-pointer">
-              <div className="aspect-video bg-white backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg flex items-center justify-center p-8">
+              <div className="aspect-video bg-[#ff6600] backdrop-blur-sm rounded-xl mb-4 overflow-hidden border border-border shadow-lg flex items-center justify-center p-8">
                 <Image 
-                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
+                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/ChatGPT-Image-21-dec.-2025-16_40_56-1766457790930.png?width=8000&height=8000&resize=contain"
                   alt="Guapo Menu Logo"
                   width={400}
                   height={200}
-                  className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                  className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
                 />
               </div>
               <h3 className="font-semibold mb-2 text-lg">Guapo Menu</h3>
