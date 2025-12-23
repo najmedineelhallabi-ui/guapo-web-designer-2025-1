@@ -70,48 +70,21 @@ export function QuoteForm() {
     setSelectedSiteType(value);
   };
 
-  const handleResetSiteType = () => {
-    setSelectedSiteType('');
-  };
-
-  const handleQuoteFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsQuoteFormSelected(e.target.checked);
-  };
-
-  const handleMultilingualChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsMultilingualSelected(e.target.checked);
-  };
-
-  const handleMenuConfirmationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsMenuConfirmationSelected(e.target.checked);
-  };
-
-  const handleKitchenDashboardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsKitchenDashboardSelected(e.target.checked);
-  };
-
-  const [selectedMenuSubscription, setSelectedMenuSubscription] = useState<string>(
-    state.formData?.menuSubscription || ''
-  );
-
-  const handleMenuSubscriptionSelect = (value: string) => {
-    setSelectedMenuSubscription(value);
-  };
-
-  const handleMenuManagementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsMenuManagementSelected(e.target.checked);
-    if (!e.target.checked) {
-      setSelectedMenuSubscription('');
-    }
-  };
-
-  const handleWaiterDashboardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsWaiterDashboardSelected(e.target.checked);
-  };
-
-  const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAllInclusiveOptimization(e.target.checked);
-  };
+    const handleResetSiteType = () => {
+      setSelectedSiteType('');
+    };
+  
+    const handleQuoteFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setIsQuoteFormSelected(e.target.checked);
+    };
+  
+    const handleMultilingualChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setIsMultilingualSelected(e.target.checked);
+    };
+  
+    const handleAllInclusiveChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setAllInclusiveOptimization(e.target.checked);
+    };
 
   // Step 1: Project Type Selection
   if (step === 'type') {
