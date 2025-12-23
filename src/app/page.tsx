@@ -622,18 +622,29 @@ export default function Home() {
 
             {/* Menu / Site de commande */}
             <a 
-              href="/devis"
-              className="group relative p-8 rounded-2xl bg-gradient-to-br from-accent/10 to-accent/5 backdrop-blur-sm border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 transition-all duration-300 cursor-pointer"
+              href="https://www.guapomenu.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative p-8 rounded-2xl bg-white backdrop-blur-sm border-2 border-accent/30 shadow-lg hover:shadow-2xl hover:shadow-accent/20 hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden"
             >
-              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-gradient-to-br from-accent to-primary">
-                <UtensilsCrossed className="w-8 h-8 text-white" />
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                <UtensilsCrossed className="w-24 h-24 text-accent -rotate-12" />
               </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-900">{t("quote.type.menu")}</h3>
+              <div className="w-16 h-16 rounded-xl mb-6 flex items-center justify-center shadow-lg bg-white p-2 border border-gray-100">
+                <Image 
+                  src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/ChatGPT-Image-21-dec.-2025-16_40_56-1766457790930.png?width=8000&height=8000&resize=contain"
+                  alt="Guapo Menu"
+                  width={64}
+                  height={64}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 text-gray-900">Guapo Menu</h3>
               <p className="text-gray-700 leading-relaxed mb-6">
-                {t("quote.type.menu.desc")}
+                L'application n°1 pour créer vos menus digitaux, QR codes et gérer vos commandes en ligne simplement.
               </p>
               <div className="inline-flex items-center gap-2 text-accent font-semibold group-hover:gap-3 transition-all mt-auto">
-                {t("services.website.cta")}
+                Découvrir Guapo Menu
                 <ArrowRight className="w-4 h-4" />
               </div>
             </a>
