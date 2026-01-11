@@ -16,6 +16,7 @@ const quoteSchema = z.object({
   otherLanguages: z.string().optional(),
   optimization: z.array(z.string()).optional(),
     hosting: z.string().optional(),
+    maintenance: z.string().optional(),
     domain: z.string().min(1, 'Veuillez sélectionner une option pour le nom de domaine'),
     message: z.string().min(10, 'Le message doit contenir au moins 10 caractères').max(5000),
     rgpdConsent: z.string().refine((val) => val === 'on', {
