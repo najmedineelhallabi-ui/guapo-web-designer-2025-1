@@ -687,11 +687,11 @@ const translations = {
     "hero.cta.projects": "View our projects",
     "hero.cta.contact": "Contact us",
     
-    // Announcement Banner
-    "announcement.offer": "🎁 1 month of maintenance included with every site creation!",
-    "announcement.subtitle": "Take advantage of this exceptional offer for your web project!",
-    
-    // About
+      // Announcement Banner
+      "announcement.offer": "",
+      "announcement.subtitle": "",
+      
+      // About
     "about.title": "About Guapo",
     "about.values.passion": "Passion",
     "about.values.passion.desc": "Every project is a new creative adventure",
