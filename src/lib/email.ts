@@ -274,19 +274,25 @@ export async function sendQuoteEmail(data: any) {
     });
   }
 
-  if (data.domain) {
-    const price = (PRICING.domain as any)[data.domain];
-    tableRows.push({ item: translateOption(data.domain, lang), unique: price !== undefined ? (price > 0 ? `${price}€` : 'Inclus') : '-', monthly: '-' });
-  }
+    if (data.domain) {
+      const price = (PRICING.domain as any)[data.domain];
+      tableRows.push({ item: translateOption(data.domain, lang), unique: price !== undefined ? (price > 0 ? `${price}€` : 'Inclus') : '-', monthly: '-' });
+    }
 
-    if (data.menuSubscription) {
-      const mPrice = (PRICING.subscriptions as any)[data.menuSubscription];
-      tableRows.push({ item: translateOption(data.menuSubscription, lang), unique: '-', monthly: `${mPrice}€` });
-      tableRows.push({ item: "Système de base & maintenance", unique: '-', monthly: "30€" });
-    } else if (pricing.isMenuProject) {
-      tableRows.push({ item: "Système de base & maintenance", unique: '-', monthly: "30€" });
+    if (data.maintenance) {
+      const maintenanceChoice = data.maintenance;
+      const maintenancePrice = (PRICING as any).maintenance?.[maintenanceChoice];
+      if (maintenancePrice) {
+        if (maintenancePrice.period === "year") {
+          tableRows.push({ item: translateOption(maintenanceChoice, lang), unique: '-', monthly: `${maintenancePrice.price}€ / an` });
+        } else if (maintenancePrice.period === "intervention") {
+          tableRows.push({ item: translateOption(maintenanceChoice, lang), unique: '-', monthly: `${maintenancePrice.price}€ / inter.` });
+        } else {
+          tableRows.push({ item: translateOption(maintenanceChoice, lang), unique: '-', monthly: `${maintenancePrice.price}€ / mois` });
+        }
+      }
     } else {
-      tableRows.push({ item: "Maintenance & plateforme", unique: '-', monthly: "30€" });
+      tableRows.push({ item: translateOption("Maintenance standard", lang), unique: '-', monthly: "30€ / mois" });
     }
 
   const commonStyles = `
