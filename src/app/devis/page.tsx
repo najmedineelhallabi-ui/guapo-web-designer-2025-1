@@ -225,9 +225,9 @@ export default function DevisPage() {
       </nav>
 
       <LaserBackground />
-
-      <section className={`relative pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 overflow-hidden transition-all duration-300 ${showBanner ? 'pt-[180px]' : 'pt-32'}`}>
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+  
+        <section className="relative pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 overflow-hidden transition-all duration-300 pt-32">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="md:hidden absolute top-20 left-5 w-40 h-40 bg-primary/40 rounded-full blur-md"></div>
           <div className="md:hidden absolute bottom-10 right-5 w-48 h-48 bg-secondary/40 rounded-full blur-md"></div>
           <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-accent/40 rounded-full blur-md"></div>
