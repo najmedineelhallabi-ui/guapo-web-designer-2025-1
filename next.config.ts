@@ -29,11 +29,13 @@ const nextConfig: NextConfig = {
     ],
     experimental: {
       serverActions: {
-        allowedOrigins: [
-          '*.orchids.cloud',
-          '*.daytona.works',
-          '*.proxy.daytona.works',
-        ],
+          allowedOrigins: [
+            '*.orchids.cloud',
+            '*.daytona.works',
+            '*.proxy.daytona.works',
+            '*.orchids.app',
+            'orchids.app',
+          ],
       },
     },
     // Only enable Turbopack loader in development
