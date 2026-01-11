@@ -95,107 +95,142 @@ function escapeHtml(text: string): string {
   return text.replace(/[&<>"']/g, (m) => map[m]);
 }
 
-function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
-  let minTotalHT = 0, maxTotalHT = 0;
-  let totalMonthlyModelA = 30; // Maintenance par défaut pour tous les projets
-  let tvaRate = 0.21; // TVA 21%
-  
-  // 1. Base Site Type Price (Model A)
-  const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
-  const siteTypePrice = PRICING.siteTypes[siteTypeKey];
-  if (siteTypePrice) {
-    minTotalHT += siteTypePrice.min;
-    maxTotalHT += siteTypePrice.max;
-  }
-
-  // 2. Extra Pages
-  if (data.pageCount) {
-    const pageCount = parseInt(data.pageCount.toString());
-    let limit = 3;
-    if (data.siteType.includes('4 à 5')) limit = 5;
-    else if (data.siteType.includes('6 à 8')) limit = 8;
-    else if (data.siteType.includes('9 à 12')) limit = 12;
-    if (pageCount > limit) {
-      const extra = pageCount - limit;
-      minTotalHT += extra * PAGE_EXTRA_COST;
-      maxTotalHT += extra * PAGE_EXTRA_COST;
+  function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
+    let minTotalHT = 0, maxTotalHT = 0;
+    let totalMonthlyModelA = 0;
+    let tvaRate = 0.21; // TVA 21%
+    
+    // 1. Base Site Type Price (Model A)
+    const siteTypeKey = data.siteType as keyof typeof PRICING.siteTypes;
+    const siteTypePrice = PRICING.siteTypes[siteTypeKey];
+    if (siteTypePrice) {
+      minTotalHT += siteTypePrice.min;
+      maxTotalHT += siteTypePrice.max;
     }
-  }
 
-  // 3. Languages (Model A: Unique)
-  if (data.languages && data.languages.length > 1) {
-    // Each additional language adds to the setup cost
-    const multiPrice = PRICING.features["Multilingue"];
-    const extraLanguagesCount = data.languages.length - 1;
-    minTotalHT += extraLanguagesCount * multiPrice;
-    maxTotalHT += extraLanguagesCount * multiPrice;
-  }
-
-  // 4. Features
-  if (data.features) {
-    data.features.forEach((f: string) => {
-      // Model A: Unique price
-      const uPrice = (PRICING.features as any)[f];
-      if (uPrice !== undefined) {
-        minTotalHT += uPrice; 
-        maxTotalHT += uPrice;
+    // 2. Extra Pages
+    if (data.pageCount) {
+      const pageCount = parseInt(data.pageCount.toString());
+      let limit = 3;
+      if (data.siteType.includes('4 à 5')) limit = 5;
+      else if (data.siteType.includes('6 à 8')) limit = 8;
+      else if (data.siteType.includes('9 à 12')) limit = 12;
+      if (pageCount > limit) {
+        const extra = pageCount - limit;
+        minTotalHT += extra * PAGE_EXTRA_COST;
+        maxTotalHT += extra * PAGE_EXTRA_COST;
       }
-    });
-  }
+    }
 
-  // 5. Optimization
-  if (data.optimization) {
-    data.optimization.forEach((o: string) => {
-      const price = (PRICING.optimization as any)[o];
-      if (price !== undefined) { 
+    // 3. Languages (Model A: Unique)
+    if (data.languages && data.languages.length > 1) {
+      // Each additional language adds to the setup cost
+      const multiPrice = PRICING.features["Multilingue"];
+      const extraLanguagesCount = data.languages.length - 1;
+      minTotalHT += extraLanguagesCount * multiPrice;
+      maxTotalHT += extraLanguagesCount * multiPrice;
+    }
+
+    // 4. Features
+    if (data.features) {
+      data.features.forEach((f: string) => {
+        // Model A: Unique price
+        const uPrice = (PRICING.features as any)[f];
+        if (uPrice !== undefined) {
+          minTotalHT += uPrice; 
+          maxTotalHT += uPrice;
+        }
+      });
+    }
+
+    // 5. Optimization
+    if (data.optimization) {
+      data.optimization.forEach((o: string) => {
+        const price = (PRICING.optimization as any)[o];
+        if (price !== undefined) { 
+          minTotalHT += price; 
+          maxTotalHT += price; 
+        }
+      });
+    }
+
+    // 6. Domain
+    if (data.domain) {
+      const price = (PRICING.domain as any)[data.domain];
+      if (price !== undefined && price > 0) { 
         minTotalHT += price; 
         maxTotalHT += price; 
       }
-    });
-  }
-
-  // 6. Domain
-  if (data.domain) {
-    const price = (PRICING.domain as any)[data.domain];
-    if (price !== undefined && price > 0) { 
-      minTotalHT += price; 
-      maxTotalHT += price; 
     }
+
+    // 7. Maintenance
+    const maintenanceChoice = data.maintenance || "Maintenance standard";
+    const maintenancePrice = (PRICING as any).maintenance?.[maintenanceChoice];
+    
+    let maintenanceInfo = {
+      price: 30,
+      period: "month",
+      display: "30€ TVAC / mois"
+    };
+
+    if (maintenancePrice) {
+      if (maintenancePrice.period === "year") {
+        // Annual maintenance doesn't add to monthly, it's a separate recurring cost
+        // But for display in this quote, we'll show it as part of the recurring section
+        maintenanceInfo = {
+          price: maintenancePrice.price,
+          period: "year",
+          display: "300€ TVAC / an"
+        };
+      } else if (maintenancePrice.period === "intervention") {
+        maintenanceInfo = {
+          price: maintenancePrice.price,
+          period: "intervention",
+          display: "100€ TVAC / intervention"
+        };
+      } else {
+        maintenanceInfo = {
+          price: maintenancePrice.price,
+          period: "month",
+          display: "30€ TVAC / mois"
+        };
+      }
+    }
+
+    const tvaMinA = Math.round(minTotalHT * tvaRate);
+    const tvaMaxA = Math.round(maxTotalHT * tvaRate);
+    const minTotalTTCA = minTotalHT + tvaMinA;
+    const maxTotalTTCA = maxTotalHT + tvaMaxA;
+
+    // Model A Monthly (maintenance/pack)
+    const monthlyHTA = maintenanceInfo.period === "month" ? maintenanceInfo.price : 0;
+    const monthlyTVAA = Math.round(monthlyHTA * tvaRate * 100) / 100;
+    const monthlyTTCA = Math.round((monthlyHTA + monthlyTVAA) * 100) / 100;
+
+    return {
+      isMenuProject: false,
+      hasRange: minTotalHT !== maxTotalHT,
+      baseMinHT: minTotalHT,
+      baseMaxHT: maxTotalHT,
+      discountMin: 0,
+      discountMax: 0,
+      discountedMinHT: minTotalHT,
+      discountedMaxHT: maxTotalHT,
+      tvaMinA,
+      tvaMaxA,
+      minTotalTTCA,
+      maxTotalTTCA,
+      monthlyHTA,
+      monthlyTVAA,
+      monthlyTTCA,
+      maintenanceInfo,
+      monthlyHTB: 0,
+      monthlyTVAB: 0,
+      monthlyTTCB: 0,
+      monthlyBreakdownB: [],
+      selectedPackName: maintenanceChoice
+    };
   }
-
-  const tvaMinA = Math.round(minTotalHT * tvaRate);
-  const tvaMaxA = Math.round(maxTotalHT * tvaRate);
-  const minTotalTTCA = minTotalHT + tvaMinA;
-  const maxTotalTTCA = maxTotalHT + tvaMaxA;
-
-  // Model A Monthly (maintenance/pack)
-  const monthlyHTA = totalMonthlyModelA;
-  const monthlyTVAA = Math.round(monthlyHTA * tvaRate * 100) / 100;
-  const monthlyTTCA = Math.round((monthlyHTA + monthlyTVAA) * 100) / 100;
-
-  return {
-    isMenuProject: false,
-    hasRange: minTotalHT !== maxTotalHT,
-    baseMinHT: minTotalHT,
-    baseMaxHT: maxTotalHT,
-    discountMin: 0,
-    discountMax: 0,
-    discountedMinHT: minTotalHT,
-    discountedMaxHT: maxTotalHT,
-    tvaMinA,
-    tvaMaxA,
-    minTotalTTCA,
-    maxTotalTTCA,
-    monthlyHTA,
-    monthlyTVAA,
-    monthlyTTCA,
-    monthlyHTB: 0,
-    monthlyTVAB: 0,
-    monthlyTTCB: 0,
-    monthlyBreakdownB: [],
-    selectedPackName: ""
-  };
-}
 
 export async function sendQuoteEmail(data: any) {
   const lang = data.language || 'fr';
