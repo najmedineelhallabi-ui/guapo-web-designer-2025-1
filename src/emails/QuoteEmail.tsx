@@ -150,9 +150,6 @@ export function QuoteEmail({
                 <Text style={{ fontSize: '12px', color: '#4b5563', margin: '3px 0' }}>
                   • {interventionsIncluded} interventions/an • Mises à jour • Sécurité • Support 48h
                 </Text>
-                <Text style={{ fontSize: '11px', color: '#6b7280', margin: '5px 0 0 0', fontStyle: 'italic' }}>
-                  🎁 Premier mois offert
-                </Text>
               </Section>
 
               <Section style={{ backgroundColor: '#fff', padding: '12px', borderRadius: '6px', border: '1px solid #a78bfa' }}>
