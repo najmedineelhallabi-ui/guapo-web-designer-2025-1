@@ -73,6 +73,7 @@ export async function sendQuoteAction(
       otherLanguages: formData.get('otherLanguages') as string || undefined,
       optimization: formData.getAll('optimization') as string[],
       hosting: formData.get('hosting') as string || undefined,
+      maintenance: formData.get('maintenance') as string || undefined,
       domain: formData.get('domain'),
       message: formData.get('message'),
       rgpdConsent: formData.get('rgpdConsent'),
