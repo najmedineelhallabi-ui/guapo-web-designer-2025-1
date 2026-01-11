@@ -28,11 +28,11 @@ const translations = {
     "hero.cta.projects": "Voir nos projets",
     "hero.cta.contact": "Nous contacter",
     
-    // Announcement Banner
-    "announcement.offer": "🎁 1 mois de maintenance inclus à la création de chaque site !",
-    "announcement.subtitle": "Profitez de cette offre exceptionnelle pour votre projet web !",
-    
-    // About
+      // Announcement Banner
+      "announcement.offer": "",
+      "announcement.subtitle": "",
+      
+      // About
     "about.title": "À propos de Guapo",
     "about.values.passion": "Passion",
     "about.values.passion.desc": "Chaque projet est une nouvelle aventure créative",
