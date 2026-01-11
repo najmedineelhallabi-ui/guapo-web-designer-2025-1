@@ -837,7 +837,7 @@ const translations = {
           "quote.menu.subscription.simple.desc": "Add, delete and modify your dishes with ease",
           "quote.menu.subscription.complete.name": "Complete Menu Pack",
             "quote.menu.subscription.complete.desc": "Simple Pack + creation of multiple menus (Season, Holidays, etc.)",
-            "quote.menu.subscription.freeMonth": "🎁 First month free",
+            "quote.menu.subscription.freeMonth": "",
             "quote.menu.clientFeatures": "Client Features",
           "quote.menu.client.cart": "Add to cart",
           "quote.menu.client.cart.desc": "Allow customers to select their dishes",
