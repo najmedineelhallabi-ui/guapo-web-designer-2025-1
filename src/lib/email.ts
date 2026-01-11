@@ -95,7 +95,6 @@ function escapeHtml(text: string): string {
 function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
   let minTotalHT = 0, maxTotalHT = 0;
   let totalMonthlyModelA = 30; // Maintenance par défaut pour tous les projets
-  let discountRate = 0.30; // 30% promo par défaut
   let tvaRate = 0.21; // TVA 21%
   
   // 1. Base Site Type Price (Model A)
@@ -161,17 +160,10 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     }
   }
 
-  // Model A Investment Calculation
-  const discountMin = Math.round(minTotalHT * discountRate);
-  const discountMax = Math.round(maxTotalHT * discountRate);
-
-  const discountedMinHT = minTotalHT - discountMin;
-  const discountedMaxHT = maxTotalHT - discountMax;
-  
-  const tvaMinA = Math.round(discountedMinHT * tvaRate);
-  const tvaMaxA = Math.round(discountedMaxHT * tvaRate);
-  const minTotalTTCA = discountedMinHT + tvaMinA;
-  const maxTotalTTCA = discountedMaxHT + tvaMaxA;
+  const tvaMinA = Math.round(minTotalHT * tvaRate);
+  const tvaMaxA = Math.round(maxTotalHT * tvaRate);
+  const minTotalTTCA = minTotalHT + tvaMinA;
+  const maxTotalTTCA = maxTotalHT + tvaMaxA;
 
   // Model A Monthly (maintenance/pack)
   const monthlyHTA = totalMonthlyModelA;
@@ -183,10 +175,10 @@ function calculatePricing(data: any, lang: 'fr' | 'nl' | 'en' = 'fr') {
     hasRange: minTotalHT !== maxTotalHT,
     baseMinHT: minTotalHT,
     baseMaxHT: maxTotalHT,
-    discountMin,
-    discountMax,
-    discountedMinHT,
-    discountedMaxHT,
+    discountMin: 0,
+    discountMax: 0,
+    discountedMinHT: minTotalHT,
+    discountedMaxHT: maxTotalHT,
     tvaMinA,
     tvaMaxA,
     minTotalTTCA,
