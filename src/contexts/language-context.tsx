@@ -401,11 +401,11 @@ const translations = {
     "hero.cta.projects": "Bekijk onze projecten",
     "hero.cta.contact": "Neem contact op",
     
-    // Announcement Banner
-    "announcement.offer": "🎁 1 maand onderhoud gratis bij de creatie van elk site!",
-    "announcement.subtitle": "Profiteer van dit uitzonderlijke aanbod voor uw webproject!",
-    
-    // About
+      // Announcement Banner
+      "announcement.offer": "",
+      "announcement.subtitle": "",
+      
+      // About
     "about.title": "Over Guapo",
     "about.values.passion": "Passie",
     "about.values.passion.desc": "Elk project is uniek en verdient bijzondere aandacht",
