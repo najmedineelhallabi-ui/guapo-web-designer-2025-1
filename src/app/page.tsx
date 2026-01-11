@@ -4,157 +4,20 @@ import Image from "next/image";
 import { ArrowRight, Code, Palette, Sparkles, Mail, Github, Linkedin, Twitter, Heart, Zap, Monitor, Tablet, Smartphone, Instagram, Menu, X, ShoppingCart, MessageCircle, Briefcase, FileText, UtensilsCrossed } from "lucide-react";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { useLanguage } from "@/contexts/language-context";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function Home() {
   const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showAnnouncement, setShowAnnouncement] = useState(false);
-  const [announcementPhase, setAnnouncementPhase] = useState<'fullscreen' | 'banner' | 'hidden'>('fullscreen');
-
-  useEffect(() => {
-    const hasSeenFullscreen = localStorage.getItem('banner-promo-fullscreen-seen');
-    
-    if (!hasSeenFullscreen) {
-      // Première visite: montrer fullscreen puis bannière
-      setTimeout(() => {
-        setShowAnnouncement(true);
-        setAnnouncementPhase('fullscreen');
-      }, 300);
-      
-      // Phase 2: Move to banner after 5 seconds (increased from 3.5)
-      const bannerTimer = setTimeout(() => {
-        setAnnouncementPhase('banner');
-        localStorage.setItem('banner-promo-fullscreen-seen', 'true');
-      }, 5500);
-      
-      return () => {
-        clearTimeout(bannerTimer);
-      };
-    } else {
-      // Visites suivantes: montrer directement la bannière
-      setTimeout(() => {
-        setShowAnnouncement(true);
-        setAnnouncementPhase('banner');
-      }, 300);
-    }
-  }, []);
-
-  const dismissAnnouncement = () => {
-    setAnnouncementPhase('hidden');
-    setTimeout(() => {
-      setShowAnnouncement(false);
-    }, 600);
-  };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Floating Promo Button */}
-      <a
-        href="/devis"
-        className="fixed bottom-6 right-6 z-50 group"
-        aria-label="Promotion -30%"
-      >
-        <div className="relative">
-          {/* Glow effect - plus intense */}
-          <div className="absolute -inset-4 bg-gradient-to-r from-accent via-secondary to-primary rounded-full blur-2xl opacity-90 group-hover:opacity-100 animate-pulse"></div>
-          
-          {/* Button - BEAUCOUP PLUS GRAND */}
-          <div className="relative flex flex-col items-center justify-center w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-accent via-secondary to-primary rounded-full shadow-2xl shadow-primary/60 group-hover:scale-110 transition-transform duration-300 border-4 border-white/30">
-            <span className="text-white font-black text-4xl md:text-5xl leading-none drop-shadow-lg">{t("promo.discount")}</span>
-            <span className="text-white text-xs md:text-sm font-bold mt-1 drop-shadow-lg opacity-90">{t("promo.until")}</span>
-            <span className="text-white text-sm md:text-base font-bold drop-shadow-lg">{t("promo.date")}</span>
-          </div>
-          
-          {/* Ping animation - plus visible */}
-          <span className="absolute -top-2 -right-2 flex h-6 w-6 md:h-8 md:w-8">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-90"></span>
-            <span className="relative inline-flex rounded-full h-6 w-6 md:h-8 md:w-8 bg-white shadow-lg"></span>
-          </span>
-        </div>
-      </a>
-
       {/* Dark Overlay for Mobile Menu */}
       {mobileMenuOpen && (
         <div 
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 transition-opacity duration-300"
           onClick={() => setMobileMenuOpen(false)}
         />
-      )}
-
-      {/* Announcement - Fullscreen or Banner */}
-      {showAnnouncement && (
-        <>
-          {/* Dark overlay for fullscreen phase */}
-          {announcementPhase === 'fullscreen' && (
-            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[59] animate-in fade-in duration-500" />
-          )}
-          
-          {/* Announcement content */}
-          <div 
-            className={`fixed z-[60] transition-all duration-700 ${
-              announcementPhase === 'fullscreen' 
-                ? 'inset-0 flex items-center justify-center p-6 scale-100 opacity-100' 
-                : announcementPhase === 'banner'
-                ? 'top-0 left-0 right-0 scale-100 opacity-100'
-                : 'top-0 left-0 right-0 -translate-y-full opacity-0'
-            }`}
-          >
-            <div 
-              className={`bg-gradient-to-r from-accent via-secondary to-primary text-white shadow-2xl transition-all duration-700 ${
-                announcementPhase === 'fullscreen'
-                  ? 'rounded-3xl p-12 max-w-3xl w-full animate-in zoom-in-95 duration-700'
-                  : 'rounded-none py-4 px-6 w-full'
-              }`}
-            >
-              <div className={`flex items-center gap-4 ${
-                announcementPhase === 'fullscreen' ? 'flex-col text-center' : 'justify-between'
-              }`}>
-                <div className={`flex items-center gap-3 flex-1 ${
-                  announcementPhase === 'fullscreen' ? 'flex-col' : 'justify-center'
-                }`}>
-                  <span className={`animate-bounce ${
-                    announcementPhase === 'fullscreen' ? 'text-7xl' : 'text-2xl'
-                  }`}>🎁</span>
-                  <div className={`${announcementPhase === 'fullscreen' ? 'space-y-2' : ''}`}>
-                    <p className={`font-black ${
-                      announcementPhase === 'fullscreen' 
-                        ? 'text-4xl md:text-5xl leading-tight mb-3' 
-                        : 'text-sm md:text-base'
-                    }`}>
-                      {t("announcement.offer")}
-                    </p>
-                    {announcementPhase === 'fullscreen' && (
-                      <p className="text-lg md:text-xl text-white/90 font-semibold">
-                        {t("announcement.subtitle")}
-                      </p>
-                    )}
-                  </div>
-                  {announcementPhase === 'fullscreen' && (
-                    <span className="text-7xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
-                  )}
-                  {announcementPhase === 'banner' && (
-                    <span className="text-2xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
-                  )}
-                </div>
-                <button
-                  onClick={dismissAnnouncement}
-                  className={`group flex items-center gap-2 hover:bg-white/20 rounded-lg transition-all flex-shrink-0 border border-white/30 hover:border-white/50 ${
-                    announcementPhase === 'fullscreen' ? 'px-6 py-3 mt-6' : 'px-3 py-2'
-                  }`}
-                  aria-label={t("promo.close")}
-                >
-                  <span className={`font-semibold ${
-                    announcementPhase === 'fullscreen' ? 'text-base' : 'text-xs hidden sm:inline'
-                  }`}>{t("promo.close")}</span>
-                  <X className={`group-hover:rotate-90 transition-transform ${
-                    announcementPhase === 'fullscreen' ? 'w-6 h-6' : 'w-5 h-5'
-                  }`} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </>
       )}
 
       {/* Laser Lines Background */}
@@ -168,7 +31,7 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className={`fixed w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg transition-all duration-300 ${announcementPhase === 'banner' ? 'top-[52px]' : 'top-0'}`}>
+      <nav className="fixed w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg transition-all duration-300 top-0">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <a href="#accueil" className="flex items-center">
             <Image 
@@ -268,7 +131,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section - DARK PURPLE */}
-      <section id="accueil" className={`pt-32 pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 relative overflow-hidden ${announcementPhase === 'banner' ? 'pt-[180px]' : 'pt-32'}`}>
+      <section id="accueil" className="pt-32 pb-20 px-6 bg-gradient-to-br from-background via-primary/20 to-secondary/20 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Mobile circles (smaller, less blur) */}
           <div className="md:hidden absolute top-20 left-5 w-40 h-40 bg-primary/50 rounded-full blur-md"></div>
