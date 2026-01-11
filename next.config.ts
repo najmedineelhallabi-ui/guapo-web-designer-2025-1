@@ -19,14 +19,24 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
-  // Allow cross-origin requests from Orchids iframe
-  allowedDevOrigins: [
-    'www.orchids.app',
-    '*.orchids.app',
-    '*.daytona.works',
-    '*.proxy.daytona.works',
-  ],
-  // Only enable Turbopack loader in development
+    // Allow cross-origin requests from Orchids iframe
+    allowedDevOrigins: [
+      'www.orchids.app',
+      '*.orchids.app',
+      '*.daytona.works',
+      '*.proxy.daytona.works',
+      '*.orchids.cloud',
+    ],
+    experimental: {
+      serverActions: {
+        allowedOrigins: [
+          '*.orchids.cloud',
+          '*.daytona.works',
+          '*.proxy.daytona.works',
+        ],
+      },
+    },
+    // Only enable Turbopack loader in development
   ...(isDev && {
     turbopack: {
       rules: {
