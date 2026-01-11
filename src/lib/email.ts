@@ -390,14 +390,14 @@ export async function sendQuoteEmail(data: any) {
               <div style="background:#fff;padding:25px;border-radius:12px;border:1px solid #e2e8f0;text-align:left;box-shadow:0 2px 4px rgba(0,0,0,0.05)">
                 <div style="font-weight:700;color:#1e293b;margin-bottom:15px;border-bottom:1px solid #f1f5f9;padding-bottom:10px">Règlement unique (Système)</div>
                 
-                <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                  <span>Investissement HTVA :</span>
-                  <span><strong>${pricing.hasRange ? `${pricing.discountedMinHT}€ - ${pricing.discountedMaxHT}€` : `${pricing.discountedMinHT}€`}</strong></span>
-                </div>
-                <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                  <span>TVA (21%) :</span>
-                  <span>${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}</span>
-                </div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+                    <span>Investissement HTVA :</span>
+                    <span><strong>${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}</strong></span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+                    <span>TVA (21%) :</span>
+                    <span>${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}</span>
+                  </div>
                 <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:2px solid #1e293b;font-size:22px;font-weight:900;color:#1e293b">
                   <span>TOTAL TVAC :</span>
                   <span>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</span>
