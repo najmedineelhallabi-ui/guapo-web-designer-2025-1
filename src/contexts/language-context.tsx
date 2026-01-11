@@ -670,25 +670,17 @@ const translations = {
     "footer.copyright": "Guapo Web Designer 2025",
     "footer.rights": "Alle rechten voorbehouden."
   },
-  en: {
-    // Navigation
-    "nav.home": "Home",
-    "nav.about": "About",
-    "nav.services": "Services",
-    "nav.portfolio": "Portfolio",
-    "nav.contact": "Contact",
-    "nav.quote": "Free Quote",
-    
-    // Promo -30%
-    "promo.discount": "-30%",
-    "promo.until": "until",
-    "promo.date": "31/12/25",
-    "promo.banner": "-30% until 31/12/25 + 1 month of maintenance free!",
-    "promo.close": "Close",
-    "promo.badge": "First Month of Maintenance Free!",
-    
-    // Hero
-    "hero.badge": "Guapo Web Designer",
+    en: {
+      // Navigation
+      "nav.home": "Home",
+      "nav.about": "About",
+      "nav.services": "Services",
+      "nav.portfolio": "Portfolio",
+      "nav.contact": "Contact",
+      "nav.quote": "Free Quote",
+      
+      // Hero
+      "hero.badge": "Guapo Web Designer",
     "hero.title": "If you can imagine it, we can",
     "hero.title.highlight": "design it.",
     "hero.subtitle": "Websites designed to improve your visibility and professionalize your business",
