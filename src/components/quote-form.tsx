@@ -1109,58 +1109,96 @@ export function QuoteForm() {
           )}
         </div>
 
-        {/* Hébergement */}
-        <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
-          <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
-            <Wrench className="w-6 h-6 text-accent" />
-            {t('quote.hosting.title')}
-          </h3>
-          
-          <div className="space-y-4">
-            {/* Hébergement - Always included, no choice */}
-            <div>
-              <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
-                <Server className="w-4 h-4 text-accent" />
-                {t('quote.hosting.hosting')}
-              </label>
-              <input type="hidden" name="hosting" value="Inclus dans le projet" />
-              <div className="flex items-center gap-3 p-4 bg-accent/10 border-2 border-accent/40 rounded-lg">
-                <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-                <span className="text-foreground font-semibold">{t('quote.hosting.included')}</span>
-              </div>
-              <p className="text-sm text-foreground/70 mt-2">
-                {t('quote.hosting.auto')}
-              </p>
-            </div>
-
-            <div>
-              <label htmlFor="domain" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
-                <Globe className="w-4 h-4 text-accent" />
-                {t('quote.hosting.domain')} *
-              </label>
-              <select
-                id="domain"
-                name="domain"
-                required
-                value={selectedDomain}
-                onChange={handleDomainChange}
-                className="w-full px-5 py-4 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all text-base"
-                disabled={isPending}
-              >
-                <option value="">{t('quote.hosting.selectOption')}</option>
-                <option value="Inclus dans le projet">{t('quote.hosting.included')}</option>
-                <option value="Fourni par le client">{t('quote.hosting.clientProvided')}</option>
-                <option value="À discuter">{t('quote.hosting.toDiscuss')}</option>
-              </select>
-              {state.errors?.domain && (
-                <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" />
-                  {state.errors.domain[0]}
+          {/* Hébergement & Maintenance */}
+          <div className="bg-gradient-to-br from-accent/10 to-primary/10 border-2 border-accent/30 rounded-xl p-8">
+            <h3 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3">
+              <Wrench className="w-6 h-6 text-accent" />
+              {t('quote.hosting.title')}
+            </h3>
+            
+            <div className="space-y-6">
+              {/* Hébergement - Always included, no choice */}
+              <div>
+                <label className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+                  <Server className="w-4 h-4 text-accent" />
+                  {t('quote.hosting.hosting')}
+                </label>
+                <input type="hidden" name="hosting" value="Inclus dans le projet" />
+                <div className="flex items-center gap-3 p-4 bg-accent/10 border-2 border-accent/40 rounded-lg">
+                  <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
+                  <span className="text-foreground font-semibold">{t('quote.hosting.included')}</span>
+                </div>
+                <p className="text-sm text-foreground/70 mt-2">
+                  {t('quote.hosting.auto')}
                 </p>
+              </div>
+
+              <div>
+                <label htmlFor="domain" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+                  <Globe className="w-4 h-4 text-accent" />
+                  {t('quote.hosting.domain')} *
+                </label>
+                <select
+                  id="domain"
+                  name="domain"
+                  required
+                  value={selectedDomain}
+                  onChange={handleDomainChange}
+                  className="w-full px-5 py-4 bg-card/50 backdrop-blur-sm border-2 border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition-all text-base"
+                  disabled={isPending}
+                >
+                  <option value="">{t('quote.hosting.selectOption')}</option>
+                  <option value="Inclus dans le projet">{t('quote.hosting.included')}</option>
+                  <option value="Fourni par le client">{t('quote.hosting.clientProvided')}</option>
+                  <option value="À discuter">{t('quote.hosting.toDiscuss')}</option>
+                </select>
+                {state.errors?.domain && (
+                  <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    {state.errors.domain[0]}
+                  </p>
+                )}
+              </div>
+
+              {/* Maintenance Options - Specifically for Showcase sites */}
+              {projectType === 'vitrine' && (
+                <div className="pt-4 border-t border-accent/20">
+                  <label htmlFor="maintenance" className="flex items-center gap-2 text-sm font-semibold text-foreground mb-4">
+                    <Wrench className="w-4 h-4 text-accent" />
+                    {t('quote.maintenance.title')} *
+                  </label>
+                  <div className="space-y-3">
+                    <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                      <input
+                        type="radio"
+                        name="maintenance"
+                        value="Pack annuel (6 interventions)"
+                        required
+                        className="w-5 h-5 mt-1 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <div className="flex-1">
+                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.maintenance.annual')}</span>
+                      </div>
+                    </label>
+
+                    <label className="flex items-start gap-4 p-4 border-2 border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 cursor-pointer transition-all group">
+                      <input
+                        type="radio"
+                        name="maintenance"
+                        value="À l'intervention"
+                        className="w-5 h-5 mt-1 text-accent focus:ring-2 focus:ring-accent cursor-pointer"
+                        disabled={isPending}
+                      />
+                      <div className="flex-1">
+                        <span className="font-semibold text-foreground group-hover:text-accent transition-colors">{t('quote.maintenance.intervention')}</span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
               )}
             </div>
           </div>
-        </div>
 
         {/* Champs libres / Commentaires */}
         <div className="bg-gradient-to-br from-primary/10 to-secondary/10 border-2 border-primary/30 rounded-xl p-8">
