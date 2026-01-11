@@ -79,12 +79,19 @@ export const PRICING = {
     "À discuter": 0,
   },
 
-  domain: {
-    "Inclus dans le projet": 50,
-    "Fourni par le client": 0,
-    "À discuter": 0,
-  },
-};
+    domain: {
+      "Inclus dans le projet": 50,
+      "Fourni par le client": 0,
+      "À discuter": 0,
+    },
+
+    // Maintenance
+    maintenance: {
+      "Pack annuel (6 interventions)": { price: 300, period: "year" },
+      "À l'intervention": { price: 100, period: "intervention" },
+      "Maintenance standard": { price: 30, period: "month" }
+    }
+  };
 
 // Fonction pour calculer l'estimation totale
 export function calculateEstimate(data: {
