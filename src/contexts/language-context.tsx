@@ -11,25 +11,17 @@ interface LanguageContextType {
 }
 
 const translations = {
-  fr: {
-    // Navigation
-    "nav.home": "Accueil",
-    "nav.about": "À propos",
-    "nav.services": "Services",
-    "nav.portfolio": "Portfolio",
-    "nav.contact": "Contact",
-    "nav.quote": "Devis gratuit",
-    
-    // Promo -30%
-    "promo.discount": "-30%",
-    "promo.until": "jusqu'au",
-    "promo.date": "31/12/25",
-    "promo.banner": "-30% jusqu'au 31/12/25 + 1 mois de maintenance offert !",
-    "promo.close": "Fermer",
-    "promo.badge": "Premier Mois de Maintenance Offert !",
-    
-    // Hero
-    "hero.badge": "Guapo Web Designer",
+    fr: {
+      // Navigation
+      "nav.home": "Accueil",
+      "nav.about": "À propos",
+      "nav.services": "Services",
+      "nav.portfolio": "Portfolio",
+      "nav.contact": "Contact",
+      "nav.quote": "Devis gratuit",
+      
+      // Hero
+      "hero.badge": "Guapo Web Designer",
     "hero.title": "If you can imagine it, we can",
     "hero.title.highlight": "design it.",
     "hero.subtitle": "Des sites web conçus pour améliorer votre visibilité et professionnaliser votre entreprise",
