@@ -252,11 +252,6 @@ export default function DevisPage() {
           <p className="text-xl text-foreground/90 max-w-2xl mx-auto leading-relaxed mb-8">
             {t("quote.page.subtitle")}
           </p>
-
-          <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-accent/30 to-secondary/30 border-2 border-accent/50 backdrop-blur-sm shadow-lg">
-            <span className="text-2xl">🎁</span>
-            <span className="font-bold text-lg">{t("promo.badge")}</span>
-          </div>
         </div>
       </section>
 
