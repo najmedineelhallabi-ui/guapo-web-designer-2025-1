@@ -109,9 +109,10 @@ export async function sendQuoteAction(
         features: validatedData.features || [],
         languages: validatedData.languages,
       otherLanguages: validatedData.otherLanguages,
-      optimization: validatedData.optimization,
-      hosting: validatedData.hosting,
-      domain: validatedData.domain,
+        optimization: validatedData.optimization,
+        hosting: validatedData.hosting,
+        maintenance: validatedData.maintenance,
+        domain: validatedData.domain,
       message: validatedData.message,
       language: validatedData.language || 'fr',
     });
