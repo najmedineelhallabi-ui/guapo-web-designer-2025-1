@@ -49,11 +49,14 @@ const optionTranslations = {
   "Gestion menu": { fr: "Gestion menu", nl: "Menu beheer", en: "Menu management" },
   "Dashboard Serveur": { fr: "Dashboard Serveur", nl: "Ober dashboard", en: "Waiter dashboard" },
   "Statuts de commande serveur": { fr: "Statuts de commande serveur", nl: "Ober bestelstatus", en: "Waiter order status" },
-  "Français (FR)": { fr: "Français (FR)", nl: "Frans (FR)", en: "French (FR)" },
-  "Néerlandais (NL)": { fr: "Néerlandais (NL)", nl: "Nederlands (NL)", en: "Dutch (NL)" },
-  "English (ENG)": { fr: "Anglais (ENG)", nl: "Engels (ENG)", en: "English (ENG)" },
-  "Autre": { fr: "Autre", nl: "Andere", en: "Other" }
-};
+    "Français (FR)": { fr: "Français (FR)", nl: "Frans (FR)", en: "French (FR)" },
+    "Néerlandais (NL)": { fr: "Néerlandais (NL)", nl: "Nederlands (NL)", en: "Dutch (NL)" },
+    "English (ENG)": { fr: "Anglais (ENG)", nl: "Engels (ENG)", en: "English (ENG)" },
+    "Autre": { fr: "Autre", nl: "Andere", en: "Other" },
+    "Pack annuel (6 interventions)": { fr: "Pack annuel (6 interventions) - 300€ HTVA/an", nl: "Jaarlijkse pakket (6 interventies) - 300€ excl. BTW/jaar", en: "Annual pack (6 interventions) - 300€ excl. VAT/year" },
+    "À l'intervention": { fr: "À l'intervention - 100€ HTVA/intervention", nl: "Per interventie - 100€ excl. BTW/interventie", en: "Per intervention - 100€ excl. VAT/intervention" },
+    "Maintenance standard": { fr: "Maintenance standard - 30€ HTVA/mois", nl: "Standaard onderhoud - 30€ excl. BTW/maand", en: "Standard maintenance - 30€ excl. VAT/month" }
+  };
 
 function translateOption(option: string, lang: 'fr' | 'nl' | 'en' = 'fr'): string {
   const translation = optionTranslations[option as keyof typeof optionTranslations];
