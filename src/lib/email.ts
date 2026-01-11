@@ -252,112 +252,85 @@ export async function sendQuoteEmail(data: any) {
     }
 
   const commonStyles = `
-    body{font-family:sans-serif;color:#334155;margin:0;padding:20px;background:#f8fafc}
-    .c{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:25px;max-width:600px;margin:0 auto;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1)}
-    .h{background:#1e293b;color:#fff;padding:20px;border-radius:12px 12px 0 0;text-align:center;margin-bottom:20px}
-    table{width:100%;border-collapse:collapse;margin:15px 0;font-size:13px}
-    th{background:#f8fafc;padding:10px;text-align:left;border-bottom:2px solid #e2e8f0}
-    td{padding:10px;border-bottom:1px solid #f1f5f9}
-    .box{border:1px solid #e2e8f0;border-radius:10px;padding:15px;background:#f8fafc;margin-bottom:15px}
-    .btn{display:block;padding:12px;text-decoration:none;border-radius:6px;font-weight:700;text-align:center;font-size:14px;margin-top:10px}
-    .btn-a{background:#1e293b;color:#fff}
-    .btn-b{background:#10b981;color:#fff}
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #1e293b; margin: 0; padding: 0; background-color: #f1f5f9; }
+    .wrapper { width: 100%; table-layout: fixed; background-color: #f1f5f9; padding-bottom: 40px; }
+    .main-container { max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+    .header { background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%); padding: 40px 20px; text-align: center; color: #ffffff; }
+    .logo { width: 150px; height: auto; margin-bottom: 20px; }
+    .content { padding: 40px 30px; line-height: 1.6; }
+    h1 { margin: 0 0 10px 0; font-size: 28px; font-weight: 800; letter-spacing: -0.025em; }
+    h2 { margin: 30px 0 15px 0; font-size: 20px; font-weight: 700; color: #7c3aed; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
+    .p-small { font-size: 14px; color: #64748b; margin-top: 5px; }
+    .card { background-color: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 25px; }
+    .price-big { font-size: 32px; font-weight: 900; color: #1e293b; margin: 10px 0; }
+    .price-label { font-size: 12px; text-transform: uppercase; font-weight: 700; color: #64748b; letter-spacing: 0.05em; }
+    .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label { font-weight: 600; color: #475569; }
+    .detail-value { font-weight: 700; color: #1e293b; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: 700; background-color: #7c3aed; color: #ffffff; margin-bottom: 10px; }
+    .footer { text-align: center; padding: 30px; font-size: 12px; color: #94a3b8; }
+    .btn { display: inline-block; padding: 16px 32px; background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%); color: #ffffff !important; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 16px; margin-top: 20px; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.3); transition: transform 0.2s; }
   `;
 
   const ownerEmailHtml = `
+    <!DOCTYPE html>
     <html>
       <head>
-        <style>
-          ${commonStyles}
-          .tag { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
-          .tag-client { background: #e0e7ff; color: #4338ca; }
-          .tag-project { background: #f1f5f9; color: #475569; }
-          .price-table { width: 100%; border-collapse: separate; border-spacing: 0 4px; margin: 15px 0; }
-          .price-row { background: #f8fafc; }
-          .price-row td { padding: 12px 15px; border: 1px solid #e2e8f0; border-style: solid none; }
-          .price-row td:first-child { border-left-style: solid; border-radius: 8px 0 0 8px; font-weight: 600; color: #475569; }
-          .price-row td:last-child { border-right-style: solid; border-radius: 0 8px 8px 0; text-align: right; font-weight: 700; color: #1e293b; }
-          .section-title { font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px; margin: 25px 0 10px 0; display: flex; align-items: center; gap: 8px; }
-          .section-title::after { content: ""; flex: 1; height: 1px; background: #e2e8f0; }
-        </style>
+        <meta charset="utf-8">
+        <style>${commonStyles}</style>
       </head>
       <body>
-        <div class="c">
-          <div class="h" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
-            <div style="font-size: 32px; margin-bottom: 10px;">📋</div>
-            <h2 style="margin:0; letter-spacing: -0.5px; text-transform: uppercase;">Nouveau Devis #${refId}</h2>
-            <p style="margin:5px 0 0 0; font-size: 13px; opacity: 0.8;">Réception : ${new Date().toLocaleString('fr-BE')}</p>
-          </div>
-          
-          <div style="padding: 0 5px;">
-            <div class="box" style="border-left: 4px solid #6366f1; background: #fff; margin-bottom: 20px;">
-              <div class="tag tag-client">Coordonnées Client</div>
-              <div style="font-size: 20px; font-weight: 800; color: #1e293b; margin-bottom: 8px;">
-                ${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}
-              </div>
-              <div style="display: flex; flex-direction: column; gap: 5px;">
-                <div style="color: #475569; font-size: 14px; display: flex; align-items: center; gap: 8px;">
-                  <span style="font-size: 16px;">📧</span> <a href="mailto:${data.email}" style="color: #6366f1; text-decoration: none; font-weight: 600;">${data.email}</a>
-                </div>
-                ${data.company ? `
-                <div style="color: #475569; font-size: 14px; display: flex; align-items: center; gap: 8px;">
-                  <span style="font-size: 16px;">🏢</span> <strong>${escapeHtml(data.company)}</strong>
-                </div>` : ''}
-              </div>
-              <div style="color: #94a3b8; font-size: 11px; margin-top: 15px; padding-top: 10px; border-top: 1px solid #f1f5f9; font-weight: 600;">
-                LANGUE: ${lang.toUpperCase()} | RÉFÉRENCE: #${refId}
-              </div>
+        <div class="wrapper">
+          <div class="main-container">
+            <div class="header">
+              <img src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=400&height=200&resize=contain" alt="GUAPO" class="logo">
+              <h1>Nouveau Devis</h1>
+              <p>Réf: #${refId} | ${new Date().toLocaleDateString('fr-BE')}</p>
             </div>
+            
+            <div class="content">
+              <div class="card" style="border-left: 5px solid #7c3aed;">
+                <div class="badge" style="background-color: #7c3aed;">COORDONNÉES CLIENT</div>
+                <div style="font-size: 18px; font-weight: 800; margin-bottom: 10px;">${escapeHtml(data.firstName)} ${escapeHtml(data.lastName)}</div>
+                <div class="detail-row"><span class="detail-label">Email:</span> <span class="detail-value">${data.email}</span></div>
+                ${data.company ? `<div class="detail-row"><span class="detail-label">Entreprise:</span> <span class="detail-value">${escapeHtml(data.company)}</span></div>` : ''}
+                ${data.sector ? `<div class="detail-row"><span class="detail-label">Secteur:</span> <span class="detail-value">${escapeHtml(data.sector)}</span></div>` : ''}
+                <div class="detail-row"><span class="detail-label">Langue:</span> <span class="detail-value">${lang.toUpperCase()}</span></div>
+              </div>
 
-            <div class="section-title">📦 Configuration du Projet</div>
-            <div class="box" style="border-left: 4px solid #1e293b; background: #fff; margin-bottom: 0;">
-              <div style="font-size: 17px; font-weight: 800; color: #1e293b;">${escapeHtml(translateOption(data.siteType, lang))}</div>
-              ${data.pageCount ? `<div style="color: #64748b; font-size: 13px; margin-top: 6px; display: flex; align-items: center; gap: 5px;"><span style="color: #1e293b; font-weight: 700;">•</span> Estimation : ${data.pageCount} pages</div>` : ''}
-              ${data.menuSubscription ? `<div style="color: #64748b; font-size: 13px; margin-top: 4px; display: flex; align-items: center; gap: 5px;"><span style="color: #10b981; font-weight: 700;">•</span> Pack : ${escapeHtml(translateOption(data.menuSubscription, lang))}</div>` : ''}
-            </div>
+              <h2>CONFIGURATION DU PROJET</h2>
+              <div class="card">
+                <div class="detail-row"><span class="detail-label">Type de site:</span> <span class="detail-value">${escapeHtml(translateOption(data.siteType, lang))}</span></div>
+                ${data.pageCount ? `<div class="detail-row"><span class="detail-label">Pages estimées:</span> <span class="detail-value">${data.pageCount}</span></div>` : ''}
+                ${data.domain ? `<div class="detail-row"><span class="detail-label">Domaine:</span> <span class="detail-value">${escapeHtml(translateOption(data.domain, lang))}</span></div>` : ''}
+              </div>
 
-            <div class="section-title">💰 Détail des Prix (HTVA)</div>
-            <table class="price-table">
-              ${tableRows.map(r => {
-                const price = r.unique !== '-' ? r.unique : r.monthly;
-                if (price === '-') return '';
-                const isZero = price === '0€' || price === 'Inclus' || price === '0€ HT / mois';
-                return `
-                  <tr class="price-row">
-                    <td>${escapeHtml(r.item)} ${r.monthly !== '-' ? '<span style="font-size:10px; color:#94a3b8; font-weight:normal;">(Mensuel)</span>' : ''}</td>
-                    <td>${isZero ? '<span style="color:#10b981">OFFERT</span>' : price}</td>
-                  </tr>
-                `;
-              }).join('')}
-            </table>
-
-            <div class="section-title">🚀 Résumé de l'Offre Client</div>
-            <div class="box" style="background: #f1f5f9; border: 1px solid #e2e8f0; padding: 20px; border-radius: 16px; margin-top: 10px;">
-              <div style="display: grid; gap: 15px;">
-                <div style="padding: 18px; background: white; border-radius: 14px; border: 1px solid #cbd5e1; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                    <div style="background: #1e293b; color: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.5px;">MODÈLE A (ACHAT)</div>
-                    <div style="font-size: 11px; color: #94a3b8; font-weight: 700;">TVAC</div>
+              <h2>DÉTAIL DES OPTIONS (HTVA)</h2>
+              <div class="card">
+                ${tableRows.map(r => `
+                  <div class="detail-row">
+                    <span class="detail-label">${escapeHtml(r.item)}</span>
+                    <span class="detail-value">${r.unique !== '-' ? r.unique : r.monthly}</span>
                   </div>
-                  <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                    <div>
-                      <div style="font-size: 22px; font-weight: 900; color: #1e293b; letter-spacing: -0.5px;">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</div>
-                      <div style="font-size: 11px; color: #64748b; font-weight: 600;">Investissement Total</div>
-                    </div>
-                    <div style="text-align: right;">
-                      <div style="font-size: 16px; font-weight: 800; color: #6366f1;">+ ${pricing.monthlyTTCA}€<span style="font-size: 11px; font-weight: 600;">/m</span></div>
-                      <div style="font-size: 11px; color: #64748b; font-weight: 600;">Maintenance</div>
-                    </div>
-                  </div>
-                </div>
+                `).join('')}
+              </div>
+
+              <h2>RÉSUMÉ FINANCIER</h2>
+              <div class="card" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+                <div class="detail-row"><span class="detail-label">Total Unique HTVA:</span> <span class="detail-value">${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}</span></div>
+                <div class="detail-row"><span class="detail-label">Total Unique TVAC:</span> <span class="detail-value">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</span></div>
+                <div class="detail-row" style="margin-top: 10px; padding-top: 10px; border-top: 2px dashed #cbd5e1;"><span class="detail-label" style="color: #db2777;">Maintenance Mensuelle HTVA:</span> <span class="detail-value" style="color: #db2777;">${pricing.monthlyHTA}€ / mois</span></div>
+              </div>
+
+              <div style="text-align: center; margin-top: 30px;">
+                <a href="mailto:${data.email}" class="btn">RÉPONDRE AU CLIENT</a>
               </div>
             </div>
-
-            <a href="mailto:${data.email}" class="btn" style="background: #1e293b; color: white; text-decoration: none; display: block; padding: 20px; text-align: center; border-radius: 14px; font-weight: 900; margin-top: 30px; font-size: 16px; box-shadow: 0 10px 15px -3px rgba(30,41,59,0.2);">CONVERSER AVEC LE CLIENT</a>
-          </div>
-          
-          <div style="font-size:10px; color:#94a3b8; text-align:center; margin-top:40px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700;">
-            Guapo Automations © 2025 | Powered by Resend
+            
+            <div class="footer">
+              GUAPO Web Designer &copy; 2025 | Powered by Orchids
+            </div>
           </div>
         </div>
       </body>
@@ -365,57 +338,64 @@ export async function sendQuoteEmail(data: any) {
   `;
 
   const clientEmailHtml = `
-    <html><head><style>${commonStyles}</style></head><body>
-      <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">
-        Votre devis personnalisé #${refId} - ${new Date().toLocaleString('fr-BE')}
-      </div>
-      <div class="c">
-        <div class="h"><h1>${t.client.title}</h1></div>
-        <div style="text-align:right;font-size:11px;color:#94a3b8;margin-bottom:10px">Réf: ${refId}</div>
-          <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
-          <p>Voici votre estimation personnalisée pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> :</p>
-    
-             <div class="box" style="background:#f8fafc; border: 1px solid #e2e8f0; margin-bottom: 30px;">
-              <h3 style="margin-top:0; color:#1e293b; font-size:16px; border-bottom:1px solid #e2e8f0; padding-bottom:10px;">VOTRE PROJET</h3>
-              <div style="font-size:14px;">
-                • Type : <strong>${escapeHtml(translateOption(data.siteType, lang))}</strong><br>
-                ${data.pageCount ? `• Pages : <strong>${data.pageCount}</strong><br>` : ''}
-                ${data.languages && data.languages.length > 1 ? `• Langues : <strong>${data.languages.join(', ')}</strong><br>` : ''}
-              </div>
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <style>${commonStyles}</style>
+      </head>
+      <body>
+        <div class="wrapper">
+          <div class="main-container">
+            <div class="header">
+              <img src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=400&height=200&resize=contain" alt="GUAPO" class="logo">
+              <h1>Votre Estimation</h1>
+              <p>Réf: #${refId}</p>
             </div>
-  
-            <div class="box" style="text-align:center;padding:30px;border:2px solid #1e293b">
-              <div style="font-weight:900;margin-bottom:20px;font-size:20px;color:#1e293b;text-transform:uppercase">MODÈLE A : PROPRIÉTAIRE</div>
-              <div style="background:#fff;padding:25px;border-radius:12px;border:1px solid #e2e8f0;text-align:left;box-shadow:0 2px 4px rgba(0,0,0,0.05)">
-                <div style="font-weight:700;color:#1e293b;margin-bottom:15px;border-bottom:1px solid #f1f5f9;padding-bottom:10px">Règlement unique (Système)</div>
-                
-                  <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                    <span>Investissement HTVA :</span>
-                    <span><strong>${pricing.hasRange ? `${pricing.baseMinHT}€ - ${pricing.baseMaxHT}€` : `${pricing.baseMinHT}€`}</strong></span>
-                  </div>
-                  <div style="display:flex;justify-content:space-between;margin-bottom:10px">
-                    <span>TVA (21%) :</span>
-                    <span>${pricing.hasRange ? `${pricing.tvaMinA}€ - ${pricing.tvaMaxA}€` : `${pricing.tvaMinA}€`}</span>
-                  </div>
-                <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:2px solid #1e293b;font-size:22px;font-weight:900;color:#1e293b">
-                  <span>TOTAL TVAC :</span>
-                  <span>${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`}</span>
-                </div>
+            
+            <div class="content">
+              <p>Bonjour <strong>${escapeHtml(data.firstName)}</strong>,</p>
+              <p>Merci pour votre intérêt ! Nous avons analysé vos besoins pour votre projet <strong>${escapeHtml(data.company || 'web')}</strong> et voici notre estimation personnalisée.</p>
 
-                <div style="margin-top:25px;font-size:14px;color:#64748b;text-align:center;background:#f8fafc;padding:15px;border-radius:10px;border:1px solid #e2e8f0">
-                  <div style="font-weight:700;color:#1e293b;margin-bottom:5px">Abonnement Maintenance</div>
-                  <strong>${pricing.monthlyHTA}€ / mois HTVA</strong><br>
-                  <span style="font-size:12px">(${pricing.monthlyTTCA}€ / mois TVAC)</span>
+              <h2>VOTRE PROJET</h2>
+              <div class="card">
+                <div class="detail-row"><span class="detail-label">Solution:</span> <span class="detail-value">${escapeHtml(translateOption(data.siteType, lang))}</span></div>
+                ${data.pageCount ? `<div class="detail-row"><span class="detail-label">Volume:</span> <span class="detail-value">${data.pageCount} pages</span></div>` : ''}
+                ${data.languages && data.languages.length > 0 ? `<div class="detail-row"><span class="detail-label">Langues:</span> <span class="detail-value">${data.languages.join(', ')}</span></div>` : ''}
+              </div>
+
+              <h2>ESTIMATION DE L'INVESTISSEMENT</h2>
+              <div class="card" style="border: 2px solid #7c3aed; background-color: #ffffff;">
+                <div class="price-label">CRÉATION DU SITE (Unique)</div>
+                <div class="price-big">${pricing.hasRange ? `${pricing.minTotalTTCA}€ - ${pricing.maxTotalTTCA}€` : `${pricing.minTotalTTCA}€`} <span style="font-size: 16px; font-weight: 600;">TVAC</span></div>
+                <p class="p-small">Inclut le design, le développement, et l'optimisation initiale.</p>
+                
+                <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
+                  <div class="price-label">MAINTENANCE & HÉBERGEMENT (Mensuel)</div>
+                  <div style="font-size: 24px; font-weight: 800; color: #db2777;">${pricing.monthlyTTCA}€ <span style="font-size: 14px; font-weight: 600;">TVAC / mois</span></div>
+                  <p class="p-small">Inclut l'hébergement haute performance, la sécurité SSL, et les mises à jour.</p>
                 </div>
               </div>
-              <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotalTTCA}&maxPrice=${pricing.maxTotalTTCA}&monthlyPrice=${pricing.monthlyTTCA}&packName=${encodeURIComponent(pricing.selectedPackName || 'Maintenance')}" class="btn btn-a" style="margin-top:25px;font-size:16px">CHOISIR CE MODÈLE</a>
+
+              <div style="text-align: center; margin-top: 40px; padding: 30px; background-color: #f1f5f9; border-radius: 16px;">
+                <h3 style="margin: 0 0 15px 0; color: #1e293b;">Ce projet vous intéresse ?</h3>
+                <p style="margin-bottom: 25px; font-size: 15px;">Cliquez sur le bouton ci-dessous pour confirmer votre intérêt pour ce modèle. Nous vous recontacterons sous 24h pour discuter des prochaines étapes.</p>
+                <a href="https://guapowebdesigner.com/confirm-quote?model=A&ref=${refId}&firstName=${encodeURIComponent(data.firstName)}&lastName=${encodeURIComponent(data.lastName)}&email=${encodeURIComponent(data.email)}&company=${encodeURIComponent(data.company || '')}&siteType=${encodeURIComponent(data.siteType)}&minPrice=${pricing.minTotalTTCA}&maxPrice=${pricing.maxTotalTTCA}&monthlyPrice=${pricing.monthlyTTCA}&packName=${encodeURIComponent(pricing.selectedPackName || 'Maintenance')}" class="btn">CONFIRMER MON INTÉRÊT</a>
+              </div>
+
+              <div style="margin-top: 40px; text-align: center;">
+                <p class="p-small">Vous avez des questions ? Répondez simplement à cet email, nous sommes à votre disposition.</p>
+              </div>
             </div>
-        <div style="text-align:center;margin-top:30px;color:#64748b;font-size:13px">
-          Besoin d'ajuster ce devis ? <a href="mailto:info@guapowebdesigner.com" style="color:#1e293b;font-weight:700">Répondez simplement à cet email.</a>
-          <br><br><span style="font-size:10px">Référence unique : #${refId}</span>
+            
+            <div class="footer">
+              GUAPO Web Designer | info@guapowebdesigner.com<br>
+              www.guapowebdesigner.com
+            </div>
+          </div>
         </div>
-      </div>
-    </body></html>
+      </body>
+    </html>
   `;
 
   try {
