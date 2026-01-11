@@ -262,7 +262,6 @@ export async function sendQuoteEmail(data: any) {
     .btn{display:block;padding:12px;text-decoration:none;border-radius:6px;font-weight:700;text-align:center;font-size:14px;margin-top:10px}
     .btn-a{background:#1e293b;color:#fff}
     .btn-b{background:#10b981;color:#fff}
-    .promo-banner{background:#fefce8;border:1px solid #fef08a;padding:12px;border-radius:8px;margin-bottom:20px;text-align:center;color:#854d0e}
   `;
 
   const ownerEmailHtml = `
