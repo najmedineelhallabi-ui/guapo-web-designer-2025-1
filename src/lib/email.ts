@@ -408,6 +408,16 @@ export async function sendQuoteEmail(data: any) {
                 ${data.languages && data.languages.length > 0 ? `<div class="detail-row"><span class="detail-label">Langues:</span> <span class="detail-value">${data.languages.join(', ')}</span></div>` : ''}
               </div>
 
+              <h2>VOTRE CONFIGURATION</h2>
+              <div class="card">
+                ${tableRows.map(r => `
+                  <div class="detail-row">
+                    <span class="detail-label">${escapeHtml(r.item)}</span>
+                    <span class="detail-value">${r.unique !== '-' ? r.unique : r.monthly}</span>
+                  </div>
+                `).join('')}
+              </div>
+
               <h2>ESTIMATION DE L'INVESTISSEMENT</h2>
               <div class="card" style="border: 2px solid #7c3aed; background-color: #ffffff;">
                 <div class="price-label">CRÉATION DU SITE (Unique)</div>
@@ -415,9 +425,15 @@ export async function sendQuoteEmail(data: any) {
                 <p class="p-small">Inclut le design, le développement, et l'optimisation initiale.</p>
                 
                 <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid #e2e8f0;">
-                  <div class="price-label">MAINTENANCE & HÉBERGEMENT (Mensuel)</div>
-                  <div style="font-size: 24px; font-weight: 800; color: #db2777;">${pricing.monthlyTTCA}€ <span style="font-size: 14px; font-weight: 600;">TVAC / mois</span></div>
-                  <p class="p-small">Inclut l'hébergement haute performance, la sécurité SSL, et les mises à jour.</p>
+                  <div class="price-label">MAINTENANCE & SUPPORT</div>
+                  <div style="font-size: 24px; font-weight: 800; color: #db2777;">${pricing.maintenanceInfo.display}</div>
+                  <p class="p-small">${
+                    pricing.maintenanceInfo.period === 'year' 
+                      ? "Inclut l'hébergement haute performance et 6 interventions de maintenance par an." 
+                      : pricing.maintenanceInfo.period === 'intervention'
+                      ? "Hébergement inclus. Maintenance facturée à l'acte."
+                      : "Inclut l'hébergement haute performance, la sécurité SSL, et les mises à jour."
+                  }</p>
                 </div>
               </div>
 
