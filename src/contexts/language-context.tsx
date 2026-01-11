@@ -384,25 +384,17 @@ const translations = {
     "footer.copyright": "Guapo Web Designer 2025",
     "footer.rights": "Tous droits réservés."
   },
-  nl: {
-    // Navigation
-    "nav.home": "Home",
-    "nav.about": "Over ons",
-    "nav.services": "Diensten",
-    "nav.portfolio": "Portfolio",
-    "nav.contact": "Contact",
-    "nav.quote": "Gratis offerte",
-    
-    // Promo -30%
-    "promo.discount": "-30%",
-    "promo.until": "tot",
-    "promo.date": "31/12/25",
-    "promo.banner": "-30% tot 31/12/25 + 1 maand onderhoud gratis!",
-    "promo.close": "Sluiten",
-    "promo.badge": "Eerste Maand Onderhoud Gratis!",
-    
-    // Hero
-    "hero.badge": "Guapo Web Designer",
+    nl: {
+      // Navigation
+      "nav.home": "Home",
+      "nav.about": "Over ons",
+      "nav.services": "Diensten",
+      "nav.portfolio": "Portfolio",
+      "nav.contact": "Contact",
+      "nav.quote": "Gratis offerte",
+      
+      // Hero
+      "hero.badge": "Guapo Web Designer",
     "hero.title": "Als je het kunt bedenken, kunnen wij het",
     "hero.title.highlight": "ontwerpen.",
     "hero.subtitle": "Websites ontworpen om uw zichtbaarheid te verbeteren en uw bedrijf te professionaliseren",
