@@ -169,59 +169,11 @@ Footer.displayName = 'Footer';
 export default function DevisPage() {
   const { t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showBanner, setShowBanner] = useState(true);
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Floating Promo Button -30% */}
-      <a
-        href="/devis"
-        className="fixed bottom-6 right-6 z-50 group"
-        aria-label={t("promo.banner")}
-      >
-        <div className="relative">
-          <div className="absolute -inset-4 bg-gradient-to-r from-red-500 via-red-600 to-red-700 rounded-full blur-2xl opacity-90 group-hover:opacity-100 animate-pulse"></div>
-          
-          <div className="relative flex flex-col items-center justify-center w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-red-500 via-red-600 to-red-700 rounded-full shadow-2xl shadow-red-500/60 group-hover:scale-110 transition-transform duration-300 border-4 border-white/30">
-            <span className="text-white font-black text-4xl md:text-5xl leading-none drop-shadow-lg">{t("promo.discount")}</span>
-            <span className="text-white text-xs md:text-sm font-bold mt-1 drop-shadow-lg opacity-90">{t("promo.until")}</span>
-            <span className="text-white text-sm md:text-base font-bold drop-shadow-lg">{t("promo.date")}</span>
-          </div>
-          
-          <span className="absolute -top-2 -right-2 flex h-6 w-6 md:h-8 md:w-8">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-90"></span>
-            <span className="relative inline-flex rounded-full h-6 w-6 md:h-8 md:w-8 bg-white shadow-lg"></span>
-          </span>
-        </div>
-      </a>
-
-      {/* Banner Annonce -30% */}
-      {showBanner && (
-        <div className="fixed top-0 left-0 right-0 z-[60] bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white shadow-2xl animate-in slide-in-from-top duration-700">
-          <div className="flex items-center justify-between gap-4 px-6 py-4">
-            <div className="flex items-center gap-3 flex-1 justify-center">
-              <span className="text-3xl md:text-4xl animate-bounce">🎁</span>
-              <div>
-                <p className="font-black text-lg md:text-2xl">
-                  {t("promo.banner")}
-                </p>
-              </div>
-              <span className="text-3xl md:text-4xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎁</span>
-            </div>
-            <button
-              onClick={() => setShowBanner(false)}
-              className="group flex items-center gap-2 hover:bg-white/20 rounded-lg transition-all flex-shrink-0 border border-white/30 hover:border-white/50 px-3 py-2"
-              aria-label={t("promo.close")}
-            >
-              <span className="font-semibold text-xs hidden sm:inline">{t("promo.close")}</span>
-              <X className="w-5 h-5 group-hover:rotate-90 transition-transform" />
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg transition-all duration-300 ${showBanner ? 'top-[68px]' : 'top-0'}`}>
+      <nav className="fixed top-0 w-full bg-background/80 backdrop-blur-md border-b border-border z-50 shadow-lg transition-all duration-300 top-0">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <Image 
