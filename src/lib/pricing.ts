@@ -4,13 +4,13 @@
 export const PRICING = {
   // Types de site
   siteTypes: {
-    "Site vitrine simple (1 à 3 pages)": { min: 500, max: 500 },
-    "Site vitrine standard (4 à 5 pages)": { min: 750, max: 750 },
-    "Site vitrine avancé (6 à 8 pages)": { min: 1100, max: 1100 },
-    "Site vitrine premium (9 à 12 pages)": { min: 1400, max: 1400 },
+    "Site vitrine simple (1 à 3 pages)": { min: 350, max: 350 },
+    "Site vitrine standard (4 à 5 pages)": { min: 500, max: 500 },
+    "Site vitrine avancé (6 à 8 pages)": { min: 650, max: 650 },
+    "Site vitrine premium (9 à 12 pages)": { min: 850, max: 850 },
     "Portfolio / site personnel": { min: 600, max: 1200 },
     // Sites e-commerce avec différentes tailles
-    "Petite boutique (1-20 produits)": { min: 1400, max: 1800 },
+    "Petite boutique (1-20 produits)": { min: 800, max: 1000 },
     "Boutique moyenne (21-100 produits)": { min: 1800, max: 3100 },
     "Grande boutique (100+ produits)": { min: 3100, max: 5000 },
     // Menu / Site de commande
@@ -25,19 +25,19 @@ export const PRICING = {
 
   // Fonctionnalités
       features: {
-        "Formulaire de contact simple": 80,
-        "Formulaire de demande de devis": 120,
-        "Envoi automatique d'emails de confirmation (pour devis)": 85,
-        "Système de prise de rendez-vous en ligne (avec emails automatiques)": 170,
-        "Ajouter au calendrier (Google Calendar, Outlook, ICS, etc.)": 60,
-        "Intégration calendrier (Google Calendar, etc.)": 60, // Alias for form
-        "Multilingue": 155,
+        "Formulaire de contact simple": 50,
+        "Formulaire de demande de devis": 100,
+        "Envoi automatique d'emails de confirmation (pour devis)": 50,
+        "Système de prise de rendez-vous en ligne (avec emails automatiques)": 130,
+        "Ajouter au calendrier (Google Calendar, Outlook, ICS, etc.)": 50,
+        "Intégration calendrier (Google Calendar, etc.)": 50, // Alias for form
+        "Multilingue": 120,
         "Blog / actualités": 250,
-        "Catalogue de produits": 400,
-        "Panier d'achat": 300,
+        "Catalogue de produits": 300,
+        "Panier d'achat": 200,
         "Passerelle de paiement (Stripe, PayPal, etc.)": 200,
-        "Gestion des commandes": 250,
-        "Comptes clients": 350,
+        "Gestion des commandes": 200,
+        "Comptes clients": 300,
         "Dashboard Cuisine": 400,
         "Statuts de commande cuisine": 150,
         "Gestion des stocks": 250,
