@@ -79,7 +79,7 @@ export default function Home() {
         </div>
 
         {mobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-card border-b border-border">
+          <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-border">
             <div className="flex flex-col px-6 py-6 gap-1">
               {[
                 { href: "#about", label: t("nav.about") },
@@ -105,16 +105,12 @@ export default function Home() {
       {/* ============================================================
           HERO
           ============================================================ */}
-      <section id="accueil" className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Background gradient — logo colors */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(145deg, #0d0a2e 0%, #111827 40%, #0a1a2e 100%)" }} />
-        {/* Grid */}
+      <section id="accueil" className="relative min-h-screen flex items-center overflow-hidden bg-background">
+        {/* Subtle grid */}
         <div className="absolute inset-0 hero-grid" />
-        {/* Glow orbs — violet + cyan */}
-        <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full opacity-20 blur-[120px]" style={{ background: "#3D2CC7" }} />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full opacity-15 blur-[100px]" style={{ background: "#4BBFE8" }} />
-        {/* Gradient overlay bottom fade */}
-        <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-background to-transparent" />
+        {/* Soft gradient orbs */}
+        <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full opacity-[0.12] blur-[130px]" style={{ background: "linear-gradient(135deg,#3D2CC7,#4BBFE8)" }} />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-[0.08] blur-[100px]" style={{ background: "#4BBFE8" }} />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-32 pb-24 w-full">
           <div className="max-w-4xl">
@@ -126,12 +122,12 @@ export default function Home() {
 
             {/* Heading */}
             <h1 className="text-[clamp(2.8rem,8vw,6.5rem)] font-black leading-[0.95] tracking-tight mb-8">
-              <span className="block text-white">{t("hero.title")}</span>
+              <span className="block text-foreground">{t("hero.title")}</span>
               <span className="block logo-gradient-text italic">{t("hero.title.highlight")}</span>
             </h1>
 
             {/* Sub */}
-            <p className="text-lg text-white/50 max-w-xl leading-relaxed mb-12">
+            <p className="text-lg text-foreground/55 max-w-xl leading-relaxed mb-12">
               {t("hero.subtitle")}
             </p>
 
@@ -143,7 +139,7 @@ export default function Home() {
               </a>
               <a
                 href="#contact"
-                className="inline-flex items-center gap-3 px-8 py-4 border border-white/15 text-white/70 font-semibold rounded-sm hover:border-white/30 hover:text-white transition-all"
+                className="inline-flex items-center gap-3 px-8 py-4 border border-border text-foreground/60 font-semibold rounded-sm hover:border-primary/40 hover:text-foreground transition-all"
               >
                 {t("hero.cta.contact")}
               </a>
@@ -152,7 +148,7 @@ export default function Home() {
         </div>
 
         {/* Scroll hint */}
-        <a href="#about" className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 hover:text-white/50 transition-colors">
+        <a href="#about" className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/30 hover:text-foreground/50 transition-colors">
           <span className="text-[10px] uppercase tracking-[0.25em] font-medium">Scroll</span>
           <ChevronDown className="w-4 h-4 scroll-indicator" />
         </a>
@@ -161,7 +157,7 @@ export default function Home() {
       {/* ============================================================
           MARQUEE BAND
           ============================================================ */}
-      <div className="border-y border-border py-5 bg-card overflow-hidden">
+      <div className="border-y border-border py-5 bg-white overflow-hidden">
         <div className="marquee-track">
           {[...Array(2)].map((_, i) => (
             <div key={i} className="flex items-center gap-14 px-8 whitespace-nowrap">
@@ -221,7 +217,7 @@ export default function Home() {
               <div className="relative">
                 <div className="absolute -top-6 -right-6 w-full h-full rounded-sm opacity-40" style={{ border: "1px solid #4BBFE8" }} />
                 <div className="absolute -top-3 -right-3 w-full h-full rounded-sm" style={{ border: "1px solid rgba(61,44,199,0.3)" }} />
-                <div className="relative w-[320px] h-[320px] bg-card border border-border rounded-sm flex items-center justify-center p-12">
+                <div className="relative w-[320px] h-[320px] bg-white border border-border rounded-sm flex items-center justify-center p-12">
                   <Image
                     src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
                     alt="GUAPO Web Designer"
@@ -242,7 +238,7 @@ export default function Home() {
       {/* ============================================================
           PORTFOLIO
           ============================================================ */}
-      <section id="portfolio" className="py-32 px-6 lg:px-10 bg-card border-t border-border">
+      <section id="portfolio" className="py-32 px-6 lg:px-10 border-t border-border" style={{ background: "#f8f7ff" }}>
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
             <div>
@@ -274,7 +270,7 @@ export default function Home() {
                 <div className="bg-white aspect-video flex items-center justify-center p-10 overflow-hidden">
                   <Image src={img} alt={name} width={400} height={225} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
                 </div>
-                <div className="bg-background p-5 flex items-center justify-between">
+                <div className="bg-white p-5 flex items-center justify-between">
                   <div>
                     <p className="font-bold text-foreground text-sm">{name}</p>
                     <p className="text-xs text-foreground/40 mt-0.5">{url}</p>
@@ -295,7 +291,7 @@ export default function Home() {
       {/* ============================================================
           SERVICES
           ============================================================ */}
-      <section id="services" className="py-32 px-6 lg:px-10 bg-background border-t border-border">
+      <section id="services" className="py-32 px-6 lg:px-10 bg-white border-t border-border">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-8">
             <span className="accent-line" />
@@ -346,7 +342,7 @@ export default function Home() {
               { href: "/devis", icon: <ShoppingCart className="w-5 h-5" />, title: t("services.website.ecommerce.title"), desc: t("services.website.ecommerce.desc"), cta: t("services.website.cta") },
               { href: "#contact", icon: <MessageCircle className="w-5 h-5" />, title: t("services.website.discuss.title"), desc: t("services.website.discuss.desc"), cta: t("services.website.discuss.cta") },
             ].map(({ href, icon, title, desc, cta }) => (
-              <a key={title} href={href} className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card transition-all hover:-translate-y-1">
+              <a key={title} href={href} className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-white transition-all hover:-translate-y-1">
                 <div className="w-10 h-10 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:text-white transition-all mb-6 group-hover:border-transparent" style={{}}>
                   <span className="group-hover:hidden">{icon}</span>
                   <span className="hidden group-hover:flex items-center justify-center w-full h-full rounded-sm" style={{ background: "linear-gradient(135deg,#3D2CC7,#4BBFE8)" }}>{icon}</span>
@@ -364,7 +360,7 @@ export default function Home() {
               href="https://www.guapomenu.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card transition-all hover:-translate-y-1"
+              className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-white transition-all hover:-translate-y-1"
             >
               <div className="w-10 h-10 bg-white border border-gray-100 rounded-sm flex items-center justify-center mb-6">
                 <Image
@@ -391,10 +387,10 @@ export default function Home() {
           CONTACT
           ============================================================ */}
       <section id="contact" className="py-32 px-6 lg:px-10 relative overflow-hidden">
-        {/* BG — dark with logo gradient glow */}
-        <div className="absolute inset-0 bg-card" />
-        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(61,44,199,0.5), rgba(75,191,232,0.5), transparent)" }} />
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full opacity-10 blur-[80px]" style={{ background: "linear-gradient(135deg,#3D2CC7,#4BBFE8)" }} />
+        {/* BG — light violet tint */}
+        <div className="absolute inset-0" style={{ background: "#f8f7ff" }} />
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(61,44,199,0.2), rgba(75,191,232,0.2), transparent)" }} />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full opacity-[0.12] blur-[80px]" style={{ background: "linear-gradient(135deg,#3D2CC7,#4BBFE8)" }} />
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex items-center gap-3 mb-8">
@@ -423,7 +419,7 @@ export default function Home() {
                   key={label}
                   href={href}
                   {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="card-shine group flex items-center gap-5 p-6 border border-border hover:border-primary/40 rounded-sm transition-all bg-background"
+                  className="card-shine group flex items-center gap-5 p-6 border border-border hover:border-primary/40 rounded-sm transition-all bg-white"
                 >
                   <div className="w-11 h-11 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:text-white group-hover:border-transparent transition-all shrink-0 relative">
                     <span className="group-hover:hidden">{icon}</span>
@@ -444,7 +440,7 @@ export default function Home() {
       {/* ============================================================
           FOOTER
           ============================================================ */}
-      <footer className="py-12 px-6 lg:px-10 border-t border-border bg-background">
+      <footer className="py-12 px-6 lg:px-10 border-t border-border bg-white">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <Image
             src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
