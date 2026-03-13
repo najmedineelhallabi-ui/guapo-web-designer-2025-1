@@ -43,78 +43,107 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* ===================================================
+   LOGO COLORS:
+   Violet foncé : #3D2CC7  (oklch ~0.42 0.26 270)
+   Bleu cyan    : #4BBFE8  (oklch ~0.72 0.13 210)
+   Blanc        : #FFFFFF
+   =================================================== */
+
 :root {
   --radius: 0.5rem;
-  /* Near-black backgrounds */
-  --background: oklch(0.08 0.01 260);
-  --foreground: oklch(0.96 0.005 260);
-  --card: oklch(0.11 0.01 260);
-  --card-foreground: oklch(0.96 0.005 260);
-  --popover: oklch(0.11 0.01 260);
-  --popover-foreground: oklch(0.96 0.005 260);
-  /* Gold/amber accent - the ONE main accent */
-  --primary: oklch(0.78 0.14 75);
-  --primary-foreground: oklch(0.10 0.01 260);
-  /* White/light secondary */
-  --secondary: oklch(0.96 0.005 260);
-  --secondary-foreground: oklch(0.08 0.01 260);
-  --muted: oklch(0.16 0.01 260);
-  --muted-foreground: oklch(0.55 0.01 260);
-  /* Subtle purple kept for form/devis only */
-  --accent: oklch(0.65 0.22 290);
-  --accent-foreground: oklch(0.96 0.005 260);
+
+  /* Deep dark bg — near black with violet tint */
+  --background: oklch(0.10 0.04 270);
+  --foreground: oklch(0.97 0.005 260);
+  --card: oklch(0.13 0.04 270);
+  --card-foreground: oklch(0.97 0.005 260);
+  --popover: oklch(0.13 0.04 270);
+  --popover-foreground: oklch(0.97 0.005 260);
+
+  /* PRIMARY = Violet logo #3D2CC7 → vibrant version */
+  --primary: oklch(0.50 0.28 275);
+  --primary-foreground: oklch(0.98 0.005 260);
+
+  /* SECONDARY = Cyan logo #4BBFE8 */
+  --secondary: oklch(0.72 0.13 210);
+  --secondary-foreground: oklch(0.10 0.04 270);
+
+  --muted: oklch(0.17 0.04 270);
+  --muted-foreground: oklch(0.55 0.04 270);
+
+  /* ACCENT = mid gradient violet-cyan */
+  --accent: oklch(0.60 0.20 245);
+  --accent-foreground: oklch(0.98 0.005 260);
+
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.20 0.01 260);
-  --input: oklch(0.20 0.01 260);
-  --ring: oklch(0.78 0.14 75);
-  --chart-1: oklch(0.78 0.14 75);
-  --chart-2: oklch(0.65 0.22 290);
-  --chart-3: oklch(0.96 0.005 260);
-  --chart-4: oklch(0.55 0.01 260);
-  --chart-5: oklch(0.40 0.01 260);
-  --sidebar: oklch(0.10 0.01 260);
-  --sidebar-foreground: oklch(0.96 0.005 260);
-  --sidebar-primary: oklch(0.78 0.14 75);
-  --sidebar-primary-foreground: oklch(0.10 0.01 260);
-  --sidebar-accent: oklch(0.16 0.01 260);
-  --sidebar-accent-foreground: oklch(0.96 0.005 260);
-  --sidebar-border: oklch(0.20 0.01 260);
-  --sidebar-ring: oklch(0.78 0.14 75);
+  --border: oklch(0.22 0.05 270);
+  --input: oklch(0.22 0.05 270);
+  --ring: oklch(0.50 0.28 275);
+
+  --chart-1: oklch(0.50 0.28 275);
+  --chart-2: oklch(0.72 0.13 210);
+  --chart-3: oklch(0.60 0.20 245);
+  --chart-4: oklch(0.40 0.20 275);
+  --chart-5: oklch(0.80 0.10 210);
+
+  --sidebar: oklch(0.11 0.04 270);
+  --sidebar-foreground: oklch(0.97 0.005 260);
+  --sidebar-primary: oklch(0.50 0.28 275);
+  --sidebar-primary-foreground: oklch(0.98 0.005 260);
+  --sidebar-accent: oklch(0.17 0.04 270);
+  --sidebar-accent-foreground: oklch(0.97 0.005 260);
+  --sidebar-border: oklch(0.22 0.05 270);
+  --sidebar-ring: oklch(0.50 0.28 275);
 }
 
 .dark {
-  --background: oklch(0.06 0.01 260);
-  --foreground: oklch(0.96 0.005 260);
-  --card: oklch(0.09 0.01 260);
-  --card-foreground: oklch(0.96 0.005 260);
-  --popover: oklch(0.09 0.01 260);
-  --popover-foreground: oklch(0.96 0.005 260);
-  --primary: oklch(0.80 0.14 75);
-  --primary-foreground: oklch(0.08 0.01 260);
-  --secondary: oklch(0.96 0.005 260);
-  --secondary-foreground: oklch(0.06 0.01 260);
-  --muted: oklch(0.14 0.01 260);
-  --muted-foreground: oklch(0.55 0.01 260);
-  --accent: oklch(0.68 0.22 290);
-  --accent-foreground: oklch(0.96 0.005 260);
+  --background: oklch(0.08 0.04 270);
+  --foreground: oklch(0.97 0.005 260);
+  --card: oklch(0.11 0.04 270);
+  --card-foreground: oklch(0.97 0.005 260);
+  --popover: oklch(0.11 0.04 270);
+  --popover-foreground: oklch(0.97 0.005 260);
+  --primary: oklch(0.55 0.28 275);
+  --primary-foreground: oklch(0.98 0.005 260);
+  --secondary: oklch(0.74 0.13 210);
+  --secondary-foreground: oklch(0.08 0.04 270);
+  --muted: oklch(0.15 0.04 270);
+  --muted-foreground: oklch(0.55 0.04 270);
+  --accent: oklch(0.62 0.20 245);
+  --accent-foreground: oklch(0.98 0.005 260);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.18 0.01 260);
-  --input: oklch(0.18 0.01 260);
-  --ring: oklch(0.80 0.14 75);
-  --sidebar: oklch(0.09 0.01 260);
-  --sidebar-foreground: oklch(0.96 0.005 260);
-  --sidebar-primary: oklch(0.80 0.14 75);
-  --sidebar-primary-foreground: oklch(0.08 0.01 260);
-  --sidebar-accent: oklch(0.14 0.01 260);
-  --sidebar-accent-foreground: oklch(0.96 0.005 260);
-  --sidebar-border: oklch(0.18 0.01 260);
-  --sidebar-ring: oklch(0.80 0.14 75);
+  --border: oklch(0.20 0.05 270);
+  --input: oklch(0.20 0.05 270);
+  --ring: oklch(0.55 0.28 275);
+  --sidebar: oklch(0.09 0.04 270);
+  --sidebar-foreground: oklch(0.97 0.005 260);
+  --sidebar-primary: oklch(0.55 0.28 275);
+  --sidebar-primary-foreground: oklch(0.98 0.005 260);
+  --sidebar-accent: oklch(0.15 0.04 270);
+  --sidebar-accent-foreground: oklch(0.97 0.005 260);
+  --sidebar-border: oklch(0.20 0.05 270);
+  --sidebar-ring: oklch(0.55 0.28 275);
 }
 
 @layer base {
   * { @apply border-border outline-ring/50; }
   body { @apply bg-background text-foreground; }
   html { scroll-behavior: smooth; }
+}
+
+/* ===========================
+   LOGO GRADIENT (violet → cyan)
+   =========================== */
+.logo-gradient {
+  background: linear-gradient(135deg, #3D2CC7 0%, #4BBFE8 100%);
+}
+
+.logo-gradient-text {
+  background: linear-gradient(135deg, #7C6AE8 0%, #4BBFE8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* ===========================
@@ -150,7 +179,7 @@
 .scroll-indicator { animation: scroll-bounce 2s ease-in-out infinite; }
 
 /* ===========================
-   CARD SHINE (single sweep)
+   CARD SHINE
    =========================== */
 .card-shine {
   position: relative;
@@ -160,42 +189,20 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+  background: linear-gradient(105deg, transparent 40%, rgba(75,191,232,0.05) 50%, transparent 60%);
   transform: translateX(-100%);
   transition: transform 0.5s ease;
 }
 .card-shine:hover::after { transform: translateX(100%); }
 
 /* ===========================
-   GOLD LINE SEPARATOR
+   ACCENT LINE
    =========================== */
-.gold-line {
-  width: 40px;
+.accent-line {
+  width: 36px;
   height: 2px;
-  background: var(--color-primary);
+  background: linear-gradient(90deg, #3D2CC7, #4BBFE8);
   display: block;
-}
-
-/* ===========================
-   LASER (kept subtle, only 2)
-   =========================== */
-@keyframes laser-move {
-  0% { transform: translateY(-100%) translateX(-50%); }
-  100% { transform: translateY(200vh) translateX(-50%); }
-}
-.laser-line {
-  position: absolute;
-  width: 1px;
-  height: 120px;
-  background: linear-gradient(180deg, transparent 0%, oklch(0.78 0.14 75 / 0.6) 50%, transparent 100%);
-  animation: laser-move 14s linear infinite;
-}
-
-/* ===========================
-   TEXT GOLD
-   =========================== */
-.text-gold {
-  color: var(--color-primary);
 }
 
 /* ===========================
@@ -206,11 +213,14 @@
   font-weight: 700;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  background: linear-gradient(90deg, #7C6AE8, #4BBFE8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* ===========================
-   HOVER UNDERLINE LINK
+   HOVER UNDERLINE
    =========================== */
 .hover-line {
   position: relative;
@@ -222,10 +232,43 @@
   left: 0;
   width: 0;
   height: 1px;
-  background: var(--color-primary);
+  background: linear-gradient(90deg, #3D2CC7, #4BBFE8);
   transition: width 0.3s ease;
 }
 .hover-line:hover::after { width: 100%; }
+
+/* ===========================
+   HERO GRID
+   =========================== */
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(75,191,232,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(75,191,232,0.05) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+/* ===========================
+   GLOW BUTTON
+   =========================== */
+.btn-logo {
+  background: linear-gradient(135deg, #3D2CC7, #4BBFE8);
+  color: white;
+  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.btn-logo:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 32px rgba(61,44,199,0.45);
+}
+
+/* ===========================
+   BORDER GRADIENT
+   =========================== */
+.border-logo {
+  border: 1px solid transparent;
+  background: linear-gradient(oklch(0.13 0.04 270), oklch(0.13 0.04 270)) padding-box,
+              linear-gradient(135deg, #3D2CC7, #4BBFE8) border-box;
+}
 
 /* Hide Next.js error overlay portal */
 nextjs-portal { display: none !important; }

@@ -24,12 +24,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
 
-      {/* Subtle laser lines — only 2 */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="laser-line" style={{ left: "15%", animationDelay: "0s" }} />
-        <div className="laser-line" style={{ left: "75%", animationDelay: "7s" }} />
-      </div>
-
       {/* Mobile overlay */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40" onClick={() => setMobileMenuOpen(false)} />
@@ -39,7 +33,9 @@ export default function Home() {
           NAV
           ============================================================ */}
       <nav className={`fixed w-full z-50 transition-all duration-500 ${
-        scrolled ? "bg-background/95 backdrop-blur-xl border-b border-border" : "bg-transparent"
+        scrolled
+          ? "bg-background/95 backdrop-blur-xl border-b border-border"
+          : "bg-transparent"
       }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-10 py-5 flex items-center justify-between">
           <a href="#accueil">
@@ -66,10 +62,7 @@ export default function Home() {
               </a>
             ))}
             <div className="w-px h-4 bg-border" />
-            <a
-              href="/devis"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-sm text-sm font-semibold hover:bg-primary/90 transition-colors"
-            >
+            <a href="/devis" className="btn-logo inline-flex items-center gap-2 px-5 py-2.5 rounded-sm text-sm font-semibold">
               <FileText className="w-3.5 h-3.5" />
               {t("nav.quote")}
             </a>
@@ -99,7 +92,7 @@ export default function Home() {
                 </a>
               ))}
               <div className="pt-4 flex flex-col gap-3">
-                <a href="/devis" className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary text-primary-foreground rounded-sm text-sm font-semibold" onClick={() => setMobileMenuOpen(false)}>
+                <a href="/devis" className="btn-logo inline-flex items-center justify-center gap-2 px-5 py-3 rounded-sm text-sm font-semibold" onClick={() => setMobileMenuOpen(false)}>
                   <FileText className="w-4 h-4" />{t("nav.quote")}
                 </a>
                 <LanguageSwitcher />
@@ -113,52 +106,44 @@ export default function Home() {
           HERO
           ============================================================ */}
       <section id="accueil" className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 bg-background" />
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: "linear-gradient(oklch(0.96 0.005 260) 1px, transparent 1px), linear-gradient(90deg, oklch(0.96 0.005 260) 1px, transparent 1px)",
-            backgroundSize: "80px 80px"
-          }}
-        />
-        {/* Large background number */}
-        <div className="absolute right-0 bottom-0 text-[30vw] font-black leading-none text-white/[0.02] select-none pointer-events-none">
-          GW
-        </div>
+        {/* Background gradient — logo colors */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(145deg, #0d0a2e 0%, #111827 40%, #0a1a2e 100%)" }} />
+        {/* Grid */}
+        <div className="absolute inset-0 hero-grid" />
+        {/* Glow orbs — violet + cyan */}
+        <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full opacity-20 blur-[120px]" style={{ background: "#3D2CC7" }} />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full opacity-15 blur-[100px]" style={{ background: "#4BBFE8" }} />
+        {/* Gradient overlay bottom fade */}
+        <div className="absolute bottom-0 inset-x-0 h-40 bg-gradient-to-t from-background to-transparent" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-32 pb-24 w-full">
           <div className="max-w-4xl">
             {/* Eyebrow */}
             <div className="flex items-center gap-3 mb-10">
-              <span className="gold-line" />
+              <span className="accent-line" />
               <span className="section-number">Web Designer — Bruxelles</span>
             </div>
 
             {/* Heading */}
             <h1 className="text-[clamp(2.8rem,8vw,6.5rem)] font-black leading-[0.95] tracking-tight mb-8">
-              <span className="block text-foreground">{t("hero.title")}</span>
-              <span className="block text-primary italic">{t("hero.title.highlight")}</span>
+              <span className="block text-white">{t("hero.title")}</span>
+              <span className="block logo-gradient-text italic">{t("hero.title.highlight")}</span>
             </h1>
 
             {/* Sub */}
-            <p className="text-lg text-foreground/50 max-w-xl leading-relaxed mb-12">
+            <p className="text-lg text-white/50 max-w-xl leading-relaxed mb-12">
               {t("hero.subtitle")}
             </p>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="#portfolio"
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-sm hover:bg-primary/90 transition-all"
-              >
+              <a href="#portfolio" className="btn-logo group inline-flex items-center gap-3 px-8 py-4 rounded-sm font-semibold">
                 {t("hero.cta.projects")}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
               <a
                 href="#contact"
-                className="inline-flex items-center gap-3 px-8 py-4 border border-border text-foreground/70 font-semibold rounded-sm hover:border-foreground/30 hover:text-foreground transition-all"
+                className="inline-flex items-center gap-3 px-8 py-4 border border-white/15 text-white/70 font-semibold rounded-sm hover:border-white/30 hover:text-white transition-all"
               >
                 {t("hero.cta.contact")}
               </a>
@@ -167,13 +152,10 @@ export default function Home() {
         </div>
 
         {/* Scroll hint */}
-        <a href="#about" className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/30 hover:text-foreground/50 transition-colors">
+        <a href="#about" className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 hover:text-white/50 transition-colors">
           <span className="text-[10px] uppercase tracking-[0.25em] font-medium">Scroll</span>
           <ChevronDown className="w-4 h-4 scroll-indicator" />
         </a>
-
-        {/* Decorative line right side */}
-        <div className="hidden lg:block absolute right-10 top-1/2 -translate-y-1/2 h-40 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
       </section>
 
       {/* ============================================================
@@ -182,10 +164,10 @@ export default function Home() {
       <div className="border-y border-border py-5 bg-card overflow-hidden">
         <div className="marquee-track">
           {[...Array(2)].map((_, i) => (
-            <div key={i} className="flex items-center gap-16 px-8 whitespace-nowrap">
+            <div key={i} className="flex items-center gap-14 px-8 whitespace-nowrap">
               {["Web Design", "E-commerce", "Branding", "Performance", "Responsive", "UI / UX", "SEO", "Mobile First", "Multilingue"].map((item) => (
                 <span key={item} className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/30">
-                  <span className="w-1 h-1 rounded-full bg-primary" />
+                  <span className="w-1 h-1 rounded-full" style={{ background: "linear-gradient(135deg,#3D2CC7,#4BBFE8)" }} />
                   {item}
                 </span>
               ))}
@@ -203,7 +185,7 @@ export default function Home() {
             {/* Left */}
             <div>
               <div className="flex items-center gap-3 mb-8">
-                <span className="gold-line" />
+                <span className="accent-line" />
                 <span className="section-number">01 — À Propos</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-8">
@@ -212,10 +194,10 @@ export default function Home() {
               <p className="text-foreground/60 leading-relaxed mb-6 text-base">
                 {t("about.intro")}
               </p>
-              <p className="text-foreground/50 leading-relaxed text-sm mb-10">
+              <p className="text-foreground/45 leading-relaxed text-sm mb-10">
                 {t("about.p1")}
               </p>
-              {/* Values as simple list */}
+              {/* Values */}
               <div className="grid grid-cols-2 gap-4">
                 {[
                   { title: t("about.values.passion"), desc: t("about.values.passion.desc") },
@@ -223,32 +205,32 @@ export default function Home() {
                   { title: t("about.values.performance"), desc: t("about.values.performance.desc") },
                   { title: t("about.values.creativity"), desc: t("about.values.creativity.desc") },
                 ].map(({ title, desc }) => (
-                  <div key={title} className="border-l-2 border-primary/30 pl-4 hover:border-primary transition-colors group">
-                    <div className="text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{title}</div>
+                  <div
+                    key={title}
+                    className="border-l-2 border-primary/25 pl-4 hover:border-primary transition-colors group cursor-default"
+                  >
+                    <div className="text-sm font-bold text-foreground group-hover:logo-gradient-text transition-colors mb-1">{title}</div>
                     <div className="text-xs text-foreground/40 leading-relaxed">{desc}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right — logo + decorative */}
+            {/* Right — logo framed */}
             <div className="relative flex items-center justify-center">
               <div className="relative">
-                {/* Background rectangles */}
-                <div className="absolute -top-6 -right-6 w-full h-full border border-primary/20 rounded-sm" />
-                <div className="absolute -top-3 -right-3 w-full h-full border border-border rounded-sm" />
-                {/* Main card */}
-                <div className="relative w-[340px] h-[340px] bg-card border border-border rounded-sm flex items-center justify-center p-12">
+                <div className="absolute -top-6 -right-6 w-full h-full rounded-sm opacity-40" style={{ border: "1px solid #4BBFE8" }} />
+                <div className="absolute -top-3 -right-3 w-full h-full rounded-sm" style={{ border: "1px solid rgba(61,44,199,0.3)" }} />
+                <div className="relative w-[320px] h-[320px] bg-card border border-border rounded-sm flex items-center justify-center p-12">
                   <Image
                     src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
                     alt="GUAPO Web Designer"
-                    width={280}
-                    height={280}
+                    width={260}
+                    height={260}
                     className="w-full h-full object-contain animate-float"
                   />
                 </div>
-                {/* Gold tag */}
-                <div className="absolute -bottom-5 -left-5 px-4 py-2 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider rounded-sm shadow-lg">
+                <div className="absolute -bottom-4 -left-4 px-4 py-2 text-white text-xs font-bold uppercase tracking-wider rounded-sm shadow-lg" style={{ background: "linear-gradient(135deg,#3D2CC7,#4BBFE8)" }}>
                   Bruxelles, Belgique
                 </div>
               </div>
@@ -265,60 +247,32 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <span className="gold-line" />
+                <span className="accent-line" />
                 <span className="section-number">02 — Portfolio</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
                 {t("portfolio.title.prefix")}
-                <span className="text-primary italic"> {t("portfolio.title.highlight")}</span>
+                <span className="logo-gradient-text italic"> {t("portfolio.title.highlight")}</span>
               </h2>
             </div>
             <p className="text-foreground/50 text-sm max-w-xs leading-relaxed md:text-right">{t("portfolio.subtitle")}</p>
           </div>
 
-          {/* Grid */}
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              {
-                href: "https://www.guapomenu.com",
-                img: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/ChatGPT-Image-21-dec.-2025-16_40_56-1766457790930.png?width=8000&height=8000&resize=contain",
-                name: "Guapo Menu",
-                url: "guapomenu.com",
-                tag: "App SaaS",
-                bg: "bg-white",
-              },
-              {
-                href: "https://www.fiscand.business",
-                img: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Capture-d-ecran-2025-10-24-124300-1762369451856.png?width=8000&height=8000&resize=contain",
-                name: "Fisc & Business",
-                url: "fiscand.business",
-                tag: "Site Vitrine",
-                bg: "bg-white",
-              },
-              {
-                href: "https://salarybusiness.be/",
-                img: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/LOGO-SALARYBUSINESS-1762369466889.jpg?width=8000&height=8000&resize=contain",
-                name: "Salary Business",
-                url: "salarybusiness.be",
-                tag: "Site Vitrine",
-                bg: "bg-white",
-              },
-            ].map(({ href, img, name, url, tag, bg }) => (
+              { href: "https://www.guapomenu.com", img: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/ChatGPT-Image-21-dec.-2025-16_40_56-1766457790930.png?width=8000&height=8000&resize=contain", name: "Guapo Menu", url: "guapomenu.com", tag: "App SaaS" },
+              { href: "https://www.fiscand.business", img: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Capture-d-ecran-2025-10-24-124300-1762369451856.png?width=8000&height=8000&resize=contain", name: "Fisc & Business", url: "fiscand.business", tag: "Site Vitrine" },
+              { href: "https://salarybusiness.be/", img: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/LOGO-SALARYBUSINESS-1762369466889.jpg?width=8000&height=8000&resize=contain", name: "Salary Business", url: "salarybusiness.be", tag: "Site Vitrine" },
+            ].map(({ href, img, name, url, tag }) => (
               <a
                 key={name}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="card-shine group block border border-border hover:border-primary/40 transition-all duration-300 rounded-sm overflow-hidden"
+                className="card-shine group block border border-border rounded-sm overflow-hidden hover:border-primary/40 hover:-translate-y-1 transition-all duration-300"
               >
-                <div className={`${bg} aspect-video flex items-center justify-center p-10 overflow-hidden`}>
-                  <Image
-                    src={img}
-                    alt={name}
-                    width={400}
-                    height={225}
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
-                  />
+                <div className="bg-white aspect-video flex items-center justify-center p-10 overflow-hidden">
+                  <Image src={img} alt={name} width={400} height={225} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="bg-background p-5 flex items-center justify-between">
                   <div>
@@ -326,9 +280,9 @@ export default function Home() {
                     <p className="text-xs text-foreground/40 mt-0.5">{url}</p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-[10px] uppercase tracking-wider font-semibold text-primary border border-primary/30 px-2.5 py-1 rounded-sm">{tag}</span>
-                    <div className="w-7 h-7 border border-border rounded-sm flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all">
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:text-primary-foreground transition-colors" />
+                    <span className="text-[10px] uppercase tracking-wider font-semibold px-2.5 py-1 rounded-sm" style={{ color: "#4BBFE8", border: "1px solid rgba(75,191,232,0.3)" }}>{tag}</span>
+                    <div className="w-7 h-7 border border-border rounded-sm flex items-center justify-center group-hover:border-primary/40 transition-all" style={{}}>
+                      <ArrowRight className="w-3.5 h-3.5 text-foreground/40 group-hover:text-primary transition-colors" />
                     </div>
                   </div>
                 </div>
@@ -344,18 +298,18 @@ export default function Home() {
       <section id="services" className="py-32 px-6 lg:px-10 bg-background border-t border-border">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-8">
-            <span className="gold-line" />
+            <span className="accent-line" />
             <span className="section-number">03 — Services</span>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-16 items-start mb-24">
             <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
-              {t("services.title")} <span className="text-primary italic">{t("services.title.highlight")}</span>
+              {t("services.title")} <span className="logo-gradient-text italic">{t("services.title.highlight")}</span>
             </h2>
             <p className="text-foreground/50 leading-relaxed text-base pt-2">{t("services.subtitle")}</p>
           </div>
 
-          {/* Capabilities list — editorial style */}
+          {/* Capabilities list */}
           <div className="border-t border-border mb-24">
             {[
               { number: "01", icon: <Monitor className="w-4 h-4" />, title: t("services.desktop.title"), desc: t("services.desktop.desc") },
@@ -369,7 +323,7 @@ export default function Home() {
                 key={title}
                 className="group grid grid-cols-[2.5rem_1fr_auto] md:grid-cols-[3rem_1fr_2fr_auto] gap-6 items-center border-b border-border py-6 hover:border-primary/30 transition-colors cursor-default"
               >
-                <span className="text-xs font-bold text-primary/60 font-mono">{number}</span>
+                <span className="text-xs font-bold font-mono" style={{ color: "#4BBFE8", opacity: 0.7 }}>{number}</span>
                 <div className="flex items-center gap-3">
                   <span className="text-foreground/30 group-hover:text-primary transition-colors">{icon}</span>
                   <span className="font-bold text-foreground group-hover:text-primary transition-colors text-sm">{title}</span>
@@ -380,45 +334,39 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Besoin d'un site */}
+          {/* Votre projet */}
           <div className="flex items-center gap-3 mb-12">
-            <span className="gold-line" />
+            <span className="accent-line" />
             <span className="section-number">04 — Votre projet</span>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {/* Site Vitrine */}
-            <a href="/devis" className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card hover:bg-card transition-all">
-              <div className="w-10 h-10 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:border-primary group-hover:text-primary transition-all mb-6">
-                <Briefcase className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-foreground text-base mb-2">{t("services.website.showcase.title")}</h3>
-              <p className="text-xs text-foreground/45 leading-relaxed mb-6 flex-grow">{t("services.website.showcase.desc")}</p>
-              <span className="text-xs font-semibold text-primary flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
-                {t("services.website.cta")} <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </a>
+            {[
+              { href: "/devis", icon: <Briefcase className="w-5 h-5" />, title: t("services.website.showcase.title"), desc: t("services.website.showcase.desc"), cta: t("services.website.cta") },
+              { href: "/devis", icon: <ShoppingCart className="w-5 h-5" />, title: t("services.website.ecommerce.title"), desc: t("services.website.ecommerce.desc"), cta: t("services.website.cta") },
+              { href: "#contact", icon: <MessageCircle className="w-5 h-5" />, title: t("services.website.discuss.title"), desc: t("services.website.discuss.desc"), cta: t("services.website.discuss.cta") },
+            ].map(({ href, icon, title, desc, cta }) => (
+              <a key={title} href={href} className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card transition-all hover:-translate-y-1">
+                <div className="w-10 h-10 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:text-white transition-all mb-6 group-hover:border-transparent" style={{}}>
+                  <span className="group-hover:hidden">{icon}</span>
+                  <span className="hidden group-hover:flex items-center justify-center w-full h-full rounded-sm" style={{ background: "linear-gradient(135deg,#3D2CC7,#4BBFE8)" }}>{icon}</span>
+                </div>
+                <h3 className="font-bold text-foreground text-base mb-2">{title}</h3>
+                <p className="text-xs text-foreground/45 leading-relaxed mb-6 flex-grow">{desc}</p>
+                <span className="text-xs font-semibold flex items-center gap-1.5 group-hover:gap-2.5 transition-all logo-gradient-text">
+                  {cta} <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </a>
+            ))}
 
-            {/* E-commerce */}
-            <a href="/devis" className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card transition-all">
-              <div className="w-10 h-10 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:border-primary group-hover:text-primary transition-all mb-6">
-                <ShoppingCart className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-foreground text-base mb-2">{t("services.website.ecommerce.title")}</h3>
-              <p className="text-xs text-foreground/45 leading-relaxed mb-6 flex-grow">{t("services.website.ecommerce.desc")}</p>
-              <span className="text-xs font-semibold text-primary flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
-                {t("services.website.cta")} <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </a>
-
-            {/* Guapo Menu */}
+            {/* Guapo Menu special card */}
             <a
               href="https://www.guapomenu.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card transition-all"
+              className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card transition-all hover:-translate-y-1"
             >
-              <div className="w-10 h-10 bg-white border border-gray-100 rounded-sm flex items-center justify-center mb-6 group-hover:border-primary/20 transition-all">
+              <div className="w-10 h-10 bg-white border border-gray-100 rounded-sm flex items-center justify-center mb-6">
                 <Image
                   src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/ChatGPT-Image-21-dec.-2025-16_40_56-1766457790930.png?width=8000&height=8000&resize=contain"
                   alt="Guapo Menu"
@@ -431,20 +379,8 @@ export default function Home() {
               <p className="text-xs text-foreground/45 leading-relaxed mb-6 flex-grow">
                 Menus digitaux, QR codes et gestion des commandes pour restaurants.
               </p>
-              <span className="text-xs font-semibold text-primary flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+              <span className="text-xs font-semibold flex items-center gap-1.5 group-hover:gap-2.5 transition-all logo-gradient-text">
                 Découvrir <ArrowRight className="w-3.5 h-3.5" />
-              </span>
-            </a>
-
-            {/* Contact */}
-            <a href="#contact" className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card transition-all">
-              <div className="w-10 h-10 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:border-primary group-hover:text-primary transition-all mb-6">
-                <MessageCircle className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-foreground text-base mb-2">{t("services.website.discuss.title")}</h3>
-              <p className="text-xs text-foreground/45 leading-relaxed mb-6 flex-grow">{t("services.website.discuss.desc")}</p>
-              <span className="text-xs font-semibold text-primary flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
-                {t("services.website.discuss.cta")} <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </a>
           </div>
@@ -454,10 +390,15 @@ export default function Home() {
       {/* ============================================================
           CONTACT
           ============================================================ */}
-      <section id="contact" className="py-32 px-6 lg:px-10 bg-card border-t border-border">
-        <div className="max-w-7xl mx-auto">
+      <section id="contact" className="py-32 px-6 lg:px-10 relative overflow-hidden">
+        {/* BG — dark with logo gradient glow */}
+        <div className="absolute inset-0 bg-card" />
+        <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(61,44,199,0.5), rgba(75,191,232,0.5), transparent)" }} />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full opacity-10 blur-[80px]" style={{ background: "linear-gradient(135deg,#3D2CC7,#4BBFE8)" }} />
+
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex items-center gap-3 mb-8">
-            <span className="gold-line" />
+            <span className="accent-line" />
             <span className="section-number">05 — Contact</span>
           </div>
 
@@ -466,11 +407,8 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
                 {t("contact.section.title")}
               </h2>
-              <p className="text-foreground/50 leading-relaxed mb-12 max-w-md">{t("contact.section.desc")}</p>
-              <a
-                href="/devis"
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-sm hover:bg-primary/90 transition-all"
-              >
+              <p className="text-foreground/50 leading-relaxed mb-12 max-w-md text-base">{t("contact.section.desc")}</p>
+              <a href="/devis" className="btn-logo group inline-flex items-center gap-3 px-8 py-4 rounded-sm font-semibold">
                 {t("nav.quote")}
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
@@ -485,10 +423,11 @@ export default function Home() {
                   key={label}
                   href={href}
                   {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  className="card-shine group flex items-center gap-5 p-6 border border-border hover:border-primary/40 rounded-sm transition-all"
+                  className="card-shine group flex items-center gap-5 p-6 border border-border hover:border-primary/40 rounded-sm transition-all bg-background"
                 >
-                  <div className="w-11 h-11 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:border-primary group-hover:text-primary transition-all shrink-0">
-                    {icon}
+                  <div className="w-11 h-11 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:text-white group-hover:border-transparent transition-all shrink-0 relative">
+                    <span className="group-hover:hidden">{icon}</span>
+                    <span className="hidden group-hover:flex absolute inset-0 items-center justify-center rounded-sm" style={{ background: "linear-gradient(135deg,#3D2CC7,#4BBFE8)" }}>{icon}</span>
                   </div>
                   <div>
                     <div className="text-xs text-foreground/40 uppercase tracking-wider mb-0.5">{label}</div>
