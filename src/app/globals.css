@@ -1,114 +1,3 @@
-/* Updated: 2025-12-23T02:41:49.296Z */
-/* Updated: 2025-12-23T02:38:14.038Z */
-/* Updated: 2025-12-20T15:20:42.679Z */
-/* Updated: 2025-12-20T12:06:37.428Z */
-/* Updated: 2025-12-19T23:21:56.513Z */
-/* Updated: 2025-12-19T19:55:32.140Z */
-/* Updated: 2025-12-19T19:39:38.560Z */
-/* Updated: 2025-12-19T19:28:45.156Z */
-/* Updated: 2025-12-19T19:04:48.231Z */
-/* Updated: 2025-12-19T19:04:46.119Z */
-/* Updated: 2025-12-18T13:49:35.777Z */
-/* Updated: 2025-12-18T13:44:40.108Z */
-/* Updated: 2025-12-18T13:38:24.560Z */
-/* Updated: 2025-12-18T13:26:41.355Z */
-/* Updated: 2025-12-18T13:11:08.656Z */
-/* Updated: 2025-12-17T14:23:45.848Z */
-/* Updated: 2025-12-17T14:08:58.553Z */
-/* Updated: 2025-12-16T18:08:41.261Z */
-/* Updated: 2025-12-14T16:55:56.039Z */
-/* Updated: 2025-12-07T15:25:01.232Z */
-/* Updated: 2025-12-01T11:20:42.898Z */
-/* Updated: 2025-11-23T20:56:17.062Z */
-/* Updated: 2025-11-23T19:53:58.563Z */
-/* Updated: 2025-11-23T18:49:27.031Z */
-/* Updated: 2025-11-22T20:06:33.639Z */
-/* Updated: 2025-11-21T22:45:55.001Z */
-/* Updated: 2025-11-21T22:43:56.631Z */
-/* Updated: 2025-11-21T22:41:54.548Z */
-/* Updated: 2025-11-21T22:31:44.336Z */
-/* Updated: 2025-11-21T22:25:40.924Z */
-/* Updated: 2025-11-21T21:30:46.704Z */
-/* Updated: 2025-11-21T21:29:35.079Z */
-/* Updated: 2025-11-21T21:27:03.111Z */
-/* Updated: 2025-11-21T21:17:15.371Z */
-/* Updated: 2025-11-21T21:15:48.601Z */
-/* Updated: 2025-11-21T20:40:29.925Z */
-/* Updated: 2025-11-21T15:22:28.010Z */
-/* Updated: 2025-11-21T14:34:34.609Z */
-/* Updated: 2025-11-21T14:32:25.236Z */
-/* Updated: 2025-11-21T10:54:32.086Z */
-/* Updated: 2025-11-21T10:51:34.532Z */
-/* Updated: 2025-11-21T10:49:58.773Z */
-/* Updated: 2025-11-21T10:46:57.619Z */
-/* Updated: 2025-11-21T10:44:16.742Z */
-/* Updated: 2025-11-21T10:05:09.860Z */
-/* Updated: 2025-11-21T01:38:33.894Z */
-/* Updated: 2025-11-21T01:32:16.335Z */
-/* Updated: 2025-11-21T01:24:33.797Z */
-/* Updated: 2025-11-21T01:17:56.765Z */
-/* Updated: 2025-11-21T01:13:18.400Z */
-/* Updated: 2025-11-21T00:59:01.401Z */
-/* Updated: 2025-11-21T00:54:56.371Z */
-/* Updated: 2025-11-21T00:52:26.879Z */
-/* Updated: 2025-11-21T00:50:41.884Z */
-/* Updated: 2025-11-21T00:47:47.199Z */
-/* Updated: 2025-11-21T00:47:14.227Z */
-/* Updated: 2025-11-21T00:38:47.201Z */
-/* Updated: 2025-11-21T00:34:04.563Z */
-/* Updated: 2025-11-21T00:31:14.040Z */
-/* Updated: 2025-11-21T00:30:12.850Z */
-/* Updated: 2025-11-21T00:26:07.772Z */
-/* Updated: 2025-11-21T00:23:16.026Z */
-/* Updated: 2025-11-21T00:15:51.080Z */
-/* Updated: 2025-11-21T00:11:49.640Z */
-/* Updated: 2025-11-21T00:08:41.562Z */
-/* Updated: 2025-11-20T23:59:08.752Z */
-/* Updated: 2025-11-20T23:45:49.978Z */
-/* Updated: 2025-11-20T23:37:52.045Z */
-/* Updated: 2025-11-20T23:31:13.785Z */
-/* Updated: 2025-11-20T23:24:01.845Z */
-/* Updated: 2025-11-20T23:22:27.334Z */
-/* Updated: 2025-11-20T21:50:19.136Z */
-/* Updated: 2025-11-20T21:19:39.697Z */
-/* Updated: 2025-11-20T21:17:56.247Z */
-/* Updated: 2025-11-20T17:49:53.964Z */
-/* Updated: 2025-11-17T21:16:44.645Z */
-/* Updated: 2025-11-17T21:10:00.426Z */
-/* Updated: 2025-11-12T21:26:54.758Z */
-/* Updated: 2025-11-12T21:00:07.961Z */
-/* Updated: 2025-11-12T20:49:25.447Z */
-/* Updated: 2025-11-11T16:41:29.436Z */
-/* Updated: 2025-11-10T23:31:49.617Z */
-/* Updated: 2025-11-10T14:14:19.447Z */
-/* Updated: 2025-11-10T11:23:18.313Z */
-/* Updated: 2025-11-10T11:02:58.548Z */
-/* Updated: 2025-11-10T11:00:57.102Z */
-/* Updated: 2025-11-10T10:49:20.207Z */
-/* Updated: 2025-11-09T17:26:21.572Z */
-/* Updated: 2025-11-09T17:12:48.892Z */
-/* Updated: 2025-11-08T13:31:41.426Z */
-/* Updated: 2025-11-08T13:28:36.634Z */
-/* Updated: 2025-11-08T10:05:26.829Z */
-/* Updated: 2025-11-08T10:00:58.388Z */
-/* Updated: 2025-11-06T07:04:34.144Z */
-/* Updated: 2025-11-06T06:54:44.196Z */
-/* Updated: 2025-11-06T06:27:30.623Z */
-/* Updated: 2025-11-06T02:20:34.100Z */
-/* Updated: 2025-11-06T02:14:42.786Z */
-/* Updated: 2025-11-06T01:32:10.222Z */
-/* Updated: 2025-11-06T01:31:23.786Z */
-/* Updated: 2025-11-06T01:04:08.806Z */
-/* Updated: 2025-11-06T00:59:08.174Z */
-/* Updated: 2025-11-05T23:58:41.982Z */
-/* Updated: 2025-11-05T23:33:18.275Z */
-/* Updated: 2025-11-05T22:48:02.144Z */
-/* Updated: 2025-11-05T22:34:08.490Z */
-/* Updated: 2025-11-05T22:27:52.879Z */
-/* Updated: 2025-11-05T22:15:39.804Z */
-/* Updated: 2025-11-05T20:30:31.762Z */
-/* Updated: 2025-11-05T19:51:52.120Z */
-/* Updated: 2025-11-05T18:42:03.557Z */
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -156,71 +45,71 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(0.15 0.08 290);
-  --foreground: oklch(0.98 0.02 290);
-  --card: oklch(0.20 0.08 290);
-  --card-foreground: oklch(0.98 0.02 290);
-  --popover: oklch(0.20 0.08 290);
-  --popover-foreground: oklch(0.98 0.02 290);
-  --primary: oklch(0.65 0.28 290);
+  --background: oklch(0.10 0.05 270);
+  --foreground: oklch(0.97 0.01 270);
+  --card: oklch(0.14 0.06 275);
+  --card-foreground: oklch(0.97 0.01 270);
+  --popover: oklch(0.14 0.06 275);
+  --popover-foreground: oklch(0.97 0.01 270);
+  --primary: oklch(0.68 0.26 290);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.70 0.25 310);
+  --secondary: oklch(0.72 0.24 315);
   --secondary-foreground: oklch(0.99 0 0);
-  --muted: oklch(0.25 0.06 290);
-  --muted-foreground: oklch(0.70 0.08 290);
-  --accent: oklch(0.68 0.18 195);
-  --accent-foreground: oklch(0.15 0.08 290);
+  --muted: oklch(0.20 0.05 280);
+  --muted-foreground: oklch(0.65 0.07 280);
+  --accent: oklch(0.70 0.20 200);
+  --accent-foreground: oklch(0.10 0.05 270);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.35 0.08 290);
-  --input: oklch(0.35 0.08 290);
-  --ring: oklch(0.65 0.28 290);
-  --chart-1: oklch(0.65 0.28 290);
-  --chart-2: oklch(0.70 0.25 310);
-  --chart-3: oklch(0.68 0.18 195);
-  --chart-4: oklch(0.68 0.20 300);
-  --chart-5: oklch(0.72 0.24 270);
-  --sidebar: oklch(0.18 0.08 290);
-  --sidebar-foreground: oklch(0.98 0.02 290);
-  --sidebar-primary: oklch(0.65 0.28 290);
+  --border: oklch(0.28 0.07 280);
+  --input: oklch(0.28 0.07 280);
+  --ring: oklch(0.68 0.26 290);
+  --chart-1: oklch(0.68 0.26 290);
+  --chart-2: oklch(0.72 0.24 315);
+  --chart-3: oklch(0.70 0.20 200);
+  --chart-4: oklch(0.68 0.22 305);
+  --chart-5: oklch(0.74 0.22 270);
+  --sidebar: oklch(0.12 0.06 275);
+  --sidebar-foreground: oklch(0.97 0.01 270);
+  --sidebar-primary: oklch(0.68 0.26 290);
   --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.25 0.06 290);
-  --sidebar-accent-foreground: oklch(0.98 0.02 290);
-  --sidebar-border: oklch(0.35 0.08 290);
-  --sidebar-ring: oklch(0.65 0.28 290);
+  --sidebar-accent: oklch(0.20 0.05 280);
+  --sidebar-accent-foreground: oklch(0.97 0.01 270);
+  --sidebar-border: oklch(0.28 0.07 280);
+  --sidebar-ring: oklch(0.68 0.26 290);
 }
 
 .dark {
-  --background: oklch(0.12 0.08 290);
-  --foreground: oklch(0.98 0.02 290);
-  --card: oklch(0.18 0.08 290);
-  --card-foreground: oklch(0.98 0.02 290);
-  --popover: oklch(0.18 0.08 290);
-  --popover-foreground: oklch(0.98 0.02 290);
-  --primary: oklch(0.70 0.28 290);
-  --primary-foreground: oklch(0.12 0.08 290);
-  --secondary: oklch(0.75 0.25 310);
-  --secondary-foreground: oklch(0.12 0.08 290);
-  --muted: oklch(0.22 0.06 290);
-  --muted-foreground: oklch(0.70 0.08 290);
-  --accent: oklch(0.72 0.18 195);
-  --accent-foreground: oklch(0.12 0.08 290);
+  --background: oklch(0.08 0.05 270);
+  --foreground: oklch(0.97 0.01 270);
+  --card: oklch(0.12 0.06 275);
+  --card-foreground: oklch(0.97 0.01 270);
+  --popover: oklch(0.12 0.06 275);
+  --popover-foreground: oklch(0.97 0.01 270);
+  --primary: oklch(0.72 0.26 290);
+  --primary-foreground: oklch(0.08 0.05 270);
+  --secondary: oklch(0.76 0.24 315);
+  --secondary-foreground: oklch(0.08 0.05 270);
+  --muted: oklch(0.18 0.05 280);
+  --muted-foreground: oklch(0.65 0.07 280);
+  --accent: oklch(0.74 0.20 200);
+  --accent-foreground: oklch(0.08 0.05 270);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.30 0.08 290);
-  --input: oklch(0.30 0.08 290);
-  --ring: oklch(0.70 0.28 290);
-  --chart-1: oklch(0.70 0.28 290);
-  --chart-2: oklch(0.75 0.25 310);
-  --chart-3: oklch(0.72 0.18 195);
-  --chart-4: oklch(0.72 0.20 300);
-  --chart-5: oklch(0.75 0.24 270);
-  --sidebar: oklch(0.18 0.08 290);
-  --sidebar-foreground: oklch(0.98 0.02 290);
-  --sidebar-primary: oklch(0.70 0.28 290);
-  --sidebar-primary-foreground: oklch(0.12 0.08 290);
-  --sidebar-accent: oklch(0.22 0.06 290);
-  --sidebar-accent-foreground: oklch(0.98 0.02 290);
-  --sidebar-border: oklch(0.30 0.08 290);
-  --sidebar-ring: oklch(0.70 0.28 290);
+  --border: oklch(0.24 0.07 280);
+  --input: oklch(0.24 0.07 280);
+  --ring: oklch(0.72 0.26 290);
+  --chart-1: oklch(0.72 0.26 290);
+  --chart-2: oklch(0.76 0.24 315);
+  --chart-3: oklch(0.74 0.20 200);
+  --chart-4: oklch(0.72 0.22 305);
+  --chart-5: oklch(0.78 0.22 270);
+  --sidebar: oklch(0.12 0.06 275);
+  --sidebar-foreground: oklch(0.97 0.01 270);
+  --sidebar-primary: oklch(0.72 0.26 290);
+  --sidebar-primary-foreground: oklch(0.08 0.05 270);
+  --sidebar-accent: oklch(0.18 0.05 280);
+  --sidebar-accent-foreground: oklch(0.97 0.01 270);
+  --sidebar-border: oklch(0.24 0.07 280);
+  --sidebar-ring: oklch(0.72 0.26 290);
 }
 
 @layer base {
@@ -230,8 +119,11 @@
   body {
     @apply bg-background text-foreground;
   }
-  
-  /* Force blur rendering on all devices including tablets */
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   .blur-3xl, .blur-2xl, .blur-xl {
     -webkit-filter: blur(var(--tw-blur));
     filter: blur(var(--tw-blur));
@@ -241,99 +133,229 @@
   }
 }
 
-/* Bounce In Animation for Announcement Banner */
-@keyframes bounceIn {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  50% {
-    transform: translateY(10px);
-    opacity: 1;
-  }
-  65% {
-    transform: translateY(-5px);
-  }
-  80% {
-    transform: translateY(5px);
-  }
-  95% {
-    transform: translateY(-2px);
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
+/* ===========================
+   NOISE TEXTURE OVERLAY
+   =========================== */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* Slide Out Top Animation for Announcement Banner */
-@keyframes slideOutTop {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-150%);
-    opacity: 0;
-  }
+/* ===========================
+   ANIMATED GRADIENT BORDER
+   =========================== */
+@keyframes border-rotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* Laser Lines Animation */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(var(--card), var(--card)) padding-box,
+              linear-gradient(135deg, var(--color-primary), var(--color-secondary), var(--color-accent), var(--color-primary)) border-box;
+  border: 1px solid transparent;
+}
+
+/* ===========================
+   GLOW EFFECTS
+   =========================== */
+.glow-primary {
+  box-shadow: 0 0 20px oklch(0.68 0.26 290 / 0.4), 0 0 60px oklch(0.68 0.26 290 / 0.15);
+}
+.glow-secondary {
+  box-shadow: 0 0 20px oklch(0.72 0.24 315 / 0.4), 0 0 60px oklch(0.72 0.24 315 / 0.15);
+}
+.glow-accent {
+  box-shadow: 0 0 20px oklch(0.70 0.20 200 / 0.4), 0 0 60px oklch(0.70 0.20 200 / 0.15);
+}
+
+/* ===========================
+   HERO GRID PATTERN
+   =========================== */
+.hero-grid {
+  background-image:
+    linear-gradient(oklch(0.68 0.26 290 / 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(0.68 0.26 290 / 0.07) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ===========================
+   SHIMMER EFFECT
+   =========================== */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 25%,
+    var(--color-accent) 50%,
+    var(--color-secondary) 75%,
+    var(--color-primary) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ===========================
+   FLOATING ANIMATION
+   =========================== */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float-delayed 5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+/* ===========================
+   SLIDE IN ANIMATIONS
+   =========================== */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ===========================
+   LASER LINES
+   =========================== */
 @keyframes laser-move {
-  0% {
-    transform: translateY(-100%) translateX(-50%);
-  }
-  100% {
-    transform: translateY(200vh) translateX(-50%);
-  }
+  0% { transform: translateY(-100%) translateX(-50%); }
+  100% { transform: translateY(200vh) translateX(-50%); }
 }
 
 @keyframes laser-glow {
-  0%, 100% {
-    opacity: 0.3;
-    filter: brightness(1);
-  }
-  50% {
-    opacity: 0.8;
-    filter: brightness(1.5);
-  }
+  0%, 100% { opacity: 0.2; filter: brightness(1); }
+  50% { opacity: 0.6; filter: brightness(1.8); }
 }
 
 .laser-line {
   position: absolute;
-  width: 2px;
-  height: 200px;
-  background: linear-gradient(180deg, 
-    transparent 0%, 
-    var(--color-primary) 50%, 
-    transparent 100%
-  );
-  animation: laser-move 8s linear infinite;
-  box-shadow: 0 0 10px var(--color-primary),
-              0 0 20px var(--color-primary),
-              0 0 30px var(--color-primary);
+  width: 1px;
+  height: 150px;
+  background: linear-gradient(180deg, transparent 0%, var(--color-primary) 50%, transparent 100%);
+  animation: laser-move 10s linear infinite, laser-glow 3s ease-in-out infinite;
+  box-shadow: 0 0 6px var(--color-primary), 0 0 15px var(--color-primary);
 }
 
 .laser-line-secondary {
-  background: linear-gradient(180deg, 
-    transparent 0%, 
-    var(--color-secondary) 50%, 
-    transparent 100%
-  );
-  box-shadow: 0 0 10px var(--color-secondary),
-              0 0 20px var(--color-secondary),
-              0 0 30px var(--color-secondary);
+  background: linear-gradient(180deg, transparent 0%, var(--color-secondary) 50%, transparent 100%);
+  box-shadow: 0 0 6px var(--color-secondary), 0 0 15px var(--color-secondary);
 }
 
 .laser-line-accent {
-  background: linear-gradient(180deg, 
-    transparent 0%, 
-    var(--color-accent) 50%, 
+  background: linear-gradient(180deg, transparent 0%, var(--color-accent) 50%, transparent 100%);
+  box-shadow: 0 0 6px var(--color-accent), 0 0 15px var(--color-accent);
+}
+
+/* ===========================
+   BOUNCE IN / SLIDE OUT (legacy)
+   =========================== */
+@keyframes bounceIn {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { transform: translateY(10px); opacity: 1; }
+  65% { transform: translateY(-5px); }
+  80% { transform: translateY(5px); }
+  95% { transform: translateY(-2px); }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideOutTop {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-150%); opacity: 0; }
+}
+
+/* ===========================
+   CARD HOVER SHINE
+   =========================== */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255,255,255,0.04) 50%,
     transparent 100%
   );
-  box-shadow: 0 0 10px var(--color-accent),
-              0 0 20px var(--color-accent),
-              0 0 30px var(--color-accent);
+  transform: skewX(-25deg);
+  transition: left 0.6s ease;
+}
+
+.card-shine:hover::after {
+  left: 150%;
+}
+
+/* ===========================
+   SCROLL INDICATOR
+   =========================== */
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(6px); opacity: 0.5; }
+}
+
+.scroll-indicator {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+/* ===========================
+   NUMBER COUNTER GLOW
+   =========================== */
+.stat-number {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Hide Next.js error overlay portal */
