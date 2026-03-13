@@ -2,10 +2,9 @@
 
 import Image from "next/image";
 import {
-  ArrowRight, Code, Palette, Sparkles, Mail, Zap, Monitor, Tablet,
+  ArrowRight, Palette, Mail, Zap, Monitor, Tablet,
   Smartphone, Instagram, Menu, X, ShoppingCart, MessageCircle,
-  Briefcase, FileText, UtensilsCrossed, Star, ChevronDown,
-  Globe, MousePointer, Layers, TrendingUp, Award, Users
+  Briefcase, FileText, UtensilsCrossed, ChevronDown, Layers
 } from "lucide-react";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { useLanguage } from "@/contexts/language-context";
@@ -17,7 +16,7 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
+    const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -25,114 +24,83 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
 
-      {/* Laser Lines Background — subtle, full-page */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 opacity-40">
-        <div className="laser-line" style={{ left: "8%", animationDelay: "0s" }} />
-        <div className="laser-line laser-line-secondary" style={{ left: "22%", animationDelay: "2.5s" }} />
-        <div className="laser-line laser-line-accent" style={{ left: "38%", animationDelay: "5s" }} />
-        <div className="laser-line" style={{ left: "54%", animationDelay: "1.5s" }} />
-        <div className="laser-line laser-line-secondary" style={{ left: "70%", animationDelay: "3.5s" }} />
-        <div className="laser-line laser-line-accent" style={{ left: "88%", animationDelay: "7s" }} />
+      {/* Subtle laser lines — only 2 */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="laser-line" style={{ left: "15%", animationDelay: "0s" }} />
+        <div className="laser-line" style={{ left: "75%", animationDelay: "7s" }} />
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile overlay */}
       {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40"
-          onClick={() => setMobileMenuOpen(false)}
-        />
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40" onClick={() => setMobileMenuOpen(false)} />
       )}
 
       {/* ============================================================
-          NAVIGATION
+          NAV
           ============================================================ */}
       <nav className={`fixed w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-background/90 backdrop-blur-xl border-b border-white/5 shadow-2xl shadow-black/30"
-          : "bg-transparent"
+        scrolled ? "bg-background/95 backdrop-blur-xl border-b border-border" : "bg-transparent"
       }`}>
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <a href="#accueil" className="flex items-center group">
+        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-5 flex items-center justify-between">
+          <a href="#accueil">
             <Image
               src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
-              alt="GUAPO Web Designer Logo"
-              width={120}
-              height={60}
-              className="h-11 w-auto object-contain transition-all duration-300 group-hover:brightness-110"
+              alt="GUAPO"
+              width={110}
+              height={55}
+              className="h-10 w-auto object-contain"
               priority
             />
           </a>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex gap-1 items-center">
+          {/* Desktop */}
+          <div className="hidden md:flex items-center gap-8">
             {[
-              { href: "#accueil", label: t("nav.home") },
               { href: "#about", label: t("nav.about") },
               { href: "#portfolio", label: t("nav.portfolio") },
               { href: "#services", label: t("nav.services") },
               { href: "#contact", label: t("nav.contact") },
             ].map(({ href, label }) => (
-              <a
-                key={href}
-                href={href}
-                className="relative px-4 py-2 text-sm font-medium text-foreground/70 hover:text-foreground transition-colors duration-200 group"
-              >
+              <a key={href} href={href} className="hover-line text-sm text-foreground/60 hover:text-foreground transition-colors duration-200 font-medium">
                 {label}
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-px bg-gradient-to-r from-primary to-secondary group-hover:w-3/4 transition-all duration-300" />
               </a>
             ))}
-            <div className="w-px h-5 bg-border/50 mx-2" />
+            <div className="w-px h-4 bg-border" />
             <a
               href="/devis"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary via-secondary to-accent text-white rounded-full text-sm font-semibold hover:scale-105 hover:shadow-lg hover:shadow-primary/40 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-sm text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
-              <FileText className="w-4 h-4" />
+              <FileText className="w-3.5 h-3.5" />
               {t("nav.quote")}
             </a>
             <LanguageSwitcher />
           </div>
 
-          {/* Mobile Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2.5 rounded-xl bg-card/80 border border-border hover:border-primary/50 transition-all"
+            className="md:hidden p-2 rounded-sm border border-border"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen
-              ? <X className="w-5 h-5 text-primary" />
-              : <Menu className="w-5 h-5 text-foreground" />
-            }
+            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
-        {/* Mobile Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-card/98 backdrop-blur-2xl border-b border-border shadow-2xl">
-            <div className="flex flex-col gap-1 px-6 py-6">
+          <div className="md:hidden absolute top-full left-0 w-full bg-card border-b border-border">
+            <div className="flex flex-col px-6 py-6 gap-1">
               {[
-                { href: "#accueil", label: t("nav.home") },
                 { href: "#about", label: t("nav.about") },
                 { href: "#portfolio", label: t("nav.portfolio") },
                 { href: "#services", label: t("nav.services") },
                 { href: "#contact", label: t("nav.contact") },
               ].map(({ href, label }) => (
-                <a
-                  key={href}
-                  href={href}
-                  className="py-3 px-4 rounded-lg hover:bg-primary/10 hover:text-primary transition-all text-sm font-medium"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
+                <a key={href} href={href} className="py-3 text-sm text-foreground/70 border-b border-border/50 last:border-0" onClick={() => setMobileMenuOpen(false)}>
                   {label}
                 </a>
               ))}
-              <div className="pt-3 mt-2 border-t border-border flex flex-col gap-3">
-                <a
-                  href="/devis"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-primary via-secondary to-accent text-white rounded-full text-sm font-semibold"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <FileText className="w-4 h-4" />
-                  {t("nav.quote")}
+              <div className="pt-4 flex flex-col gap-3">
+                <a href="/devis" className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary text-primary-foreground rounded-sm text-sm font-semibold" onClick={() => setMobileMenuOpen(false)}>
+                  <FileText className="w-4 h-4" />{t("nav.quote")}
                 </a>
                 <LanguageSwitcher />
               </div>
@@ -142,159 +110,146 @@ export default function Home() {
       </nav>
 
       {/* ============================================================
-          HERO SECTION
+          HERO
           ============================================================ */}
-      <section id="accueil" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
-        {/* Background layers */}
-        <div className="absolute inset-0 hero-grid opacity-100" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
+      <section id="accueil" className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 bg-background" />
+        {/* Subtle grid */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: "linear-gradient(oklch(0.96 0.005 260) 1px, transparent 1px), linear-gradient(90deg, oklch(0.96 0.005 260) 1px, transparent 1px)",
+            backgroundSize: "80px 80px"
+          }}
+        />
+        {/* Large background number */}
+        <div className="absolute right-0 bottom-0 text-[30vw] font-black leading-none text-white/[0.02] select-none pointer-events-none">
+          GW
+        </div>
 
-        {/* Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[100px] animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-secondary/20 rounded-full blur-[120px] animate-float-delayed" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-accent/15 rounded-full blur-[80px]" />
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-32 pb-24 w-full">
+          <div className="max-w-4xl">
+            {/* Eyebrow */}
+            <div className="flex items-center gap-3 mb-10">
+              <span className="gold-line" />
+              <span className="section-number">Web Designer — Bruxelles</span>
+            </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/25 text-sm font-medium text-primary mb-8 backdrop-blur-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            {t("hero.badge")}
-            <Sparkles className="w-3.5 h-3.5" />
-          </div>
+            {/* Heading */}
+            <h1 className="text-[clamp(2.8rem,8vw,6.5rem)] font-black leading-[0.95] tracking-tight mb-8">
+              <span className="block text-foreground">{t("hero.title")}</span>
+              <span className="block text-primary italic">{t("hero.title.highlight")}</span>
+            </h1>
 
-          {/* Main Heading */}
-          <h1 className="text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight leading-[1.05] mb-6">
-            <span className="block text-foreground/90">{t("hero.title")}</span>
-            <span className="block shimmer-text">{t("hero.title.highlight")}</span>
-          </h1>
+            {/* Sub */}
+            <p className="text-lg text-foreground/50 max-w-xl leading-relaxed mb-12">
+              {t("hero.subtitle")}
+            </p>
 
-          {/* Subtitle */}
-          <p className="text-lg md:text-xl text-foreground/60 max-w-2xl mx-auto mb-12 leading-relaxed">
-            {t("hero.subtitle")}
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <a
-              href="#portfolio"
-              className="group inline-flex items-center gap-2.5 px-8 py-4 bg-gradient-to-r from-primary via-secondary to-accent text-white rounded-full font-semibold text-base hover:scale-105 hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300"
-            >
-              {t("hero.cta.projects")}
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2.5 px-8 py-4 border border-white/15 bg-white/5 backdrop-blur-sm text-foreground/80 rounded-full font-semibold text-base hover:bg-white/10 hover:border-white/30 transition-all duration-300"
-            >
-              {t("hero.cta.contact")}
-            </a>
-          </div>
-
-          {/* Stats Row */}
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
-            {[
-              { value: "15+", label: "Projets livrés" },
-              { value: "100%", label: "Clients satisfaits" },
-              { value: "3", label: "Langues" },
-            ].map(({ value, label }) => (
-              <div key={label} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold stat-number mb-1">{value}</div>
-                <div className="text-xs text-foreground/50 uppercase tracking-widest">{label}</div>
-              </div>
-            ))}
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a
+                href="#portfolio"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-sm hover:bg-primary/90 transition-all"
+              >
+                {t("hero.cta.projects")}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-3 px-8 py-4 border border-border text-foreground/70 font-semibold rounded-sm hover:border-foreground/30 hover:text-foreground transition-all"
+              >
+                {t("hero.cta.contact")}
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <a href="#about" className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/30 hover:text-foreground/60 transition-colors">
-          <span className="text-xs uppercase tracking-widest">Scroll</span>
-          <ChevronDown className="w-5 h-5 scroll-indicator" />
+        {/* Scroll hint */}
+        <a href="#about" className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/30 hover:text-foreground/50 transition-colors">
+          <span className="text-[10px] uppercase tracking-[0.25em] font-medium">Scroll</span>
+          <ChevronDown className="w-4 h-4 scroll-indicator" />
         </a>
+
+        {/* Decorative line right side */}
+        <div className="hidden lg:block absolute right-10 top-1/2 -translate-y-1/2 h-40 w-px bg-gradient-to-b from-transparent via-border to-transparent" />
       </section>
 
       {/* ============================================================
-          ABOUT SECTION
+          MARQUEE BAND
           ============================================================ */}
-      <section id="about" className="py-32 px-6 relative overflow-hidden bg-background">
-        {/* Subtle background */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/3 to-background" />
+      <div className="border-y border-border py-5 bg-card overflow-hidden">
+        <div className="marquee-track">
+          {[...Array(2)].map((_, i) => (
+            <div key={i} className="flex items-center gap-16 px-8 whitespace-nowrap">
+              {["Web Design", "E-commerce", "Branding", "Performance", "Responsive", "UI / UX", "SEO", "Mobile First", "Multilingue"].map((item) => (
+                <span key={item} className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.2em] text-foreground/30">
+                  <span className="w-1 h-1 rounded-full bg-primary" />
+                  {item}
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
-        <div className="max-w-7xl mx-auto relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-20">
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.3em] text-primary mb-4">À Propos</span>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              <span className="text-foreground">{t("about.title").split(" ")[0]} </span>
-              <span className="shimmer-text">{t("about.title").split(" ").slice(1).join(" ")}</span>
-            </h2>
-            <div className="w-16 h-px bg-gradient-to-r from-primary to-secondary mx-auto" />
-          </div>
-
-          {/* Values Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
-            {[
-              { icon: <Sparkles className="w-6 h-6" />, title: t("about.values.passion"), desc: t("about.values.passion.desc"), gradient: "from-primary/20 to-primary/5", border: "border-primary/20", glow: "hover:shadow-primary/20" },
-              { icon: <Zap className="w-6 h-6" />, title: t("about.values.innovation"), desc: t("about.values.innovation.desc"), gradient: "from-secondary/20 to-secondary/5", border: "border-secondary/20", glow: "hover:shadow-secondary/20" },
-              { icon: <TrendingUp className="w-6 h-6" />, title: t("about.values.performance"), desc: t("about.values.performance.desc"), gradient: "from-accent/20 to-accent/5", border: "border-accent/20", glow: "hover:shadow-accent/20" },
-              { icon: <Palette className="w-6 h-6" />, title: t("about.values.creativity"), desc: t("about.values.creativity.desc"), gradient: "from-primary/15 to-accent/10", border: "border-primary/20", glow: "hover:shadow-primary/20" },
-            ].map(({ icon, title, desc, gradient, border, glow }) => (
-              <div
-                key={title}
-                className={`card-shine group p-8 rounded-2xl bg-gradient-to-br ${gradient} border ${border} hover:shadow-2xl ${glow} hover:-translate-y-1 transition-all duration-400`}
-              >
-                <div className="w-12 h-12 rounded-xl bg-background/50 border border-white/10 flex items-center justify-center text-primary mb-5 group-hover:scale-110 transition-transform">
-                  {icon}
-                </div>
-                <h3 className="text-lg font-bold mb-2 text-foreground">{title}</h3>
-                <p className="text-sm text-foreground/60 leading-relaxed">{desc}</p>
+      {/* ============================================================
+          ABOUT
+          ============================================================ */}
+      <section id="about" className="py-32 px-6 lg:px-10 bg-background">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            {/* Left */}
+            <div>
+              <div className="flex items-center gap-3 mb-8">
+                <span className="gold-line" />
+                <span className="section-number">01 — À Propos</span>
               </div>
-            ))}
-          </div>
-
-          {/* About Block */}
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="space-y-6">
-              <p className="text-lg text-foreground/80 leading-relaxed">
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-8">
+                {t("about.title")}
+              </h2>
+              <p className="text-foreground/60 leading-relaxed mb-6 text-base">
                 {t("about.intro")}
               </p>
-              <p className="text-foreground/60 leading-relaxed">
+              <p className="text-foreground/50 leading-relaxed text-sm mb-10">
                 {t("about.p1")}
               </p>
-              <div className="flex gap-6 pt-4">
+              {/* Values as simple list */}
+              <div className="grid grid-cols-2 gap-4">
                 {[
-                  { icon: <Globe className="w-4 h-4" />, text: "Belgique" },
-                  { icon: <Award className="w-4 h-4" />, text: "Certifié" },
-                  { icon: <Users className="w-4 h-4" />, text: "Multilingue" },
-                ].map(({ icon, text }) => (
-                  <div key={text} className="flex items-center gap-2 text-sm text-foreground/50">
-                    <span className="text-primary">{icon}</span>
-                    {text}
+                  { title: t("about.values.passion"), desc: t("about.values.passion.desc") },
+                  { title: t("about.values.innovation"), desc: t("about.values.innovation.desc") },
+                  { title: t("about.values.performance"), desc: t("about.values.performance.desc") },
+                  { title: t("about.values.creativity"), desc: t("about.values.creativity.desc") },
+                ].map(({ title, desc }) => (
+                  <div key={title} className="border-l-2 border-primary/30 pl-4 hover:border-primary transition-colors group">
+                    <div className="text-sm font-bold text-foreground group-hover:text-primary transition-colors mb-1">{title}</div>
+                    <div className="text-xs text-foreground/40 leading-relaxed">{desc}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Logo Card */}
-            <div className="flex justify-center">
+            {/* Right — logo + decorative */}
+            <div className="relative flex items-center justify-center">
               <div className="relative">
-                <div className="absolute -inset-12 bg-gradient-to-br from-primary/15 via-secondary/10 to-accent/15 rounded-full blur-3xl" />
-                <div className="relative gradient-border rounded-3xl p-1">
-                  <div className="w-72 h-72 bg-card rounded-[22px] flex items-center justify-center p-8">
-                    <Image
-                      src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
-                      alt="GUAPO Web Designer"
-                      width={240}
-                      height={240}
-                      className="w-full h-full object-contain animate-float"
-                    />
-                  </div>
+                {/* Background rectangles */}
+                <div className="absolute -top-6 -right-6 w-full h-full border border-primary/20 rounded-sm" />
+                <div className="absolute -top-3 -right-3 w-full h-full border border-border rounded-sm" />
+                {/* Main card */}
+                <div className="relative w-[340px] h-[340px] bg-card border border-border rounded-sm flex items-center justify-center p-12">
+                  <Image
+                    src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
+                    alt="GUAPO Web Designer"
+                    width={280}
+                    height={280}
+                    className="w-full h-full object-contain animate-float"
+                  />
                 </div>
-                {/* Floating badges */}
-                <div className="absolute -top-4 -right-4 px-3 py-1.5 bg-primary text-white text-xs font-bold rounded-full shadow-lg shadow-primary/40">
-                  ✦ Web Design
-                </div>
-                <div className="absolute -bottom-4 -left-4 px-3 py-1.5 bg-secondary text-white text-xs font-bold rounded-full shadow-lg shadow-secondary/40">
-                  ✦ Bruxelles
+                {/* Gold tag */}
+                <div className="absolute -bottom-5 -left-5 px-4 py-2 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider rounded-sm shadow-lg">
+                  Bruxelles, Belgique
                 </div>
               </div>
             </div>
@@ -303,28 +258,26 @@ export default function Home() {
       </section>
 
       {/* ============================================================
-          PORTFOLIO SECTION
+          PORTFOLIO
           ============================================================ */}
-      <section id="portfolio" className="py-32 px-6 relative overflow-hidden">
-        {/* Dark bg with subtle gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-card via-background to-card" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-20">
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.3em] text-accent mb-4">Portfolio</span>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              {t("portfolio.title.prefix")}
-              <span className="shimmer-text">{t("portfolio.title.highlight")}</span>
-            </h2>
-            <p className="text-foreground/50 text-lg max-w-xl mx-auto">{t("portfolio.subtitle")}</p>
-            <div className="w-16 h-px bg-gradient-to-r from-secondary to-accent mx-auto mt-6" />
+      <section id="portfolio" className="py-32 px-6 lg:px-10 bg-card border-t border-border">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <span className="gold-line" />
+                <span className="section-number">02 — Portfolio</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
+                {t("portfolio.title.prefix")}
+                <span className="text-primary italic"> {t("portfolio.title.highlight")}</span>
+              </h2>
+            </div>
+            <p className="text-foreground/50 text-sm max-w-xs leading-relaxed md:text-right">{t("portfolio.subtitle")}</p>
           </div>
 
-          {/* Portfolio Grid */}
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* Grid */}
+          <div className="grid md:grid-cols-3 gap-6">
             {[
               {
                 href: "https://www.guapomenu.com",
@@ -332,7 +285,6 @@ export default function Home() {
                 name: "Guapo Menu",
                 url: "guapomenu.com",
                 tag: "App SaaS",
-                tagColor: "bg-accent/20 text-accent border-accent/30",
                 bg: "bg-white",
               },
               {
@@ -341,7 +293,6 @@ export default function Home() {
                 name: "Fisc & Business",
                 url: "fiscand.business",
                 tag: "Site Vitrine",
-                tagColor: "bg-primary/20 text-primary border-primary/30",
                 bg: "bg-white",
               },
               {
@@ -350,20 +301,17 @@ export default function Home() {
                 name: "Salary Business",
                 url: "salarybusiness.be",
                 tag: "Site Vitrine",
-                tagColor: "bg-secondary/20 text-secondary border-secondary/30",
                 bg: "bg-white",
               },
-            ].map(({ href, img, name, url, tag, tagColor, bg }) => (
+            ].map(({ href, img, name, url, tag, bg }) => (
               <a
                 key={name}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="card-shine group block rounded-2xl overflow-hidden border border-white/8 bg-card hover:border-primary/30 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/15 transition-all duration-400"
+                className="card-shine group block border border-border hover:border-primary/40 transition-all duration-300 rounded-sm overflow-hidden"
               >
-                {/* Preview */}
-                <div className={`aspect-video ${bg} flex items-center justify-center p-10 relative overflow-hidden`}>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className={`${bg} aspect-video flex items-center justify-center p-10 overflow-hidden`}>
                   <Image
                     src={img}
                     alt={name}
@@ -372,16 +320,15 @@ export default function Home() {
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                {/* Info */}
-                <div className="p-6 flex items-center justify-between">
+                <div className="bg-background p-5 flex items-center justify-between">
                   <div>
-                    <h3 className="font-bold text-lg text-foreground mb-1">{name}</h3>
-                    <p className="text-sm text-foreground/40">{url}</p>
+                    <p className="font-bold text-foreground text-sm">{name}</p>
+                    <p className="text-xs text-foreground/40 mt-0.5">{url}</p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className={`text-xs font-medium px-3 py-1 rounded-full border ${tagColor}`}>{tag}</span>
-                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                    <span className="text-[10px] uppercase tracking-wider font-semibold text-primary border border-primary/30 px-2.5 py-1 rounded-sm">{tag}</span>
+                    <div className="w-7 h-7 border border-border rounded-sm flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all">
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:text-primary-foreground transition-colors" />
                     </div>
                   </div>
                 </div>
@@ -392,82 +339,76 @@ export default function Home() {
       </section>
 
       {/* ============================================================
-          SERVICES SECTION
+          SERVICES
           ============================================================ */}
-      <section id="services" className="py-32 px-6 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/3 to-background" />
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-20">
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.3em] text-secondary mb-4">Services</span>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              {t("services.title")} <span className="shimmer-text">{t("services.title.highlight")}</span>
-            </h2>
-            <p className="text-foreground/50 text-lg max-w-xl mx-auto">{t("services.subtitle")}</p>
-            <div className="w-16 h-px bg-gradient-to-r from-primary to-secondary mx-auto mt-6" />
+      <section id="services" className="py-32 px-6 lg:px-10 bg-background border-t border-border">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-3 mb-8">
+            <span className="gold-line" />
+            <span className="section-number">03 — Services</span>
           </div>
 
-          {/* Skills Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-5 mb-24">
+          <div className="grid lg:grid-cols-2 gap-16 items-start mb-24">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight">
+              {t("services.title")} <span className="text-primary italic">{t("services.title.highlight")}</span>
+            </h2>
+            <p className="text-foreground/50 leading-relaxed text-base pt-2">{t("services.subtitle")}</p>
+          </div>
+
+          {/* Capabilities list — editorial style */}
+          <div className="border-t border-border mb-24">
             {[
-              { icon: <Monitor className="w-5 h-5" />, title: t("services.desktop.title"), desc: t("services.desktop.desc"), color: "primary" },
-              { icon: <Tablet className="w-5 h-5" />, title: t("services.tablet.title"), desc: t("services.tablet.desc"), color: "secondary" },
-              { icon: <Smartphone className="w-5 h-5" />, title: t("services.mobile.title"), desc: t("services.mobile.desc"), color: "accent" },
-              { icon: <Layers className="w-5 h-5" />, title: t("services.responsive.title"), desc: t("services.responsive.desc"), color: "primary" },
-              { icon: <Palette className="w-5 h-5" />, title: t("services.branding.title"), desc: t("services.branding.desc"), color: "secondary" },
-              { icon: <Zap className="w-5 h-5" />, title: t("services.performance.title"), desc: t("services.performance.desc"), color: "accent" },
-            ].map(({ icon, title, desc, color }) => (
+              { number: "01", icon: <Monitor className="w-4 h-4" />, title: t("services.desktop.title"), desc: t("services.desktop.desc") },
+              { number: "02", icon: <Smartphone className="w-4 h-4" />, title: t("services.mobile.title"), desc: t("services.mobile.desc") },
+              { number: "03", icon: <Layers className="w-4 h-4" />, title: t("services.responsive.title"), desc: t("services.responsive.desc") },
+              { number: "04", icon: <Palette className="w-4 h-4" />, title: t("services.branding.title"), desc: t("services.branding.desc") },
+              { number: "05", icon: <Zap className="w-4 h-4" />, title: t("services.performance.title"), desc: t("services.performance.desc") },
+              { number: "06", icon: <Tablet className="w-4 h-4" />, title: t("services.tablet.title"), desc: t("services.tablet.desc") },
+            ].map(({ number, icon, title, desc }) => (
               <div
                 key={title}
-                className={`card-shine group p-6 rounded-2xl border border-${color}/15 bg-${color}/5 hover:bg-${color}/10 hover:border-${color}/30 hover:-translate-y-1 hover:shadow-xl hover:shadow-${color}/10 transition-all duration-300`}
+                className="group grid grid-cols-[2.5rem_1fr_auto] md:grid-cols-[3rem_1fr_2fr_auto] gap-6 items-center border-b border-border py-6 hover:border-primary/30 transition-colors cursor-default"
               >
-                <div className={`w-10 h-10 rounded-xl bg-${color}/15 text-${color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                  {icon}
+                <span className="text-xs font-bold text-primary/60 font-mono">{number}</span>
+                <div className="flex items-center gap-3">
+                  <span className="text-foreground/30 group-hover:text-primary transition-colors">{icon}</span>
+                  <span className="font-bold text-foreground group-hover:text-primary transition-colors text-sm">{title}</span>
                 </div>
-                <h3 className="font-bold text-base text-foreground mb-2">{title}</h3>
-                <p className="text-sm text-foreground/50 leading-relaxed">{desc}</p>
+                <p className="hidden md:block text-sm text-foreground/40 leading-relaxed">{desc}</p>
+                <ArrowRight className="w-4 h-4 text-foreground/20 group-hover:text-primary group-hover:translate-x-1 transition-all" />
               </div>
             ))}
           </div>
 
-          {/* ---- Besoin d'un site web ---- */}
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">
-              {t("services.website.title.prefix")} <span className="shimmer-text">{t("services.website.title.highlight")}</span>
-            </h2>
-            <p className="text-foreground/50 text-lg">{t("services.website.subtitle")}</p>
+          {/* Besoin d'un site */}
+          <div className="flex items-center gap-3 mb-12">
+            <span className="gold-line" />
+            <span className="section-number">04 — Votre projet</span>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
             {/* Site Vitrine */}
-            <a
-              href="/devis"
-              className="card-shine group relative flex flex-col p-8 rounded-2xl border border-primary/20 bg-gradient-to-b from-primary/8 to-transparent hover:border-primary/40 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-400"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-primary/15 text-primary flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
-                <Briefcase className="w-7 h-7" />
+            <a href="/devis" className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card hover:bg-card transition-all">
+              <div className="w-10 h-10 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:border-primary group-hover:text-primary transition-all mb-6">
+                <Briefcase className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-3">{t("services.website.showcase.title")}</h3>
-              <p className="text-sm text-foreground/55 leading-relaxed mb-6 flex-grow">{t("services.website.showcase.desc")}</p>
-              <div className="flex items-center gap-2 text-primary text-sm font-semibold group-hover:gap-3 transition-all">
-                {t("services.website.cta")} <ArrowRight className="w-4 h-4" />
-              </div>
+              <h3 className="font-bold text-foreground text-base mb-2">{t("services.website.showcase.title")}</h3>
+              <p className="text-xs text-foreground/45 leading-relaxed mb-6 flex-grow">{t("services.website.showcase.desc")}</p>
+              <span className="text-xs font-semibold text-primary flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                {t("services.website.cta")} <ArrowRight className="w-3.5 h-3.5" />
+              </span>
             </a>
 
             {/* E-commerce */}
-            <a
-              href="/devis"
-              className="card-shine group relative flex flex-col p-8 rounded-2xl border border-secondary/20 bg-gradient-to-b from-secondary/8 to-transparent hover:border-secondary/40 hover:-translate-y-2 hover:shadow-2xl hover:shadow-secondary/20 transition-all duration-400"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-secondary/15 text-secondary flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-secondary group-hover:text-white transition-all">
-                <ShoppingCart className="w-7 h-7" />
+            <a href="/devis" className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card transition-all">
+              <div className="w-10 h-10 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:border-primary group-hover:text-primary transition-all mb-6">
+                <ShoppingCart className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-3">{t("services.website.ecommerce.title")}</h3>
-              <p className="text-sm text-foreground/55 leading-relaxed mb-6 flex-grow">{t("services.website.ecommerce.desc")}</p>
-              <div className="flex items-center gap-2 text-secondary text-sm font-semibold group-hover:gap-3 transition-all">
-                {t("services.website.cta")} <ArrowRight className="w-4 h-4" />
-              </div>
+              <h3 className="font-bold text-foreground text-base mb-2">{t("services.website.ecommerce.title")}</h3>
+              <p className="text-xs text-foreground/45 leading-relaxed mb-6 flex-grow">{t("services.website.ecommerce.desc")}</p>
+              <span className="text-xs font-semibold text-primary flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                {t("services.website.cta")} <ArrowRight className="w-3.5 h-3.5" />
+              </span>
             </a>
 
             {/* Guapo Menu */}
@@ -475,105 +416,88 @@ export default function Home() {
               href="https://www.guapomenu.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="card-shine group relative flex flex-col p-8 rounded-2xl border border-accent/20 bg-gradient-to-b from-accent/8 to-transparent hover:border-accent/40 hover:-translate-y-2 hover:shadow-2xl hover:shadow-accent/20 transition-all duration-400 overflow-hidden"
+              className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card transition-all"
             >
-              <div className="absolute top-0 right-0 opacity-5 group-hover:opacity-10 transition-opacity">
-                <UtensilsCrossed className="w-32 h-32 text-accent -rotate-12 translate-x-4 -translate-y-4" />
-              </div>
-              <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm border border-gray-100">
+              <div className="w-10 h-10 bg-white border border-gray-100 rounded-sm flex items-center justify-center mb-6 group-hover:border-primary/20 transition-all">
                 <Image
                   src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/ChatGPT-Image-21-dec.-2025-16_40_56-1766457790930.png?width=8000&height=8000&resize=contain"
                   alt="Guapo Menu"
-                  width={56}
-                  height={56}
-                  className="w-10 h-10 object-contain"
+                  width={40}
+                  height={40}
+                  className="w-7 h-7 object-contain"
                 />
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-3">Guapo Menu</h3>
-              <p className="text-sm text-foreground/55 leading-relaxed mb-6 flex-grow">
-                L'application n°1 pour créer vos menus digitaux, QR codes et gérer vos commandes en ligne.
+              <h3 className="font-bold text-foreground text-base mb-2">Guapo Menu</h3>
+              <p className="text-xs text-foreground/45 leading-relaxed mb-6 flex-grow">
+                Menus digitaux, QR codes et gestion des commandes pour restaurants.
               </p>
-              <div className="flex items-center gap-2 text-accent text-sm font-semibold group-hover:gap-3 transition-all">
-                Découvrir <ArrowRight className="w-4 h-4" />
-              </div>
+              <span className="text-xs font-semibold text-primary flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                Découvrir <ArrowRight className="w-3.5 h-3.5" />
+              </span>
             </a>
 
             {/* Contact */}
-            <a
-              href="#contact"
-              className="card-shine group relative flex flex-col p-8 rounded-2xl border border-white/8 bg-gradient-to-b from-white/5 to-transparent hover:border-white/20 hover:-translate-y-2 hover:shadow-2xl hover:shadow-white/5 transition-all duration-400"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary via-secondary to-accent flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-white">
-                <MessageCircle className="w-7 h-7" />
+            <a href="#contact" className="card-shine group flex flex-col p-7 border border-border hover:border-primary/40 rounded-sm bg-card transition-all">
+              <div className="w-10 h-10 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:border-primary group-hover:text-primary transition-all mb-6">
+                <MessageCircle className="w-5 h-5" />
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-3">{t("services.website.discuss.title")}</h3>
-              <p className="text-sm text-foreground/55 leading-relaxed mb-6 flex-grow">{t("services.website.discuss.desc")}</p>
-              <div className="flex items-center gap-2 text-foreground/60 text-sm font-semibold group-hover:gap-3 group-hover:text-foreground transition-all">
-                {t("services.website.discuss.cta")} <ArrowRight className="w-4 h-4" />
-              </div>
+              <h3 className="font-bold text-foreground text-base mb-2">{t("services.website.discuss.title")}</h3>
+              <p className="text-xs text-foreground/45 leading-relaxed mb-6 flex-grow">{t("services.website.discuss.desc")}</p>
+              <span className="text-xs font-semibold text-primary flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                {t("services.website.discuss.cta")} <ArrowRight className="w-3.5 h-3.5" />
+              </span>
             </a>
           </div>
         </div>
       </section>
 
       {/* ============================================================
-          CONTACT SECTION
+          CONTACT
           ============================================================ */}
-      <section id="contact" className="py-32 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-card via-background to-card" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-secondary/50 to-transparent" />
-        {/* Glows */}
-        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary/10 rounded-full blur-[120px]" />
-        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-accent/10 rounded-full blur-[120px]" />
-
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <span className="inline-block text-xs font-semibold uppercase tracking-[0.3em] text-secondary mb-4">Contact</span>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 shimmer-text">
-              {t("contact.section.title")}
-            </h2>
-            <p className="text-foreground/50 text-lg max-w-2xl mx-auto">
-              {t("contact.section.desc")}
-            </p>
-            <div className="w-16 h-px bg-gradient-to-r from-secondary to-accent mx-auto mt-6" />
+      <section id="contact" className="py-32 px-6 lg:px-10 bg-card border-t border-border">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-3 mb-8">
+            <span className="gold-line" />
+            <span className="section-number">05 — Contact</span>
           </div>
 
-          {/* Contact Cards */}
-          <div className="grid md:grid-cols-3 gap-6">
-            <a
-              href="mailto:info@guapowebdesigner.com"
-              className="card-shine group flex flex-col items-center text-center p-10 rounded-2xl border border-primary/15 bg-primary/5 hover:border-primary/35 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-400"
-            >
-              <div className="w-16 h-16 rounded-2xl bg-primary/15 text-primary flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
-                <Mail className="w-7 h-7" />
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">{t("contact.email.title")}</h3>
-              <p className="text-primary font-medium text-sm">info@guapowebdesigner.com</p>
-            </a>
+          <div className="grid lg:grid-cols-2 gap-20 items-start">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
+                {t("contact.section.title")}
+              </h2>
+              <p className="text-foreground/50 leading-relaxed mb-12 max-w-md">{t("contact.section.desc")}</p>
+              <a
+                href="/devis"
+                className="group inline-flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-sm hover:bg-primary/90 transition-all"
+              >
+                {t("nav.quote")}
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
+            </div>
 
-            <a
-              href="https://www.instagram.com/guapo_webdesigner/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card-shine group flex flex-col items-center text-center p-10 rounded-2xl border border-accent/15 bg-accent/5 hover:border-accent/35 hover:-translate-y-2 hover:shadow-2xl hover:shadow-accent/20 transition-all duration-400"
-            >
-              <div className="w-16 h-16 rounded-2xl bg-accent/15 text-accent flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-accent group-hover:text-white transition-all">
-                <Instagram className="w-7 h-7" />
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">{t("contact.instagram.title")}</h3>
-              <p className="text-accent font-medium text-sm">@guapo_webdesigner</p>
-            </a>
-
-            <a
-              href="/devis"
-              className="card-shine group flex flex-col items-center text-center p-10 rounded-2xl border border-secondary/15 bg-secondary/5 hover:border-secondary/35 hover:-translate-y-2 hover:shadow-2xl hover:shadow-secondary/20 transition-all duration-400"
-            >
-              <div className="w-16 h-16 rounded-2xl bg-secondary/15 text-secondary flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-secondary group-hover:text-white transition-all">
-                <FileText className="w-7 h-7" />
-              </div>
-              <h3 className="text-lg font-bold text-foreground mb-2">{t("contact.quote.title")}</h3>
-              <p className="text-secondary font-medium text-sm">{t("contact.quote.desc")}</p>
-            </a>
+            <div className="space-y-4">
+              {[
+                { href: "mailto:info@guapowebdesigner.com", icon: <Mail className="w-5 h-5" />, label: t("contact.email.title"), value: "info@guapowebdesigner.com" },
+                { href: "https://www.instagram.com/guapo_webdesigner/", icon: <Instagram className="w-5 h-5" />, label: t("contact.instagram.title"), value: "@guapo_webdesigner", external: true },
+              ].map(({ href, icon, label, value, external }) => (
+                <a
+                  key={label}
+                  href={href}
+                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="card-shine group flex items-center gap-5 p-6 border border-border hover:border-primary/40 rounded-sm transition-all"
+                >
+                  <div className="w-11 h-11 border border-border rounded-sm flex items-center justify-center text-foreground/40 group-hover:border-primary group-hover:text-primary transition-all shrink-0">
+                    {icon}
+                  </div>
+                  <div>
+                    <div className="text-xs text-foreground/40 uppercase tracking-wider mb-0.5">{label}</div>
+                    <div className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">{value}</div>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-foreground/20 group-hover:text-primary ml-auto group-hover:translate-x-1 transition-all" />
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -581,73 +505,36 @@ export default function Home() {
       {/* ============================================================
           FOOTER
           ============================================================ */}
-      <footer className="py-16 px-6 border-t border-white/5 bg-card/40 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-            <div className="md:col-span-2">
-              <Image
-                src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
-                alt="GUAPO Web Designer"
-                width={120}
-                height={50}
-                className="h-10 w-auto object-contain mb-4"
-              />
-              <p className="text-foreground/50 text-sm leading-relaxed max-w-xs">
-                {t("footer.description")}
-              </p>
-            </div>
+      <footer className="py-12 px-6 lg:px-10 border-t border-border bg-background">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <Image
+            src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/document-uploads/Logo-de-Guapo-Designer-Web-1762372330786.png?width=8000&height=8000&resize=contain"
+            alt="GUAPO"
+            width={100}
+            height={45}
+            className="h-8 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
+          />
 
-            <div>
-              <h3 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">{t("footer.links")}</h3>
-              <ul className="space-y-2.5">
-                {[
-                  { href: "#portfolio", label: t("nav.portfolio") },
-                  { href: "#services", label: t("nav.services") },
-                  { href: "#contact", label: t("nav.contact") },
-                ].map(({ href, label }) => (
-                  <li key={href}>
-                    <a href={href} className="text-foreground/50 hover:text-primary transition-colors text-sm flex items-center gap-2 group">
-                      <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                      {label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">{t("footer.legal")}</h3>
-              <ul className="space-y-2.5">
-                <li>
-                  <a href="/politique-confidentialite" className="text-foreground/50 hover:text-primary transition-colors text-sm">{t("footer.privacy")}</a>
-                </li>
-                <li>
-                  <a href="/mentions-legales" className="text-foreground/50 hover:text-primary transition-colors text-sm">{t("footer.legal.terms")}</a>
-                </li>
-              </ul>
-              <div className="mt-6">
-                <h3 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">{t("footer.social")}</h3>
-                <a
-                  href="https://www.instagram.com/guapo_webdesigner/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-foreground/50 hover:text-primary transition-colors text-sm"
-                >
-                  <Instagram className="w-4 h-4" /> Instagram
-                </a>
-              </div>
-            </div>
+          <div className="flex items-center gap-8">
+            {[
+              { href: "/politique-confidentialite", label: t("footer.privacy") },
+              { href: "/mentions-legales", label: t("footer.legal.terms") },
+              { href: "https://www.instagram.com/guapo_webdesigner/", label: "Instagram", external: true },
+            ].map(({ href, label, external }) => (
+              <a
+                key={label}
+                href={href}
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="text-xs text-foreground/35 hover:text-foreground/70 transition-colors uppercase tracking-wider"
+              >
+                {label}
+              </a>
+            ))}
           </div>
 
-          <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-foreground/40 text-sm">
-              © 2025 <span className="shimmer-text font-semibold">GUAPO</span> Web Designer. {t("footer.rights")}
-            </p>
-            <div className="flex items-center gap-2 text-foreground/30 text-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              Tous systèmes opérationnels
-            </div>
-          </div>
+          <p className="text-xs text-foreground/30 uppercase tracking-wider">
+            © 2025 GUAPO — {t("footer.rights")}
+          </p>
         </div>
       </footer>
     </div>

@@ -44,321 +44,188 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.10 0.05 270);
-  --foreground: oklch(0.97 0.01 270);
-  --card: oklch(0.14 0.06 275);
-  --card-foreground: oklch(0.97 0.01 270);
-  --popover: oklch(0.14 0.06 275);
-  --popover-foreground: oklch(0.97 0.01 270);
-  --primary: oklch(0.68 0.26 290);
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.72 0.24 315);
-  --secondary-foreground: oklch(0.99 0 0);
-  --muted: oklch(0.20 0.05 280);
-  --muted-foreground: oklch(0.65 0.07 280);
-  --accent: oklch(0.70 0.20 200);
-  --accent-foreground: oklch(0.10 0.05 270);
+  --radius: 0.5rem;
+  /* Near-black backgrounds */
+  --background: oklch(0.08 0.01 260);
+  --foreground: oklch(0.96 0.005 260);
+  --card: oklch(0.11 0.01 260);
+  --card-foreground: oklch(0.96 0.005 260);
+  --popover: oklch(0.11 0.01 260);
+  --popover-foreground: oklch(0.96 0.005 260);
+  /* Gold/amber accent - the ONE main accent */
+  --primary: oklch(0.78 0.14 75);
+  --primary-foreground: oklch(0.10 0.01 260);
+  /* White/light secondary */
+  --secondary: oklch(0.96 0.005 260);
+  --secondary-foreground: oklch(0.08 0.01 260);
+  --muted: oklch(0.16 0.01 260);
+  --muted-foreground: oklch(0.55 0.01 260);
+  /* Subtle purple kept for form/devis only */
+  --accent: oklch(0.65 0.22 290);
+  --accent-foreground: oklch(0.96 0.005 260);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.28 0.07 280);
-  --input: oklch(0.28 0.07 280);
-  --ring: oklch(0.68 0.26 290);
-  --chart-1: oklch(0.68 0.26 290);
-  --chart-2: oklch(0.72 0.24 315);
-  --chart-3: oklch(0.70 0.20 200);
-  --chart-4: oklch(0.68 0.22 305);
-  --chart-5: oklch(0.74 0.22 270);
-  --sidebar: oklch(0.12 0.06 275);
-  --sidebar-foreground: oklch(0.97 0.01 270);
-  --sidebar-primary: oklch(0.68 0.26 290);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.20 0.05 280);
-  --sidebar-accent-foreground: oklch(0.97 0.01 270);
-  --sidebar-border: oklch(0.28 0.07 280);
-  --sidebar-ring: oklch(0.68 0.26 290);
+  --border: oklch(0.20 0.01 260);
+  --input: oklch(0.20 0.01 260);
+  --ring: oklch(0.78 0.14 75);
+  --chart-1: oklch(0.78 0.14 75);
+  --chart-2: oklch(0.65 0.22 290);
+  --chart-3: oklch(0.96 0.005 260);
+  --chart-4: oklch(0.55 0.01 260);
+  --chart-5: oklch(0.40 0.01 260);
+  --sidebar: oklch(0.10 0.01 260);
+  --sidebar-foreground: oklch(0.96 0.005 260);
+  --sidebar-primary: oklch(0.78 0.14 75);
+  --sidebar-primary-foreground: oklch(0.10 0.01 260);
+  --sidebar-accent: oklch(0.16 0.01 260);
+  --sidebar-accent-foreground: oklch(0.96 0.005 260);
+  --sidebar-border: oklch(0.20 0.01 260);
+  --sidebar-ring: oklch(0.78 0.14 75);
 }
 
 .dark {
-  --background: oklch(0.08 0.05 270);
-  --foreground: oklch(0.97 0.01 270);
-  --card: oklch(0.12 0.06 275);
-  --card-foreground: oklch(0.97 0.01 270);
-  --popover: oklch(0.12 0.06 275);
-  --popover-foreground: oklch(0.97 0.01 270);
-  --primary: oklch(0.72 0.26 290);
-  --primary-foreground: oklch(0.08 0.05 270);
-  --secondary: oklch(0.76 0.24 315);
-  --secondary-foreground: oklch(0.08 0.05 270);
-  --muted: oklch(0.18 0.05 280);
-  --muted-foreground: oklch(0.65 0.07 280);
-  --accent: oklch(0.74 0.20 200);
-  --accent-foreground: oklch(0.08 0.05 270);
+  --background: oklch(0.06 0.01 260);
+  --foreground: oklch(0.96 0.005 260);
+  --card: oklch(0.09 0.01 260);
+  --card-foreground: oklch(0.96 0.005 260);
+  --popover: oklch(0.09 0.01 260);
+  --popover-foreground: oklch(0.96 0.005 260);
+  --primary: oklch(0.80 0.14 75);
+  --primary-foreground: oklch(0.08 0.01 260);
+  --secondary: oklch(0.96 0.005 260);
+  --secondary-foreground: oklch(0.06 0.01 260);
+  --muted: oklch(0.14 0.01 260);
+  --muted-foreground: oklch(0.55 0.01 260);
+  --accent: oklch(0.68 0.22 290);
+  --accent-foreground: oklch(0.96 0.005 260);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.24 0.07 280);
-  --input: oklch(0.24 0.07 280);
-  --ring: oklch(0.72 0.26 290);
-  --chart-1: oklch(0.72 0.26 290);
-  --chart-2: oklch(0.76 0.24 315);
-  --chart-3: oklch(0.74 0.20 200);
-  --chart-4: oklch(0.72 0.22 305);
-  --chart-5: oklch(0.78 0.22 270);
-  --sidebar: oklch(0.12 0.06 275);
-  --sidebar-foreground: oklch(0.97 0.01 270);
-  --sidebar-primary: oklch(0.72 0.26 290);
-  --sidebar-primary-foreground: oklch(0.08 0.05 270);
-  --sidebar-accent: oklch(0.18 0.05 280);
-  --sidebar-accent-foreground: oklch(0.97 0.01 270);
-  --sidebar-border: oklch(0.24 0.07 280);
-  --sidebar-ring: oklch(0.72 0.26 290);
+  --border: oklch(0.18 0.01 260);
+  --input: oklch(0.18 0.01 260);
+  --ring: oklch(0.80 0.14 75);
+  --sidebar: oklch(0.09 0.01 260);
+  --sidebar-foreground: oklch(0.96 0.005 260);
+  --sidebar-primary: oklch(0.80 0.14 75);
+  --sidebar-primary-foreground: oklch(0.08 0.01 260);
+  --sidebar-accent: oklch(0.14 0.01 260);
+  --sidebar-accent-foreground: oklch(0.96 0.005 260);
+  --sidebar-border: oklch(0.18 0.01 260);
+  --sidebar-ring: oklch(0.80 0.14 75);
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  .blur-3xl, .blur-2xl, .blur-xl {
-    -webkit-filter: blur(var(--tw-blur));
-    filter: blur(var(--tw-blur));
-    will-change: filter;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-  }
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; }
+  html { scroll-behavior: smooth; }
 }
 
 /* ===========================
-   NOISE TEXTURE OVERLAY
+   MARQUEE
    =========================== */
-.noise-overlay::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1;
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
 
 /* ===========================
-   ANIMATED GRADIENT BORDER
-   =========================== */
-@keyframes border-rotate {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.gradient-border {
-  position: relative;
-  background: linear-gradient(var(--card), var(--card)) padding-box,
-              linear-gradient(135deg, var(--color-primary), var(--color-secondary), var(--color-accent), var(--color-primary)) border-box;
-  border: 1px solid transparent;
-}
-
-/* ===========================
-   GLOW EFFECTS
-   =========================== */
-.glow-primary {
-  box-shadow: 0 0 20px oklch(0.68 0.26 290 / 0.4), 0 0 60px oklch(0.68 0.26 290 / 0.15);
-}
-.glow-secondary {
-  box-shadow: 0 0 20px oklch(0.72 0.24 315 / 0.4), 0 0 60px oklch(0.72 0.24 315 / 0.15);
-}
-.glow-accent {
-  box-shadow: 0 0 20px oklch(0.70 0.20 200 / 0.4), 0 0 60px oklch(0.70 0.20 200 / 0.15);
-}
-
-/* ===========================
-   HERO GRID PATTERN
-   =========================== */
-.hero-grid {
-  background-image:
-    linear-gradient(oklch(0.68 0.26 290 / 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, oklch(0.68 0.26 290 / 0.07) 1px, transparent 1px);
-  background-size: 60px 60px;
-}
-
-/* ===========================
-   SHIMMER EFFECT
-   =========================== */
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-.shimmer-text {
-  background: linear-gradient(
-    90deg,
-    var(--color-primary) 0%,
-    var(--color-secondary) 25%,
-    var(--color-accent) 50%,
-    var(--color-secondary) 75%,
-    var(--color-primary) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 4s linear infinite;
-}
-
-/* ===========================
-   FLOATING ANIMATION
+   FLOAT
    =========================== */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  50% { transform: translateY(-10px); }
 }
-
-@keyframes float-delayed {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-.animate-float {
-  animation: float 4s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-  animation: float-delayed 5s ease-in-out infinite;
-  animation-delay: 1s;
-}
-
-/* ===========================
-   SLIDE IN ANIMATIONS
-   =========================== */
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-30px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(30px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.9); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-/* ===========================
-   LASER LINES
-   =========================== */
-@keyframes laser-move {
-  0% { transform: translateY(-100%) translateX(-50%); }
-  100% { transform: translateY(200vh) translateX(-50%); }
-}
-
-@keyframes laser-glow {
-  0%, 100% { opacity: 0.2; filter: brightness(1); }
-  50% { opacity: 0.6; filter: brightness(1.8); }
-}
-
-.laser-line {
-  position: absolute;
-  width: 1px;
-  height: 150px;
-  background: linear-gradient(180deg, transparent 0%, var(--color-primary) 50%, transparent 100%);
-  animation: laser-move 10s linear infinite, laser-glow 3s ease-in-out infinite;
-  box-shadow: 0 0 6px var(--color-primary), 0 0 15px var(--color-primary);
-}
-
-.laser-line-secondary {
-  background: linear-gradient(180deg, transparent 0%, var(--color-secondary) 50%, transparent 100%);
-  box-shadow: 0 0 6px var(--color-secondary), 0 0 15px var(--color-secondary);
-}
-
-.laser-line-accent {
-  background: linear-gradient(180deg, transparent 0%, var(--color-accent) 50%, transparent 100%);
-  box-shadow: 0 0 6px var(--color-accent), 0 0 15px var(--color-accent);
-}
-
-/* ===========================
-   BOUNCE IN / SLIDE OUT (legacy)
-   =========================== */
-@keyframes bounceIn {
-  0% { transform: translateY(-100%); opacity: 0; }
-  50% { transform: translateY(10px); opacity: 1; }
-  65% { transform: translateY(-5px); }
-  80% { transform: translateY(5px); }
-  95% { transform: translateY(-2px); }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes slideOutTop {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(-150%); opacity: 0; }
-}
-
-/* ===========================
-   CARD HOVER SHINE
-   =========================== */
-.card-shine {
-  position: relative;
-  overflow: hidden;
-}
-
-.card-shine::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -75%;
-  width: 50%;
-  height: 200%;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(255,255,255,0.04) 50%,
-    transparent 100%
-  );
-  transform: skewX(-25deg);
-  transition: left 0.6s ease;
-}
-
-.card-shine:hover::after {
-  left: 150%;
-}
+.animate-float { animation: float 5s ease-in-out infinite; }
 
 /* ===========================
    SCROLL INDICATOR
    =========================== */
 @keyframes scroll-bounce {
-  0%, 100% { transform: translateY(0); opacity: 1; }
-  50% { transform: translateY(6px); opacity: 0.5; }
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(6px); opacity: 0.2; }
 }
+.scroll-indicator { animation: scroll-bounce 2s ease-in-out infinite; }
 
-.scroll-indicator {
-  animation: scroll-bounce 2s ease-in-out infinite;
+/* ===========================
+   CARD SHINE (single sweep)
+   =========================== */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+.card-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+.card-shine:hover::after { transform: translateX(100%); }
+
+/* ===========================
+   GOLD LINE SEPARATOR
+   =========================== */
+.gold-line {
+  width: 40px;
+  height: 2px;
+  background: var(--color-primary);
+  display: block;
 }
 
 /* ===========================
-   NUMBER COUNTER GLOW
+   LASER (kept subtle, only 2)
    =========================== */
-.stat-number {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+@keyframes laser-move {
+  0% { transform: translateY(-100%) translateX(-50%); }
+  100% { transform: translateY(200vh) translateX(-50%); }
+}
+.laser-line {
+  position: absolute;
+  width: 1px;
+  height: 120px;
+  background: linear-gradient(180deg, transparent 0%, oklch(0.78 0.14 75 / 0.6) 50%, transparent 100%);
+  animation: laser-move 14s linear infinite;
 }
 
-/* Hide Next.js error overlay portal */
-nextjs-portal {
-  display: none !important;
+/* ===========================
+   TEXT GOLD
+   =========================== */
+.text-gold {
+  color: var(--color-primary);
 }
+
+/* ===========================
+   SECTION NUMBER
+   =========================== */
+.section-number {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+/* ===========================
+   HOVER UNDERLINE LINK
+   =========================== */
+.hover-line {
+  position: relative;
+}
+.hover-line::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-primary);
+  transition: width 0.3s ease;
+}
+.hover-line:hover::after { width: 100%; }
+
+/* Hide Next.js error overlay portal */
+nextjs-portal { display: none !important; }
