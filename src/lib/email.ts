@@ -1,7 +1,13 @@
 import { Resend } from 'resend';
 import { PRICING } from './pricing';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error('RESEND_API_KEY is required');
+  }
+  return new Resend(apiKey);
+}
 
 // Prix par page supplémentaire
 const PAGE_EXTRA_COST = 100;
@@ -462,14 +468,14 @@ export async function sendQuoteEmail(data: any) {
     const from = process.env.EMAIL_FROM || 'onboarding@resend.dev';
     const toOwner = process.env.CONTACT_EMAIL_TO || 'info@guapowebdesigner.com';
 
-    await resend.emails.send({ 
+    await getResend().emails.send({ 
       from, 
       to: 'info@guapowebdesigner.com', // Forcé pour être sûr
       replyTo: data.email, 
       subject: `🎨 [#${refId}] DEVIS : ${data.firstName} ${data.lastName} (${data.company || 'Projet'})`, 
       html: ownerEmailHtml 
     });
-    await resend.emails.send({ 
+    await getResend().emails.send({ 
       from, 
       to: data.email, 
       replyTo: toOwner, 

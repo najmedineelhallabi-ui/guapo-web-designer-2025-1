@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error('RESEND_API_KEY is not configured');
+  }
+  return new Resend(apiKey);
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -103,7 +109,7 @@ export async function POST(request: NextRequest) {
       </html>
     `;
   
-      const result = await resend.emails.send({
+      const result = await getResend().emails.send({
       from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
       to: 'info@guapowebdesigner.com',
       replyTo: email,

@@ -1,7 +1,9 @@
 import { Resend } from 'resend';
 
-if (!process.env.RESEND_API_KEY) {
-  throw new Error('RESEND_API_KEY is required');
+export function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error('RESEND_API_KEY is required');
+  }
+  return new Resend(apiKey);
 }
-
-export const resend = new Resend(process.env.RESEND_API_KEY);
