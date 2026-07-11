@@ -12,6 +12,7 @@ const quoteSchema = z.object({
   siteType: z.string().min(1, 'Veuillez sélectionner un type de site'),
   pageCount: z.coerce.number().int().positive().optional(),
     features: z.array(z.string()).optional(),
+    menuFeatures: z.array(z.string()).optional(),
     languages: z.array(z.string()).optional(),
   otherLanguages: z.string().optional(),
   optimization: z.array(z.string()).optional(),
@@ -38,6 +39,7 @@ export type QuoteFormState = {
       siteType?: string;
       pageCount?: number;
         features?: string[];
+        menuFeatures?: string[];
         languages?: string[];
         otherLanguages?: string;
       optimization?: string[];
