@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import SiteHeader from '@/components/SiteHeader'
 import Toggle from '@/components/Toggle'
 import ThemePicker from '@/components/ThemePicker'
+import ChallengeEditor, { fromDrafts, type ChallengeDraft } from '@/components/ChallengeEditor'
 import { useRequireAuth } from '@/lib/useAuth'
 import { createAlbum } from '@/lib/api'
 import { DEFAULT_CHALLENGES, DEFAULT_MOMENTS, EVENT_TYPES, eventTypeInfo, type EventType, type ThemeId } from '@/lib/albumRules'
@@ -25,7 +26,7 @@ const welcomeExamples: Record<EventType, string> = {
 
 type Timing = 'anytime' | 'event_day' | 'custom'
 
-const STEPS = ['Occasion', 'Details', 'Guest rules'] as const
+const STEPS = ['Occasion', 'Details', 'Challenges', 'Guest rules'] as const
 
 export default function NewAlbumPage() {
   const router = useRouter()
@@ -46,7 +47,7 @@ export default function NewAlbumPage() {
   const [theme, setTheme] = useState<ThemeId>('sun')
   const [moderation, setModeration] = useState(false)
   const [useMoments, setUseMoments] = useState(true)
-  const [useChallenges, setUseChallenges] = useState(true)
+  const [challenges, setChallenges] = useState<ChallengeDraft[] | null>(null)
   const [creating, setCreating] = useState(false)
   const [error, setError] = useState('')
 
@@ -85,7 +86,7 @@ export default function NewAlbumPage() {
         location,
         theme,
         moments: useMoments ? [...DEFAULT_MOMENTS[type.id]] : [],
-        challenges: useChallenges ? [...DEFAULT_CHALLENGES[type.id]] : [],
+        challenges: fromDrafts(challenges || []),
         settings: {
           ...uploads,
           moderation,
@@ -148,6 +149,10 @@ export default function NewAlbumPage() {
             className="mt-8"
             onSubmit={(e) => {
               e.preventDefault()
+              // First visit: start from a few ideas for this occasion
+              if (challenges === null) {
+                setChallenges(DEFAULT_CHALLENGES[type.id].slice(0, 3).map((name) => ({ name, start: '', end: '', scheduled: false })))
+              }
               setStep(2)
             }}
           >
@@ -204,8 +209,29 @@ export default function NewAlbumPage() {
           </form>
         )}
 
-        {/* Step 3: rules */}
+        {/* Step 3: challenges */}
         {step === 2 && (
+          <section className="mt-8">
+            <h1 className="text-3xl font-extrabold tracking-tight">🎯 Photo challenges</h1>
+            <p className="mt-1 text-ink-soft">
+              Fun missions for your guests. Write your own or pick ideas, and schedule them to reveal a surprise challenge at the right moment.
+            </p>
+            <div className="mt-6 rounded-3xl border border-line bg-white p-5 sm:p-6">
+              <ChallengeEditor items={challenges || []} onChange={setChallenges} suggestions={DEFAULT_CHALLENGES[type.id]} eventDate={eventDate} />
+            </div>
+            <div className="mt-6 flex gap-3">
+              <button onClick={() => setStep(1)} className="rounded-full border border-line bg-white px-6 py-3.5 font-semibold transition hover:border-ink">
+                Back
+              </button>
+              <button onClick={() => setStep(3)} className="flex-1 rounded-full bg-ink py-3.5 font-semibold text-white transition hover:bg-black">
+                {challenges && challenges.length > 0 ? 'Next' : 'Skip challenges'}
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* Step 4: rules */}
+        {step === 3 && (
           <section className="mt-8">
             <h1 className="text-3xl font-extrabold tracking-tight">Guest rules</h1>
             <p className="mt-1 text-ink-soft">You can change all of this later in the album settings.</p>
@@ -256,8 +282,6 @@ export default function NewAlbumPage() {
                   <Toggle checked={useMoments} onChange={setUseMoments} label="Split the album into moments"
                     hint={DEFAULT_MOMENTS[type.id].join(' · ')} />
                 )}
-                <Toggle checked={useChallenges} onChange={setUseChallenges} label="Add fun photo challenges"
-                  hint={DEFAULT_CHALLENGES[type.id].slice(0, 2).join(' · ') + '…'} />
                 <div className="flex items-start justify-between gap-4 py-4">
                   <label htmlFor="max">
                     <span className="block font-semibold">Photo limit per guest</span>
@@ -273,7 +297,7 @@ export default function NewAlbumPage() {
             {error && <p className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
 
             <div className="mt-6 flex gap-3">
-              <button onClick={() => setStep(1)} className="rounded-full border border-line bg-white px-6 py-3.5 font-semibold transition hover:border-ink">
+              <button onClick={() => setStep(2)} className="rounded-full border border-line bg-white px-6 py-3.5 font-semibold transition hover:border-ink">
                 Back
               </button>
               <button onClick={handleCreate} disabled={creating}

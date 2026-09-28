@@ -7,6 +7,7 @@ import { processImage } from '@/lib/photoUtils'
 import { videoDuration } from '@/lib/photoUtils'
 import { uploadMedia, type AppAlbum, type AppPhoto } from '@/lib/api'
 import {
+  challengeStatus,
   themeInfo,
   uploadState,
   FRAMES,
@@ -145,7 +146,7 @@ export default function UploadBox({ album, isOrganizer, myCount, challengeId, on
     await uploadFiles([new File([blob], `photo-${Date.now()}.jpg`, { type: 'image/jpeg' })])
   }
 
-  const challenge = album.challenges.find((c) => c.id === challengeId)
+  const challenge = album.challenges.find((c) => c.id === challengeId && (isOrganizer || challengeStatus(c) === 'active'))
   const selectClass =
     'w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm focus:border-ink focus:outline-none focus:ring-2 focus:ring-brand'
 

@@ -34,12 +34,34 @@ export const DEFAULT_MOMENTS: Record<EventType, string[]> = {
 
 /** Suggested photo challenges per occasion */
 export const DEFAULT_CHALLENGES: Record<EventType, string[]> = {
-  wedding: ['A selfie with the newlyweds', 'The best dance move', 'Someone crying happy tears', 'Your table, all together'],
-  birthday: ['A selfie with the birthday star', 'The cake before it disappears', 'The funniest face'],
-  party: ['The best outfit', 'A group photo', 'The funniest moment'],
-  baby: ['The baby smiling', 'Three generations together', 'The cutest detail'],
-  corporate: ['Your team, all together', 'The best idea on a board', 'A selfie with a new colleague'],
-  other: ['A group photo', 'The funniest moment']
+  wedding: [
+    'A selfie with the newlyweds',
+    'The first dance',
+    'The best dance move',
+    'Someone crying happy tears',
+    'Your table, all together',
+    'The most beautiful detail of the decoration',
+    'The funniest face of the night',
+    'A photo with someone you just met'
+  ],
+  birthday: [
+    'A selfie with the birthday star',
+    'The cake before it disappears',
+    'Blowing out the candles',
+    'The funniest face',
+    'The best gift reaction',
+    'A group photo with everyone'
+  ],
+  party: ['The best outfit', 'A group photo', 'The funniest moment', 'The best dance move', 'A photo with the host', 'The last ones standing'],
+  baby: ['The baby smiling', 'Three generations together', 'The cutest detail', 'The proud parents', 'A family portrait'],
+  corporate: [
+    'Your team, all together',
+    'The best idea on a board',
+    'A selfie with a new colleague',
+    'The speaker in action',
+    'The coffee break crew'
+  ],
+  other: ['A group photo', 'The funniest moment', 'The best view', 'A selfie with the organizer']
 }
 
 export const THEMES = [
@@ -92,6 +114,11 @@ export type AlbumSettings = {
 
 export type Named = { id: string; name: string }
 
+/** A photo challenge, optionally scheduled: hidden from guests before starts_at, closed after ends_at. */
+export type Challenge = Named & { starts_at: string | null; ends_at: string | null }
+
+export type ChallengeInput = { id?: string; name: string; starts_at?: string | null; ends_at?: string | null } | string
+
 export type AlbumRecord = {
   id: string
   owner_id: string
@@ -106,7 +133,7 @@ export type AlbumRecord = {
   theme: ThemeId
   cover_path: string | null
   moments: Named[]
-  challenges: Named[]
+  challenges: Challenge[]
   /** Optional access code guests must type. Never sent to guests. */
   pin: string | null
   /** Emails of people who can manage the album with the owner */
@@ -154,6 +181,9 @@ export type AppAlbum = Omit<AlbumRecord, 'pin' | 'cover_path'> & {
   /** Only filled in album lists (dashboard) */
   photo_count?: number
   role?: 'owner' | 'co_organizer'
+  /** For guests: scheduled challenges not revealed yet */
+  upcoming_challenges?: number
+  next_challenge_at?: string | null
 }
 
 export type AppPhoto = {
@@ -212,10 +242,10 @@ export function withDefaults(album: Partial<AlbumRecord> & Pick<AlbumRecord, 'id
     created_at: new Date().toISOString(),
     cover_path: null,
     moments: [],
-    challenges: [],
     pin: null,
     co_organizers: [],
     ...album,
+    challenges: (album.challenges || []).map((c) => ({ ...c, starts_at: c.starts_at ?? null, ends_at: c.ends_at ?? null })),
     event_type: eventTypeInfo(album.event_type || 'other').id,
     welcome_message: album.welcome_message || '',
     theme: themeInfo(album.theme || 'sun').id,
@@ -239,11 +269,35 @@ const cleanList = (v: unknown, max: number, newId: () => string, existing: Named
     .slice(0, max)
 }
 
+const isoOrNull = (v: unknown) => (typeof v === 'string' && v && !Number.isNaN(Date.parse(v)) ? new Date(v).toISOString() : null)
+
+function cleanChallenges(v: unknown, newId: () => string, existing: Challenge[]): Challenge[] | undefined {
+  const named = cleanList(v, 20, newId, existing)
+  if (!named || !Array.isArray(v)) return undefined
+  // cleanList drops empty names, so match the timing back by position among kept items
+  const kept = (v as ChallengeInput[]).filter((item) => cleanText(typeof item === 'string' ? item : item?.name, 80))
+  return named.map((n, i) => {
+    const src = kept[i]
+    const starts_at = typeof src === 'object' ? isoOrNull(src.starts_at) : null
+    let ends_at = typeof src === 'object' ? isoOrNull(src.ends_at) : null
+    if (starts_at && ends_at && ends_at <= starts_at) ends_at = null
+    return { ...n, starts_at, ends_at }
+  })
+}
+
+export type ChallengeStatus = 'upcoming' | 'active' | 'ended'
+
+export function challengeStatus(c: Pick<Challenge, 'starts_at' | 'ends_at'>, now = Date.now()): ChallengeStatus {
+  if (c.starts_at && now < Date.parse(c.starts_at)) return 'upcoming'
+  if (c.ends_at && now > Date.parse(c.ends_at)) return 'ended'
+  return 'active'
+}
+
 export type AlbumEditable = Partial<
   Pick<AlbumRecord, 'name' | 'event_type' | 'welcome_message' | 'event_date' | 'location' | 'theme'>
 > & {
   moments?: ({ id?: string; name: string } | string)[]
-  challenges?: ({ id?: string; name: string } | string)[]
+  challenges?: ChallengeInput[]
   pin?: string | null
 }
 
@@ -258,7 +312,7 @@ export function albumFields(input: Record<string, unknown>, newId: () => string,
   if (typeof input.event_date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(input.event_date)) out.event_date = input.event_date
   const moments = cleanList(input.moments, 12, newId, current?.moments || [])
   if (moments) out.moments = moments
-  const challenges = cleanList(input.challenges, 20, newId, current?.challenges || [])
+  const challenges = cleanChallenges(input.challenges, newId, current?.challenges || [])
   if (challenges) out.challenges = challenges
   if ('pin' in input) {
     const pin = typeof input.pin === 'string' ? input.pin.trim().toUpperCase() : ''

@@ -6,6 +6,7 @@ import { useParams, useRouter } from 'next/navigation'
 import SiteHeader from '@/components/SiteHeader'
 import Toggle from '@/components/Toggle'
 import ListEditor from '@/components/ListEditor'
+import ChallengeEditor, { fromDrafts, toDrafts, type ChallengeDraft } from '@/components/ChallengeEditor'
 import ThemePicker from '@/components/ThemePicker'
 import ThemeScope from '@/components/album/ThemeScope'
 import { ImageIcon, XIcon } from '@/components/Icons'
@@ -69,7 +70,7 @@ export default function AlbumSettingsPage() {
     reactions: true
   })
   const [moments, setMoments] = useState<Item[]>([])
-  const [challenges, setChallenges] = useState<Item[]>([])
+  const [challenges, setChallenges] = useState<ChallengeDraft[]>([])
   const [pin, setPin] = useState('')
   const [coEmail, setCoEmail] = useState('')
 
@@ -87,7 +88,7 @@ export default function AlbumSettingsPage() {
     const { guests_can_view, require_name, moderation, allow_videos, guestbook, reactions } = a.settings
     setFlags({ guests_can_view, require_name, moderation, allow_videos, guestbook, reactions })
     setMoments(a.moments)
-    setChallenges(a.challenges)
+    setChallenges(toDrafts(a.challenges))
     setPin(a.pin || '')
   }
 
@@ -117,7 +118,7 @@ export default function AlbumSettingsPage() {
         welcome_message: welcome,
         theme,
         moments,
-        challenges,
+        challenges: fromDrafts(challenges),
         ...(isOwner ? { pin: pin || null } : {}),
         settings: {
           uploads_open_at: fromLocalInput(openAt),
@@ -382,8 +383,8 @@ export default function AlbumSettingsPage() {
           {/* Challenges */}
           <section className={card}>
             <h2 className="text-lg font-bold">🎯 Photo challenges</h2>
-            <p className="mt-1 mb-4 text-sm text-ink-soft">Fun missions that get guests taking photos.</p>
-            <ListEditor items={challenges} onChange={setChallenges} suggestions={DEFAULT_CHALLENGES[eventType]} placeholder="e.g. A selfie with the bride" max={20} />
+            <p className="mt-1 mb-4 text-sm text-ink-soft">Fun missions that get guests taking photos. Scheduled ones stay hidden from guests until they start.</p>
+            <ChallengeEditor items={challenges} onChange={setChallenges} suggestions={DEFAULT_CHALLENGES[eventType]} eventDate={eventDate} />
           </section>
 
           {/* Access code */}

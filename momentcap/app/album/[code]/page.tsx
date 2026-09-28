@@ -73,6 +73,27 @@ export default function AlbumPage() {
     load()
   }, [load])
 
+  // Reveal scheduled challenges (and close ended ones) right on time
+  const nextChange = (() => {
+    if (!view || view.locked) return null
+    const now = Date.now()
+    const times = [
+      view.album.next_challenge_at,
+      ...view.album.challenges.flatMap((c) => [c.starts_at, c.ends_at])
+    ]
+      .filter((t): t is string => Boolean(t))
+      .map((t) => Date.parse(t))
+      .filter((t) => t > now)
+    return times.length ? Math.min(...times) : null
+  })()
+  useEffect(() => {
+    if (!nextChange) return
+    const delay = nextChange - Date.now() + 1000
+    if (delay > 24 * 3600 * 1000) return
+    const id = setTimeout(load, delay)
+    return () => clearTimeout(id)
+  }, [nextChange, load])
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -212,7 +233,7 @@ export default function AlbumPage() {
           onOpenStateChange={load}
         />
 
-        <Challenges album={album} photos={photos} canUpload={canUpload} onPick={setChallengeId} />
+        <Challenges album={album} photos={photos} canUpload={canUpload} isOrganizer={isOrganizer} onPick={setChallengeId} />
 
         <Gallery album={album} photos={photos} isOrganizer={isOrganizer} filter={filter} onFilter={setFilter} onOpen={setLightbox} />
 

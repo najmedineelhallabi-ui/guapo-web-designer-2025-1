@@ -3,6 +3,7 @@
 import {
   AppError,
   albumFields,
+  challengeStatus,
   checkUpload,
   cleanText,
   defaultSettings,
@@ -72,8 +73,14 @@ function requireGuestId(ctx: Ctx) {
 
 async function toAppAlbum(repo: Repo, album: AlbumRecord, organizer: boolean): Promise<AppAlbum> {
   const { pin, cover_path, ...rest } = album
+  // Guests don't see scheduled challenges before their time (it's a surprise)
+  const upcoming = album.challenges.filter((c) => challengeStatus(c) === 'upcoming')
+  const nextAt = upcoming.map((c) => c.starts_at!).sort()[0] || null
   return {
     ...rest,
+    challenges: organizer ? album.challenges : album.challenges.filter((c) => challengeStatus(c) !== 'upcoming'),
+    upcoming_challenges: upcoming.length,
+    next_challenge_at: nextAt,
     co_organizers: organizer ? album.co_organizers : [],
     has_pin: Boolean(pin),
     ...(organizer ? { pin } : {}),
@@ -360,7 +367,10 @@ export async function registerPhoto(
     created_at: new Date().toISOString(),
     status: album.settings.moderation && !organizer ? 'pending' : 'approved',
     moment_id: album.moments.some((m) => m.id === meta.momentId) ? meta.momentId! : null,
-    challenge_id: album.challenges.some((c) => c.id === meta.challengeId) ? meta.challengeId! : null,
+    // Guests can only tag a challenge while it's running
+    challenge_id: album.challenges.some((c) => c.id === meta.challengeId && (organizer || challengeStatus(c) === 'active'))
+      ? meta.challengeId!
+      : null,
     favorite: false,
     reactions: {}
   }

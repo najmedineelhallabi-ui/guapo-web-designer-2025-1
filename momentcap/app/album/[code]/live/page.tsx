@@ -8,7 +8,7 @@ import { LogoMark } from '@/components/Logo'
 import Countdown from '@/components/album/Countdown'
 import ThemeScope from '@/components/album/ThemeScope'
 import { getAlbum, type AppAlbum, type AppPhoto } from '@/lib/api'
-import { uploadState } from '@/lib/albumRules'
+import { challengeStatus, uploadState } from '@/lib/albumRules'
 
 const SLIDE_MS = 6000
 const POLL_MS = 8000
@@ -93,6 +93,10 @@ export default function LiveSlideshow() {
   }
 
   const state = uploadState(album.settings)
+  // Most recently started challenge that's still running
+  const liveChallenge = album.challenges
+    .filter((c) => c.starts_at && challengeStatus(c) === 'active')
+    .sort((a, b) => (b.starts_at || '').localeCompare(a.starts_at || ''))[0]
 
   return (
     <ThemeScope theme={album.theme} className={`fixed inset-0 overflow-hidden bg-black text-white ${showUi ? '' : 'cursor-none'}`}>
@@ -120,6 +124,12 @@ export default function LiveSlideshow() {
           </div>
         )}
       </div>
+
+      {liveChallenge && (
+        <div className="pointer-events-none absolute left-1/2 top-6 max-w-[70%] -translate-x-1/2 rounded-full bg-brand px-6 py-3 text-center text-lg font-extrabold text-ink shadow-2xl">
+          🎯 New challenge: {liveChallenge.name}
+        </div>
+      )}
 
       {current && (
         <div className="pointer-events-none absolute bottom-6 left-6 rounded-2xl bg-black/50 px-5 py-3 backdrop-blur">
