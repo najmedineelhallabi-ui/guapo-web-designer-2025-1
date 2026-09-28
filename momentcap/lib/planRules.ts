@@ -100,7 +100,71 @@ export type Guest = {
   edit_key?: string
 }
 
-export type Table = { id: string; name: string; seats: number }
+export type TableShape = 'round' | 'rect'
+/** 'table' seats guests; the others are room elements drawn on the plan */
+export type TableKind = 'table' | 'dance' | 'stage' | 'buffet' | 'bar'
+export type Table = {
+  id: string
+  name: string
+  seats: number
+  shape?: TableShape
+  kind?: TableKind
+  /** Center on the room plan, in room units (see ROOM) — null until placed */
+  x?: number | null
+  y?: number | null
+}
+
+/** Room plan coordinate space */
+export const ROOM = { w: 1000, h: 700 } as const
+/** Space the seat dots take around a table, in room units */
+export const SEAT_MARGIN = 26
+
+export const ROOM_ELEMENTS: Record<Exclude<TableKind, 'table'>, { label: string; emoji: string; w: number; h: number }> = {
+  dance: { label: 'Dance floor', emoji: '💃', w: 220, h: 170 },
+  stage: { label: 'Stage / DJ', emoji: '🎧', w: 240, h: 90 },
+  buffet: { label: 'Buffet', emoji: '🍽', w: 220, h: 70 },
+  bar: { label: 'Bar', emoji: '🍸', w: 160, h: 70 }
+}
+
+export const isSeatingTable = (t: Table) => (t.kind || 'table') === 'table'
+
+/** Size of a table or element on the room plan, in room units */
+export function tableSize(t: Table): { w: number; h: number } {
+  const kind = t.kind || 'table'
+  if (kind !== 'table') return ROOM_ELEMENTS[kind]
+  if (t.shape === 'rect') return { w: Math.min(Math.max(60 + t.seats * 22, 150), 440), h: 84 }
+  const d = Math.min(Math.max(90 + t.seats * 6, 110), 200)
+  return { w: d, h: d }
+}
+
+/** First spot (scanning from the top-left) where a new item doesn't overlap anything */
+export function freeSpot(tables: Table[], size: { w: number; h: number }): { x: number; y: number } {
+  const layout = roomLayout(tables)
+  const gap = 40
+  const boxes = tables.map((t) => ({ ...layout.get(t.id)!, ...tableSize(t) }))
+  // Keep room for the seat dots around tables
+  const m = SEAT_MARGIN + 10
+  for (let y = size.h / 2 + m; y <= ROOM.h - size.h / 2 - m; y += 30) {
+    for (let x = size.w / 2 + m; x <= ROOM.w - size.w / 2 - m; x += 30) {
+      const clear = boxes.every((b) => Math.abs(b.x - x) >= (b.w + size.w) / 2 + gap || Math.abs(b.y - y) >= (b.h + size.h) / 2 + gap)
+      if (clear) return { x: Math.round(x), y: Math.round(y) }
+    }
+  }
+  return { x: ROOM.w / 2, y: ROOM.h / 2 }
+}
+
+/** Positions for every table, placing the ones never moved on a tidy grid */
+export function roomLayout(tables: Table[], all = false): Map<string, { x: number; y: number }> {
+  const out = new Map<string, { x: number; y: number }>()
+  const loose = tables.filter((t) => all || t.x == null || t.y == null)
+  const cols = Math.max(1, Math.ceil(Math.sqrt(loose.length * 1.5)))
+  const rows = Math.max(1, Math.ceil(loose.length / cols))
+  loose.forEach((t, i) => {
+    out.set(t.id, { x: Math.round(((i % cols) + 0.5) * (ROOM.w / cols)), y: Math.round((Math.floor(i / cols) + 0.5) * (ROOM.h / rows)) })
+  })
+  for (const t of tables) if (!out.has(t.id)) out.set(t.id, { x: t.x as number, y: t.y as number })
+  return out
+}
 export type Task = { id: string; title: string; due: string | null; done: boolean; category: string }
 export type BudgetItem = { id: string; category: string; label: string; planned: number; paid: number }
 export type Vendor = { id: string; category: string; name: string; contact: string; phone: string; email: string; price: number; deposit: number; notes: string }
@@ -158,12 +222,25 @@ export function sanitizeItem(section: PlanSection, raw: Record<string, unknown>,
         ...(prev?.edit_key ? { edit_key: prev.edit_key } : {})
       }
     }
-    case 'tables':
+    case 'tables': {
+      const prev = existing as Table | undefined
+      const kinds: TableKind[] = ['table', 'dance', 'stage', 'buffet', 'bar']
+      const kind = kinds.includes(raw.kind as TableKind) ? (raw.kind as TableKind) : prev?.kind || 'table'
+      const coord = (v: unknown, max: number, fallback: number | null | undefined) => {
+        if (v === null) return null
+        const n = Math.round(Number(v))
+        return v !== undefined && Number.isFinite(n) ? Math.min(Math.max(n, 0), max) : fallback ?? null
+      }
       return {
         id,
-        name: cleanText(raw.name, 60) || 'Table',
-        seats: Math.min(Math.max(Math.floor(Number(raw.seats)) || 8, 1), 100)
+        name: cleanText(raw.name ?? prev?.name, 60) || (kind === 'table' ? 'Table' : ROOM_ELEMENTS[kind].label),
+        seats: kind === 'table' ? Math.min(Math.max(Math.floor(Number(raw.seats ?? prev?.seats)) || 8, 1), 100) : 0,
+        shape: raw.shape === 'rect' || raw.shape === 'round' ? raw.shape : prev?.shape || 'round',
+        kind,
+        x: coord(raw.x, ROOM.w, prev?.x),
+        y: coord(raw.y, ROOM.h, prev?.y)
       }
+    }
     case 'tasks':
       return {
         id,

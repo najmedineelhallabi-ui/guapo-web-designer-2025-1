@@ -9,6 +9,7 @@ import PinGate from '@/components/album/PinGate'
 import Countdown from '@/components/album/Countdown'
 import { UpgradePanel } from '@/components/pricing/Locked'
 import { CameraIcon, CheckIcon } from '@/components/Icons'
+import RoomPlan from '@/components/plan/RoomPlan'
 import { ApiError, findTable, getEventPage, setAlbumPin, submitRsvp, type EventPage, type MyRsvp } from '@/lib/api'
 import { eventTypeInfo } from '@/lib/albumRules'
 import { formatEventDate } from '@/lib/dates'
@@ -171,17 +172,22 @@ function RsvpCard({ page, onSaved }: { page: Open; onSaved: (r: MyRsvp) => void 
 
 function TableFinder({ code }: { code: string }) {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState<{ name: string; table: string }[] | null>(null)
+  const [found, setFound] = useState<Awaited<ReturnType<typeof findTable>> | null>(null)
+  const results = found?.results || null
+  const [shownId, setShownId] = useState<string | null>(null)
   const [error, setError] = useState('')
 
   useEffect(() => {
     if (query.trim().length < 2) {
-      setResults(null)
+      setFound(null)
       return
     }
     const id = setTimeout(() => {
       findTable(code, query)
-        .then((r) => setResults(r.results))
+        .then((r) => {
+          setFound(r)
+          setShownId(r.results[0]?.tableId || null)
+        })
         .catch((err) => setError(err instanceof Error ? err.message : 'Search failed'))
     }, 250)
     return () => clearTimeout(id)
@@ -204,13 +210,25 @@ function TableFinder({ code }: { code: string }) {
             <li className="text-sm text-ink-soft">No match yet — try your first or last name.</li>
           ) : (
             results.map((r, i) => (
-              <li key={i} className="flex items-center justify-between rounded-2xl bg-brand-soft px-4 py-3">
-                <span className="font-semibold">{r.name}</span>
-                <span className="rounded-full bg-ink px-3 py-1 text-sm font-bold text-white">{r.table}</span>
+              <li key={i}>
+                <button
+                  onClick={() => setShownId(r.tableId)}
+                  aria-pressed={shownId === r.tableId}
+                  className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left ${shownId === r.tableId ? 'bg-brand' : 'bg-brand-soft'}`}
+                >
+                  <span className="font-semibold">{r.name}</span>
+                  <span className="rounded-full bg-ink px-3 py-1 text-sm font-bold text-white">{r.table}</span>
+                </button>
               </li>
             ))
           )}
         </ul>
+      )}
+      {found && found.results.length > 0 && found.layout.length > 0 && shownId && (
+        <div className="mt-4">
+          <RoomPlan tables={found.layout} highlightId={shownId} readOnly />
+          <p className="mt-2 text-center text-xs text-ink-soft">📍 Your table is highlighted on the room plan.</p>
+        </div>
       )}
     </section>
   )

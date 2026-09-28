@@ -3,6 +3,7 @@
 
 import { AppError, cleanText, type AppAlbum } from '../albumRules'
 import {
+  isSeatingTable,
   CHECKLIST_TEMPLATES,
   SECTION_LIMITS,
   daysBefore,
@@ -79,7 +80,7 @@ export async function savePlanItem(repo: Repo, ctx: Ctx, code: string, sectionIn
     const item = sanitizeItem(section, raw || {}, index >= 0 ? id : repo.newId(), index >= 0 ? list[index] : undefined)
     if (section === 'guests') {
       const g = item as Guest
-      if (g.table_id && !plan.tables.some((t) => t.id === g.table_id)) g.table_id = null
+      if (g.table_id && !plan.tables.some((t) => t.id === g.table_id && isSeatingTable(t))) g.table_id = null
     }
     if (index >= 0) list[index] = item
     else list.push(item)
@@ -122,7 +123,7 @@ export async function importGuests(repo: Repo, ctx: Ctx, code: string, rows: Gue
       let tableId: string | null = null
       const tableName = cleanText(row.table, 60)
       if (tableName) {
-        let table = plan.tables.find((t) => t.name.toLowerCase() === tableName.toLowerCase())
+        let table = plan.tables.find((t) => isSeatingTable(t) && t.name.toLowerCase() === tableName.toLowerCase())
         if (!table && plan.tables.length < SECTION_LIMITS.tables) {
           table = { id: repo.newId(), name: tableName, seats: 8 }
           plan.tables.push(table)
@@ -259,7 +260,7 @@ export async function findTable(repo: Repo, ctx: Ctx, code: string, query: strin
   requireFeature(album, 'planning')
   if (!album.event.table_finder) throw new AppError('forbidden', 403)
   const q = normalizeName(String(query || ''))
-  if (q.length < 2) return { results: [] }
+  if (q.length < 2) return { results: [], layout: [] }
   const tokens = q.split(' ')
   const plan = await repo.readPlan(album.qr_code)
   const results = plan.guests
@@ -271,8 +272,12 @@ export async function findTable(repo: Repo, ctx: Ctx, code: string, query: strin
     .slice(0, 5)
     .map((g) => {
       const table = plan.tables.find((t) => t.id === g.table_id)
-      return { name: g.name, table: table?.name || '' }
+      return { name: g.name, table: table?.name || '', tableId: table?.id || '' }
     })
     .filter((r) => r.table)
-  return { results }
+  // The room plan (names and positions only) so guests can see where their table is
+  const layout = results.length
+    ? plan.tables.map((t) => ({ id: t.id, name: t.name, seats: t.seats, shape: t.shape, kind: t.kind, x: t.x ?? null, y: t.y ?? null }))
+    : []
+  return { results, layout }
 }

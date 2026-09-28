@@ -5,7 +5,7 @@ import { TrashIcon } from '@/components/Icons'
 import { usePlan, useSection } from '@/components/plan/PlanContext'
 import { Card, ErrorText, Stat, btnGhost, btnPrimary, inputClass, inputBase } from '@/components/plan/ui'
 import { importGuests } from '@/lib/api'
-import { guestStats, normalizeName, type Guest, type RsvpStatus } from '@/lib/planRules'
+import { guestStats, isSeatingTable, normalizeName, type Guest, type RsvpStatus } from '@/lib/planRules'
 import { downloadText, parseCsv, toCsv } from '@/lib/csv'
 
 const RSVP_LABEL: Record<RsvpStatus, string> = { yes: 'Coming', no: "Can't come", pending: 'No answer' }
@@ -45,7 +45,7 @@ export default function GuestsPage() {
 
   const stats = guestStats(plan.guests)
   const groups = useMemo(() => [...new Set(plan.guests.map((g) => g.group).filter(Boolean))].sort(), [plan.guests])
-  const tables = plan.tables
+  const tables = plan.tables.filter(isSeatingTable)
 
   const shown = plan.guests
     .filter((g) => filter === 'all' || g.rsvp === filter)

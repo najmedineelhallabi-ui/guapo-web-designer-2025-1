@@ -6,7 +6,7 @@ import { Card, Progress, Stat, euro } from '@/components/plan/ui'
 import Countdown from '@/components/album/Countdown'
 import ShareInvitation from '@/components/plan/ShareInvitation'
 import { UpgradePanel } from '@/components/pricing/Locked'
-import { budgetStats, guestStats } from '@/lib/planRules'
+import { budgetStats, guestStats, isSeatingTable } from '@/lib/planRules'
 import { formatEventDate } from '@/lib/dates'
 
 export default function PlanOverview() {
@@ -23,7 +23,8 @@ export default function PlanOverview() {
     .filter((guest) => guest.answered_at)
     .sort((a, b) => (b.answered_at || '').localeCompare(a.answered_at || ''))
     .slice(0, 5)
-  const seats = plan.tables.reduce((n, t) => n + t.seats, 0)
+  const seatingTables = plan.tables.filter(isSeatingTable)
+  const seats = seatingTables.reduce((n, t) => n + t.seats, 0)
 
   const [y, m, d] = album.event_date.split('-').map(Number)
   const start = y ? new Date(y, m - 1, d, ...((album.event.start_time || '00:00').split(':').map(Number) as [number, number])) : null
@@ -65,7 +66,7 @@ export default function PlanOverview() {
             <Progress value={g.seated} max={g.people} />
           </div>
           <p className="mt-3 text-sm text-ink-soft">
-            {plan.tables.length} table{plan.tables.length === 1 ? '' : 's'} · {seats} seats
+            {seatingTables.length} table{seatingTables.length === 1 ? '' : 's'} · {seats} seats
           </p>
         </Card>
 

@@ -378,4 +378,4 @@ export async function submitRsvp(code: string, input: planService.RsvpInput) {
 }
 
 export const findTable = (code: string, query: string) =>
-  run<{ results: { name: string; table: string }[] }>('findTable', [code, query], (ctx) => planService.findTable(browserRepo, ctx, code, query), code)
+  run<Awaited<ReturnType<typeof planService.findTable>>>('findTable', [code, query], (ctx) => planService.findTable(browserRepo, ctx, code, query), code)

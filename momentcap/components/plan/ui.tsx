@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactNode, Ref } from 'react'
 
 /** Field style without a width, for inputs that set their own */
 export const inputBase =
@@ -9,9 +9,9 @@ export const btnPrimary = 'rounded-full bg-ink px-5 py-2.5 text-sm font-semibold
 export const btnBrand = 'rounded-full bg-brand px-5 py-2.5 text-sm font-bold transition hover:bg-brand-strong disabled:opacity-50'
 export const btnGhost = 'rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold transition hover:border-ink disabled:opacity-50'
 
-export function Card({ title, action, children, className = '' }: { title?: ReactNode; action?: ReactNode; children: ReactNode; className?: string }) {
+export function Card({ title, action, children, className = '', ref }: { title?: ReactNode; action?: ReactNode; children: ReactNode; className?: string; ref?: Ref<HTMLElement> }) {
   return (
-    <section className={`rounded-3xl border border-line bg-white p-5 sm:p-6 ${className}`}>
+    <section ref={ref} className={`rounded-3xl border border-line bg-white p-5 sm:p-6 ${className}`}>
       {(title || action) && (
         <div className="mb-4 flex items-center justify-between gap-3">
           {title && <h2 className="text-lg font-bold">{title}</h2>}
