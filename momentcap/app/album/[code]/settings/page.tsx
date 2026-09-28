@@ -2,41 +2,20 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import SiteHeader from '@/components/SiteHeader'
-import { getAlbum, updateAlbum, type AppAlbum } from '@/lib/api'
-import { uploadState, type AlbumSettings } from '@/lib/albumRules'
+import Toggle from '@/components/Toggle'
+import { deleteAlbum, getAlbum, updateAlbum, type AppAlbum } from '@/lib/api'
+import { EVENT_TYPES, uploadState, type AlbumSettings, type EventType } from '@/lib/albumRules'
+import { fromLocalInput, toLocalInput } from '@/lib/dates'
 
 const inputClass =
   'w-full rounded-xl border border-line bg-white px-4 py-3 text-ink placeholder:text-ink-soft/60 focus:border-ink focus:outline-none focus:ring-2 focus:ring-brand'
 
-// <input type="datetime-local"> works in local time without a timezone
-const toLocalInput = (iso: string | null) => {
-  if (!iso) return ''
-  const d = new Date(iso)
-  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16)
-}
-const fromLocalInput = (value: string) => (value ? new Date(value).toISOString() : null)
-
-function Toggle({ checked, onChange, label, hint }: { checked: boolean; onChange: (v: boolean) => void; label: string; hint: string }) {
-  return (
-    <label className="flex cursor-pointer items-start justify-between gap-4 py-4">
-      <span>
-        <span className="block font-semibold">{label}</span>
-        <span className="block text-sm text-ink-soft">{hint}</span>
-      </span>
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="peer sr-only" />
-      <span
-        aria-hidden="true"
-        className="relative mt-1 h-7 w-12 shrink-0 rounded-full bg-line transition peer-checked:bg-ink peer-focus-visible:ring-2 peer-focus-visible:ring-brand after:absolute after:left-1 after:top-1 after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition peer-checked:after:translate-x-5"
-      />
-    </label>
-  )
-}
-
 export default function AlbumSettingsPage() {
   const params = useParams()
   const code = params.code as string
+  const router = useRouter()
 
   const [album, setAlbum] = useState<AppAlbum | null>(null)
   const [isOwner, setIsOwner] = useState(false)
@@ -48,6 +27,9 @@ export default function AlbumSettingsPage() {
   const [name, setName] = useState('')
   const [eventDate, setEventDate] = useState('')
   const [location, setLocation] = useState('')
+  const [eventType, setEventType] = useState<EventType>('other')
+  const [welcome, setWelcome] = useState('')
+  const [deleting, setDeleting] = useState(false)
   const [openAt, setOpenAt] = useState('')
   const [closeAt, setCloseAt] = useState('')
   const [guestsCanView, setGuestsCanView] = useState(true)
@@ -59,6 +41,8 @@ export default function AlbumSettingsPage() {
     setName(a.name)
     setEventDate(a.event_date)
     setLocation(a.location)
+    setEventType(a.event_type)
+    setWelcome(a.welcome_message)
     setOpenAt(toLocalInput(a.settings.uploads_open_at))
     setCloseAt(toLocalInput(a.settings.uploads_close_at))
     setGuestsCanView(a.settings.guests_can_view)
@@ -87,6 +71,8 @@ export default function AlbumSettingsPage() {
         name,
         event_date: eventDate,
         location,
+        event_type: eventType,
+        welcome_message: welcome,
         settings: {
           uploads_open_at: fromLocalInput(openAt),
           uploads_close_at: fromLocalInput(closeAt),
@@ -103,6 +89,20 @@ export default function AlbumSettingsPage() {
       setError(err instanceof Error ? err.message : 'Could not save')
     } finally {
       setSaving(false)
+    }
+  }
+
+  const removeAlbum = async () => {
+    if (!album) return
+    const typed = prompt(`This deletes the album and all its photos for everyone.\n\nType the album code ${album.qr_code} to confirm.`)
+    if (typed?.trim().toUpperCase() !== album.qr_code) return
+    setDeleting(true)
+    try {
+      await deleteAlbum(album)
+      router.push('/dashboard')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not delete the album')
+      setDeleting(false)
     }
   }
 
@@ -159,6 +159,14 @@ export default function AlbumSettingsPage() {
                 <label htmlFor="name" className="mb-2 block text-sm font-semibold">Album name</label>
                 <input id="name" value={name} onChange={(e) => setName(e.target.value)} required className={inputClass} />
               </div>
+              <div>
+                <label htmlFor="type" className="mb-2 block text-sm font-semibold">Occasion</label>
+                <select id="type" value={eventType} onChange={(e) => setEventType(e.target.value as EventType)} className={inputClass}>
+                  {EVENT_TYPES.map((t) => (
+                    <option key={t.id} value={t.id}>{t.emoji} {t.label}</option>
+                  ))}
+                </select>
+              </div>
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
                   <label htmlFor="date" className="mb-2 block text-sm font-semibold">Event date</label>
@@ -168,6 +176,11 @@ export default function AlbumSettingsPage() {
                   <label htmlFor="location" className="mb-2 block text-sm font-semibold">Location</label>
                   <input id="location" value={location} onChange={(e) => setLocation(e.target.value)} className={inputClass} />
                 </div>
+              </div>
+              <div>
+                <label htmlFor="welcome" className="mb-2 block text-sm font-semibold">Message for your guests</label>
+                <textarea id="welcome" value={welcome} onChange={(e) => setWelcome(e.target.value)} maxLength={280} rows={3}
+                  placeholder="Shown at the top of the album" className={inputClass} />
               </div>
             </div>
           </section>
@@ -278,6 +291,18 @@ export default function AlbumSettingsPage() {
             </button>
           </div>
         </form>
+
+        <section className="mt-10 rounded-3xl border border-red-200 bg-white p-6 sm:p-8">
+          <h2 className="text-lg font-bold text-red-700">Delete album</h2>
+          <p className="mt-1 text-sm text-ink-soft">Removes the album and every photo in it. This can&apos;t be undone.</p>
+          <button
+            onClick={removeAlbum}
+            disabled={deleting}
+            className="mt-4 rounded-full border border-red-300 px-5 py-2.5 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-50"
+          >
+            {deleting ? 'Deleting…' : 'Delete this album'}
+          </button>
+        </section>
       </main>
     </div>
   )

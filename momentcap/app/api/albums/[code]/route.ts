@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server'
 import { readToken } from '@/lib/server/auth'
-import { getAlbum, listPhotos, saveAlbum } from '@/lib/server/db'
+import { deleteAlbum, getAlbum, listPhotos, saveAlbum } from '@/lib/server/db'
 import { fail, handle, json } from '@/lib/server/http'
-import { sanitizeSettings } from '@/lib/albumRules'
+import { albumFields, sanitizeSettings } from '@/lib/albumRules'
 
 export const GET = handle(async (request: NextRequest, ctx: RouteContext<'/api/albums/[code]'>) => {
   const { code } = await ctx.params
@@ -30,10 +30,17 @@ export const PATCH = handle(async (request: NextRequest, ctx: RouteContext<'/api
   } catch (err) {
     return fail(err instanceof Error ? err.message : 'Invalid settings', 400)
   }
-  if (typeof body.name === 'string' && body.name.trim()) album.name = body.name.trim().slice(0, 120)
-  if (typeof body.location === 'string') album.location = body.location.trim().slice(0, 120)
-  if (typeof body.event_date === 'string' && !Number.isNaN(Date.parse(body.event_date))) album.event_date = body.event_date
+  Object.assign(album, albumFields(body))
 
   await saveAlbum(album)
   return json({ album })
+})
+
+export const DELETE = handle(async (request: NextRequest, ctx: RouteContext<'/api/albums/[code]'>) => {
+  const { code } = await ctx.params
+  const album = await getAlbum(code)
+  if (!album) return fail('Album not found', 404)
+  if (readToken(request)?.uid !== album.owner_id) return fail('Only the organizer can delete this album', 403)
+  await deleteAlbum(album)
+  return json({ ok: true })
 })

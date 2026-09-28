@@ -6,7 +6,9 @@
 // the app is fully clickable before storage is set up.
 
 import {
+  albumFields,
   checkUpload,
+  defaultSettings,
   sanitizeSettings,
   withDefaults,
   type AlbumSettings,
@@ -218,25 +220,37 @@ export async function signOut() {
 export async function listAlbums(): Promise<AppAlbum[]> {
   if ((await getBackend()) === 'demo') {
     const user = demoCurrentUser()
+    const photos = await photoStore<StoredPhoto[]>('readonly', (s) => s.getAll())
     return demoAlbums()
       .filter((a) => a.owner_id === user?.id)
+      .map((a) => ({ ...a, photo_count: photos.filter((p) => p.album_id === a.id).length }))
       .sort((a, b) => b.created_at.localeCompare(a.created_at))
   }
   return (await request<{ albums: AppAlbum[] }>('/api/albums')).albums
 }
 
-export async function createAlbum(input: { name: string; event_date: string; location: string }) {
+export type NewAlbumInput = Pick<AppAlbum, 'name' | 'event_type' | 'welcome_message' | 'event_date' | 'location'> & {
+  settings: Partial<AlbumSettings>
+}
+
+export async function createAlbum(input: NewAlbumInput) {
   const albumUrl = (code: string) => `${window.location.origin}/album/${code}`
 
   if ((await getBackend()) === 'demo') {
     const user = demoCurrentUser()
     if (!user) throw new Error('Please log in to create an album')
+    const fields = albumFields(input)
+    if (!fields.name) throw new Error('Please give your album a name')
+    if (!fields.event_date) throw new Error('Please pick the event date')
     const album = withDefaults({
       id: crypto.randomUUID(),
       owner_id: user.id,
-      name: input.name.trim(),
-      event_date: input.event_date,
-      location: input.location.trim(),
+      name: fields.name,
+      event_type: fields.event_type,
+      welcome_message: fields.welcome_message,
+      event_date: fields.event_date,
+      location: fields.location || '',
+      settings: sanitizeSettings(input.settings, defaultSettings),
       qr_code: newCode(),
       is_paid: false,
       created_at: new Date().toISOString()
@@ -273,7 +287,9 @@ export async function getAlbum(code: string): Promise<AlbumView | null> {
   }
 }
 
-export type AlbumPatch = Partial<Pick<AppAlbum, 'name' | 'location' | 'event_date'>> & { settings?: Partial<AlbumSettings> }
+export type AlbumPatch = Partial<Pick<AppAlbum, 'name' | 'location' | 'event_date' | 'event_type' | 'welcome_message'>> & {
+  settings?: Partial<AlbumSettings>
+}
 
 export async function updateAlbum(code: string, patch: AlbumPatch): Promise<AppAlbum> {
   if ((await getBackend()) === 'demo') {
@@ -282,9 +298,7 @@ export async function updateAlbum(code: string, patch: AlbumPatch): Promise<AppA
     if (!album || album.owner_id !== demoCurrentUser()?.id) throw new Error('Only the organizer can change this album')
     const updated: AppAlbum = {
       ...album,
-      name: patch.name?.trim() || album.name,
-      location: patch.location !== undefined ? patch.location.trim() : album.location,
-      event_date: patch.event_date || album.event_date,
+      ...albumFields(patch),
       settings: patch.settings ? sanitizeSettings(patch.settings, album.settings) : album.settings
     }
     writeLS(LS_DEMO_ALBUMS, albums.map((a) => (a.id === album.id ? updated : a)))
@@ -296,6 +310,17 @@ export async function updateAlbum(code: string, patch: AlbumPatch): Promise<AppA
     body: JSON.stringify(patch)
   })
   return data.album
+}
+
+export async function deleteAlbum(album: AppAlbum) {
+  if ((await getBackend()) === 'demo') {
+    if (album.owner_id !== demoCurrentUser()?.id) throw new Error('Only the organizer can delete this album')
+    const photos = await demoPhotos(album.id)
+    for (const p of photos) await photoStore('readwrite', (s) => s.delete(p.id))
+    writeLS(LS_DEMO_ALBUMS, demoAlbums().filter((a) => a.id !== album.id))
+    return
+  }
+  await request(`/api/albums/${album.qr_code}`, { method: 'DELETE' })
 }
 
 // ---------------------------------------------------------------------------

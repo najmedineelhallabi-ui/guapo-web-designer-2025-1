@@ -2,7 +2,7 @@ import 'server-only'
 import { randomUUID } from 'node:crypto'
 import { getStorage, readJSON, writeJSON, type Storage } from './storage'
 import { emailKey, signedFileUrl } from './auth'
-import { withDefaults, type AppAlbum, type AppPhoto } from '../albumRules'
+import { withDefaults, type AlbumSettings, type AppAlbum, type AppPhoto } from '../albumRules'
 
 // Layout in storage:
 //   users/<emailKey>.json                 user record
@@ -54,7 +54,9 @@ export async function saveAlbum(album: AppAlbum) {
   await writeJSON(requireStorage(), `albums/${album.qr_code}/album.json`, album)
 }
 
-export async function createAlbum(ownerId: string, input: { name: string; event_date: string; location: string }) {
+type NewAlbum = Pick<AppAlbum, 'name' | 'event_type' | 'welcome_message' | 'event_date' | 'location'> & { settings: AlbumSettings }
+
+export async function createAlbum(ownerId: string, input: NewAlbum) {
   const storage = requireStorage()
   let code = ''
   do {
@@ -64,9 +66,7 @@ export async function createAlbum(ownerId: string, input: { name: string; event_
   const album = withDefaults({
     id: randomUUID(),
     owner_id: ownerId,
-    name: input.name.trim().slice(0, 120),
-    event_date: input.event_date,
-    location: (input.location || '').trim().slice(0, 120),
+    ...input,
     qr_code: code,
     is_paid: false,
     created_at: new Date().toISOString()
@@ -79,10 +79,23 @@ export async function createAlbum(ownerId: string, input: { name: string; event_
 export async function listOwnerAlbums(ownerId: string) {
   const storage = requireStorage()
   const codes = (await storage.list(`owners/${ownerId}/`)).map((p) => p.split('/').pop()!)
-  const albums = await Promise.all(codes.map(getAlbum))
+  const albums = await Promise.all(
+    codes.map(async (code): Promise<AppAlbum | null> => {
+      const album = await getAlbum(code)
+      if (!album || album.owner_id !== ownerId) return null
+      const photos = await storage.list(`albums/${album.qr_code}/photos/`)
+      return { ...album, photo_count: photos.length }
+    })
+  )
   return albums
-    .filter((a): a is AppAlbum => Boolean(a && a.owner_id === ownerId))
+    .filter((a): a is AppAlbum => Boolean(a))
     .sort((a, b) => b.created_at.localeCompare(a.created_at))
+}
+
+export async function deleteAlbum(album: AppAlbum) {
+  const storage = requireStorage()
+  const files = await storage.list(`albums/${album.qr_code}/`)
+  await storage.remove([...files, `owners/${album.owner_id}/${album.qr_code}`])
 }
 
 function parsePhoto(album: AppAlbum, pathname: string): AppPhoto | null {

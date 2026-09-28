@@ -2,16 +2,10 @@
 
 import Link from 'next/link'
 import Logo from './Logo'
-import { useAuth, signOut } from '@/lib/useAuth'
+import { useAuth, signOutAndGoHome } from '@/lib/useAuth'
 
 export default function SiteHeader({ cta = true }: { cta?: boolean }) {
   const { user, loading } = useAuth()
-
-  const handleSignOut = async () => {
-    await signOut()
-    // Full navigation so protected pages don't bounce to /login first
-    window.location.replace('/')
-  }
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-cream/85 backdrop-blur">
@@ -26,7 +20,7 @@ export default function SiteHeader({ cta = true }: { cta?: boolean }) {
                     My albums
                   </Link>
                 )}
-                <button onClick={handleSignOut} className="rounded-full px-3 py-2 font-semibold text-ink-soft transition hover:text-ink">
+                <button onClick={signOutAndGoHome} className="rounded-full px-3 py-2 font-semibold text-ink-soft transition hover:text-ink">
                   Log out
                 </button>
               </>

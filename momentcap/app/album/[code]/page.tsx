@@ -4,10 +4,9 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import Webcam from 'react-webcam'
-import { QRCodeSVG } from 'qrcode.react'
 import { addWatermark, compressImage } from '@/lib/photoUtils'
 import { deletePhoto, getAlbum, getGuestId, uploadPhoto, type AppAlbum, type AppPhoto } from '@/lib/api'
-import { checkUpload, uploadState, MAX_FILE_MB } from '@/lib/albumRules'
+import { checkUpload, eventTypeInfo, uploadState, MAX_FILE_MB } from '@/lib/albumRules'
 import Logo from '@/components/Logo'
 import { CameraIcon, UploadIcon, ImageIcon, DownloadIcon, ChevronIcon, ShareIcon, XIcon, SettingsIcon, TrashIcon, ClockIcon } from '@/components/Icons'
 
@@ -27,7 +26,6 @@ export default function AlbumPage() {
   const [contributorName, setContributorName] = useState('')
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null)
   const [showCamera, setShowCamera] = useState(false)
-  const [showShare, setShowShare] = useState(false)
   const [lightbox, setLightbox] = useState<number | null>(null)
   const [zipping, setZipping] = useState(false)
 
@@ -36,7 +34,6 @@ export default function AlbumPage() {
 
   const uploading = progress !== null
   const myCount = photos.filter((p) => p.guest_id === guestId).length
-  const albumUrl = typeof window !== 'undefined' ? `${window.location.origin}/album/${code}` : ''
 
   // Remember the guest's name between visits
   useEffect(() => {
@@ -210,11 +207,17 @@ export default function AlbumPage() {
               </Link>
             )}
           </div>
-          <h1 className="mt-5 text-3xl font-extrabold tracking-tight sm:text-4xl">{album.name}</h1>
+          <h1 className="mt-5 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            <span aria-hidden="true">{eventTypeInfo(album.event_type).emoji} </span>
+            {album.name}
+          </h1>
           <p className="mt-1 text-ink-soft">
             {photos.length} photo{photos.length !== 1 ? 's' : ''} shared
             {album.location ? ` · ${album.location}` : ''}
           </p>
+          {album.welcome_message && (
+            <p className="mt-4 rounded-2xl bg-brand-soft px-4 py-3 text-ink">{album.welcome_message}</p>
+          )}
           {isExpired && (
             <p className="mt-3 inline-block rounded-full bg-red-50 px-3 py-1 text-sm font-medium text-red-700">
               Album expired — photos will be deleted soon
@@ -223,12 +226,12 @@ export default function AlbumPage() {
 
           {isOwner && (
             <div className="mt-5 flex flex-wrap gap-2">
-              <button
-                onClick={() => setShowShare((v) => !v)}
-                className="flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm font-semibold transition hover:border-ink"
+              <Link
+                href={`/album/${album.qr_code}/share`}
+                className="flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition hover:bg-black"
               >
-                <ShareIcon /> {showShare ? 'Hide QR code' : 'Share with guests'}
-              </button>
+                <ShareIcon /> Share &amp; print QR
+              </Link>
               <button
                 onClick={downloadZip}
                 disabled={zipping || photos.length === 0}
@@ -245,18 +248,6 @@ export default function AlbumPage() {
             </div>
           )}
 
-          {isOwner && showShare && (
-            <div className="mt-4 flex flex-col items-center gap-4 rounded-2xl bg-cream p-4 sm:flex-row">
-              <div className="rounded-xl bg-white p-3">
-                <QRCodeSVG value={albumUrl} size={140} />
-              </div>
-              <div className="text-center sm:text-left">
-                <p className="font-semibold">Guests scan this to add photos</p>
-                <p className="mt-1 font-mono text-lg font-bold tracking-[0.2em]">{album.qr_code}</p>
-                <p className="mt-1 break-all text-sm text-ink-soft">{albumUrl}</p>
-              </div>
-            </div>
-          )}
         </div>
       </header>
 

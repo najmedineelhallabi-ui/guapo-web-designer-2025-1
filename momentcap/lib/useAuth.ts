@@ -26,4 +26,21 @@ export function useAuth() {
   return { user, loading }
 }
 
-export { signOut }
+// Set while logging out so protected pages don't redirect to /login first
+let leaving = false
+
+/** Logs out and goes to the home page. */
+export async function signOutAndGoHome() {
+  leaving = true
+  await signOut()
+  window.location.replace('/')
+}
+
+/** Sends logged-out visitors to the login page, then back to `next`. */
+export function useRequireAuth(next: string) {
+  const auth = useAuth()
+  useEffect(() => {
+    if (!auth.loading && !auth.user && !leaving) window.location.replace(`/login?next=${encodeURIComponent(next)}`)
+  }, [auth.loading, auth.user, next])
+  return auth
+}

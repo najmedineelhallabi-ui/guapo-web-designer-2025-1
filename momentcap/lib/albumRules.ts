@@ -13,16 +13,34 @@ export type AlbumSettings = {
   require_name: boolean
 }
 
+export const EVENT_TYPES = [
+  { id: 'wedding', label: 'Wedding', emoji: '💍', example: "Sarah & Tom's Wedding" },
+  { id: 'birthday', label: 'Birthday', emoji: '🎂', example: "Lina's 30th Birthday" },
+  { id: 'party', label: 'Party', emoji: '🎉', example: 'Summer Party' },
+  { id: 'baby', label: 'Baby & baptism', emoji: '🍼', example: "Adam's Baptism" },
+  { id: 'corporate', label: 'Company event', emoji: '💼', example: 'Team Offsite 2026' },
+  { id: 'other', label: 'Something else', emoji: '📸', example: 'Our Weekend Trip' }
+] as const
+
+export type EventType = (typeof EVENT_TYPES)[number]['id']
+
+export const eventTypeInfo = (id: string) => EVENT_TYPES.find((t) => t.id === id) ?? EVENT_TYPES[EVENT_TYPES.length - 1]
+
 export type AppAlbum = {
   id: string
   owner_id: string
   name: string
+  event_type: EventType
+  /** Shown to guests at the top of the album */
+  welcome_message: string
   event_date: string
   location: string
   qr_code: string
   is_paid: boolean
   created_at: string
   settings: AlbumSettings
+  /** Only filled in album lists (dashboard) */
+  photo_count?: number
 }
 
 export type AppPhoto = {
@@ -45,8 +63,39 @@ export const defaultSettings: AlbumSettings = {
   require_name: false
 }
 
-export function withDefaults(album: Omit<AppAlbum, 'settings'> & { settings?: Partial<AlbumSettings> }): AppAlbum {
-  return { ...album, settings: { ...defaultSettings, ...(album.settings || {}) } }
+type AlbumInput = Omit<AppAlbum, 'settings' | 'event_type' | 'welcome_message'> & {
+  settings?: Partial<AlbumSettings>
+  event_type?: string
+  welcome_message?: string
+}
+
+export function withDefaults(album: AlbumInput): AppAlbum {
+  return {
+    ...album,
+    event_type: eventTypeInfo(album.event_type || 'other').id,
+    welcome_message: album.welcome_message || '',
+    settings: { ...defaultSettings, ...(album.settings || {}) }
+  }
+}
+
+export const cleanText = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '')
+
+/** Normalizes the fields an organizer can set when creating or editing an album. */
+export function albumFields(input: Record<string, unknown>) {
+  const out: Partial<Pick<AppAlbum, 'name' | 'event_type' | 'welcome_message' | 'event_date' | 'location'>> = {}
+  if (typeof input.name === 'string' && input.name.trim()) out.name = cleanText(input.name, 120)
+  if (typeof input.event_type === 'string') out.event_type = eventTypeInfo(input.event_type).id
+  if (typeof input.welcome_message === 'string') out.welcome_message = cleanText(input.welcome_message, 280)
+  if (typeof input.location === 'string') out.location = cleanText(input.location, 120)
+  if (typeof input.event_date === 'string' && !Number.isNaN(Date.parse(input.event_date))) out.event_date = input.event_date
+  return out
+}
+
+export type AlbumStatus = 'open' | 'scheduled' | 'closed'
+
+export function albumStatus(settings: AlbumSettings, now = Date.now()): AlbumStatus {
+  const s = uploadState(settings, now)
+  return s.open ? 'open' : s.reason === 'not_yet' ? 'scheduled' : 'closed'
 }
 
 export type UploadState =
