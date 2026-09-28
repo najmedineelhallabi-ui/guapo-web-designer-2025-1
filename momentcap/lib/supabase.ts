@@ -19,6 +19,10 @@ function lazyClient(getKey: () => string | undefined, label: string): SupabaseCl
   })
 }
 
+export const isSupabaseConfigured = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)
+
 // Client-side
 export const supabase = lazyClient(() => process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, 'NEXT_PUBLIC_SUPABASE_ANON_KEY')
 

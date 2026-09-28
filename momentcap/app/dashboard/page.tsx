@@ -1,7 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/lib/useAuth'
 import { QRCodeSVG } from 'qrcode.react'
 import SiteHeader from '@/components/SiteHeader'
 import { ImageIcon } from '@/components/Icons'
@@ -10,6 +12,8 @@ const inputClass =
   'w-full rounded-xl border border-line bg-white px-4 py-3 text-ink placeholder:text-ink-soft/60 focus:border-ink focus:outline-none focus:ring-2 focus:ring-brand'
 
 export default function Dashboard() {
+  const router = useRouter()
+  const { session, loading: authLoading } = useAuth()
   const [formData, setFormData] = useState({
     name: '',
     event_date: '',
@@ -22,6 +26,24 @@ export default function Dashboard() {
   const [createdAlbum, setCreatedAlbum] = useState<any>(null)
   const [qrUrl, setQrUrl] = useState('')
   const [copied, setCopied] = useState(false)
+  const [albumsLoading, setAlbumsLoading] = useState(true)
+
+  const token = session?.access_token
+
+  // Logged-out visitors go to the login page first
+  useEffect(() => {
+    if (!authLoading && !session) router.replace('/login?next=/dashboard')
+  }, [authLoading, session, router])
+
+  // Load this user's albums
+  useEffect(() => {
+    if (!token) return
+    fetch('/api/albums', { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => (res.ok ? res.json() : { albums: [] }))
+      .then((data) => setAlbums(data.albums || []))
+      .catch(() => setAlbums([]))
+      .finally(() => setAlbumsLoading(false))
+  }, [token])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -36,10 +58,12 @@ export default function Dashboard() {
     try {
       const response = await fetch('/api/albums', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
         body: JSON.stringify({
           ...formData,
-          owner_id: 'demo-user', // TODO: Use actual user from auth
           owner_type: 'couple'
         })
       })
@@ -68,6 +92,16 @@ export default function Dashboard() {
       // Clipboard can be blocked; the link is still visible to copy by hand
     }
   }
+
+  if (authLoading || !session) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <span className="h-5 w-5 animate-spin rounded-full border-2 border-line border-t-ink" />
+      </div>
+    )
+  }
+
+  const firstName = (session.user.user_metadata?.name as string | undefined)?.split(' ')[0]
 
   if (createdAlbum) {
     return (
@@ -134,7 +168,9 @@ export default function Dashboard() {
         {/* Page title */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-3xl font-extrabold tracking-tight">Your albums</h1>
+            <h1 className="text-3xl font-extrabold tracking-tight">
+              {firstName ? `Hi ${firstName}, your albums` : 'Your albums'}
+            </h1>
             <p className="mt-1 text-ink-soft">Create an album, share the QR code, collect every photo.</p>
           </div>
           <button
@@ -213,7 +249,11 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Albums created this session */}
+        {albumsLoading && (
+          <p className="mt-8 text-ink-soft">Loading your albums…</p>
+        )}
+
+        {/* Albums */}
         {albums.length > 0 && (
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {albums.map((a) => (
@@ -233,7 +273,7 @@ export default function Dashboard() {
         )}
 
         {/* Empty State */}
-        {albums.length === 0 && !showForm && (
+        {!albumsLoading && albums.length === 0 && !showForm && (
           <div className="mt-8 rounded-3xl border-2 border-dashed border-line bg-white px-6 py-16 text-center">
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-soft">
               <ImageIcon className="h-7 w-7" />

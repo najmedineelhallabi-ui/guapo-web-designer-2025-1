@@ -73,8 +73,10 @@ ALTER TABLE invites ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public albums are readable" ON albums
   FOR SELECT USING (album_visibility = 'public');
 
--- Album owners: the API routes use the service role key, which bypasses RLS.
--- Add an owner policy here once real auth (auth.uid()) is wired up.
+-- Album owners (Supabase Auth). The API routes use the service role key,
+-- which bypasses RLS; this policy covers direct client access.
+CREATE POLICY "Album owners can read their albums" ON albums
+  FOR SELECT USING (owner_id = auth.uid()::text);
 
 -- Allow anyone to insert photos
 CREATE POLICY "Allow photo uploads" ON photos

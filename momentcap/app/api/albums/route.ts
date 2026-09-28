@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { v4 as uuidv4 } from 'uuid'
+import { getRequestUser } from '@/lib/serverAuth'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { name, event_date, location, owner_id, owner_type = 'couple' } = body
+    const user = await getRequestUser(request)
+    if (!user) {
+      return NextResponse.json({ error: 'Please log in to create an album' }, { status: 401 })
+    }
+    const owner_id = user.id
 
-    if (!name || !event_date || !owner_id) {
+    const body = await request.json()
+    const { name, event_date, location, owner_type = 'couple' } = body
+
+    if (!name || !event_date) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -53,7 +60,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
-    const userId = request.headers.get('x-user-id')
+    const user = await getRequestUser(request)
+    const userId = user?.id
 
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

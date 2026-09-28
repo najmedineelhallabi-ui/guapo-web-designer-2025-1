@@ -46,7 +46,7 @@ export default function Home() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/dashboard"
+                href="/signup"
                 className="rounded-full bg-brand px-7 py-3.5 text-center font-bold text-ink shadow-sm transition hover:bg-brand-strong"
               >
                 Create a free album
@@ -140,7 +140,7 @@ export default function Home() {
                   ))}
                 </ul>
                 <Link
-                  href="/dashboard"
+                  href="/signup"
                   className="mt-8 block rounded-full border border-white/30 py-3 text-center font-semibold transition hover:bg-white/10"
                 >
                   Start free
@@ -159,7 +159,7 @@ export default function Home() {
                   ))}
                 </ul>
                 <Link
-                  href="/dashboard"
+                  href="/signup"
                   className="mt-8 block rounded-full bg-ink py-3 text-center font-semibold text-white transition hover:bg-black"
                 >
                   Create an album
@@ -174,7 +174,7 @@ export default function Home() {
           <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">Ready for your next event?</h2>
           <p className="mt-3 text-ink-soft">Your album is live in under a minute.</p>
           <Link
-            href="/dashboard"
+            href="/signup"
             className="mt-8 inline-block rounded-full bg-brand px-8 py-4 font-bold text-ink transition hover:bg-brand-strong"
           >
             Create your first album
