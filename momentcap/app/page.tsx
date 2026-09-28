@@ -159,10 +159,9 @@ export default function Home() {
 
             <div className="mt-6 flex flex-col items-center justify-between gap-4 rounded-3xl border border-white/15 p-6 sm:flex-row">
               <div>
-                <p className="text-lg font-bold">Pro subscription</p>
+                <p className="text-lg font-bold">Subscriptions for professionals</p>
                 <p className="text-sm text-white/70">
-                  For planners, photographers and venues: every event gets the Full event pack. {euroPrice(SUBSCRIPTIONS[0].price)}/month or{' '}
-                  {euroPrice(SUBSCRIPTIONS[1].price)}/year.
+                  {SUBSCRIPTIONS.map((s) => `${s.name} ${euroPrice(s.monthly)}/month`).join(' · ')} — every event included, monthly or yearly.
                 </p>
               </div>
               <Link href="/pricing#subscriptions" className="shrink-0 rounded-full bg-white px-6 py-3 font-semibold text-ink">

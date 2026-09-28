@@ -29,8 +29,9 @@ export interface Repo {
   writeSubscription(userId: string, sub: Subscription | null): Promise<void>
 
   /** Indexes albums per owner id ("owner") or per organizer email ("co") */
-  setIndex(kind: 'owner' | 'co', key: string, code: string, present: boolean): Promise<void>
-  listIndex(kind: 'owner' | 'co', key: string): Promise<string[]>
+  /** "team" indexes, per member email, the owner ids whose Business team includes them */
+  setIndex(kind: 'owner' | 'co' | 'team', key: string, value: string, present: boolean): Promise<void>
+  listIndex(kind: 'owner' | 'co' | 'team', key: string): Promise<string[]>
 
   putFile(path: string, data: Blob, contentType: string): Promise<void>
   deleteFiles(paths: string[]): Promise<void>

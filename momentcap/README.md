@@ -42,8 +42,9 @@ pack unlocks there:
 
 - One-shot packs per event: **Free** (€0), **Photos** (€19), **Full event** (€39).
   Upgrading only charges the difference.
-- Subscriptions: **Pro monthly** (€29/month) and **Pro yearly** (€290/year) —
-  every event of the account gets the Full event pack.
+- Subscriptions, monthly or yearly (yearly = 10 months): **Starter** (€9/€90,
+  Photos pack on every event), **Pro** (€29/€290, Full event on every event),
+  **Business** (€59/€590, Pro + a team of 5 who manage all the account's events).
 
 Features are enforced by the service (`requireFeature`), not only hidden in the UI.
 Payments are simulated (demo mode, or `MOMENTCAP_DEMO_PAYMENTS=1`) until Stripe is connected.

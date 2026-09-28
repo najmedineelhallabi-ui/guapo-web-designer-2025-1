@@ -43,49 +43,97 @@ export const packInfo = (t: Tier) => PACKS.find((p) => p.id === t) ?? PACKS[0]
 export const upgradePrice = (current: Tier, target: Tier) => Math.max(0, packInfo(target).price - packInfo(current).price)
 
 // ---------------------------------------------------------------------------
-// Subscriptions (monthly / yearly): every event of the account gets the top pack
+// Subscriptions: every event of the account gets the plan's pack.
+// Each plan is billed monthly or yearly (yearly = 10 months).
 // ---------------------------------------------------------------------------
 
-export type PlanId = 'pro_monthly' | 'pro_yearly'
+export type PlanId = 'starter' | 'pro' | 'business'
+export type Billing = 'month' | 'year'
 
-export type SubscriptionPlan = { id: PlanId; name: string; price: number; period: 'month' | 'year'; tagline: string; highlights: string[] }
+export type SubscriptionPlan = {
+  id: PlanId
+  name: string
+  monthly: number
+  yearly: number
+  /** Pack every event of the account gets */
+  tier: Tier
+  /** Team members who can manage all the account's events */
+  teamSize: number
+  audience: string
+  highlights: string[]
+}
 
 export const SUBSCRIPTIONS: SubscriptionPlan[] = [
   {
-    id: 'pro_monthly',
-    name: 'Pro monthly',
-    price: 29,
-    period: 'month',
-    tagline: 'For planners, photographers and venues',
-    highlights: ['Full event on every event you create', 'Unlimited events', 'Cancel anytime']
+    id: 'starter',
+    name: 'Starter',
+    monthly: 9,
+    yearly: 90,
+    tier: 'photos',
+    teamSize: 0,
+    audience: 'Photographers, DJs, entertainers',
+    highlights: ['Photos pack on every event', 'Unlimited events', 'No watermark, live slideshow, ZIP & PDF']
   },
   {
-    id: 'pro_yearly',
-    name: 'Pro yearly',
-    price: 290,
-    period: 'year',
-    tagline: '2 months free',
-    highlights: ['Everything in Pro monthly', 'Billed once a year', 'Best price for regular events']
+    id: 'pro',
+    name: 'Pro',
+    monthly: 29,
+    yearly: 290,
+    tier: 'event',
+    teamSize: 0,
+    audience: 'Wedding & event planners',
+    highlights: ['Full event pack on every event', 'Unlimited events', 'Invitations, RSVP, seating, budget, vendors']
+  },
+  {
+    id: 'business',
+    name: 'Business',
+    monthly: 59,
+    yearly: 590,
+    tier: 'event',
+    teamSize: 5,
+    audience: 'Agencies, venues, caterers',
+    highlights: ['Everything in Pro', 'Team of 5: they manage all your events', 'One account for the whole company']
   }
 ]
 
 export const subscriptionInfo = (id: string) => SUBSCRIPTIONS.find((s) => s.id === id) ?? null
+export const planPrice = (plan: SubscriptionPlan, billing: Billing) => (billing === 'year' ? plan.yearly : plan.monthly)
 
 export type Subscription = {
   plan: PlanId
+  billing: Billing
   status: 'active' | 'canceled'
   started_at: string
   /** End of the paid period; a canceled subscription keeps working until then */
   current_period_end: string
+  /** Emails of team members (Business) */
+  team: string[]
+}
+
+/** Reads older stored subscriptions ("pro_monthly" / "pro_yearly") too. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function normalizeSubscription(raw: Record<string, any> | null): Subscription | null {
+  if (!raw || !raw.plan || !raw.current_period_end) return null
+  const legacy = raw.plan === 'pro_monthly' || raw.plan === 'pro_yearly'
+  const plan = (legacy ? 'pro' : raw.plan) as PlanId
+  if (!subscriptionInfo(plan)) return null
+  return {
+    plan,
+    billing: raw.billing || (raw.plan === 'pro_yearly' ? 'year' : 'month'),
+    status: raw.status === 'canceled' ? 'canceled' : 'active',
+    started_at: raw.started_at || new Date().toISOString(),
+    current_period_end: raw.current_period_end,
+    team: Array.isArray(raw.team) ? raw.team : []
+  }
 }
 
 export function subscriptionActive(sub: Subscription | null, now = Date.now()) {
   return Boolean(sub && Date.parse(sub.current_period_end) > now)
 }
 
-export function nextPeriodEnd(plan: PlanId, from = new Date()) {
+export function nextPeriodEnd(billing: Billing, from = new Date()) {
   const d = new Date(from)
-  if (subscriptionInfo(plan)?.period === 'year') d.setFullYear(d.getFullYear() + 1)
+  if (billing === 'year') d.setFullYear(d.getFullYear() + 1)
   else d.setMonth(d.getMonth() + 1)
   return d.toISOString()
 }

@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto'
 import { emptyState, type AlbumRecord, type AlbumState } from '../albumRules'
 import type { Repo, UserRecord } from '../core/repo'
 import { emptyPlan, type Plan } from '../planRules'
-import type { Subscription } from '../pricing'
+import { normalizeSubscription } from '../pricing'
 import { getStorage, readJSON, writeJSON, type Storage } from './storage'
 import { emailKey, hashPassword, signedFileUrl, verifyPassword } from './auth'
 
@@ -17,7 +17,7 @@ import { emailKey, hashPassword, signedFileUrl, verifyPassword } from './auth'
 //   index/owner/<userId>/<CODE>         albums a user owns
 //   index/co/<emailKey>/<CODE>          albums a user co-organizes
 
-const indexKey = (kind: 'owner' | 'co', key: string) => (kind === 'co' ? emailKey(key) : key)
+const indexKey = (kind: 'owner' | 'co' | 'team', key: string) => (kind === 'owner' ? key : emailKey(key))
 
 export function createServerRepo(storage: Storage): Repo {
   return {
@@ -48,7 +48,7 @@ export function createServerRepo(storage: Storage): Repo {
       await storage.remove(await storage.list(`albums/${code}/`))
     },
 
-    readSubscription: (userId) => readJSON<Subscription>(storage, `subscriptions/${userId}.json`),
+    readSubscription: async (userId) => normalizeSubscription(await readJSON(storage, `subscriptions/${userId}.json`)),
     async writeSubscription(userId, sub) {
       if (sub) await writeJSON(storage, `subscriptions/${userId}.json`, sub)
       else await storage.remove([`subscriptions/${userId}.json`])

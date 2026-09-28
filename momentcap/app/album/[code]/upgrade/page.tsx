@@ -46,7 +46,7 @@ function Checkout() {
     )
   }
 
-  const current = album?.tier || 'free'
+  const current = album?.effective_tier || 'free'
   const target = atLeast(current, selected) ? (current === 'photos' ? 'event' : selected) : selected
   const price = upgradePrice(current, target)
   const next = justCreated ? `/album/${code}/share?created=1` : `/album/${code}`
@@ -80,9 +80,9 @@ function Checkout() {
               Continue
             </button>
           </div>
-        ) : album.subscription_covered ? (
+        ) : album.subscription_covered && album.effective_tier === 'event' ? (
           <div className="mx-auto mt-6 max-w-lg rounded-3xl bg-brand-soft p-8 text-center">
-            <h1 className="text-2xl font-extrabold">You&apos;re Pro 🎉</h1>
+            <h1 className="text-2xl font-extrabold">You&apos;re subscribed 🎉</h1>
             <p className="mt-2">Your subscription already unlocks everything on this album.</p>
             <Link href={next} className="mt-6 inline-block rounded-full bg-ink px-6 py-3 font-semibold text-white">
               Back to the album

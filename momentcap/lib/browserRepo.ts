@@ -6,7 +6,7 @@
 import { emptyState, type AlbumRecord, type AlbumState } from './albumRules'
 import type { Repo, UserRecord } from './core/repo'
 import { emptyPlan, type Plan } from './planRules'
-import type { Subscription } from './pricing'
+import { normalizeSubscription } from './pricing'
 
 type LegacyUser = { id: string; email: string; name: string; passwordHash: string }
 
@@ -112,7 +112,7 @@ export const browserRepo: Repo = {
   },
 
   async readSubscription(userId) {
-    return read<Subscription | null>(`mc2_sub_${userId}`, null)
+    return normalizeSubscription(read(`mc2_sub_${userId}`, null))
   },
   async writeSubscription(userId, sub) {
     if (sub) write(`mc2_sub_${userId}`, sub)

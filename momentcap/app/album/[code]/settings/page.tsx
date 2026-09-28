@@ -230,7 +230,7 @@ export default function AlbumSettingsPage() {
         </Link>
         <h1 className="mt-3 text-3xl font-extrabold tracking-tight">Album settings</h1>
         <p className="mt-1 text-ink-soft">
-          {album.name} · {album.subscription_covered ? 'Pro subscription' : `${packInfo(album.effective_tier).name} pack`}
+          {album.name} · {packInfo(album.effective_tier).name} pack{album.subscription_covered ? ' (subscription)' : ''}
         </p>
         {Object.values({ a: !f.moments, b: !f.challenges, c: !f.pin, d: !f.moderation }).some(Boolean) && (
           <p className="mt-3 rounded-2xl bg-brand-soft px-4 py-3 text-sm">

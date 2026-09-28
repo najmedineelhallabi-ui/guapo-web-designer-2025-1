@@ -29,12 +29,13 @@ import {
   featuresFor,
   nextPeriodEnd,
   packInfo,
+  tierRank,
   subscriptionActive,
   subscriptionInfo,
   FEATURE_LABELS,
   TIER_ORDER,
   type Features,
-  type PlanId,
+  type Billing,
   type Subscription,
   type Tier
 } from '../pricing'
@@ -52,13 +53,20 @@ export const publicUser = (u: UserRecord): Viewer => ({ id: u.id, email: u.email
 // ---------------------------------------------------------------------------
 
 // What an album can use: its own pack, or everything when the owner has a Pro subscription
-export type Access = { tier: Tier; features: Features; subscribed: boolean }
+export type Access = { tier: Tier; features: Features; subscribed: boolean; team: string[] }
 const accessCache = new WeakMap<AlbumRecord, Access>()
 
 function accessFor(album: AlbumRecord, sub: Subscription | null): Access {
-  const subscribed = subscriptionActive(sub)
-  const tier: Tier = subscribed ? 'event' : album.tier
-  return { tier, features: featuresFor(tier), subscribed }
+  const plan = sub && subscriptionActive(sub) ? subscriptionInfo(sub.plan) : null
+  const subTier: Tier = plan ? plan.tier : 'free'
+  // The album gets the best of its own pack and the owner's subscription
+  const tier: Tier = tierRank(subTier) > tierRank(album.tier) ? subTier : album.tier
+  return {
+    tier,
+    features: featuresFor(tier),
+    subscribed: Boolean(plan) && tierRank(subTier) >= tierRank(album.tier),
+    team: plan && plan.teamSize > 0 ? sub!.team : []
+  }
 }
 
 /** Access computed when the album was loaded (falls back to the album's own pack). */
@@ -85,8 +93,12 @@ export async function loadAlbum(repo: Repo, code: string) {
 }
 
 export const isOwner = (album: AlbumRecord, ctx: Ctx) => Boolean(ctx.user && ctx.user.id === album.owner_id)
-export const isOrganizer = (album: AlbumRecord, ctx: Ctx) =>
-  isOwner(album, ctx) || Boolean(ctx.user && album.co_organizers.includes(ctx.user.email.toLowerCase()))
+export const isOrganizer = (album: AlbumRecord, ctx: Ctx) => {
+  if (isOwner(album, ctx)) return true
+  const email = ctx.user?.email.toLowerCase()
+  // Co-organizers of this album, or the owner's Business team
+  return Boolean(email && (album.co_organizers.includes(email) || access(album).team.includes(email)))
+}
 
 export function requireOrganizer(album: AlbumRecord, ctx: Ctx) {
   if (!ctx.user) throw new AppError('login_required', 401)
@@ -197,9 +209,13 @@ export async function signIn(repo: Repo, input: { email?: string; password?: str
 
 export async function listAlbums(repo: Repo, ctx: Ctx): Promise<AppAlbum[]> {
   if (!ctx.user) throw new AppError('login_required', 401)
+  const email = ctx.user.email.toLowerCase()
   const owned = await repo.listIndex('owner', ctx.user.id)
-  const shared = await repo.listIndex('co', ctx.user.email.toLowerCase())
-  const codes = [...new Set([...owned, ...shared])]
+  const shared = await repo.listIndex('co', email)
+  // Albums of accounts whose Business team includes this user
+  const teamOwners = await repo.listIndex('team', email)
+  const teamCodes = (await Promise.all(teamOwners.map((ownerId) => repo.listIndex('owner', ownerId)))).flat()
+  const codes = [...new Set([...owned, ...shared, ...teamCodes])]
 
   const albums = await Promise.all(
     codes.map(async (code) => {
@@ -211,7 +227,11 @@ export async function listAlbums(repo: Repo, ctx: Ctx): Promise<AppAlbum[]> {
       return {
         ...(await toAppAlbum(repo, album, true)),
         photo_count: state.photos.length,
-        role: isOwner(album, ctx) ? ('owner' as const) : ('co_organizer' as const)
+        role: isOwner(album, ctx)
+          ? ('owner' as const)
+          : album.co_organizers.includes(email)
+            ? ('co_organizer' as const)
+            : ('team' as const)
       }
     })
   )
@@ -352,7 +372,7 @@ export async function purchasePack(repo: Repo, ctx: Ctx, code: string, packInput
   requireOwner(album, ctx)
   const pack = packInput as Tier
   if (!TIER_ORDER.includes(pack) || pack === 'free') throw new AppError('invalid_plan', 400)
-  if (atLeast(album.tier, pack)) throw new AppError('already_has_pack', 409)
+  if (atLeast(access(album).tier, pack)) throw new AppError('already_has_pack', 409)
   if (!allowDemoPayment) throw new AppError('payments_unavailable', 402)
   const updated = { ...album, tier: pack, is_paid: true }
   await repo.writeAlbum(updated)
@@ -365,20 +385,56 @@ export async function getAccount(repo: Repo, ctx: Ctx) {
   return { user: ctx.user, subscription, active: subscriptionActive(subscription) }
 }
 
-export async function subscribe(repo: Repo, ctx: Ctx, planInput: string, allowDemoPayment: boolean) {
+/** Starts a subscription, or switches plan / billing (the new period starts now). */
+export async function subscribe(repo: Repo, ctx: Ctx, planInput: string, billingInput: string, allowDemoPayment: boolean) {
   if (!ctx.user) throw new AppError('login_required', 401)
   const plan = subscriptionInfo(planInput)
+  const billing: Billing = billingInput === 'year' ? 'year' : 'month'
   if (!plan) throw new AppError('invalid_plan', 400)
   if (!allowDemoPayment) throw new AppError('payments_unavailable', 402)
   const current = await repo.readSubscription(ctx.user.id)
+  const active = subscriptionActive(current)
   const now = new Date()
+  const team = active ? current!.team.slice(0, plan.teamSize) : []
+  // Members dropped by a smaller plan lose access to the account's events
+  for (const email of active ? current!.team.filter((e) => !team.includes(e)) : []) await repo.setIndex('team', email, ctx.user.id, false)
   const sub: Subscription = {
-    plan: plan.id as PlanId,
+    plan: plan.id,
+    billing,
     status: 'active',
-    started_at: current && subscriptionActive(current) ? current.started_at : now.toISOString(),
-    current_period_end: nextPeriodEnd(plan.id as PlanId, now)
+    started_at: active ? current!.started_at : now.toISOString(),
+    current_period_end: nextPeriodEnd(billing, now),
+    team
   }
   await repo.writeSubscription(ctx.user.id, sub)
+  return getAccount(repo, ctx)
+}
+
+async function requireTeamPlan(repo: Repo, ctx: Ctx) {
+  if (!ctx.user) throw new AppError('login_required', 401)
+  const sub = await repo.readSubscription(ctx.user.id)
+  const plan = sub && subscriptionActive(sub) ? subscriptionInfo(sub.plan) : null
+  if (!sub || !plan || plan.teamSize === 0) throw new AppError('team_plan_required', 402)
+  return { sub, plan }
+}
+
+export async function addTeamMember(repo: Repo, ctx: Ctx, emailInput: string) {
+  const { sub, plan } = await requireTeamPlan(repo, ctx)
+  const email = cleanText(emailInput, 200).toLowerCase()
+  if (!EMAIL_RE.test(email)) throw new AppError('invalid_email', 400)
+  if (email === ctx.user!.email.toLowerCase() || sub.team.includes(email)) return getAccount(repo, ctx)
+  if (sub.team.length >= plan.teamSize) throw new AppError('team_full', 403, { max: plan.teamSize })
+  await repo.writeSubscription(ctx.user!.id, { ...sub, team: [...sub.team, email] })
+  await repo.setIndex('team', email, ctx.user!.id, true)
+  return getAccount(repo, ctx)
+}
+
+export async function removeTeamMember(repo: Repo, ctx: Ctx, emailInput: string) {
+  if (!ctx.user) throw new AppError('login_required', 401)
+  const sub = await repo.readSubscription(ctx.user.id)
+  const email = String(emailInput || '').toLowerCase()
+  if (sub) await repo.writeSubscription(ctx.user.id, { ...sub, team: sub.team.filter((e) => e !== email) })
+  await repo.setIndex('team', email, ctx.user.id, false)
   return getAccount(repo, ctx)
 }
 

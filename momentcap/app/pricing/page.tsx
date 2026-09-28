@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import SiteHeader from '@/components/SiteHeader'
 import { CheckIcon, XIcon } from '@/components/Icons'
-import { PackCards, SubscriptionCards } from '@/components/pricing/Cards'
+import { PackCards } from '@/components/pricing/Cards'
+import PlansWithToggle from '@/components/pricing/PlansWithToggle'
 import { COMPARISON, PACKS } from '@/lib/pricing'
 
 export default function PricingPage() {
@@ -62,15 +63,9 @@ export default function PricingPage() {
             </>
           ) : (
             <>
-              <SubscriptionCards
-                cta={(id) => (
-                  <Link href={`/account?plan=${id}`} className="block rounded-full bg-brand py-3 text-center font-bold text-ink">
-                    Subscribe
-                  </Link>
-                )}
-              />
+              <PlansWithToggle />
               <p className="mt-4 text-center text-sm text-ink-soft">
-                Every event you create gets the Full event pack while your subscription is active. Cancel anytime.
+                Every event you create gets your plan&apos;s pack while the subscription is active. Change plan or cancel anytime.
               </p>
             </>
           )}
@@ -102,7 +97,7 @@ export default function PricingPage() {
               </tbody>
             </table>
           </div>
-          <p className="mt-3 text-center text-sm text-ink-soft">Pro subscriptions include the Full event pack on every event.</p>
+          <p className="mt-3 text-center text-sm text-ink-soft">Starter includes the Photos pack on every event; Pro and Business include Full event.</p>
         </section>
       </main>
     </div>

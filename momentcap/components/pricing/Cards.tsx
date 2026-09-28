@@ -1,7 +1,7 @@
 'use client'
 
 import { CheckIcon } from '@/components/Icons'
-import { PACKS, SUBSCRIPTIONS, euroPrice, tierRank, upgradePrice, type PlanId, type Tier } from '@/lib/pricing'
+import { PACKS, SUBSCRIPTIONS, euroPrice, planPrice, tierRank, upgradePrice, type Billing, type PlanId, type Tier } from '@/lib/pricing'
 
 /** One-shot packs. With `current`, shows what's already owned and the price difference. */
 export function PackCards({
@@ -55,33 +55,69 @@ export function PackCards({
   )
 }
 
-export function SubscriptionCards({ cta, currentPlan }: { cta: (id: PlanId) => React.ReactNode; currentPlan?: PlanId | null }) {
+export function BillingToggle({ billing, onChange }: { billing: Billing; onChange: (b: Billing) => void }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      {SUBSCRIPTIONS.map((s) => (
-        <div key={s.id} className={`flex flex-col rounded-3xl p-6 ${s.period === 'year' ? 'bg-ink text-white' : 'border-2 border-line bg-white'}`}>
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="text-lg font-extrabold">{s.name}</p>
-              <p className={`text-sm ${s.period === 'year' ? 'text-white/70' : 'text-ink-soft'}`}>{s.tagline}</p>
-            </div>
-            {currentPlan === s.id && <span className="rounded-full bg-brand px-3 py-1 text-xs font-bold text-ink">Current plan</span>}
-          </div>
-          <p className="mt-4 text-4xl font-extrabold">
-            {euroPrice(s.price)}
-            <span className={`text-sm font-semibold ${s.period === 'year' ? 'text-white/70' : 'text-ink-soft'}`}> / {s.period}</span>
-          </p>
-          {s.period === 'year' && <p className="text-xs font-semibold text-brand">≈ {euroPrice(Math.round((s.price / 12) * 100) / 100)} / month</p>}
-          <ul className="mt-5 flex-1 space-y-2 text-sm">
-            {s.highlights.map((h) => (
-              <li key={h} className="flex gap-2">
-                <CheckIcon className={`h-5 w-5 shrink-0 ${s.period === 'year' ? 'text-brand' : ''}`} /> {h}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6">{cta(s.id)}</div>
-        </div>
+    <div className="inline-flex rounded-full border border-line bg-white p-1" role="radiogroup" aria-label="Billing">
+      {(['month', 'year'] as const).map((b) => (
+        <button
+          key={b}
+          type="button"
+          role="radio"
+          aria-checked={billing === b}
+          onClick={() => onChange(b)}
+          className={`rounded-full px-4 py-2 text-sm font-bold transition ${billing === b ? 'bg-ink text-white' : 'text-ink-soft hover:text-ink'}`}
+        >
+          {b === 'month' ? 'Monthly' : 'Yearly · 2 months free'}
+        </button>
       ))}
+    </div>
+  )
+}
+
+export function SubscriptionCards({
+  billing,
+  cta,
+  currentPlan
+}: {
+  billing: Billing
+  cta: (id: PlanId) => React.ReactNode
+  currentPlan?: PlanId | null
+}) {
+  return (
+    <div className="grid gap-4 md:grid-cols-3">
+      {SUBSCRIPTIONS.map((s) => {
+        const featured = s.id === 'pro'
+        const price = planPrice(s, billing)
+        return (
+          <div key={s.id} className={`relative flex flex-col rounded-3xl p-6 ${featured ? 'bg-ink text-white' : 'border-2 border-line bg-white'}`}>
+            {featured && <span className="absolute -top-3 right-5 rounded-full bg-brand px-3 py-1 text-xs font-bold text-ink">Most popular</span>}
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-lg font-extrabold">{s.name}</p>
+                <p className={`text-sm ${featured ? 'text-white/70' : 'text-ink-soft'}`}>{s.audience}</p>
+              </div>
+              {currentPlan === s.id && <span className="rounded-full bg-brand px-3 py-1 text-xs font-bold text-ink">Current</span>}
+            </div>
+            <p className="mt-4 text-4xl font-extrabold">
+              {euroPrice(price)}
+              <span className={`text-sm font-semibold ${featured ? 'text-white/70' : 'text-ink-soft'}`}> / {billing}</span>
+            </p>
+            {billing === 'year' && (
+              <p className={`text-xs font-semibold ${featured ? 'text-brand' : 'text-ink-soft'}`}>
+                ≈ {euroPrice(Math.round((price / 12) * 100) / 100)} / month
+              </p>
+            )}
+            <ul className="mt-5 flex-1 space-y-2 text-sm">
+              {s.highlights.map((h) => (
+                <li key={h} className="flex gap-2">
+                  <CheckIcon className={`h-5 w-5 shrink-0 ${featured ? 'text-brand' : ''}`} /> {h}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6">{cta(s.id)}</div>
+          </div>
+        )
+      })}
     </div>
   )
 }

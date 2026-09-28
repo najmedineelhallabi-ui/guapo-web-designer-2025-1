@@ -8,7 +8,7 @@ import Toggle from '@/components/Toggle'
 import ThemePicker from '@/components/ThemePicker'
 import { PackCards } from '@/components/pricing/Cards'
 import { getAccount } from '@/lib/api'
-import { packInfo, type Tier } from '@/lib/pricing'
+import { atLeast, packInfo, subscriptionInfo, type Tier } from '@/lib/pricing'
 import ChallengeEditor, { fromDrafts, type ChallengeDraft } from '@/components/ChallengeEditor'
 import { useRequireAuth } from '@/lib/useAuth'
 import { createAlbum } from '@/lib/api'
@@ -53,12 +53,14 @@ export default function NewAlbumPage() {
   const [challenges, setChallenges] = useState<ChallengeDraft[] | null>(null)
   const [creating, setCreating] = useState(false)
   const [pack, setPack] = useState<Tier>('free')
-  const [isPro, setIsPro] = useState(false)
+  // Pack every event already gets from the user's subscription
+  const [subTier, setSubTier] = useState<Tier>('free')
+  const isPro = subTier === 'event'
 
   // Pro subscribers don't need to pick a pack
   useEffect(() => {
     getAccount()
-      .then((a) => setIsPro(a.active))
+      .then((a) => setSubTier(a.active && a.subscription ? subscriptionInfo(a.subscription.plan)?.tier || 'free' : 'free'))
       .catch(() => {})
   }, [])
   const [error, setError] = useState('')
@@ -108,7 +110,7 @@ export default function NewAlbumPage() {
         }
       })
       router.push(
-        pack !== 'free' && !isPro ? `/album/${album.qr_code}/upgrade?pack=${pack}&created=1` : `/album/${album.qr_code}/share?created=1`
+        atLeast(subTier, pack) ? `/album/${album.qr_code}/share?created=1` : `/album/${album.qr_code}/upgrade?pack=${pack}&created=1`
       )
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not create the album')
@@ -329,9 +331,13 @@ export default function NewAlbumPage() {
               <p className="mt-3 rounded-2xl bg-brand p-5 font-semibold">You&apos;re Pro 🎉 — this event gets every feature, nothing to pay.</p>
             ) : (
               <>
-                <p className="mt-1 text-ink-soft">Pay once for this event. You can start free and upgrade anytime — you only pay the difference.</p>
+                <p className="mt-1 text-ink-soft">
+                  {subTier === 'photos'
+                    ? 'Your Starter subscription includes the Photos pack. Add the Full event pack to this event if you need it.'
+                    : 'Pay once for this event. You can start free and upgrade anytime — you only pay the difference.'}
+                </p>
                 <div className="mt-6">
-                  <PackCards selected={pack} onSelect={setPack} />
+                  <PackCards current={subTier === 'free' ? undefined : subTier} selected={pack} onSelect={setPack} />
                 </div>
               </>
             )}
@@ -344,7 +350,7 @@ export default function NewAlbumPage() {
               </button>
               <button onClick={handleCreate} disabled={creating}
                 className="flex-1 rounded-full bg-brand py-3.5 font-bold transition hover:bg-brand-strong disabled:opacity-50">
-                {creating ? 'Creating…' : isPro || pack === 'free' ? 'Create album' : `Create & pay — ${packInfo(pack).name}`}
+                {creating ? 'Creating…' : isPro || atLeast(subTier, pack) ? 'Create album' : `Create & pay — ${packInfo(pack).name}`}
               </button>
             </div>
           </section>

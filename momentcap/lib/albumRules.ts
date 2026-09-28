@@ -188,7 +188,7 @@ export type AppAlbum = Omit<AlbumRecord, 'pin' | 'cover_path'> & {
   pin?: string | null
   /** Only filled in album lists (dashboard) */
   photo_count?: number
-  role?: 'owner' | 'co_organizer'
+  role?: 'owner' | 'co_organizer' | 'team'
   /** Pack in effect (the album's own pack, or the owner's Pro subscription) */
   effective_tier: Tier
   /** True when the owner's subscription unlocks this album */
@@ -439,6 +439,8 @@ export const ERROR_MESSAGES: Record<string, string> = {
   photo_limit_free: 'This free album is full ({max} photos). Upgrade to add more.',
   invalid_plan: 'Unknown pack or plan',
   already_has_pack: 'This album already has this pack',
+  team_plan_required: 'Teams are part of the Business subscription',
+  team_full: 'Your team is full ({max} members)',
   storage_unavailable: 'Storage is not configured',
   server_error: 'Something went wrong. Please try again.'
 }

@@ -103,7 +103,8 @@ export default function Dashboard() {
                         <StatusBadge settings={a.settings} />
                         {a.role === 'co_organizer' && <span className="text-xs font-semibold text-ink-soft">Shared with you</span>}
                         <span className="text-xs font-semibold">
-                          {a.subscription_covered ? '⭐ Pro' : a.effective_tier === 'free' ? 'Free' : `⭐ ${packInfo(a.effective_tier).name}`}
+                          {a.effective_tier === 'free' ? 'Free' : `⭐ ${packInfo(a.effective_tier).name}${a.subscription_covered ? ' · subscription' : ''}`}
+                          {a.role === 'team' && ' · team'}
                         </span>
                       </span>
                     </div>
