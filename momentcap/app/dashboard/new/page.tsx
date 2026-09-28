@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import SiteHeader from '@/components/SiteHeader'
 import Toggle from '@/components/Toggle'
 import ThemePicker from '@/components/ThemePicker'
@@ -28,14 +28,18 @@ const welcomeExamples: Record<EventType, string> = {
 }
 
 type Timing = 'anytime' | 'event_day' | 'custom'
+type Goal = 'event' | 'album'
 
 const STEPS = ['Occasion', 'Details', 'Challenges', 'Guest rules', 'Pack'] as const
 
-export default function NewAlbumPage() {
+function NewAlbumWizard() {
   const router = useRouter()
   const { user, loading: authLoading } = useRequireAuth('/dashboard/new')
 
   const [step, setStep] = useState(0)
+  // 'event' = plan the whole event (invitation, guests, seating…) + the photo album; 'album' = photo album only
+  const goalParam = useSearchParams().get('goal')
+  const [goal, setGoal] = useState<Goal | null>(goalParam === 'event' || goalParam === 'album' ? goalParam : null)
   const [eventType, setEventType] = useState<EventType | null>(null)
   const [name, setName] = useState('')
   const [eventDate, setEventDate] = useState('')
@@ -52,7 +56,7 @@ export default function NewAlbumPage() {
   const [useMoments, setUseMoments] = useState(true)
   const [challenges, setChallenges] = useState<ChallengeDraft[] | null>(null)
   const [creating, setCreating] = useState(false)
-  const [pack, setPack] = useState<Tier>('free')
+  const [pack, setPack] = useState<Tier>(goal === 'event' ? 'event' : 'free')
   // Pack every event already gets from the user's subscription
   const [subTier, setSubTier] = useState<Tier>('free')
   const isPro = subTier === 'event'
@@ -109,11 +113,11 @@ export default function NewAlbumPage() {
           max_photos_per_guest: maxPerGuest ? Number(maxPerGuest) : null
         }
       })
-      router.push(
-        atLeast(subTier, pack) ? `/album/${album.qr_code}/share?created=1` : `/album/${album.qr_code}/upgrade?pack=${pack}&created=1`
-      )
+      const code = album.qr_code
+      if (!atLeast(subTier, pack)) router.push(`/album/${code}/upgrade?pack=${pack}&created=1${goal === 'event' ? '&goal=event' : ''}`)
+      else router.push(goal === 'event' ? `/album/${code}/plan` : `/album/${code}/share?created=1`)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not create the album')
+      setError(err instanceof Error ? err.message : goal === 'event' ? 'Could not create the event' : 'Could not create the album')
       setCreating(false)
     }
   }
@@ -124,9 +128,33 @@ export default function NewAlbumPage() {
 
       <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-8">
         <Link href="/dashboard" className="text-sm font-semibold text-ink-soft hover:text-ink">
-          ← My albums
+          ← My events
         </Link>
 
+        {goal === null ? (
+          <section className="mt-8">
+            <h1 className="text-3xl font-extrabold tracking-tight">What do you want to create?</h1>
+            <p className="mt-1 text-ink-soft">Every event comes with its shared photo album.</p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <button
+                onClick={() => { setGoal('event'); setPack('event') }}
+                className="flex flex-col rounded-3xl border-2 border-ink bg-brand p-6 text-left transition hover:bg-brand-strong"
+              >
+                <span className="text-4xl" aria-hidden="true">📋</span>
+                <span className="mt-3 text-xl font-extrabold">Organize an event</span>
+                <span className="mt-1 text-sm">Invitation &amp; RSVP, guest list, seating plan, checklist, budget, vendors — plus the photo album.</span>
+              </button>
+              <button
+                onClick={() => setGoal('album')}
+                className="flex flex-col rounded-3xl border-2 border-line bg-white p-6 text-left transition hover:border-ink"
+              >
+                <span className="text-4xl" aria-hidden="true">📸</span>
+                <span className="mt-3 text-xl font-extrabold">Photo album only</span>
+                <span className="mt-1 text-sm text-ink-soft">Share a QR code and collect every guest&apos;s photos and videos.</span>
+              </button>
+            </div>
+          </section>
+        ) : (<>
         {/* Progress */}
         <ol className="mt-5 flex gap-2" aria-label="Steps">
           {STEPS.map((label, i) => (
@@ -140,7 +168,11 @@ export default function NewAlbumPage() {
         {/* Step 1: occasion */}
         {step === 0 && (
           <section className="mt-8">
-            <h1 className="text-3xl font-extrabold tracking-tight">What&apos;s the occasion?</h1>
+            <p className="text-sm font-bold uppercase tracking-wider text-ink-soft">
+              {goal === 'event' ? '📋 New event' : '📸 New photo album'}{' '}
+              <button onClick={() => setGoal(null)} className="ml-1 normal-case tracking-normal underline underline-offset-4">change</button>
+            </p>
+            <h1 className="mt-2 text-3xl font-extrabold tracking-tight">What&apos;s the occasion?</h1>
             <p className="mt-1 text-ink-soft">We&apos;ll suggest the right wording for your guests.</p>
             <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
               {EVENT_TYPES.map((t) => (
@@ -327,6 +359,11 @@ export default function NewAlbumPage() {
         {step === 4 && (
           <section className="mt-8">
             <h1 className="text-3xl font-extrabold tracking-tight">Choose your pack</h1>
+            {goal === 'event' && !atLeast(subTier, 'event') && (
+              <p className="mt-3 rounded-2xl bg-brand-soft p-4 text-sm">
+                <strong>Event preparation</strong> (invitation, RSVP, seating, budget, vendors) is part of the <strong>Full event</strong> pack. The checklist stays free.
+              </p>
+            )}
             {isPro ? (
               <p className="mt-3 rounded-2xl bg-brand p-5 font-semibold">You&apos;re Pro 🎉 — this event gets every feature, nothing to pay.</p>
             ) : (
@@ -350,12 +387,21 @@ export default function NewAlbumPage() {
               </button>
               <button onClick={handleCreate} disabled={creating}
                 className="flex-1 rounded-full bg-brand py-3.5 font-bold transition hover:bg-brand-strong disabled:opacity-50">
-                {creating ? 'Creating…' : isPro || atLeast(subTier, pack) ? 'Create album' : `Create & pay — ${packInfo(pack).name}`}
+                {creating ? 'Creating…' : isPro || atLeast(subTier, pack) ? (goal === 'event' ? 'Create event' : 'Create album') : `Create & pay — ${packInfo(pack).name}`}
               </button>
             </div>
           </section>
         )}
+        </>)}
       </main>
     </div>
+  )
+}
+
+export default function NewAlbumPage() {
+  return (
+    <Suspense>
+      <NewAlbumWizard />
+    </Suspense>
   )
 }

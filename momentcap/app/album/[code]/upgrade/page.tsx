@@ -15,6 +15,7 @@ function Checkout() {
   const router = useRouter()
   const code = String(params.code || '').toUpperCase()
   const justCreated = search.get('created') === '1'
+  const eventGoal = search.get('goal') === 'event'
 
   const [album, setAlbum] = useState<AppAlbum | null>(null)
   const [isOwner, setIsOwner] = useState(false)
@@ -49,7 +50,7 @@ function Checkout() {
   const current = album?.effective_tier || 'free'
   const target = atLeast(current, selected) ? (current === 'photos' ? 'event' : selected) : selected
   const price = upgradePrice(current, target)
-  const next = justCreated ? `/album/${code}/share?created=1` : `/album/${code}`
+  const next = eventGoal ? `/album/${code}/plan` : justCreated ? `/album/${code}/share?created=1` : `/album/${code}`
 
   const pay = async () => {
     setPaying(true)
@@ -99,7 +100,7 @@ function Checkout() {
           <>
             {justCreated && (
               <div className="mb-6 rounded-3xl bg-brand p-5">
-                <p className="text-lg font-extrabold">Your album is created! 🎉</p>
+                <p className="text-lg font-extrabold">Your {eventGoal ? 'event' : 'album'} is created! 🎉</p>
                 <p>Last step: confirm your pack.</p>
               </div>
             )}
@@ -125,7 +126,7 @@ function Checkout() {
 
             <div className="mt-8 flex flex-col items-center gap-2 text-sm">
               {justCreated && (
-                <Link href={`/album/${code}/share?created=1`} className="font-semibold underline underline-offset-4">
+                <Link href={eventGoal ? `/album/${code}/plan` : `/album/${code}/share?created=1`} className="font-semibold underline underline-offset-4">
                   Continue with the Free pack
                 </Link>
               )}

@@ -46,7 +46,7 @@ export default function Dashboard() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight">
-              {firstName ? `Hi ${firstName}` : 'Your albums'}
+              {firstName ? `Hi ${firstName}` : 'Your events'}
             </h1>
             <p className="mt-1 text-ink-soft">
               {albums.length > 0
@@ -54,12 +54,20 @@ export default function Dashboard() {
                 : 'Create an album, share the QR code, collect every photo.'}
             </p>
           </div>
-          <Link
-            href="/dashboard/new"
-            className="rounded-full bg-brand px-6 py-3 text-center font-bold transition hover:bg-brand-strong"
-          >
-            + New album
-          </Link>
+          <div className="flex gap-2">
+            <Link
+              href="/dashboard/new?goal=event"
+              className="flex-1 rounded-full bg-brand px-6 py-3 text-center font-bold transition hover:bg-brand-strong sm:flex-none"
+            >
+              + New event
+            </Link>
+            <Link
+              href="/dashboard/new?goal=album"
+              className="flex-1 rounded-full border border-line bg-white px-6 py-3 text-center font-semibold transition hover:border-ink sm:flex-none"
+            >
+              + New album
+            </Link>
+          </div>
         </div>
 
         {error && (
@@ -77,14 +85,16 @@ export default function Dashboard() {
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-soft">
               <ImageIcon className="h-7 w-7" />
             </div>
-            <h2 className="mt-5 text-xl font-bold">No albums yet</h2>
-            <p className="mt-1 text-ink-soft">Create your first one — it takes under a minute.</p>
-            <Link
-              href="/dashboard/new"
-              className="mt-6 inline-block rounded-full bg-brand px-6 py-3 font-bold transition hover:bg-brand-strong"
-            >
-              Create an album
-            </Link>
+            <h2 className="mt-5 text-xl font-bold">Nothing here yet</h2>
+            <p className="mt-1 text-ink-soft">Organize a whole event, or just collect your guests&apos; photos.</p>
+            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+              <Link href="/dashboard/new?goal=event" className="rounded-full bg-brand px-6 py-3 font-bold transition hover:bg-brand-strong">
+                📋 Organize an event
+              </Link>
+              <Link href="/dashboard/new?goal=album" className="rounded-full border border-line bg-white px-6 py-3 font-semibold transition hover:border-ink">
+                📸 Photo album only
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -122,7 +132,7 @@ export default function Dashboard() {
                       href={`/album/${a.qr_code}/plan`}
                       className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-brand py-2 text-sm font-bold transition hover:bg-brand-strong"
                     >
-                      Plan
+                      📋 Plan
                     </Link>
                     <Link
                       href={`/album/${a.qr_code}/share`}

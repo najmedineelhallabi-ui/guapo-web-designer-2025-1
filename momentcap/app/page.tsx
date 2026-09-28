@@ -65,6 +65,12 @@ export default function Home() {
               </a>
             </div>
             <p className="mt-4 text-sm text-ink-soft">Free for 7 days · No credit card</p>
+            <Link
+              href={`/signup?next=${encodeURIComponent('/dashboard/new?goal=event')}`}
+              className="mt-5 inline-flex items-center gap-2 rounded-2xl border border-line bg-white px-4 py-3 text-sm font-semibold transition hover:border-ink"
+            >
+              📋 Planning the event too? Invitation, RSVP, seating plan &amp; budget →
+            </Link>
           </div>
 
           {/* Preview card */}
