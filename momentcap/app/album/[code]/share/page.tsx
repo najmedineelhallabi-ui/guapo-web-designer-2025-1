@@ -160,6 +160,9 @@ function SharePage() {
             <Link href={`/album/${album.qr_code}/settings`} className="block text-center text-sm font-semibold text-ink-soft hover:text-ink">
               Change guest rules →
             </Link>
+            <Link href={`/album/${album.qr_code}/plan`} className="block rounded-2xl bg-brand-soft p-4 text-center text-sm font-semibold">
+              📋 Plan your event: invitation, guests, seating, checklist, budget →
+            </Link>
           </div>
         </div>
 

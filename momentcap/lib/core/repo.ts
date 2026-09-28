@@ -1,4 +1,5 @@
 import type { AlbumRecord, AlbumState } from '../albumRules'
+import type { Plan } from '../planRules'
 
 export type UserRecord = { id: string; email: string; name: string; password: string; created_at: string }
 
@@ -17,6 +18,10 @@ export interface Repo {
   /** Atomically read-modify-write the album state. */
   updateState<T>(code: string, fn: (state: AlbumState) => T): Promise<T>
   deleteAlbumData(code: string): Promise<void>
+
+  /** Organizer's private plan (guests, seating, checklist, budget, vendors) */
+  readPlan(code: string): Promise<Plan>
+  updatePlan<T>(code: string, fn: (plan: Plan) => T): Promise<T>
 
   /** Indexes albums per owner id ("owner") or per organizer email ("co") */
   setIndex(kind: 'owner' | 'co', key: string, code: string, present: boolean): Promise<void>

@@ -1,4 +1,5 @@
 import * as service from '@/lib/core/service'
+import * as planService from '@/lib/core/planService'
 import { AppError } from '@/lib/albumRules'
 import { createToken, sign } from '@/lib/server/auth'
 import { getStorage } from '@/lib/server/storage'
@@ -42,6 +43,19 @@ const methods: Record<string, Handler> = {
   moderateGuestbookEntry: withRepo((repo, ctx, code, id, approve) =>
     service.moderateGuestbookEntry(repo, ctx, code, id, Boolean(approve))
   ),
+
+  // Event preparation
+  getPlan: withRepo((repo, ctx, code) => planService.getPlan(repo, ctx, code)),
+  updateEvent: withRepo((repo, ctx, code, patch) => planService.updateEvent(repo, ctx, code, patch || {})),
+  programToMoments: withRepo((repo, ctx, code) => planService.programToMoments(repo, ctx, code)),
+  savePlanItem: withRepo((repo, ctx, code, section, item) => planService.savePlanItem(repo, ctx, code, section, item || {})),
+  deletePlanItem: withRepo((repo, ctx, code, section, id) => planService.deletePlanItem(repo, ctx, code, section, id)),
+  importGuests: withRepo((repo, ctx, code, rows) => planService.importGuests(repo, ctx, code, rows)),
+  setBudgetTotal: withRepo((repo, ctx, code, total) => planService.setBudgetTotal(repo, ctx, code, total)),
+  seedChecklist: withRepo((repo, ctx, code) => planService.seedChecklist(repo, ctx, code)),
+  getEventPage: withRepo((repo, ctx, code, key) => planService.getEventPage(repo, ctx, code, key)),
+  submitRsvp: withRepo((repo, ctx, code, input, key) => planService.submitRsvp(repo, ctx, code, input || {}, key)),
+  findTable: withRepo((repo, ctx, code, query) => planService.findTable(repo, ctx, code, query)),
 
   // Large files (videos) go straight from the browser to Blob storage:
   // 1. prepareDirectUpload checks the rules and reserves a path

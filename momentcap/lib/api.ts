@@ -5,6 +5,7 @@
 // - demo mode: called directly in the browser against local storage
 
 import * as service from './core/service'
+import * as planService from './core/planService'
 import { browserRepo } from './browserRepo'
 import { AppError, formatError } from './albumRules'
 import type { AlbumEditable, AlbumSettings, AlbumView, AppAlbum, AppGuestbookEntry, AppPhoto, ReactionId } from './albumRules'
@@ -307,3 +308,58 @@ export const addGuestbookEntry = (code: string, input: { name: string; message: 
 
 export const moderateGuestbookEntry = (code: string, id: string, approve: boolean) =>
   run('moderateGuestbookEntry', [code, id, approve], (ctx) => service.moderateGuestbookEntry(browserRepo, ctx, code, id, approve), code)
+
+// ---------------------------------------------------------------------------
+// Event preparation
+// ---------------------------------------------------------------------------
+
+export type { EventPage, MyRsvp, RsvpInput, GuestImportRow } from './core/planService'
+import type { EventInfo, Plan, PlanSection } from './planRules'
+export type { EventInfo, Plan, PlanSection }
+
+const rsvpKey = (code: string) => `mc_rsvp_${code.toUpperCase()}`
+
+export const getPlan = (code: string) =>
+  run<{ album: AppAlbum; plan: Plan; isOwner: boolean }>('getPlan', [code], (ctx) => planService.getPlan(browserRepo, ctx, code), code)
+
+export const updateEvent = (code: string, patch: Partial<EventInfo>) =>
+  run<EventInfo>('updateEvent', [code, patch], (ctx) => planService.updateEvent(browserRepo, ctx, code, patch), code)
+
+export const programToMoments = (code: string) =>
+  run<{ moments: { id: string; name: string }[] }>('programToMoments', [code], (ctx) => planService.programToMoments(browserRepo, ctx, code), code)
+
+export function savePlanItem<T>(code: string, section: PlanSection, item: Partial<T> & { id?: string }) {
+  return run<T>('savePlanItem', [code, section, item], (ctx) => planService.savePlanItem(browserRepo, ctx, code, section, item) as Promise<T>, code)
+}
+
+export const deletePlanItem = (code: string, section: PlanSection, id: string) =>
+  run('deletePlanItem', [code, section, id], (ctx) => planService.deletePlanItem(browserRepo, ctx, code, section, id), code)
+
+export const importGuests = (code: string, rows: planService.GuestImportRow[]) =>
+  run<{ added: number }>('importGuests', [code, rows], (ctx) => planService.importGuests(browserRepo, ctx, code, rows), code)
+
+export const setBudgetTotal = (code: string, total: number | null) =>
+  run<{ budget_total: number | null }>('setBudgetTotal', [code, total], (ctx) => planService.setBudgetTotal(browserRepo, ctx, code, total), code)
+
+export const seedChecklist = (code: string) =>
+  run<{ tasks: Plan['tasks'] }>('seedChecklist', [code], (ctx) => planService.seedChecklist(browserRepo, ctx, code), code)
+
+export function getEventPage(code: string) {
+  const key = readLS<string | null>(rsvpKey(code), null)
+  return run<planService.EventPage>('getEventPage', [code, key], (ctx) => planService.getEventPage(browserRepo, ctx, code, key), code)
+}
+
+export async function submitRsvp(code: string, input: planService.RsvpInput) {
+  const key = readLS<string | null>(rsvpKey(code), null)
+  const res = await run<{ rsvp: planService.MyRsvp; editKey: string }>(
+    'submitRsvp',
+    [code, input, key],
+    (ctx) => planService.submitRsvp(browserRepo, ctx, code, input, key),
+    code
+  )
+  writeLS(rsvpKey(code), res.editKey)
+  return res.rsvp
+}
+
+export const findTable = (code: string, query: string) =>
+  run<{ results: { name: string; table: string }[] }>('findTable', [code, query], (ctx) => planService.findTable(browserRepo, ctx, code, query), code)

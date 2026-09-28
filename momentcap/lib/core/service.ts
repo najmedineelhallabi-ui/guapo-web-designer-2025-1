@@ -37,7 +37,7 @@ export const publicUser = (u: UserRecord): Viewer => ({ id: u.id, email: u.email
 // Helpers
 // ---------------------------------------------------------------------------
 
-async function loadAlbum(repo: Repo, code: string) {
+export async function loadAlbum(repo: Repo, code: string) {
   const c = String(code || '').toUpperCase()
   if (!CODE_RE.test(c)) throw new AppError('not_found', 404)
   const album = await repo.readAlbum(c)
@@ -45,11 +45,11 @@ async function loadAlbum(repo: Repo, code: string) {
   return withDefaults(album)
 }
 
-const isOwner = (album: AlbumRecord, ctx: Ctx) => Boolean(ctx.user && ctx.user.id === album.owner_id)
-const isOrganizer = (album: AlbumRecord, ctx: Ctx) =>
+export const isOwner = (album: AlbumRecord, ctx: Ctx) => Boolean(ctx.user && ctx.user.id === album.owner_id)
+export const isOrganizer = (album: AlbumRecord, ctx: Ctx) =>
   isOwner(album, ctx) || Boolean(ctx.user && album.co_organizers.includes(ctx.user.email.toLowerCase()))
 
-function requireOrganizer(album: AlbumRecord, ctx: Ctx) {
+export function requireOrganizer(album: AlbumRecord, ctx: Ctx) {
   if (!ctx.user) throw new AppError('login_required', 401)
   if (!isOrganizer(album, ctx)) throw new AppError('organizer_only', 403)
 }
@@ -60,7 +60,7 @@ function requireOwner(album: AlbumRecord, ctx: Ctx) {
 }
 
 /** Guests must know the album's code when one is set. */
-function checkPin(album: AlbumRecord, ctx: Ctx) {
+export function checkPin(album: AlbumRecord, ctx: Ctx) {
   if (!album.pin || isOrganizer(album, ctx)) return
   if (!ctx.pin) throw new AppError('pin_required', 401)
   if (ctx.pin.trim().toUpperCase() !== album.pin) throw new AppError('pin_wrong', 401)
@@ -71,7 +71,7 @@ function requireGuestId(ctx: Ctx) {
   return ctx.guestId
 }
 
-async function toAppAlbum(repo: Repo, album: AlbumRecord, organizer: boolean): Promise<AppAlbum> {
+export async function toAppAlbum(repo: Repo, album: AlbumRecord, organizer: boolean): Promise<AppAlbum> {
   const { pin, cover_path, ...rest } = album
   // Guests don't see scheduled challenges before their time (it's a surprise)
   const upcoming = album.challenges.filter((c) => challengeStatus(c) === 'upcoming')

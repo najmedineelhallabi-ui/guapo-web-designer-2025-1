@@ -2,6 +2,7 @@ import 'server-only'
 import { randomUUID } from 'node:crypto'
 import { emptyState, type AlbumRecord, type AlbumState } from '../albumRules'
 import type { Repo, UserRecord } from '../core/repo'
+import { emptyPlan, type Plan } from '../planRules'
 import { getStorage, readJSON, writeJSON, type Storage } from './storage'
 import { emailKey, hashPassword, signedFileUrl, verifyPassword } from './auth'
 
@@ -9,6 +10,7 @@ import { emailKey, hashPassword, signedFileUrl, verifyPassword } from './auth'
 //   users/<emailKey>.json               user record
 //   albums/<CODE>/album.json            album record
 //   albums/<CODE>/state.json            photos, guestbook (updated atomically)
+//   albums/<CODE>/plan.json             guests, RSVPs, seating, checklist, budget, vendors
 //   albums/<CODE>/media/<id>.<ext>      photo and video files
 //   albums/<CODE>/cover-<id>.jpg        cover photo
 //   index/owner/<userId>/<CODE>         albums a user owns
@@ -33,6 +35,13 @@ export function createServerRepo(storage: Storage): Repo {
         const state = current || emptyState()
         const result = fn(state)
         return { value: state, result }
+      }),
+    readPlan: async (code) => ({ ...emptyPlan(), ...((await readJSON<Plan>(storage, `albums/${code}/plan.json`)) || {}) }),
+    updatePlan: (code, fn) =>
+      storage.updateJSON<Plan, ReturnType<typeof fn>>(`albums/${code}/plan.json`, (current) => {
+        const plan = { ...emptyPlan(), ...(current || {}) }
+        const result = fn(plan)
+        return { value: plan, result }
       }),
     async deleteAlbumData(code) {
       await storage.remove(await storage.list(`albums/${code}/`))

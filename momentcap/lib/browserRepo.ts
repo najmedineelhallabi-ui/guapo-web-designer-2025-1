@@ -5,12 +5,14 @@
 
 import { emptyState, type AlbumRecord, type AlbumState } from './albumRules'
 import type { Repo, UserRecord } from './core/repo'
+import { emptyPlan, type Plan } from './planRules'
 
 type LegacyUser = { id: string; email: string; name: string; passwordHash: string }
 
 const K_USERS = 'mc_demo_users'
 const K_ALBUMS = 'mc2_albums'
 const kState = (code: string) => `mc2_state_${code}`
+const kPlan = (code: string) => `mc2_plan_${code}`
 const kIndex = (kind: string, key: string) => `mc2_index_${kind}_${key}`
 
 function read<T>(key: string, fallback: T): T {
@@ -88,7 +90,17 @@ export const browserRepo: Repo = {
     write(kState(code), state)
     return result
   },
+  async readPlan(code) {
+    return { ...emptyPlan(), ...read<Partial<Plan>>(kPlan(code), {}) }
+  },
+  async updatePlan(code, fn) {
+    const plan = { ...emptyPlan(), ...read<Partial<Plan>>(kPlan(code), {}) }
+    const result = fn(plan)
+    write(kPlan(code), plan)
+    return result
+  },
   async deleteAlbumData(code) {
+    localStorage.removeItem(kPlan(code))
     const state = read<AlbumState>(kState(code), emptyState())
     const album = read<Record<string, AlbumRecord>>(K_ALBUMS, {})[code]
     await this.deleteFiles([...state.photos.map((p) => p.path), ...(album?.cover_path ? [album.cover_path] : [])])

@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { QRCodeSVG } from 'qrcode.react'
 import SiteHeader from '@/components/SiteHeader'
 import { Wordmark } from '@/components/Logo'
-import { QrIcon, LockIcon, CheckIcon, XIcon, TvIcon, MessageIcon, StarIcon, BookIcon } from '@/components/Icons'
+import { QrIcon, LockIcon, CheckIcon, XIcon, TvIcon, MessageIcon, StarIcon, BookIcon, UsersIcon } from '@/components/Icons'
 
 const steps = [
   { n: '1', title: 'Create your album', text: 'Name it, pick the date. Takes 30 seconds.' },
@@ -14,6 +14,8 @@ const steps = [
 
 const features = [
   { icon: QrIcon, title: 'Zero setup for guests', text: 'Scan the QR code and upload instantly. No app, no account.' },
+  { icon: UsersIcon, title: 'Plan the whole event', text: 'Online invitation with RSVP, guest list, seating plan and “find your table”.' },
+  { icon: CheckIcon, title: 'Checklist, budget, vendors', text: 'Everything to prepare the big day, in the same place as your photos.' },
   { icon: TvIcon, title: 'Live slideshow', text: 'Photos appear on the big screen as guests take them.' },
   { icon: MessageIcon, title: 'Guestbook & reactions', text: 'Guests leave you messages and react ❤️ 😂 😮 to photos.' },
   { icon: StarIcon, title: 'Photo challenges & moments', text: 'Fun missions and album sections: ceremony, cocktail, party…' },

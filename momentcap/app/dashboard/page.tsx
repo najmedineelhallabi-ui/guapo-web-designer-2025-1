@@ -115,6 +115,12 @@ export default function Dashboard() {
                   </Link>
                   <div className="mt-4 flex gap-2 border-t border-line pt-4">
                     <Link
+                      href={`/album/${a.qr_code}/plan`}
+                      className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-brand py-2 text-sm font-bold transition hover:bg-brand-strong"
+                    >
+                      Plan
+                    </Link>
+                    <Link
                       href={`/album/${a.qr_code}/share`}
                       className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-ink py-2 text-sm font-semibold text-white transition hover:bg-black"
                     >
@@ -122,9 +128,11 @@ export default function Dashboard() {
                     </Link>
                     <Link
                       href={`/album/${a.qr_code}/settings`}
-                      className="flex flex-1 items-center justify-center gap-1.5 rounded-full border border-line py-2 text-sm font-semibold transition hover:border-ink"
+                      aria-label="Settings"
+                      className="flex w-11 items-center justify-center gap-1.5 rounded-full border border-line py-2 text-sm font-semibold transition hover:border-ink"
                     >
-                      <SettingsIcon className="h-4 w-4" /> Settings
+                      <SettingsIcon className="h-4 w-4" />
+                      <span className="sr-only">Settings</span>
                     </Link>
                   </div>
                   </div>

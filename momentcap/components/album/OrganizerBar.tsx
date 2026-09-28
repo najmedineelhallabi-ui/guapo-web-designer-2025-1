@@ -38,6 +38,9 @@ export default function OrganizerBar({ album, photos, onReview }: { album: AppAl
         <Link href={`${base}/share`} className="flex shrink-0 items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition hover:bg-black">
           <ShareIcon /> Share &amp; QR
         </Link>
+        <Link href={`${base}/plan`} className="flex shrink-0 items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-bold transition hover:bg-brand-strong">
+          📋 Plan the event
+        </Link>
         <Link href={`${base}/live`} className={chip}>
           <TvIcon /> Slideshow
         </Link>

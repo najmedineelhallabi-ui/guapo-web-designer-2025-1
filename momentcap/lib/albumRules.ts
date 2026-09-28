@@ -1,5 +1,7 @@
 // Shared (client + server) album model and rules.
 
+import { defaultEventInfo, type EventInfo } from './planRules'
+
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
@@ -139,6 +141,8 @@ export type AlbumRecord = {
   /** Emails of people who can manage the album with the owner */
   co_organizers: string[]
   settings: AlbumSettings
+  /** Public event page: venue, program, RSVP options */
+  event: EventInfo
 }
 
 export type PhotoRecord = {
@@ -249,7 +253,8 @@ export function withDefaults(album: Partial<AlbumRecord> & Pick<AlbumRecord, 'id
     event_type: eventTypeInfo(album.event_type || 'other').id,
     welcome_message: album.welcome_message || '',
     theme: themeInfo(album.theme || 'sun').id,
-    settings: { ...defaultSettings, ...(album.settings || {}) }
+    settings: { ...defaultSettings, ...(album.settings || {}) },
+    event: { ...defaultEventInfo, ...(album.event || {}) }
   }
 }
 
@@ -419,6 +424,7 @@ export const ERROR_MESSAGES: Record<string, string> = {
   empty_message: 'Please write a message',
   reactions_disabled: 'Reactions are turned off for this album',
   payments_unavailable: 'Online payment is coming soon',
+  rsvp_closed: 'Answers are closed for this event',
   storage_unavailable: 'Storage is not configured',
   server_error: 'Something went wrong. Please try again.'
 }
