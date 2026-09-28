@@ -96,6 +96,10 @@ export type Guest = {
   responded_at: string | null
   /** Last time the guest answered the invitation themselves */
   answered_at?: string | null
+  /** When the organizer last sent this guest their personal invitation */
+  invited_at?: string | null
+  /** Personal invitation key — only in the organizer's view (it is the guest's edit key) */
+  invite_key?: string
   /** Lets a guest edit their own RSVP from the same browser */
   edit_key?: string
 }
@@ -219,6 +223,7 @@ export function sanitizeItem(section: PlanSection, raw: Record<string, unknown>,
         source: prev?.source || 'organizer',
         responded_at: rsvp !== (prev?.rsvp || 'pending') ? new Date().toISOString() : prev?.responded_at ?? null,
         answered_at: prev?.answered_at ?? null,
+        invited_at: typeof raw.invited_at === 'string' && !Number.isNaN(Date.parse(raw.invited_at)) ? raw.invited_at : prev?.invited_at ?? null,
         ...(prev?.edit_key ? { edit_key: prev.edit_key } : {})
       }
     }

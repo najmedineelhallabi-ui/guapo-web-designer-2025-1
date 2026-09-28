@@ -14,6 +14,7 @@ import {
   type Guest,
   type Plan,
   type PlanItem,
+  type Table,
   type PlanSection
 } from '../planRules'
 import type { Repo } from './repo'
@@ -21,8 +22,9 @@ import { access, checkPin, isOrganizer, loadAlbum, requireFeature, requireOrgani
 
 const SECTIONS: PlanSection[] = ['guests', 'tables', 'tasks', 'budget', 'vendors']
 
-/** Guests' edit keys never leave the server. */
-const publicPlan = (plan: Plan): Plan => ({ ...plan, guests: plan.guests.map(({ edit_key, ...g }) => g) })
+/** The organizer sees each guest's key as their personal invitation key. */
+const organizerGuest = ({ edit_key, ...g }: Guest): Guest => (edit_key ? { ...g, invite_key: edit_key } : g)
+const publicPlan = (plan: Plan): Plan => ({ ...plan, guests: plan.guests.map(organizerGuest) })
 
 // ---------------------------------------------------------------------------
 // Organizer
@@ -86,11 +88,32 @@ export async function savePlanItem(repo: Repo, ctx: Ctx, code: string, sectionIn
     else list.push(item)
     return item
   })
-  if (section === 'guests') {
-    const { edit_key, ...rest } = saved as Guest
-    return rest
-  }
+  if (section === 'guests') return organizerGuest(saved as Guest)
   return saved
+}
+
+/** Gives every guest a personal invitation key (their private link to the invitation). */
+export async function ensureInviteKeys(repo: Repo, ctx: Ctx, code: string) {
+  const album = await loadAlbum(repo, code)
+  requireOrganizer(album, ctx)
+  requireFeature(album, 'planning')
+  return repo.updatePlan(album.qr_code, (plan) => {
+    for (const g of plan.guests) g.edit_key ||= repo.newId()
+    return { keys: Object.fromEntries(plan.guests.map((g) => [g.id, g.edit_key as string])) as Record<string, string> }
+  })
+}
+
+/** Records that personal invitations went out (email, WhatsApp, SMS or copied link). */
+export async function markInvited(repo: Repo, ctx: Ctx, code: string, guestIds: string[]) {
+  const album = await loadAlbum(repo, code)
+  requireOrganizer(album, ctx)
+  requireFeature(album, 'planning')
+  const ids = new Set(Array.isArray(guestIds) ? guestIds.map(String) : [])
+  const now = new Date().toISOString()
+  return repo.updatePlan(album.qr_code, (plan) => {
+    for (const g of plan.guests) if (ids.has(g.id)) g.invited_at = now
+    return { invited_at: now }
+  })
 }
 
 export async function deletePlanItem(repo: Repo, ctx: Ctx, code: string, sectionInput: string, id: string) {
@@ -184,6 +207,10 @@ export type EventPage =
       rsvpOpen: boolean
       tableFinder: boolean
       myRsvp: MyRsvp | null
+      /** The guest's own table, when they opened their personal invitation and are seated */
+      myTable: { id: string; name: string; mates: string[] } | null
+      /** Room plan to point out their table */
+      layout: Table[]
       isOrganizer: boolean
     }
 
@@ -209,6 +236,15 @@ export async function getEventPage(repo: Repo, ctx: Ctx, code: string, editKey?:
   const available = access(album).features.planning
   const plan = await repo.readPlan(album.qr_code)
   const mine = editKey ? plan.guests.find((g) => g.edit_key && g.edit_key === editKey) : null
+  // Shown only when the organizer turned on "find your table"
+  const table = available && album.event.table_finder && mine && mine.rsvp !== 'no' && mine.table_id ? plan.tables.find((t) => t.id === mine.table_id) : undefined
+  const myTable = table
+    ? {
+        id: table.id,
+        name: table.name,
+        mates: plan.guests.filter((g) => g.table_id === table.id && g.id !== mine?.id && g.rsvp !== 'no').map((g) => g.name).sort()
+      }
+    : null
   return {
     locked: false,
     album: { ...base, welcome_message: album.welcome_message, event_date: album.event_date, location: album.location, event: album.event },
@@ -216,6 +252,8 @@ export async function getEventPage(repo: Repo, ctx: Ctx, code: string, editKey?:
     rsvpOpen: available && rsvpOpen(album.event),
     tableFinder: available && album.event.table_finder && plan.guests.some((g) => g.table_id),
     myRsvp: mine ? toMyRsvp(mine) : null,
+    myTable,
+    layout: myTable ? plan.tables.map(({ id, name, seats, shape, kind, x, y }) => ({ id, name, seats, shape, kind, x: x ?? null, y: y ?? null })) : [],
     isOrganizer: isOrganizer(album, ctx)
   }
 }
@@ -234,7 +272,7 @@ export async function submitRsvp(repo: Repo, ctx: Ctx, code: string, input: Rsvp
   return repo.updatePlan(album.qr_code, (plan) => {
     // 1. The guest's own earlier answer, 2. an invited guest with this name nobody answered for yet, 3. a new guest
     let guest = editKey ? plan.guests.find((g) => g.edit_key && g.edit_key === editKey) : undefined
-    guest ??= plan.guests.find((g) => !g.edit_key && normalizeName(g.name) === normalizeName(name))
+    guest ??= plan.guests.find((g) => !g.answered_at && normalizeName(g.name) === normalizeName(name))
     if (!guest) {
       if (plan.guests.length >= SECTION_LIMITS.guests) throw new AppError('invalid_input', 400)
       guest = sanitizeItem('guests', { name }, repo.newId()) as Guest

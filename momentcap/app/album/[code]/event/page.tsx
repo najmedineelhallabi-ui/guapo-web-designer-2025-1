@@ -10,7 +10,7 @@ import Countdown from '@/components/album/Countdown'
 import { UpgradePanel } from '@/components/pricing/Locked'
 import { CameraIcon, CheckIcon } from '@/components/Icons'
 import RoomPlan from '@/components/plan/RoomPlan'
-import { ApiError, findTable, getEventPage, setAlbumPin, submitRsvp, type EventPage, type MyRsvp } from '@/lib/api'
+import { ApiError, findTable, getEventPage, rememberInviteKey, setAlbumPin, submitRsvp, type EventPage, type MyRsvp } from '@/lib/api'
 import { eventTypeInfo } from '@/lib/albumRules'
 import { formatEventDate } from '@/lib/dates'
 
@@ -58,7 +58,8 @@ function downloadIcs(album: Open['album']) {
 function RsvpCard({ page, onSaved }: { page: Open; onSaved: (r: MyRsvp) => void }) {
   const ev = page.album.event
   const mine = page.myRsvp
-  const [editing, setEditing] = useState(!mine)
+  // Invited guests who haven't answered yet get the form straight away
+  const [editing, setEditing] = useState(!mine || mine.rsvp === 'pending')
   const [name, setName] = useState(mine?.name || '')
   const [attending, setAttending] = useState<boolean | null>(mine ? mine.rsvp === 'yes' : null)
   const [party, setParty] = useState(mine?.party_size || 1)
@@ -243,6 +244,12 @@ export default function EventPageView() {
   const [error, setError] = useState('')
 
   const load = useCallback(async () => {
+    // Personal invitation link: remember who this is, then tidy the address bar
+    const invite = new URLSearchParams(window.location.search).get('invite')
+    if (invite) {
+      rememberInviteKey(code, invite)
+      window.history.replaceState(null, '', window.location.pathname)
+    }
     try {
       setPage(await getEventPage(code))
       setPinError('')
@@ -322,7 +329,9 @@ export default function EventPageView() {
           </div>
         )}
         <div className="mx-auto max-w-2xl px-4 py-8 text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-ink-soft">You&apos;re invited</p>
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-ink-soft">
+            {page.myRsvp ? `${page.myRsvp.name.split(' ')[0]}, you're invited` : 'You’re invited'}
+          </p>
           <h1 className="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">{album.name}</h1>
           <p className="mt-3 text-lg">
             {formatEventDate(album.event_date)}
@@ -364,7 +373,7 @@ export default function EventPageView() {
       </header>
 
       <main className="mx-auto max-w-2xl space-y-6 px-4 py-8">
-        {isToday && page.tableFinder && <TableFinder code={album.qr_code} />}
+        {isToday && page.tableFinder && !page.myTable && <TableFinder code={album.qr_code} />}
 
         {ev.program.length > 0 && (
           <section className="rounded-3xl border border-line bg-white p-6 sm:p-8" aria-labelledby="program-title">
@@ -395,12 +404,30 @@ export default function EventPageView() {
           </section>
         )}
 
-        <RsvpCard page={page} onSaved={(r) => setPage({ ...page, myRsvp: r })} />
+        <RsvpCard page={page} onSaved={(r) => { setPage({ ...page, myRsvp: r }); load() }} />
+
+        {page.myTable && page.myRsvp?.rsvp !== 'no' && (
+          <section className="rounded-3xl border border-line bg-white p-6 sm:p-8" aria-labelledby="my-table-title">
+            <p className="text-sm font-bold uppercase tracking-wider text-ink-soft">Your seat</p>
+            <h2 id="my-table-title" className="mt-1 text-2xl font-extrabold">🪑 {page.myTable.name}</h2>
+            {page.myTable.mates.length > 0 && (
+              <p className="mt-2">
+                <span className="text-ink-soft">At your table: </span>
+                {page.myTable.mates.join(', ')}
+              </p>
+            )}
+            {page.layout.length > 0 && (
+              <div className="mt-4">
+                <RoomPlan tables={page.layout} highlightId={page.myTable.id} readOnly />
+              </div>
+            )}
+          </section>
+        )}
         {!page.rsvpOpen && !page.myRsvp && ev.rsvp_enabled && (
           <p className="text-center text-sm text-ink-soft">Answers are closed for this event.</p>
         )}
 
-        {!isToday && page.tableFinder && <TableFinder code={album.qr_code} />}
+        {!isToday && page.tableFinder && !page.myTable && <TableFinder code={album.qr_code} />}
 
         <section className="rounded-3xl bg-ink p-6 text-center text-white sm:p-8">
           <p className="text-xl font-extrabold">📸 On the day, share your photos!</p>

@@ -360,6 +360,20 @@ export const setBudgetTotal = (code: string, total: number | null) =>
 export const seedChecklist = (code: string) =>
   run<{ tasks: Plan['tasks'] }>('seedChecklist', [code], (ctx) => planService.seedChecklist(browserRepo, ctx, code), code)
 
+export const ensureInviteKeys = (code: string) =>
+  run<{ keys: Record<string, string> }>('ensureInviteKeys', [code], (ctx) => planService.ensureInviteKeys(browserRepo, ctx, code), code)
+
+export const markInvited = (code: string, guestIds: string[]) =>
+  run<{ invited_at: string }>('markInvited', [code, guestIds], (ctx) => planService.markInvited(browserRepo, ctx, code, guestIds), code)
+
+/** Personal invitation link: opening it signs the browser in as that guest for the RSVP */
+export const inviteLink = (code: string, key: string) => `${window.location.origin}/album/${code}/event?invite=${encodeURIComponent(key)}`
+
+/** Remembers the guest's personal invitation key (from ?invite=) in this browser */
+export function rememberInviteKey(code: string, key: string) {
+  writeLS(rsvpKey(code), key)
+}
+
 export function getEventPage(code: string) {
   const key = readLS<string | null>(rsvpKey(code), null)
   return run<planService.EventPage>('getEventPage', [code, key], (ctx) => planService.getEventPage(browserRepo, ctx, code, key), code)

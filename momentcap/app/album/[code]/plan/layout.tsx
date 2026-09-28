@@ -20,6 +20,7 @@ const TABS = [
   ['', 'Overview'],
   ['event', 'Invitation'],
   ['guests', 'Guests'],
+  ['invites', 'Send invites'],
   ['seating', 'Seating'],
   ['checklist', 'Checklist'],
   ['budget', 'Budget'],
