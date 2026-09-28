@@ -32,6 +32,27 @@ async function loadAsJpeg(url: string): Promise<{ data: string; w: number; h: nu
   }
 }
 
+async function loadPng(url: string): Promise<{ data: string; w: number; h: number } | null> {
+  try {
+    const blob = await (await fetch(url)).blob()
+    const data = await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(String(reader.result))
+      reader.onerror = reject
+      reader.readAsDataURL(blob)
+    })
+    const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+      const i = new Image()
+      i.onload = () => resolve(i)
+      i.onerror = reject
+      i.src = data
+    })
+    return { data, w: img.width, h: img.height }
+  } catch {
+    return null
+  }
+}
+
 /** Builds a simple photo book: a title page, then one photo per page with its author. */
 export async function downloadPdfBook(album: AppAlbum, photos: AppPhoto[]) {
   const doc = new jsPDF({ unit: 'mm', format: 'a4' })
@@ -61,8 +82,14 @@ export async function downloadPdfBook(album: AppAlbum, photos: AppPhoto[]) {
     doc.setFontSize(12)
     doc.text(doc.splitTextToSize(pdfText(album.welcome_message), W - M * 4), W / 2, H * 0.62 + 30, { align: 'center' })
   }
-  doc.setFontSize(9)
-  doc.text('Made with MomentCap', W / 2, H - 10, { align: 'center' })
+  const logo = await loadPng('/brand/wordmark.png')
+  if (logo) {
+    const lw = 60
+    doc.addImage(logo.data, 'PNG', (W - lw) / 2, H - 24, lw, (lw * logo.h) / logo.w)
+  } else {
+    doc.setFontSize(9)
+    doc.text('Made with Moment caps', W / 2, H - 10, { align: 'center' })
+  }
 
   // Photo pages
   for (const photo of photos.filter((p) => p.kind === 'image').slice(0, MAX_PHOTOS)) {

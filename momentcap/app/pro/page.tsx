@@ -2,7 +2,7 @@ import Link from 'next/link'
 import SiteHeader from '@/components/SiteHeader'
 import { CheckIcon } from '@/components/Icons'
 
-export const metadata = { title: 'MomentCap Pro — for wedding planners and venues' }
+export const metadata = { title: 'Moment caps Pro — for wedding planners and venues' }
 
 const plans = [
   {
@@ -30,7 +30,7 @@ export default function ProPage() {
       <SiteHeader />
       <main className="flex-1">
         <section className="mx-auto max-w-4xl px-4 pt-16 pb-10 text-center">
-          <span className="inline-block rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold uppercase tracking-wider">MomentCap Pro</span>
+          <span className="inline-block rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold uppercase tracking-wider">Moment caps Pro</span>
           <h1 className="mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl">Give every event you run a shared photo album</h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-ink-soft">
             For wedding planners, photographers and venues: create albums for your clients in seconds, with your brand on every QR card.
@@ -55,7 +55,7 @@ export default function ProPage() {
               </ul>
               {contact ? (
                 <a
-                  href={`mailto:${contact}?subject=${encodeURIComponent(`MomentCap ${p.name}`)}`}
+                  href={`mailto:${contact}?subject=${encodeURIComponent(`Moment caps ${p.name}`)}`}
                   className={`mt-8 block rounded-full py-3 text-center font-bold ${p.highlight ? 'bg-brand text-ink' : 'bg-ink text-white'}`}
                 >
                   Contact us

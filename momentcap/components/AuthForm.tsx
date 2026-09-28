@@ -90,7 +90,7 @@ export default function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
       </div>
 
       <p className="mt-6 text-sm text-ink-soft">
-        {isSignup ? 'Already have an account?' : 'New to MomentCap?'}{' '}
+        {isSignup ? 'Already have an account?' : 'New to Moment caps?'}{' '}
         <Link href={otherHref} className="font-semibold text-ink underline underline-offset-4">
           {isSignup ? 'Log in' : 'Create an account'}
         </Link>

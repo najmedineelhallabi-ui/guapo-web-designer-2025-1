@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { QRCodeSVG } from 'qrcode.react'
 import SiteHeader from '@/components/SiteHeader'
-import { LogoMark } from '@/components/Logo'
+import { Wordmark } from '@/components/Logo'
 import { QrIcon, LockIcon, CheckIcon, XIcon, TvIcon, MessageIcon, StarIcon, BookIcon } from '@/components/Icons'
 
 const steps = [
@@ -73,7 +73,7 @@ export default function Home() {
                   <p className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Album</p>
                   <p className="text-lg font-bold">Sarah &amp; Tom&apos;s Wedding</p>
                 </div>
-                <LogoMark className="h-8 w-8" />
+                <Wordmark className="h-6" />
               </div>
               <div className="mt-4 grid grid-cols-3 gap-2">
                 {tiles.map((c, i) => (
@@ -187,10 +187,10 @@ export default function Home() {
 
       <footer className="border-t border-line py-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 text-sm text-ink-soft sm:flex-row">
-          <span className="flex items-center gap-2 font-semibold text-ink"><LogoMark className="h-6 w-6" /> MomentCap</span>
+          <Wordmark className="h-7" />
           <span className="flex gap-4">
             <Link href="/pro" className="font-semibold text-ink hover:underline">For planners & venues</Link>
-            <span>© {new Date().getFullYear()} MomentCap</span>
+            <span>© {new Date().getFullYear()} Moment caps</span>
           </span>
         </div>
       </footer>

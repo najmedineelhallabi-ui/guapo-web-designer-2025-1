@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useParams, useSearchParams } from 'next/navigation'
 import { QRCodeCanvas, QRCodeSVG } from 'qrcode.react'
 import SiteHeader from '@/components/SiteHeader'
-import { LogoMark } from '@/components/Logo'
+import { Wordmark } from '@/components/Logo'
 import ThemeScope from '@/components/album/ThemeScope'
 import { DownloadIcon, ShareIcon } from '@/components/Icons'
 import { getAlbum, type AppAlbum } from '@/lib/api'
@@ -102,7 +102,7 @@ function SharePage() {
               {album.cover_url && <img src={album.cover_url} alt="" className="h-40 w-full object-cover" />}
               <div className="px-8 py-10">
               <div className="flex items-center justify-center gap-2 font-extrabold">
-                <LogoMark className="h-7 w-7" /> MomentCap
+                <Wordmark className="h-9" />
               </div>
               <p className="mt-6 text-3xl" aria-hidden="true">{type.emoji}</p>
               <h2 className="mt-2 text-2xl font-extrabold leading-tight tracking-tight">{album.name}</h2>

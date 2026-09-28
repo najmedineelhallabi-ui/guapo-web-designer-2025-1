@@ -9,7 +9,7 @@ import { CheckIcon } from '@/components/Icons'
 import { getAlbum, getConfig, upgradeAlbum, type AppAlbum } from '@/lib/api'
 import { FREE_DAYS } from '@/lib/albumRules'
 
-const PERKS = ['Keep your album forever', 'No MomentCap watermark on new photos', 'Unlimited photos and videos', 'ZIP and PDF photo book downloads', 'Priority support']
+const PERKS = ['Keep your album forever', 'No Moment caps watermark on new photos', 'Unlimited photos and videos', 'ZIP and PDF photo book downloads', 'Priority support']
 
 export default function UpgradePage() {
   const params = useParams()

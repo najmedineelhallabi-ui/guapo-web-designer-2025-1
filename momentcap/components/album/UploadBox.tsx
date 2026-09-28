@@ -284,7 +284,7 @@ export default function UploadBox({ album, isOrganizer, myCount, challengeId, on
         {s.moderation && !isOrganizer && <p>Photos appear after the organizer approves them.</p>}
         <p>
           Max {MAX_FILE_MB} MB per photo{allowVideos ? `, videos up to ${MAX_VIDEO_SECONDS}s` : ''}.
-          {!album.is_paid && ' Free albums add a small MomentCap watermark.'}
+          {!album.is_paid && ' Free albums add a small Moment caps watermark.'}
         </p>
       </div>
     </section>

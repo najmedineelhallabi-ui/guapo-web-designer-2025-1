@@ -20,6 +20,17 @@ function loadImage(file: Blob): Promise<HTMLImageElement> {
   })
 }
 
+let logoPromise: Promise<HTMLImageElement | null> | null = null
+
+/** The transparent "Moment caps" wordmark used as watermark (loaded once). */
+function watermarkLogo() {
+  logoPromise ??= fetch('/brand/wordmark.png')
+    .then((r) => (r.ok ? r.blob() : Promise.reject()))
+    .then(loadImage)
+    .catch(() => null)
+  return logoPromise
+}
+
 export type ProcessOptions = {
   frame: FrameId
   frameColor: string
@@ -75,17 +86,31 @@ export async function processImage(file: File, opts: ProcessOptions): Promise<Fi
   }
 
   if (opts.watermark) {
-    const size = Math.max(14, Math.round(w / 45))
-    ctx.font = `600 ${size}px ui-sans-serif, system-ui, sans-serif`
-    ctx.textAlign = 'right'
-    ctx.textBaseline = 'bottom'
-    ctx.lineWidth = Math.max(2, size / 8)
-    ctx.strokeStyle = 'rgba(0,0,0,0.35)'
-    ctx.fillStyle = 'rgba(255,255,255,0.85)'
-    const x = pad.side + w - size * 0.6
-    const y = pad.top + h - size * 0.5
-    ctx.strokeText('MomentCap', x, y)
-    ctx.fillText('MomentCap', x, y)
+    const logo = await watermarkLogo()
+    const margin = Math.round(Math.min(w, h) * 0.03)
+    if (logo) {
+      // "Moment caps" bubble logo in the bottom-right corner
+      const lw = Math.round(Math.max(120, w * 0.24))
+      const lh = Math.round((lw * logo.height) / logo.width)
+      ctx.save()
+      ctx.globalAlpha = 0.92
+      ctx.shadowColor = 'rgba(0,0,0,0.35)'
+      ctx.shadowBlur = Math.round(lw / 40)
+      ctx.drawImage(logo, pad.side + w - lw - margin, pad.top + h - lh - margin, lw, lh)
+      ctx.restore()
+    } else {
+      const size = Math.max(14, Math.round(w / 40))
+      ctx.font = `800 ${size}px ui-sans-serif, system-ui, sans-serif`
+      ctx.textAlign = 'right'
+      ctx.textBaseline = 'bottom'
+      ctx.lineWidth = Math.max(2, size / 6)
+      ctx.strokeStyle = 'rgba(0,0,0,0.6)'
+      ctx.fillStyle = '#ffffff'
+      const x = pad.side + w - margin
+      const y = pad.top + h - margin
+      ctx.strokeText('Moment caps', x, y)
+      ctx.fillText('Moment caps', x, y)
+    }
   }
 
   const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.85))

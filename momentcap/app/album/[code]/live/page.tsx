@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { QRCodeSVG } from 'qrcode.react'
-import { LogoMark } from '@/components/Logo'
+import { Wordmark } from '@/components/Logo'
 import Countdown from '@/components/album/Countdown'
 import ThemeScope from '@/components/album/ThemeScope'
 import { getAlbum, type AppAlbum, type AppPhoto } from '@/lib/api'
@@ -140,7 +140,7 @@ export default function LiveSlideshow() {
 
       <div className="absolute bottom-6 right-6 flex items-center gap-4 rounded-3xl bg-white p-4 text-ink shadow-2xl">
         <div className="text-right">
-          <p className="flex items-center justify-end gap-2 text-sm font-extrabold"><LogoMark className="h-5 w-5" /> MomentCap</p>
+          <Wordmark className="ml-auto h-7" />
           <p className="mt-1 max-w-48 text-lg font-extrabold leading-tight">Add your photos!</p>
           <p className="text-sm text-ink-soft">{photos.length} shared</p>
         </div>

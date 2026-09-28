@@ -1,21 +1,19 @@
 import Link from 'next/link'
 
+/** Square app icon (yellow camera). */
 export function LogoMark({ className = 'h-9 w-9' }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
-      <rect width="40" height="40" rx="10" fill="#FFD700" />
-      <rect x="9" y="10" width="22" height="20" rx="4" fill="#fff" />
-      <circle cx="20" cy="20" r="6" fill="none" stroke="#17150F" strokeWidth="2.5" />
-      <rect x="12" y="13" width="4" height="3" rx="1" fill="#17150F" />
-    </svg>
-  )
+  return <img src="/brand/icon.png" alt="" aria-hidden="true" className={`${className} rounded-[22%] object-cover`} />
 }
 
-export default function Logo() {
+/** "Moment caps" bubble-letter wordmark (transparent background). */
+export function Wordmark({ className = 'h-8' }: { className?: string }) {
+  return <img src="/brand/wordmark.png" alt="Moment caps" className={`${className} w-auto`} />
+}
+
+export default function Logo({ className = 'h-8 sm:h-9' }: { className?: string }) {
   return (
-    <Link href="/" className="flex items-center gap-2.5 font-extrabold tracking-tight text-lg text-ink">
-      <LogoMark />
-      MomentCap
+    <Link href="/" className="inline-flex items-center" aria-label="Moment caps — home">
+      <Wordmark className={className} />
     </Link>
   )
 }

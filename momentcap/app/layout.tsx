@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  icons: { icon: "/favicon.svg" },
-  title: "MomentCap — one album for every guest's photos",
+  icons: { icon: "/brand/icon.png", apple: "/brand/apple-touch-icon.png" },
+  openGraph: { images: ["/brand/logo.png"] },
+  title: "Moment caps — one album for every guest's photos",
   description: "Collaborative photo albums for every event",
 };
 
