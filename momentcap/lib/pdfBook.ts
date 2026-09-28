@@ -82,7 +82,7 @@ export async function downloadPdfBook(album: AppAlbum, photos: AppPhoto[]) {
     doc.setFontSize(12)
     doc.text(doc.splitTextToSize(pdfText(album.welcome_message), W - M * 4), W / 2, H * 0.62 + 30, { align: 'center' })
   }
-  const logo = await loadPng('/brand/wordmark.png')
+  const logo = await loadPng('/brand/logo-banner.png')
   if (logo) {
     const lw = 60
     doc.addImage(logo.data, 'PNG', (W - lw) / 2, H - 24, lw, (lw * logo.h) / logo.w)

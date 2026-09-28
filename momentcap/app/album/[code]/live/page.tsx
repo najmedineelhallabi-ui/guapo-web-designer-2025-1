@@ -153,7 +153,7 @@ export default function LiveSlideshow() {
 
       <div className="absolute bottom-6 right-6 flex items-center gap-4 rounded-3xl bg-white p-4 text-ink shadow-2xl">
         <div className="text-right">
-          <Wordmark className="ml-auto h-7" />
+          <Wordmark className="ml-auto h-9" />
           <p className="mt-1 max-w-48 text-lg font-extrabold leading-tight">Add your photos!</p>
           <p className="text-sm text-ink-soft">{photos.length} shared</p>
         </div>

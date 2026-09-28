@@ -393,7 +393,7 @@ export default function EventPageView() {
         </section>
 
         <p className="flex items-center justify-center gap-2 pt-4 text-sm text-ink-soft">
-          <CheckIcon className="h-4 w-4" /> Made with <Logo className="h-5" />
+          <CheckIcon className="h-4 w-4" /> Made with <Logo className="h-7" />
         </p>
       </main>
     </ThemeScope>

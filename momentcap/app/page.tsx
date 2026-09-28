@@ -76,7 +76,7 @@ export default function Home() {
                   <p className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Album</p>
                   <p className="text-lg font-bold">Sarah &amp; Tom&apos;s Wedding</p>
                 </div>
-                <Wordmark className="h-6" />
+                <Wordmark className="h-8" />
               </div>
               <div className="mt-4 grid grid-cols-3 gap-2">
                 {tiles.map((c, i) => (
@@ -189,7 +189,7 @@ export default function Home() {
 
       <footer className="border-t border-line py-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 text-sm text-ink-soft sm:flex-row">
-          <Wordmark className="h-7" />
+          <Wordmark className="h-9" />
           <span className="flex gap-4">
             <Link href="/pro" className="font-semibold text-ink hover:underline">For planners & venues</Link>
             <span>© {new Date().getFullYear()} Moment caps</span>

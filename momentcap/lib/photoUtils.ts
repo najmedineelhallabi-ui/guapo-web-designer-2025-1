@@ -22,9 +22,9 @@ function loadImage(file: Blob): Promise<HTMLImageElement> {
 
 let logoPromise: Promise<HTMLImageElement | null> | null = null
 
-/** The transparent "Moment caps" wordmark used as watermark (loaded once). */
+/** The brand logo banner (yellow background) used as watermark (loaded once). */
 function watermarkLogo() {
-  logoPromise ??= fetch('/brand/wordmark.png')
+  logoPromise ??= fetch('/brand/logo-banner.png')
     .then((r) => (r.ok ? r.blob() : Promise.reject()))
     .then(loadImage)
     .catch(() => null)
@@ -92,11 +92,19 @@ export async function processImage(file: File, opts: ProcessOptions): Promise<Fi
       // "Moment caps" bubble logo in the bottom-right corner
       const lw = Math.round(Math.max(120, w * 0.24))
       const lh = Math.round((lw * logo.height) / logo.width)
+      const x = pad.side + w - lw - margin
+      const y = pad.top + h - lh - margin
+      const r = Math.round(lh * 0.18)
       ctx.save()
-      ctx.globalAlpha = 0.92
-      ctx.shadowColor = 'rgba(0,0,0,0.35)'
-      ctx.shadowBlur = Math.round(lw / 40)
-      ctx.drawImage(logo, pad.side + w - lw - margin, pad.top + h - lh - margin, lw, lh)
+      ctx.shadowColor = 'rgba(0,0,0,0.3)'
+      ctx.shadowBlur = Math.round(lw / 30)
+      ctx.beginPath()
+      ctx.roundRect(x, y, lw, lh, r)
+      ctx.fillStyle = '#ffdf5a'
+      ctx.fill()
+      ctx.shadowColor = 'transparent'
+      ctx.clip()
+      ctx.drawImage(logo, x, y, lw, lh)
       ctx.restore()
     } else {
       const size = Math.max(14, Math.round(w / 40))
