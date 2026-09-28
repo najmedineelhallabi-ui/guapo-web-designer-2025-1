@@ -106,9 +106,12 @@ export async function compressImage(file: File): Promise<File> {
           }
         }, 'image/jpeg', 0.8)
       }
+      // Formats the browser can't decode (e.g. some HEIC) are passed through as-is
+      img.onerror = () => resolve(file)
       img.src = e.target?.result as string
     }
 
+    reader.onerror = () => resolve(file)
     reader.readAsDataURL(file)
   })
 }

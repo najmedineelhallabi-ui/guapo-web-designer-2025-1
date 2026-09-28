@@ -25,3 +25,12 @@ export const XIcon = ({ className = 'h-5 w-5' }: P) => (
 export const ImageIcon = ({ className = 'h-6 w-6' }: P) => (
   <svg viewBox="0 0 24 24" className={className} {...base}><rect x="3" y="4" width="18" height="16" rx="2" /><circle cx="9" cy="10" r="2" /><path d="m21 16-5-5-9 9" /></svg>
 )
+export const DownloadIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><path d="M12 4v12M7 11l5 5 5-5M4 20h16" /></svg>
+)
+export const ChevronIcon = ({ className = 'h-6 w-6', dir = 'right' }: P & { dir?: 'left' | 'right' }) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><path d={dir === 'right' ? 'm9 5 7 7-7 7' : 'm15 5-7 7 7 7'} /></svg>
+)
+export const ShareIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4" /></svg>
+)

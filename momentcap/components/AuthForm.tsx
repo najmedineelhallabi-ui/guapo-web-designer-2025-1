@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { supabase, isSupabaseConfigured } from '@/lib/supabase'
+import { signIn, signUp } from '@/lib/api'
 import Logo from './Logo'
 import { useAuth } from '@/lib/useAuth'
 
@@ -27,41 +27,32 @@ export default function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   const isSignup = mode === 'signup'
 
   // Already signed in: skip the form
-  const { session } = useAuth()
+  const { user } = useAuth()
   useEffect(() => {
-    if (session) router.replace(next)
-  }, [session, next, router])
+    if (user) router.replace(next)
+  }, [user, next, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setNotice('')
 
-    if (!isSupabaseConfigured) {
-      setError('Accounts are not available yet. Please try again later.')
-      return
-    }
-
     setLoading(true)
     try {
       if (isSignup) {
-        const { data, error } = await supabase.auth.signUp({
+        const needsConfirmation = await signUp(
+          name,
           email,
           password,
-          options: {
-            data: { name },
-            emailRedirectTo: `${window.location.origin}/login?next=${encodeURIComponent(next)}`
-          }
-        })
-        if (error) throw error
-        if (!data.session) {
+          `${window.location.origin}/login?next=${encodeURIComponent(next)}`
+        )
+        if (needsConfirmation) {
           // Email confirmation is enabled on the Supabase project
           setNotice(`We sent a confirmation link to ${email}. Click it, then log in.`)
           return
         }
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password })
-        if (error) throw error
+        await signIn(email, password)
       }
       router.push(next)
     } catch (err) {

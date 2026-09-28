@@ -1,17 +1,16 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import Logo from './Logo'
 import { useAuth, signOut } from '@/lib/useAuth'
 
 export default function SiteHeader({ cta = true }: { cta?: boolean }) {
   const { user, loading } = useAuth()
-  const router = useRouter()
 
   const handleSignOut = async () => {
     await signOut()
-    router.push('/')
+    // Full navigation so protected pages don't bounce to /login first
+    window.location.replace('/')
   }
 
   return (

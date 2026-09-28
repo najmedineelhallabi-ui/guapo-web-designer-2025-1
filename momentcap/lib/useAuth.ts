@@ -1,30 +1,29 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import type { Session } from '@supabase/supabase-js'
-import { supabase, isSupabaseConfigured } from './supabase'
+import { getUser, onAuthChange, signOut, type AppUser } from './api'
 
 export function useAuth() {
-  const [session, setSession] = useState<Session | null>(null)
-  const [loading, setLoading] = useState(isSupabaseConfigured)
+  const [user, setUser] = useState<AppUser | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!isSupabaseConfigured) return
-
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session)
-      setLoading(false)
-    })
-
-    const { data } = supabase.auth.onAuthStateChange((_event, newSession) => {
-      setSession(newSession)
-    })
-    return () => data.subscription.unsubscribe()
+    let active = true
+    const refresh = () =>
+      getUser().then((u) => {
+        if (!active) return
+        setUser(u)
+        setLoading(false)
+      })
+    refresh()
+    const unsubscribe = onAuthChange(refresh)
+    return () => {
+      active = false
+      unsubscribe()
+    }
   }, [])
 
-  return { session, user: session?.user ?? null, loading }
+  return { user, loading }
 }
 
-export async function signOut() {
-  if (isSupabaseConfigured) await supabase.auth.signOut()
-}
+export { signOut }

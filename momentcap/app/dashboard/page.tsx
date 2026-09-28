@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/useAuth'
+import { listAlbums, createAlbum, type AppAlbum } from '@/lib/api'
 import { QRCodeSVG } from 'qrcode.react'
 import SiteHeader from '@/components/SiteHeader'
 import { ImageIcon } from '@/components/Icons'
@@ -13,7 +14,7 @@ const inputClass =
 
 export default function Dashboard() {
   const router = useRouter()
-  const { session, loading: authLoading } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const [formData, setFormData] = useState({
     name: '',
     event_date: '',
@@ -21,29 +22,28 @@ export default function Dashboard() {
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [albums, setAlbums] = useState<any[]>([])
+  const [albums, setAlbums] = useState<AppAlbum[]>([])
   const [showForm, setShowForm] = useState(false)
-  const [createdAlbum, setCreatedAlbum] = useState<any>(null)
+  const [createdAlbum, setCreatedAlbum] = useState<AppAlbum | null>(null)
   const [qrUrl, setQrUrl] = useState('')
   const [copied, setCopied] = useState(false)
   const [albumsLoading, setAlbumsLoading] = useState(true)
 
-  const token = session?.access_token
+  const userId = user?.id
 
   // Logged-out visitors go to the login page first
   useEffect(() => {
-    if (!authLoading && !session) router.replace('/login?next=/dashboard')
-  }, [authLoading, session, router])
+    if (!authLoading && !user) router.replace('/login?next=/dashboard')
+  }, [authLoading, user, router])
 
   // Load this user's albums
   useEffect(() => {
-    if (!token) return
-    fetch('/api/albums', { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => (res.ok ? res.json() : { albums: [] }))
-      .then((data) => setAlbums(data.albums || []))
+    if (!userId) return
+    listAlbums()
+      .then(setAlbums)
       .catch(() => setAlbums([]))
       .finally(() => setAlbumsLoading(false))
-  }, [token])
+  }, [userId])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -56,21 +56,7 @@ export default function Dashboard() {
     setError('')
 
     try {
-      const response = await fetch('/api/albums', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          ...formData,
-          owner_type: 'couple'
-        })
-      })
-
-      if (!response.ok) throw new Error('Could not create the album. Please try again.')
-
-      const data = await response.json()
+      const data = await createAlbum(formData)
       setCreatedAlbum(data.album)
       setQrUrl(data.qrUrl)
       setAlbums(prev => [data.album, ...prev])
@@ -93,7 +79,7 @@ export default function Dashboard() {
     }
   }
 
-  if (authLoading || !session) {
+  if (authLoading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <span className="h-5 w-5 animate-spin rounded-full border-2 border-line border-t-ink" />
@@ -101,7 +87,7 @@ export default function Dashboard() {
     )
   }
 
-  const firstName = (session.user.user_metadata?.name as string | undefined)?.split(' ')[0]
+  const firstName = user.name.split(' ')[0]
 
   if (createdAlbum) {
     return (
