@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { TrashIcon } from '@/components/Icons'
 import { usePlan, useSection } from '@/components/plan/PlanContext'
 import { Card, ErrorText, Stat, btnGhost, btnPrimary, inputClass, inputBase } from '@/components/plan/ui'
@@ -25,7 +25,7 @@ function columnMap(header: string[]) {
 }
 
 export default function GuestsPage() {
-  const { plan, setPlan, code } = usePlan()
+  const { plan, setPlan, code, unseenAnswers, markAnswersSeen } = usePlan()
   const { save, remove } = useSection('guests')
   const [filter, setFilter] = useState<'all' | RsvpStatus>('all')
   const [search, setSearch] = useState('')
@@ -35,6 +35,13 @@ export default function GuestsPage() {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
+  // New answers stay highlighted while the organizer is on this page, and count as seen
+  const [highlight, setHighlight] = useState<Set<string>>(() => new Set())
+  if ([...unseenAnswers].some((id) => !highlight.has(id))) setHighlight(new Set([...highlight, ...unseenAnswers]))
+  useEffect(() => {
+    if (unseenAnswers.size > 0) markAnswersSeen()
+  }, [unseenAnswers, markAnswersSeen])
+  const isNew = (id: string) => highlight.has(id) || unseenAnswers.has(id)
 
   const stats = guestStats(plan.guests)
   const groups = useMemo(() => [...new Set(plan.guests.map((g) => g.group).filter(Boolean))].sort(), [plan.guests])
@@ -191,6 +198,7 @@ export default function GuestsPage() {
                 <div className="min-w-0">
                   <p className="truncate font-semibold">
                     {g.name}
+                    {isNew(g.id) && <span className="ml-2 rounded-full bg-ink px-2 py-0.5 text-xs font-bold text-white">New answer</span>}
                     {g.source === 'rsvp' && <span className="ml-2 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-bold">via invitation</span>}
                   </p>
                   <p className="truncate text-xs text-ink-soft">

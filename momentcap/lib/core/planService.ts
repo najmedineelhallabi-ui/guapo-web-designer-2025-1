@@ -247,6 +247,7 @@ export async function submitRsvp(repo: Repo, ctx: Ctx, code: string, input: Rsvp
     guest.note = cleanText(input.note, 300)
     if (input.email) guest.email = cleanText(input.email, 200).toLowerCase()
     guest.responded_at = new Date().toISOString()
+    guest.answered_at = guest.responded_at
     guest.edit_key ||= repo.newId()
     return { rsvp: toMyRsvp(guest), editKey: guest.edit_key }
   })

@@ -12,6 +12,9 @@ type Ctx = {
   setPlan: (fn: (p: Plan) => Plan) => void
   isOwner: boolean
   reload: () => Promise<void>
+  /** Guests whose invitation answer the organizer hasn't looked at yet */
+  unseenAnswers: Set<string>
+  markAnswersSeen: () => void
 }
 
 export const PlanContext = createContext<Ctx | null>(null)

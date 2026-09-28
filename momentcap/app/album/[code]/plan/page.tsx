@@ -10,7 +10,7 @@ import { budgetStats, guestStats } from '@/lib/planRules'
 import { formatEventDate } from '@/lib/dates'
 
 export default function PlanOverview() {
-  const { album, plan, code } = usePlan()
+  const { album, plan, code, unseenAnswers } = usePlan()
   const g = guestStats(plan.guests)
   const b = budgetStats(plan)
   const done = plan.tasks.filter((t) => t.done).length
@@ -19,6 +19,10 @@ export default function PlanOverview() {
     .filter((t) => !t.done)
     .sort((a, b) => (a.due || '9999').localeCompare(b.due || '9999'))
     .slice(0, 4)
+  const latest = plan.guests
+    .filter((guest) => guest.answered_at)
+    .sort((a, b) => (b.answered_at || '').localeCompare(a.answered_at || ''))
+    .slice(0, 5)
   const seats = plan.tables.reduce((n, t) => n + t.seats, 0)
 
   const [y, m, d] = album.event_date.split('-').map(Number)
@@ -101,6 +105,25 @@ export default function PlanOverview() {
           )}
         </Card>
       </div>
+
+      {latest.length > 0 && (
+        <Card title="Latest answers" action={<Link href={`${base}/guests`} className="text-sm font-semibold underline">All guests</Link>}>
+          <ul className="divide-y divide-line">
+            {latest.map((guest) => (
+              <li key={guest.id} className="flex items-center justify-between gap-3 py-2.5 text-sm">
+                <span className="min-w-0 truncate">
+                  <span className="font-semibold">{guest.name}</span>
+                  {unseenAnswers.has(guest.id) && <span className="ml-2 rounded-full bg-ink px-2 py-0.5 text-xs font-bold text-white">New</span>}
+                  {guest.diet && <span className="text-ink-soft"> · 🍽 {guest.diet}</span>}
+                </span>
+                <span className={`shrink-0 rounded-full px-3 py-1 font-semibold ${guest.rsvp === 'yes' ? 'bg-green-50 text-green-800' : 'bg-red-50 text-red-700'}`}>
+                  {guest.rsvp === 'yes' ? `Coming${guest.party_size > 1 ? ` · ${guest.party_size}` : ''}` : "Can't come"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      )}
 
       {album.features.planning ? (
         <ShareInvitation />

@@ -94,6 +94,8 @@ export type Guest = {
   table_id: string | null
   source: 'organizer' | 'rsvp'
   responded_at: string | null
+  /** Last time the guest answered the invitation themselves */
+  answered_at?: string | null
   /** Lets a guest edit their own RSVP from the same browser */
   edit_key?: string
 }
@@ -152,6 +154,7 @@ export function sanitizeItem(section: PlanSection, raw: Record<string, unknown>,
         table_id: raw.table_id === null || raw.table_id === '' ? null : typeof raw.table_id === 'string' ? raw.table_id : prev?.table_id ?? null,
         source: prev?.source || 'organizer',
         responded_at: rsvp !== (prev?.rsvp || 'pending') ? new Date().toISOString() : prev?.responded_at ?? null,
+        answered_at: prev?.answered_at ?? null,
         ...(prev?.edit_key ? { edit_key: prev.edit_key } : {})
       }
     }
