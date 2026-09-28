@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { QRCodeSVG } from 'qrcode.react'
 import SiteHeader from '@/components/SiteHeader'
+import { PACKS, SUBSCRIPTIONS, euroPrice } from '@/lib/pricing'
 import { Wordmark } from '@/components/Logo'
 import { QrIcon, LockIcon, CheckIcon, XIcon, TvIcon, MessageIcon, StarIcon, BookIcon, UsersIcon } from '@/components/Icons'
 
@@ -128,49 +129,49 @@ export default function Home() {
 
         {/* Pricing */}
         <section id="pricing" className="scroll-mt-20 bg-ink py-20 text-white">
-          <div className="mx-auto max-w-4xl px-4">
+          <div className="mx-auto max-w-5xl px-4">
             <h2 className="text-center text-3xl font-extrabold tracking-tight sm:text-4xl">Simple pricing</h2>
-            <p className="mt-3 text-center text-white/70">Start free. Upgrade only if you want to keep it.</p>
+            <p className="mt-3 text-center text-white/70">Pay once for your event — or subscribe if you organize events often.</p>
 
-            <div className="mt-12 grid gap-6 md:grid-cols-2">
-              <div className="rounded-2xl border border-white/15 p-8">
-                <h3 className="text-lg font-bold">Free</h3>
-                <p className="mt-2 text-4xl font-extrabold">€0</p>
-                <ul className="mt-6 space-y-3 text-white/85">
-                  {['7 days', 'Up to 100 photos', 'Share with all your guests'].map((t) => (
-                    <li key={t} className="flex items-center gap-3"><CheckIcon className="h-5 w-5 text-brand" />{t}</li>
-                  ))}
-                  {['Watermark on photos', 'No downloads'].map((t) => (
-                    <li key={t} className="flex items-center gap-3 text-white/50"><XIcon className="h-5 w-5" />{t}</li>
-                  ))}
-                </ul>
-                <Link
-                  href="/signup"
-                  className="mt-8 block rounded-full border border-white/30 py-3 text-center font-semibold transition hover:bg-white/10"
-                >
-                  Start free
-                </Link>
-              </div>
-
-              <div className="relative rounded-2xl bg-brand p-8 text-ink">
-                <span className="absolute -top-3 right-6 rounded-full bg-white px-3 py-1 text-xs font-bold">Most popular</span>
-                <h3 className="text-lg font-bold">Premium</h3>
-                <p className="mt-2 text-4xl font-extrabold">
-                  €5<span className="text-base font-semibold">/album</span>
-                </p>
-                <ul className="mt-6 space-y-3">
-                  {['Keep it forever', 'Unlimited photos', 'No watermark', 'Download as PDF or ZIP'].map((t) => (
-                    <li key={t} className="flex items-center gap-3"><CheckIcon className="h-5 w-5" />{t}</li>
-                  ))}
-                </ul>
-                <Link
-                  href="/signup"
-                  className="mt-8 block rounded-full bg-ink py-3 text-center font-semibold text-white transition hover:bg-black"
-                >
-                  Create an album
-                </Link>
-              </div>
+            <div className="mt-12 grid gap-4 md:grid-cols-3">
+              {PACKS.map((p) => (
+                <div key={p.id} className={`flex flex-col rounded-3xl p-7 ${p.id === 'event' ? 'bg-brand text-ink' : 'border border-white/15'}`}>
+                  <h3 className="text-lg font-bold">{p.name}</h3>
+                  <p className={`text-sm ${p.id === 'event' ? '' : 'text-white/60'}`}>{p.tagline}</p>
+                  <p className="mt-3 text-4xl font-extrabold">
+                    {euroPrice(p.price)}
+                    {p.price > 0 && <span className="text-base font-semibold"> once</span>}
+                  </p>
+                  <ul className={`mt-5 flex-1 space-y-2 text-sm ${p.id === 'event' ? '' : 'text-white/85'}`}>
+                    {p.highlights.map((h) => (
+                      <li key={h} className="flex gap-2"><CheckIcon className={`h-5 w-5 shrink-0 ${p.id === 'event' ? '' : 'text-brand'}`} />{h}</li>
+                    ))}
+                  </ul>
+                  <Link
+                    href="/signup"
+                    className={`mt-6 block rounded-full py-3 text-center font-semibold ${p.id === 'event' ? 'bg-ink text-white' : 'border border-white/30 hover:bg-white/10'}`}
+                  >
+                    {p.price === 0 ? 'Start free' : `Get ${p.name}`}
+                  </Link>
+                </div>
+              ))}
             </div>
+
+            <div className="mt-6 flex flex-col items-center justify-between gap-4 rounded-3xl border border-white/15 p-6 sm:flex-row">
+              <div>
+                <p className="text-lg font-bold">Pro subscription</p>
+                <p className="text-sm text-white/70">
+                  For planners, photographers and venues: every event gets the Full event pack. {euroPrice(SUBSCRIPTIONS[0].price)}/month or{' '}
+                  {euroPrice(SUBSCRIPTIONS[1].price)}/year.
+                </p>
+              </div>
+              <Link href="/pricing#subscriptions" className="shrink-0 rounded-full bg-white px-6 py-3 font-semibold text-ink">
+                See Pro plans
+              </Link>
+            </div>
+            <p className="mt-6 text-center text-sm text-white/60">
+              <Link href="/pricing" className="underline underline-offset-4">Compare all features</Link>
+            </p>
           </div>
         </section>
 

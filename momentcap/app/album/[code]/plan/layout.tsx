@@ -7,6 +7,8 @@ import SiteHeader from '@/components/SiteHeader'
 import ThemeScope from '@/components/album/ThemeScope'
 import { PlanContext } from '@/components/plan/PlanContext'
 import { getPlan, type AppAlbum, type Plan } from '@/lib/api'
+import { UpgradePanel } from '@/components/pricing/Locked'
+import { LockIcon } from '@/components/Icons'
 
 const TABS = [
   ['', 'Overview'],
@@ -67,6 +69,8 @@ export default function PlanLayout({ children }: { children: ReactNode }) {
 
   const base = `/album/${code}/plan`
   const current = pathname.replace(base, '').replace(/^\//, '')
+  // Overview and checklist are free; the other tabs need the Full event pack
+  const gated = (slug: string) => slug !== '' && slug !== 'checklist' && !album.features.planning
 
   return (
     <PlanContext.Provider value={{ code, album, setAlbum, plan, setPlan, isOwner, reload }}>
@@ -102,6 +106,7 @@ export default function PlanLayout({ children }: { children: ReactNode }) {
                     aria-current={active ? 'page' : undefined}
                     className={`shrink-0 border-b-2 px-3 pb-3 text-sm font-semibold transition ${active ? 'border-ink text-ink' : 'border-transparent text-ink-soft hover:text-ink'}`}
                   >
+                    {gated(slug) && <LockIcon className="mr-1 inline h-3.5 w-3.5" />}
                     {label}
                   </Link>
                 )
@@ -109,7 +114,15 @@ export default function PlanLayout({ children }: { children: ReactNode }) {
             </nav>
           </div>
         </div>
-        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 print:p-0">{children}</main>
+        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 print:p-0">
+          {gated(current) ? (
+            <UpgradePanel code={code} feature="planning" current={album.effective_tier} isOwner={isOwner}>
+              Online invitation with RSVP, guest list, seating plan with “find your table”, budget and vendors.
+            </UpgradePanel>
+          ) : (
+            children
+          )}
+        </main>
       </ThemeScope>
     </PlanContext.Provider>
   )

@@ -6,6 +6,7 @@
 import { emptyState, type AlbumRecord, type AlbumState } from './albumRules'
 import type { Repo, UserRecord } from './core/repo'
 import { emptyPlan, type Plan } from './planRules'
+import type { Subscription } from './pricing'
 
 type LegacyUser = { id: string; email: string; name: string; passwordHash: string }
 
@@ -108,6 +109,14 @@ export const browserRepo: Repo = {
     const all = read<Record<string, AlbumRecord>>(K_ALBUMS, {})
     delete all[code]
     write(K_ALBUMS, all)
+  },
+
+  async readSubscription(userId) {
+    return read<Subscription | null>(`mc2_sub_${userId}`, null)
+  },
+  async writeSubscription(userId, sub) {
+    if (sub) write(`mc2_sub_${userId}`, sub)
+    else localStorage.removeItem(`mc2_sub_${userId}`)
   },
 
   async setIndex(kind, key, code, present) {

@@ -10,6 +10,8 @@ import ChallengeEditor, { fromDrafts, toDrafts, type ChallengeDraft } from '@/co
 import ThemePicker from '@/components/ThemePicker'
 import ThemeScope from '@/components/album/ThemeScope'
 import { ImageIcon, XIcon } from '@/components/Icons'
+import { LockBadge } from '@/components/pricing/Locked'
+import { packInfo } from '@/lib/pricing'
 import {
   addCoOrganizer,
   deleteAlbum,
@@ -215,6 +217,7 @@ export default function AlbumSettingsPage() {
   }
 
   const state = uploadState(album.settings)
+  const f = album.features
   const flag = (key: keyof typeof flags) => ({ checked: flags[key], onChange: (v: boolean) => setFlags((f) => ({ ...f, [key]: v })) })
 
   return (
@@ -227,9 +230,13 @@ export default function AlbumSettingsPage() {
         </Link>
         <h1 className="mt-3 text-3xl font-extrabold tracking-tight">Album settings</h1>
         <p className="mt-1 text-ink-soft">
-          {album.name}
-          {album.is_paid ? ' · ⭐ Premium' : ''}
+          {album.name} · {album.subscription_covered ? 'Pro subscription' : `${packInfo(album.effective_tier).name} pack`}
         </p>
+        {Object.values({ a: !f.moments, b: !f.challenges, c: !f.pin, d: !f.moderation }).some(Boolean) && (
+          <p className="mt-3 rounded-2xl bg-brand-soft px-4 py-3 text-sm">
+            Settings marked 🔒 are saved but only apply once you unlock their pack.
+          </p>
+        )}
 
         <form
           onSubmit={(e) => {
@@ -358,8 +365,8 @@ export default function AlbumSettingsPage() {
             <h2 className="pt-2 text-lg font-bold">Guest rules</h2>
             <div className="divide-y divide-line">
               <Toggle {...flag('guests_can_view')} label="Guests can see all photos" hint="Turn off to keep the gallery private: guests only see what they added." />
-              <Toggle {...flag('moderation')} label="Approve photos before they appear" hint="New photos and messages wait for you in “To review”." />
-              <Toggle {...flag('allow_videos')} label="Allow short videos" hint="Up to 60 seconds." />
+              <Toggle {...flag('moderation')} label="Approve photos before they appear" hint={`${f.moderation ? '' : '🔒 Photos pack · '}New photos and messages wait for you in “To review”.`} />
+              <Toggle {...flag('allow_videos')} label="Allow short videos" hint={`${f.videos ? '' : '🔒 Photos pack · '}Up to 60 seconds.`} />
               <Toggle {...flag('guestbook')} label="Guestbook" hint="Guests can leave you a message." />
               <Toggle {...flag('reactions')} label="Reactions" hint="Guests can react ❤️ 😂 😮 to photos." />
               <Toggle {...flag('require_name')} label="Guests must enter their name" hint="So you always know who took each photo." />
@@ -375,14 +382,14 @@ export default function AlbumSettingsPage() {
 
           {/* Moments */}
           <section className={card}>
-            <h2 className="text-lg font-bold">Moments</h2>
+            <h2 className="flex items-center gap-2 text-lg font-bold">Moments {!f.moments && <LockBadge feature="moments" />}</h2>
             <p className="mt-1 mb-4 text-sm text-ink-soft">Split the album into parts of the day. Guests pick one when they upload.</p>
             <ListEditor items={moments} onChange={setMoments} suggestions={DEFAULT_MOMENTS[eventType]} placeholder="e.g. Ceremony" max={12} />
           </section>
 
           {/* Challenges */}
           <section className={card}>
-            <h2 className="text-lg font-bold">🎯 Photo challenges</h2>
+            <h2 className="flex items-center gap-2 text-lg font-bold">🎯 Photo challenges {!f.challenges && <LockBadge feature="challenges" />}</h2>
             <p className="mt-1 mb-4 text-sm text-ink-soft">Fun missions that get guests taking photos. Scheduled ones stay hidden from guests until they start.</p>
             <ChallengeEditor items={challenges} onChange={setChallenges} suggestions={DEFAULT_CHALLENGES[eventType]} eventDate={eventDate} />
           </section>
@@ -390,7 +397,7 @@ export default function AlbumSettingsPage() {
           {/* Access code */}
           {isOwner && (
             <section className={card}>
-              <h2 className="text-lg font-bold">Access code</h2>
+              <h2 className="flex items-center gap-2 text-lg font-bold">Access code {!f.pin && <LockBadge feature="pin" />}</h2>
               <p className="mt-1 text-sm text-ink-soft">Guests must type this code to open the album. Leave empty for no code.</p>
               <input
                 value={pin}
@@ -416,7 +423,7 @@ export default function AlbumSettingsPage() {
         {/* Co-organizers */}
         {isOwner && (
           <section className={`${card} mt-10`}>
-            <h2 className="text-lg font-bold">Co-organizers</h2>
+            <h2 className="flex items-center gap-2 text-lg font-bold">Co-organizers {!f.coOrganizers && <LockBadge feature="coOrganizers" />}</h2>
             <p className="mt-1 text-sm text-ink-soft">
               They can manage photos and settings with you. They sign up or log in with this email.
             </p>
@@ -447,15 +454,15 @@ export default function AlbumSettingsPage() {
           </section>
         )}
 
-        {/* Premium */}
-        {isOwner && !album.is_paid && (
+        {/* Pack */}
+        {isOwner && album.effective_tier !== 'event' && (
           <section className="mt-6 flex flex-col items-start gap-3 rounded-3xl bg-brand p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
             <div>
-              <h2 className="text-lg font-bold">Keep this album forever</h2>
-              <p className="text-sm">No watermark, no expiry, unlimited photos.</p>
+              <h2 className="text-lg font-bold">You&apos;re on the {packInfo(album.effective_tier).name} pack</h2>
+              <p className="text-sm">Unlock more for this event — you only pay the difference.</p>
             </div>
             <Link href={`/album/${album.qr_code}/upgrade`} className="shrink-0 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white">
-              Go Premium — €5
+              See packs
             </Link>
           </section>
         )}

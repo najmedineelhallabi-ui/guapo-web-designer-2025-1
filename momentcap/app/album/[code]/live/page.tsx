@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation'
 import { QRCodeSVG } from 'qrcode.react'
 import { Wordmark } from '@/components/Logo'
 import Countdown from '@/components/album/Countdown'
+import { UpgradePanel } from '@/components/pricing/Locked'
 import ThemeScope from '@/components/album/ThemeScope'
 import { getAlbum, type AppAlbum, type AppPhoto } from '@/lib/api'
 import { challengeStatus, uploadState } from '@/lib/albumRules'
@@ -90,6 +91,18 @@ export default function LiveSlideshow() {
   }
   if (!album) {
     return <div className="flex min-h-screen items-center justify-center bg-black text-white/60">Loading…</div>
+  }
+
+  if (!album.features.slideshow) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-cream p-6">
+        <div className="w-full max-w-md">
+          <UpgradePanel code={code} feature="slideshow" current={album.effective_tier}>
+            Show every guest&apos;s photo on the big screen, live, with the QR code to join.
+          </UpgradePanel>
+        </div>
+      </div>
+    )
   }
 
   const state = uploadState(album.settings)

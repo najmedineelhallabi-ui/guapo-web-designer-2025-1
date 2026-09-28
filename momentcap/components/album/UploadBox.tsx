@@ -25,6 +25,8 @@ type Props = {
   album: AppAlbum
   isOrganizer: boolean
   myCount: number
+  /** Photos + videos already in the album (for the free pack's limit) */
+  totalCount: number
   /** Challenge picked from the challenges card */
   challengeId: string | null
   onChallengeChange: (id: string | null) => void
@@ -32,7 +34,7 @@ type Props = {
   onOpenStateChange: () => void
 }
 
-export default function UploadBox({ album, isOrganizer, myCount, challengeId, onChallengeChange, onUploaded, onOpenStateChange }: Props) {
+export default function UploadBox({ album, isOrganizer, myCount, totalCount, challengeId, onChallengeChange, onUploaded, onOpenStateChange }: Props) {
   const [name, setName] = useState('')
   const [momentId, setMomentId] = useState<string>('')
   const [frame, setFrame] = useState<FrameId>('none')
@@ -53,8 +55,12 @@ export default function UploadBox({ album, isOrganizer, myCount, challengeId, on
   const state = uploadState(s)
   const uploading = progress !== null
   const max = s.max_photos_per_guest
-  const remaining = max === null || isOrganizer ? null : Math.max(0, max - myCount)
-  const allowVideos = s.allow_videos || isOrganizer
+  const f = album.features
+  const albumSpace = f.photoLimit === null ? null : Math.max(0, f.photoLimit - totalCount)
+  const guestSpace = max === null || isOrganizer ? null : Math.max(0, max - myCount)
+  const remaining = albumSpace === null ? guestSpace : guestSpace === null ? albumSpace : Math.min(albumSpace, guestSpace)
+  const allowVideos = (s.allow_videos || isOrganizer) && f.videos
+  const moments = f.moments ? album.moments : []
 
   if (!isOrganizer && !state.open) {
     return (
@@ -186,13 +192,13 @@ export default function UploadBox({ album, isOrganizer, myCount, challengeId, on
         />
       </div>
 
-      <div className={`mt-4 grid gap-3 ${album.moments.length ? 'grid-cols-2' : 'grid-cols-1'}`}>
-        {album.moments.length > 0 && (
+      <div className={`mt-4 grid gap-3 ${moments.length ? 'grid-cols-2' : 'grid-cols-1'}`}>
+        {moments.length > 0 && (
           <div>
             <label htmlFor="moment" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-ink-soft">Moment</label>
             <select id="moment" value={momentId} onChange={(e) => setMomentId(e.target.value)} className={selectClass}>
               <option value="">No moment</option>
-              {album.moments.map((m) => (
+              {moments.map((m) => (
                 <option key={m.id} value={m.id}>{m.name}</option>
               ))}
             </select>
@@ -283,6 +289,16 @@ export default function UploadBox({ album, isOrganizer, myCount, challengeId, on
         )}
         {s.moderation && !isOrganizer && <p>Photos appear after the organizer approves them.</p>}
         <p>
+          {albumSpace !== null && isOrganizer && (
+            <span className="block font-semibold text-ink">
+              Free album: {totalCount}/{f.photoLimit} photos.{' '}
+              {isOrganizer && (
+                <a href={`/album/${album.qr_code}/upgrade?pack=photos`} className="underline">
+                  Go unlimited
+                </a>
+              )}
+            </span>
+          )}
           Max {MAX_FILE_MB} MB per photo{allowVideos ? `, videos up to ${MAX_VIDEO_SECONDS}s` : ''}.
           {!album.is_paid && ' Free albums add a small Moment caps watermark.'}
         </p>

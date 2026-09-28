@@ -6,6 +6,7 @@
 
 import * as service from './core/service'
 import * as planService from './core/planService'
+import type { PlanId, Subscription, Tier } from './pricing'
 import { browserRepo } from './browserRepo'
 import { AppError, formatError } from './albumRules'
 import type { AlbumEditable, AlbumSettings, AlbumView, AppAlbum, AppGuestbookEntry, AppPhoto, ReactionId } from './albumRules'
@@ -218,10 +219,22 @@ export const updateAlbum = (code: string, patch: AlbumPatch) =>
 export const deleteAlbum = (code: string) =>
   run('deleteAlbum', [code], (ctx) => service.deleteAlbum(browserRepo, ctx, code), code)
 
-export async function upgradeAlbum(code: string) {
+export async function purchasePack(code: string, pack: Tier) {
   const { demoPayments } = await getConfig()
-  return run('upgradeAlbum', [code], (ctx) => service.upgradeAlbum(browserRepo, ctx, code, demoPayments), code)
+  return run<AppAlbum>('purchasePack', [code, pack], (ctx) => service.purchasePack(browserRepo, ctx, code, pack, demoPayments), code)
 }
+
+export type Account = { user: AppUser; subscription: Subscription | null; active: boolean }
+
+export const getAccount = () => run<Account>('getAccount', [], (ctx) => service.getAccount(browserRepo, ctx))
+
+export async function subscribe(plan: PlanId) {
+  const { demoPayments } = await getConfig()
+  return run<Account>('subscribe', [plan], (ctx) => service.subscribe(browserRepo, ctx, plan, demoPayments))
+}
+
+export const cancelSubscription = () => run<Account>('cancelSubscription', [], (ctx) => service.cancelSubscription(browserRepo, ctx))
+export const resumeSubscription = () => run<Account>('resumeSubscription', [], (ctx) => service.resumeSubscription(browserRepo, ctx))
 
 export const addCoOrganizer = (code: string, email: string) =>
   run<{ co_organizers: string[] }>('addCoOrganizer', [code, email], (ctx) => service.addCoOrganizer(browserRepo, ctx, code, email), code)

@@ -24,6 +24,20 @@ import {
   type ReactionId
 } from '../albumRules'
 import type { Repo, UserRecord } from './repo'
+import {
+  atLeast,
+  featuresFor,
+  nextPeriodEnd,
+  packInfo,
+  subscriptionActive,
+  subscriptionInfo,
+  FEATURE_LABELS,
+  TIER_ORDER,
+  type Features,
+  type PlanId,
+  type Subscription,
+  type Tier
+} from '../pricing'
 
 export type Viewer = { id: string; email: string; name: string }
 export type Ctx = { user: Viewer | null; guestId: string | null; pin: string | null }
@@ -37,12 +51,37 @@ export const publicUser = (u: UserRecord): Viewer => ({ id: u.id, email: u.email
 // Helpers
 // ---------------------------------------------------------------------------
 
+// What an album can use: its own pack, or everything when the owner has a Pro subscription
+export type Access = { tier: Tier; features: Features; subscribed: boolean }
+const accessCache = new WeakMap<AlbumRecord, Access>()
+
+function accessFor(album: AlbumRecord, sub: Subscription | null): Access {
+  const subscribed = subscriptionActive(sub)
+  const tier: Tier = subscribed ? 'event' : album.tier
+  return { tier, features: featuresFor(tier), subscribed }
+}
+
+/** Access computed when the album was loaded (falls back to the album's own pack). */
+export const access = (album: AlbumRecord): Access => accessCache.get(album) ?? accessFor(album, null)
+
+async function withAccess(repo: Repo, album: AlbumRecord, sub?: Subscription | null) {
+  accessCache.set(album, accessFor(album, sub === undefined ? await repo.readSubscription(album.owner_id) : sub))
+  return album
+}
+
+export function requireFeature(album: AlbumRecord, feature: keyof Features) {
+  if (!access(album).features[feature]) {
+    const pack = feature === 'planning' || feature === 'coOrganizers' ? 'event' : 'photos'
+    throw new AppError('upgrade_required', 402, { feature: FEATURE_LABELS[feature] || feature, pack: packInfo(pack).name })
+  }
+}
+
 export async function loadAlbum(repo: Repo, code: string) {
   const c = String(code || '').toUpperCase()
   if (!CODE_RE.test(c)) throw new AppError('not_found', 404)
   const album = await repo.readAlbum(c)
   if (!album) throw new AppError('not_found', 404)
-  return withDefaults(album)
+  return withAccess(repo, withDefaults(album))
 }
 
 export const isOwner = (album: AlbumRecord, ctx: Ctx) => Boolean(ctx.user && ctx.user.id === album.owner_id)
@@ -61,7 +100,8 @@ function requireOwner(album: AlbumRecord, ctx: Ctx) {
 
 /** Guests must know the album's code when one is set. */
 export function checkPin(album: AlbumRecord, ctx: Ctx) {
-  if (!album.pin || isOrganizer(album, ctx)) return
+  // The access code is a paid feature: it only applies once unlocked
+  if (!album.pin || !access(album).features.pin || isOrganizer(album, ctx)) return
   if (!ctx.pin) throw new AppError('pin_required', 401)
   if (ctx.pin.trim().toUpperCase() !== album.pin) throw new AppError('pin_wrong', 401)
 }
@@ -71,14 +111,26 @@ function requireGuestId(ctx: Ctx) {
   return ctx.guestId
 }
 
-export async function toAppAlbum(repo: Repo, album: AlbumRecord, organizer: boolean): Promise<AppAlbum> {
+export async function toAppAlbum(repo: Repo, album: AlbumRecord, organizer: boolean, acc: Access = access(album)): Promise<AppAlbum> {
   const { pin, cover_path, ...rest } = album
+  const f = acc.features
+  // Guests only see features the album has unlocked
+  const challenges = organizer || f.challenges ? album.challenges : []
   // Guests don't see scheduled challenges before their time (it's a surprise)
-  const upcoming = album.challenges.filter((c) => challengeStatus(c) === 'upcoming')
+  const upcoming = challenges.filter((c) => challengeStatus(c) === 'upcoming')
   const nextAt = upcoming.map((c) => c.starts_at!).sort()[0] || null
+  const settings = organizer
+    ? album.settings
+    : { ...album.settings, moderation: album.settings.moderation && f.moderation, allow_videos: album.settings.allow_videos && f.videos }
   return {
     ...rest,
-    challenges: organizer ? album.challenges : album.challenges.filter((c) => challengeStatus(c) !== 'upcoming'),
+    settings,
+    moments: organizer || f.moments ? album.moments : [],
+    effective_tier: acc.tier,
+    subscription_covered: acc.subscribed,
+    features: f,
+    is_paid: atLeast(acc.tier, 'photos'),
+    challenges: organizer ? challenges : challenges.filter((c) => challengeStatus(c) !== 'upcoming'),
     upcoming_challenges: upcoming.length,
     next_challenge_at: nextAt,
     co_organizers: organizer ? album.co_organizers : [],
@@ -153,7 +205,7 @@ export async function listAlbums(repo: Repo, ctx: Ctx): Promise<AppAlbum[]> {
     codes.map(async (code) => {
       const raw = await repo.readAlbum(code)
       if (!raw) return null
-      const album = withDefaults(raw)
+      const album = await withAccess(repo, withDefaults(raw))
       if (!isOrganizer(album, ctx)) return null
       const state = await repo.readState(code)
       return {
@@ -192,7 +244,7 @@ export async function createAlbum(repo: Repo, ctx: Ctx, input: NewAlbumInput) {
   await repo.writeAlbum(album)
   await repo.updateState(code, () => undefined)
   await repo.setIndex('owner', ctx.user.id, code, true)
-  return toAppAlbum(repo, album, true)
+  return toAppAlbum(repo, await withAccess(repo, album), true)
 }
 
 export async function getAlbum(repo: Repo, ctx: Ctx, code: string): Promise<AlbumView> {
@@ -262,7 +314,7 @@ export async function updateAlbum(
     settings: patch.settings ? sanitizeSettings(patch.settings, album.settings) : album.settings
   }
   await repo.writeAlbum(updated)
-  return toAppAlbum(repo, updated, true)
+  return toAppAlbum(repo, updated, true, access(album))
 }
 
 export async function deleteAlbum(repo: Repo, ctx: Ctx, code: string) {
@@ -290,12 +342,59 @@ export async function setCover(repo: Repo, ctx: Ctx, code: string, file: Blob | 
   return { cover_url: path ? await repo.fileUrl(path) : null }
 }
 
-export async function upgradeAlbum(repo: Repo, ctx: Ctx, code: string, allowDemoPayment: boolean) {
+// ---------------------------------------------------------------------------
+// Packs & subscriptions (payments are simulated until Stripe is connected)
+// ---------------------------------------------------------------------------
+
+/** Buys a one-shot pack for one album; the organizer only pays the difference. */
+export async function purchasePack(repo: Repo, ctx: Ctx, code: string, packInput: string, allowDemoPayment: boolean) {
   const album = await loadAlbum(repo, code)
   requireOwner(album, ctx)
+  const pack = packInput as Tier
+  if (!TIER_ORDER.includes(pack) || pack === 'free') throw new AppError('invalid_plan', 400)
+  if (atLeast(album.tier, pack)) throw new AppError('already_has_pack', 409)
   if (!allowDemoPayment) throw new AppError('payments_unavailable', 402)
-  await repo.writeAlbum({ ...album, is_paid: true })
-  return { ok: true }
+  const updated = { ...album, tier: pack, is_paid: true }
+  await repo.writeAlbum(updated)
+  return toAppAlbum(repo, await withAccess(repo, updated), true)
+}
+
+export async function getAccount(repo: Repo, ctx: Ctx) {
+  if (!ctx.user) throw new AppError('login_required', 401)
+  const subscription = await repo.readSubscription(ctx.user.id)
+  return { user: ctx.user, subscription, active: subscriptionActive(subscription) }
+}
+
+export async function subscribe(repo: Repo, ctx: Ctx, planInput: string, allowDemoPayment: boolean) {
+  if (!ctx.user) throw new AppError('login_required', 401)
+  const plan = subscriptionInfo(planInput)
+  if (!plan) throw new AppError('invalid_plan', 400)
+  if (!allowDemoPayment) throw new AppError('payments_unavailable', 402)
+  const current = await repo.readSubscription(ctx.user.id)
+  const now = new Date()
+  const sub: Subscription = {
+    plan: plan.id as PlanId,
+    status: 'active',
+    started_at: current && subscriptionActive(current) ? current.started_at : now.toISOString(),
+    current_period_end: nextPeriodEnd(plan.id as PlanId, now)
+  }
+  await repo.writeSubscription(ctx.user.id, sub)
+  return getAccount(repo, ctx)
+}
+
+/** Stops renewal; the subscription keeps working until the end of the paid period. */
+export async function cancelSubscription(repo: Repo, ctx: Ctx) {
+  if (!ctx.user) throw new AppError('login_required', 401)
+  const sub = await repo.readSubscription(ctx.user.id)
+  if (sub) await repo.writeSubscription(ctx.user.id, { ...sub, status: 'canceled' })
+  return getAccount(repo, ctx)
+}
+
+export async function resumeSubscription(repo: Repo, ctx: Ctx) {
+  if (!ctx.user) throw new AppError('login_required', 401)
+  const sub = await repo.readSubscription(ctx.user.id)
+  if (sub && subscriptionActive(sub)) await repo.writeSubscription(ctx.user.id, { ...sub, status: 'active' })
+  return getAccount(repo, ctx)
 }
 
 // ---------------------------------------------------------------------------
@@ -305,6 +404,7 @@ export async function upgradeAlbum(repo: Repo, ctx: Ctx, code: string, allowDemo
 export async function addCoOrganizer(repo: Repo, ctx: Ctx, code: string, emailInput: string) {
   const album = await loadAlbum(repo, code)
   requireOwner(album, ctx)
+  requireFeature(album, 'coOrganizers')
   const email = cleanText(emailInput, 200).toLowerCase()
   if (!EMAIL_RE.test(email)) throw new AppError('invalid_email', 400)
   if (email === ctx.user!.email.toLowerCase() || album.co_organizers.includes(email)) return { co_organizers: album.co_organizers }
@@ -331,12 +431,20 @@ export async function removeCoOrganizer(repo: Repo, ctx: Ctx, code: string, emai
 export type PhotoMeta = { contributorName?: string; momentId?: string | null; challengeId?: string | null }
 
 /** Validates an upload before the file is stored. */
+/** Free albums hold a limited number of photos (organizers included). */
+function checkPhotoLimit(album: AlbumRecord, count: number) {
+  const max = access(album).features.photoLimit
+  if (max !== null && count >= max) throw new AppError('photo_limit_free', 402, { max })
+}
+
 export async function prepareUpload(repo: Repo, ctx: Ctx, code: string, kind: 'image' | 'video', size: number, meta: PhotoMeta) {
   const album = await loadAlbum(repo, code)
   checkPin(album, ctx)
   const guestId = requireGuestId(ctx)
   if (size > (kind === 'video' ? MAX_VIDEO_MB : MAX_FILE_MB) * 1024 * 1024) throw new AppError('file_too_large', 413)
+  if (kind === 'video') requireFeature(album, 'videos')
   const state = await repo.readState(album.qr_code)
+  checkPhotoLimit(album, state.photos.length)
   checkUpload(album, {
     guestPhotoCount: state.photos.filter((p) => p.guest_id === guestId).length,
     contributorName: meta.contributorName || '',
@@ -358,6 +466,7 @@ export async function registerPhoto(
   meta: PhotoMeta
 ) {
   const organizer = isOrganizer(album, ctx)
+  const f = access(album).features
   const record: PhotoRecord = {
     id: repo.newId(),
     path,
@@ -365,17 +474,18 @@ export async function registerPhoto(
     guest_id: guestId,
     contributor_name: cleanText(meta.contributorName, 40) || (organizer ? ctx.user!.name : '') || 'Guest',
     created_at: new Date().toISOString(),
-    status: album.settings.moderation && !organizer ? 'pending' : 'approved',
-    moment_id: album.moments.some((m) => m.id === meta.momentId) ? meta.momentId! : null,
+    status: album.settings.moderation && f.moderation && !organizer ? 'pending' : 'approved',
+    moment_id: f.moments && album.moments.some((m) => m.id === meta.momentId) ? meta.momentId! : null,
     // Guests can only tag a challenge while it's running
-    challenge_id: album.challenges.some((c) => c.id === meta.challengeId && (organizer || challengeStatus(c) === 'active'))
+    challenge_id: f.challenges && album.challenges.some((c) => c.id === meta.challengeId && (organizer || challengeStatus(c) === 'active'))
       ? meta.challengeId!
       : null,
     favorite: false,
     reactions: {}
   }
   await repo.updateState(album.qr_code, (state) => {
-    // Re-check the per-guest limit inside the atomic update
+    // Re-check the limits inside the atomic update
+    checkPhotoLimit(album, state.photos.length)
     checkUpload(album, {
       guestPhotoCount: state.photos.filter((p) => p.guest_id === guestId).length,
       contributorName: record.contributor_name,
@@ -489,7 +599,7 @@ export async function addGuestbookEntry(repo: Repo, ctx: Ctx, code: string, inpu
     name,
     message,
     created_at: new Date().toISOString(),
-    status: album.settings.moderation && !organizer ? ('pending' as const) : ('approved' as const)
+    status: album.settings.moderation && access(album).features.moderation && !organizer ? ('pending' as const) : ('approved' as const)
   }
   await repo.updateState(album.qr_code, (state) => {
     if (state.guestbook.filter((g) => g.guest_id === guestId).length >= 20) throw new AppError('limit_reached', 403, { max: 20 })

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { BookIcon, ChartIcon, DownloadIcon, SettingsIcon, ShareIcon, TvIcon } from '@/components/Icons'
+import { LockIcon, BookIcon, ChartIcon, DownloadIcon, SettingsIcon, ShareIcon, TvIcon } from '@/components/Icons'
 import type { AppAlbum, AppPhoto } from '@/lib/albumRules'
 import { downloadZip } from '@/lib/exporters'
 
@@ -23,6 +23,8 @@ export default function OrganizerBar({ album, photos, onReview }: { album: AppAl
     }
   }
 
+  const f = album.features
+  const upgrade = `/album/${album.qr_code}/upgrade?pack=photos`
   const chip = 'flex shrink-0 items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-sm font-semibold transition hover:border-ink disabled:opacity-40'
   const base = `/album/${album.qr_code}`
 
@@ -41,20 +43,28 @@ export default function OrganizerBar({ album, photos, onReview }: { album: AppAl
         <Link href={`${base}/plan`} className="flex shrink-0 items-center gap-2 rounded-full bg-brand px-4 py-2 text-sm font-bold transition hover:bg-brand-strong">
           📋 Plan the event
         </Link>
-        <Link href={`${base}/live`} className={chip}>
-          <TvIcon /> Slideshow
+        <Link href={f.slideshow ? `${base}/live` : upgrade} className={chip}>
+          {f.slideshow ? <TvIcon /> : <LockIcon className="h-4 w-4" />} Slideshow
         </Link>
         <Link href={`${base}/stats`} className={chip}>
           <ChartIcon /> Stats
         </Link>
+        {!f.downloads && (
+          <Link href={upgrade} className={chip}>
+            <LockIcon className="h-4 w-4" /> ZIP &amp; PDF book
+          </Link>
+        )}
+        {f.downloads && (
         <button disabled={!!busy || approved.length === 0} onClick={() => run('zip', () => downloadZip(album, approved))} className={chip}>
           <DownloadIcon /> {busy === 'zip' ? 'Preparing…' : 'ZIP'}
         </button>
-        {favorites.length > 0 && (
+        )}
+        {f.downloads && favorites.length > 0 && (
           <button disabled={!!busy} onClick={() => run('fav', () => downloadZip(album, favorites, '-best-of'))} className={chip}>
             <DownloadIcon /> {busy === 'fav' ? 'Preparing…' : 'Best-of ZIP'}
           </button>
         )}
+        {f.downloads && (
         <button
           disabled={!!busy || approved.filter((p) => p.kind === 'image').length === 0}
           onClick={() => run('pdf', async () => (await import('@/lib/pdfBook')).downloadPdfBook(album, favorites.length >= 4 ? favorites : approved))}
@@ -62,6 +72,7 @@ export default function OrganizerBar({ album, photos, onReview }: { album: AppAl
         >
           <BookIcon /> {busy === 'pdf' ? 'Preparing…' : 'PDF book'}
         </button>
+        )}
         <Link href={`${base}/settings`} className={chip}>
           <SettingsIcon /> Settings
         </Link>

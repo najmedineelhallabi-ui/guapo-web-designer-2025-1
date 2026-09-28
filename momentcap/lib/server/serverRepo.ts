@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto'
 import { emptyState, type AlbumRecord, type AlbumState } from '../albumRules'
 import type { Repo, UserRecord } from '../core/repo'
 import { emptyPlan, type Plan } from '../planRules'
+import type { Subscription } from '../pricing'
 import { getStorage, readJSON, writeJSON, type Storage } from './storage'
 import { emailKey, hashPassword, signedFileUrl, verifyPassword } from './auth'
 
@@ -45,6 +46,12 @@ export function createServerRepo(storage: Storage): Repo {
       }),
     async deleteAlbumData(code) {
       await storage.remove(await storage.list(`albums/${code}/`))
+    },
+
+    readSubscription: (userId) => readJSON<Subscription>(storage, `subscriptions/${userId}.json`),
+    async writeSubscription(userId, sub) {
+      if (sub) await writeJSON(storage, `subscriptions/${userId}.json`, sub)
+      else await storage.remove([`subscriptions/${userId}.json`])
     },
 
     async setIndex(kind, key, code, present) {

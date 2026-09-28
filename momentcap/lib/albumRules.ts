@@ -1,6 +1,7 @@
 // Shared (client + server) album model and rules.
 
 import { defaultEventInfo, type EventInfo } from './planRules'
+import type { Features, Tier } from './pricing'
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -130,7 +131,10 @@ export type AlbumRecord = {
   event_date: string
   location: string
   qr_code: string
+  /** Legacy flag, kept in sync with `tier` */
   is_paid: boolean
+  /** One-shot pack bought for this album */
+  tier: Tier
   created_at: string
   theme: ThemeId
   cover_path: string | null
@@ -185,6 +189,11 @@ export type AppAlbum = Omit<AlbumRecord, 'pin' | 'cover_path'> & {
   /** Only filled in album lists (dashboard) */
   photo_count?: number
   role?: 'owner' | 'co_organizer'
+  /** Pack in effect (the album's own pack, or the owner's Pro subscription) */
+  effective_tier: Tier
+  /** True when the owner's subscription unlocks this album */
+  subscription_covered: boolean
+  features: Features
   /** For guests: scheduled challenges not revealed yet */
   upcoming_challenges?: number
   next_challenge_at?: string | null
@@ -249,6 +258,7 @@ export function withDefaults(album: Partial<AlbumRecord> & Pick<AlbumRecord, 'id
     pin: null,
     co_organizers: [],
     ...album,
+    tier: album.tier || (album.is_paid ? 'photos' : 'free'),
     challenges: (album.challenges || []).map((c) => ({ ...c, starts_at: c.starts_at ?? null, ends_at: c.ends_at ?? null })),
     event_type: eventTypeInfo(album.event_type || 'other').id,
     welcome_message: album.welcome_message || '',
@@ -425,6 +435,10 @@ export const ERROR_MESSAGES: Record<string, string> = {
   reactions_disabled: 'Reactions are turned off for this album',
   payments_unavailable: 'Online payment is coming soon',
   rsvp_closed: 'Answers are closed for this event',
+  upgrade_required: '{feature} is part of the {pack} pack',
+  photo_limit_free: 'This free album is full ({max} photos). Upgrade to add more.',
+  invalid_plan: 'Unknown pack or plan',
+  already_has_pack: 'This album already has this pack',
   storage_unavailable: 'Storage is not configured',
   server_error: 'Something went wrong. Please try again.'
 }

@@ -16,7 +16,7 @@ import {
   type PlanSection
 } from '../planRules'
 import type { Repo } from './repo'
-import { checkPin, isOrganizer, loadAlbum, requireOrganizer, toAppAlbum, type Ctx } from './service'
+import { access, checkPin, isOrganizer, loadAlbum, requireFeature, requireOrganizer, toAppAlbum, type Ctx } from './service'
 
 const SECTIONS: PlanSection[] = ['guests', 'tables', 'tasks', 'budget', 'vendors']
 
@@ -37,6 +37,7 @@ export async function getPlan(repo: Repo, ctx: Ctx, code: string): Promise<{ alb
 export async function updateEvent(repo: Repo, ctx: Ctx, code: string, patch: Partial<EventInfo>) {
   const album = await loadAlbum(repo, code)
   requireOrganizer(album, ctx)
+  requireFeature(album, 'planning')
   const event = sanitizeEventInfo(patch || {}, album.event, () => repo.newId())
   await repo.writeAlbum({ ...album, event })
   return event
@@ -46,6 +47,7 @@ export async function updateEvent(repo: Repo, ctx: Ctx, code: string, patch: Par
 export async function programToMoments(repo: Repo, ctx: Ctx, code: string) {
   const album = await loadAlbum(repo, code)
   requireOrganizer(album, ctx)
+  requireFeature(album, 'moments')
   const names = new Set(album.moments.map((m) => m.name.toLowerCase()))
   const moments = [...album.moments]
   for (const item of album.event.program) {
@@ -67,6 +69,8 @@ export async function savePlanItem(repo: Repo, ctx: Ctx, code: string, sectionIn
   const section = checkSection(sectionInput)
   const album = await loadAlbum(repo, code)
   requireOrganizer(album, ctx)
+  // The checklist is free; everything else in the planner is part of the Full event pack
+  if (section !== 'tasks') requireFeature(album, 'planning')
   const saved = await repo.updatePlan(album.qr_code, (plan) => {
     const list = plan[section] as PlanItem[]
     const id = typeof raw?.id === 'string' && raw.id ? raw.id : ''
@@ -92,6 +96,7 @@ export async function deletePlanItem(repo: Repo, ctx: Ctx, code: string, section
   const section = checkSection(sectionInput)
   const album = await loadAlbum(repo, code)
   requireOrganizer(album, ctx)
+  if (section !== 'tasks') requireFeature(album, 'planning')
   await repo.updatePlan(album.qr_code, (plan) => {
     ;(plan[section] as PlanItem[]) = (plan[section] as PlanItem[]).filter((x) => x.id !== id)
     // Deleting a table frees its guests
@@ -106,6 +111,7 @@ export type GuestImportRow = { name?: string; group?: string; email?: string; ph
 export async function importGuests(repo: Repo, ctx: Ctx, code: string, rows: GuestImportRow[]) {
   const album = await loadAlbum(repo, code)
   requireOrganizer(album, ctx)
+  requireFeature(album, 'planning')
   if (!Array.isArray(rows)) throw new AppError('invalid_input', 400)
   return repo.updatePlan(album.qr_code, (plan) => {
     let added = 0
@@ -134,6 +140,7 @@ export async function importGuests(repo: Repo, ctx: Ctx, code: string, rows: Gue
 export async function setBudgetTotal(repo: Repo, ctx: Ctx, code: string, total: number | null) {
   const album = await loadAlbum(repo, code)
   requireOrganizer(album, ctx)
+  requireFeature(album, 'planning')
   const n = Number(total)
   const value = total === null || !Number.isFinite(n) || n <= 0 ? null : Math.round(n * 100) / 100
   await repo.updatePlan(album.qr_code, (plan) => {
@@ -171,6 +178,8 @@ export type EventPage =
   | {
       locked: false
       album: Pick<AppAlbum, 'name' | 'event_type' | 'theme' | 'cover_url' | 'qr_code' | 'welcome_message' | 'event_date' | 'location' | 'event'>
+      /** False when the album doesn't have the Full event pack */
+      available: boolean
       rsvpOpen: boolean
       tableFinder: boolean
       myRsvp: MyRsvp | null
@@ -196,13 +205,15 @@ export async function getEventPage(repo: Repo, ctx: Ctx, code: string, editKey?:
     if (err instanceof AppError && err.code === 'pin_wrong') throw err
     return { locked: true, album: base }
   }
+  const available = access(album).features.planning
   const plan = await repo.readPlan(album.qr_code)
   const mine = editKey ? plan.guests.find((g) => g.edit_key && g.edit_key === editKey) : null
   return {
     locked: false,
     album: { ...base, welcome_message: album.welcome_message, event_date: album.event_date, location: album.location, event: album.event },
-    rsvpOpen: rsvpOpen(album.event),
-    tableFinder: album.event.table_finder && plan.guests.some((g) => g.table_id),
+    available,
+    rsvpOpen: available && rsvpOpen(album.event),
+    tableFinder: available && album.event.table_finder && plan.guests.some((g) => g.table_id),
     myRsvp: mine ? toMyRsvp(mine) : null,
     isOrganizer: isOrganizer(album, ctx)
   }
@@ -213,6 +224,7 @@ export type RsvpInput = { name?: string; attending?: boolean; party_size?: numbe
 export async function submitRsvp(repo: Repo, ctx: Ctx, code: string, input: RsvpInput, editKey?: string | null) {
   const album = await loadAlbum(repo, code)
   checkPin(album, ctx)
+  requireFeature(album, 'planning')
   if (!rsvpOpen(album.event)) throw new AppError('rsvp_closed', 403)
   const name = cleanText(input?.name, 80)
   if (!name) throw new AppError('missing_user_name', 400)
@@ -243,6 +255,7 @@ export async function submitRsvp(repo: Repo, ctx: Ctx, code: string, input: Rsvp
 export async function findTable(repo: Repo, ctx: Ctx, code: string, query: string) {
   const album = await loadAlbum(repo, code)
   checkPin(album, ctx)
+  requireFeature(album, 'planning')
   if (!album.event.table_finder) throw new AppError('forbidden', 403)
   const q = normalizeName(String(query || ''))
   if (q.length < 2) return { results: [] }

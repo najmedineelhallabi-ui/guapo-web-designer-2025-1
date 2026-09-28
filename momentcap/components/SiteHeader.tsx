@@ -20,12 +20,18 @@ export default function SiteHeader({ cta = true }: { cta?: boolean }) {
                     My albums
                   </Link>
                 )}
+                <Link href="/account" className="hidden rounded-full px-3 py-2 font-semibold text-ink-soft transition hover:text-ink sm:inline-block">
+                  Account
+                </Link>
                 <button onClick={signOutAndGoHome} className="rounded-full px-3 py-2 font-semibold text-ink-soft transition hover:text-ink">
                   Log out
                 </button>
               </>
             ) : (
               <>
+                <Link href="/pricing" className="hidden rounded-full px-3 py-2 font-semibold transition hover:bg-white sm:inline-block">
+                  Pricing
+                </Link>
                 <Link href="/login" className="rounded-full px-3 py-2 font-semibold transition hover:bg-white">
                   Log in
                 </Link>

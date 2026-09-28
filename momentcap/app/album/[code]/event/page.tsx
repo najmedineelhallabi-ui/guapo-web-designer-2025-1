@@ -7,6 +7,7 @@ import Logo from '@/components/Logo'
 import ThemeScope from '@/components/album/ThemeScope'
 import PinGate from '@/components/album/PinGate'
 import Countdown from '@/components/album/Countdown'
+import { UpgradePanel } from '@/components/pricing/Locked'
 import { CameraIcon, CheckIcon } from '@/components/Icons'
 import { ApiError, findTable, getEventPage, setAlbumPin, submitRsvp, type EventPage, type MyRsvp } from '@/lib/api'
 import { eventTypeInfo } from '@/lib/albumRules'
@@ -263,6 +264,29 @@ export default function EventPageView() {
 
   const { album } = page
   const ev = album.event
+
+  if (!page.available) {
+    return (
+      <ThemeScope theme={album.theme} className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
+        <Logo />
+        <div className="mt-8 w-full max-w-md">
+          {page.isOrganizer ? (
+            <UpgradePanel code={album.qr_code} feature="planning" current="free">
+              Your online invitation with RSVP, program and “find your table” is part of the Full event pack.
+            </UpgradePanel>
+          ) : (
+            <div className="rounded-3xl border border-line bg-white p-8 text-center">
+              <h1 className="text-xl font-extrabold">{album.name}</h1>
+              <p className="mt-2 text-ink-soft">The invitation page isn&apos;t available yet.</p>
+              <Link href={`/album/${album.qr_code}`} className="mt-5 inline-block rounded-full bg-ink px-6 py-3 font-semibold text-white">
+                Open the photo album
+              </Link>
+            </div>
+          )}
+        </div>
+      </ThemeScope>
+    )
+  }
   const start = eventStart(album.event_date, ev.start_time)
   const isToday = start ? start.toDateString() === new Date().toDateString() : false
   const upcoming = start && start.getTime() > Date.now()

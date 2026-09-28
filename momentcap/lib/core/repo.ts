@@ -1,5 +1,6 @@
 import type { AlbumRecord, AlbumState } from '../albumRules'
 import type { Plan } from '../planRules'
+import type { Subscription } from '../pricing'
 
 export type UserRecord = { id: string; email: string; name: string; password: string; created_at: string }
 
@@ -22,6 +23,10 @@ export interface Repo {
   /** Organizer's private plan (guests, seating, checklist, budget, vendors) */
   readPlan(code: string): Promise<Plan>
   updatePlan<T>(code: string, fn: (plan: Plan) => T): Promise<T>
+
+  /** Pro subscription of a user (null when none) */
+  readSubscription(userId: string): Promise<Subscription | null>
+  writeSubscription(userId: string, sub: Subscription | null): Promise<void>
 
   /** Indexes albums per owner id ("owner") or per organizer email ("co") */
   setIndex(kind: 'owner' | 'co', key: string, code: string, present: boolean): Promise<void>

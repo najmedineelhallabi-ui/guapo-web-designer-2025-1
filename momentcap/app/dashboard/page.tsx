@@ -10,6 +10,7 @@ import { useRequireAuth } from '@/lib/useAuth'
 import { listAlbums, type AppAlbum } from '@/lib/api'
 import { eventTypeInfo } from '@/lib/albumRules'
 import { formatEventDate } from '@/lib/dates'
+import { packInfo } from '@/lib/pricing'
 
 export default function Dashboard() {
   const { user, loading: authLoading } = useRequireAuth('/dashboard')
@@ -101,7 +102,9 @@ export default function Dashboard() {
                       <span className="flex flex-col items-end gap-1">
                         <StatusBadge settings={a.settings} />
                         {a.role === 'co_organizer' && <span className="text-xs font-semibold text-ink-soft">Shared with you</span>}
-                        {a.is_paid && <span className="text-xs font-semibold">⭐ Premium</span>}
+                        <span className="text-xs font-semibold">
+                          {a.subscription_covered ? '⭐ Pro' : a.effective_tier === 'free' ? 'Free' : `⭐ ${packInfo(a.effective_tier).name}`}
+                        </span>
                       </span>
                     </div>
                     <h2 className="mt-4 text-lg font-bold leading-tight">{a.name}</h2>

@@ -35,6 +35,19 @@ moments & photo challenges · photos and short videos · frames · reactions ·
 guestbook · best-of favorites · live big-screen slideshow · stats · ZIP and
 PDF photo book · co-organizers · Premium upgrade (demo payment) · Pro page.
 
+## Pricing
+
+`lib/pricing.ts` holds the whole catalog — change names, prices and what each
+pack unlocks there:
+
+- One-shot packs per event: **Free** (€0), **Photos** (€19), **Full event** (€39).
+  Upgrading only charges the difference.
+- Subscriptions: **Pro monthly** (€29/month) and **Pro yearly** (€290/year) —
+  every event of the account gets the Full event pack.
+
+Features are enforced by the service (`requireFeature`), not only hidden in the UI.
+Payments are simulated (demo mode, or `MOMENTCAP_DEMO_PAYMENTS=1`) until Stripe is connected.
+
 ## Structure
 
 - `lib/albumRules.ts` — album model, defaults and rules (client + server)

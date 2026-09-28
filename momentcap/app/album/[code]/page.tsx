@@ -227,6 +227,7 @@ export default function AlbumPage() {
           album={album}
           isOrganizer={isOrganizer}
           myCount={photos.filter((p) => p.mine).length}
+          totalCount={photos.length}
           challengeId={challengeId}
           onChallengeChange={setChallengeId}
           onUploaded={(photo) => setPhotos((prev) => [...prev, photo])}

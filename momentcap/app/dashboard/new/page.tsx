@@ -1,11 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import SiteHeader from '@/components/SiteHeader'
 import Toggle from '@/components/Toggle'
 import ThemePicker from '@/components/ThemePicker'
+import { PackCards } from '@/components/pricing/Cards'
+import { getAccount } from '@/lib/api'
+import { packInfo, type Tier } from '@/lib/pricing'
 import ChallengeEditor, { fromDrafts, type ChallengeDraft } from '@/components/ChallengeEditor'
 import { useRequireAuth } from '@/lib/useAuth'
 import { createAlbum } from '@/lib/api'
@@ -26,7 +29,7 @@ const welcomeExamples: Record<EventType, string> = {
 
 type Timing = 'anytime' | 'event_day' | 'custom'
 
-const STEPS = ['Occasion', 'Details', 'Challenges', 'Guest rules'] as const
+const STEPS = ['Occasion', 'Details', 'Challenges', 'Guest rules', 'Pack'] as const
 
 export default function NewAlbumPage() {
   const router = useRouter()
@@ -49,6 +52,15 @@ export default function NewAlbumPage() {
   const [useMoments, setUseMoments] = useState(true)
   const [challenges, setChallenges] = useState<ChallengeDraft[] | null>(null)
   const [creating, setCreating] = useState(false)
+  const [pack, setPack] = useState<Tier>('free')
+  const [isPro, setIsPro] = useState(false)
+
+  // Pro subscribers don't need to pick a pack
+  useEffect(() => {
+    getAccount()
+      .then((a) => setIsPro(a.active))
+      .catch(() => {})
+  }, [])
   const [error, setError] = useState('')
 
   if (authLoading || !user) {
@@ -95,7 +107,9 @@ export default function NewAlbumPage() {
           max_photos_per_guest: maxPerGuest ? Number(maxPerGuest) : null
         }
       })
-      router.push(`/album/${album.qr_code}/share?created=1`)
+      router.push(
+        pack !== 'free' && !isPro ? `/album/${album.qr_code}/upgrade?pack=${pack}&created=1` : `/album/${album.qr_code}/share?created=1`
+      )
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not create the album')
       setCreating(false)
@@ -300,9 +314,37 @@ export default function NewAlbumPage() {
               <button onClick={() => setStep(2)} className="rounded-full border border-line bg-white px-6 py-3.5 font-semibold transition hover:border-ink">
                 Back
               </button>
+              <button onClick={() => setStep(4)} className="flex-1 rounded-full bg-ink py-3.5 font-semibold text-white transition hover:bg-black">
+                Next
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* Step 5: pack */}
+        {step === 4 && (
+          <section className="mt-8">
+            <h1 className="text-3xl font-extrabold tracking-tight">Choose your pack</h1>
+            {isPro ? (
+              <p className="mt-3 rounded-2xl bg-brand p-5 font-semibold">You&apos;re Pro 🎉 — this event gets every feature, nothing to pay.</p>
+            ) : (
+              <>
+                <p className="mt-1 text-ink-soft">Pay once for this event. You can start free and upgrade anytime — you only pay the difference.</p>
+                <div className="mt-6">
+                  <PackCards selected={pack} onSelect={setPack} />
+                </div>
+              </>
+            )}
+
+            {error && <p className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+
+            <div className="mt-6 flex gap-3">
+              <button onClick={() => setStep(3)} className="rounded-full border border-line bg-white px-6 py-3.5 font-semibold transition hover:border-ink">
+                Back
+              </button>
               <button onClick={handleCreate} disabled={creating}
                 className="flex-1 rounded-full bg-brand py-3.5 font-bold transition hover:bg-brand-strong disabled:opacity-50">
-                {creating ? 'Creating…' : 'Create album'}
+                {creating ? 'Creating…' : isPro || pack === 'free' ? 'Create album' : `Create & pay — ${packInfo(pack).name}`}
               </button>
             </div>
           </section>

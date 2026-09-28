@@ -5,6 +5,7 @@ import { usePlan } from '@/components/plan/PlanContext'
 import { Card, Progress, Stat, euro } from '@/components/plan/ui'
 import Countdown from '@/components/album/Countdown'
 import ShareInvitation from '@/components/plan/ShareInvitation'
+import { UpgradePanel } from '@/components/pricing/Locked'
 import { budgetStats, guestStats } from '@/lib/planRules'
 import { formatEventDate } from '@/lib/dates'
 
@@ -101,7 +102,13 @@ export default function PlanOverview() {
         </Card>
       </div>
 
-      <ShareInvitation />
+      {album.features.planning ? (
+        <ShareInvitation />
+      ) : (
+        <UpgradePanel code={code} feature="planning" current={album.effective_tier}>
+          Unlock the online invitation with RSVP, guest list, seating plan, budget and vendors. The checklist stays free.
+        </UpgradePanel>
+      )}
 
       <Card title="Vendors" action={<Link href={`${base}/vendors`} className="text-sm font-semibold underline">Open</Link>}>
         {plan.vendors.length === 0 ? (

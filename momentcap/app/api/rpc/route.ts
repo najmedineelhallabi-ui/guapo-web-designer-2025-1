@@ -13,6 +13,9 @@ const withRepo =
   (args, ctx) =>
     fn(requireRepo(), ctx, ...args)
 
+// Payments are simulated until Stripe is connected
+const demoPayments = () => process.env.MOMENTCAP_DEMO_PAYMENTS === '1'
+
 const ticketFor = (path: string, guestId: string) => sign(`upload:${path}:${guestId}`)
 
 const methods: Record<string, Handler> = {
@@ -29,9 +32,11 @@ const methods: Record<string, Handler> = {
   getAlbum: withRepo((repo, ctx, code) => service.getAlbum(repo, ctx, code)),
   updateAlbum: withRepo((repo, ctx, code, patch) => service.updateAlbum(repo, ctx, code, patch || {})),
   deleteAlbum: withRepo((repo, ctx, code) => service.deleteAlbum(repo, ctx, code)),
-  upgradeAlbum: withRepo((repo, ctx, code) =>
-    service.upgradeAlbum(repo, ctx, code, process.env.MOMENTCAP_DEMO_PAYMENTS === '1')
-  ),
+  purchasePack: withRepo((repo, ctx, code, pack) => service.purchasePack(repo, ctx, code, pack, demoPayments())),
+  getAccount: withRepo((repo, ctx) => service.getAccount(repo, ctx)),
+  subscribe: withRepo((repo, ctx, plan) => service.subscribe(repo, ctx, plan, demoPayments())),
+  cancelSubscription: withRepo((repo, ctx) => service.cancelSubscription(repo, ctx)),
+  resumeSubscription: withRepo((repo, ctx) => service.resumeSubscription(repo, ctx)),
   addCoOrganizer: withRepo((repo, ctx, code, email) => service.addCoOrganizer(repo, ctx, code, email)),
   removeCoOrganizer: withRepo((repo, ctx, code, email) => service.removeCoOrganizer(repo, ctx, code, email)),
   deletePhoto: withRepo((repo, ctx, code, id) => service.deletePhoto(repo, ctx, code, id)),
