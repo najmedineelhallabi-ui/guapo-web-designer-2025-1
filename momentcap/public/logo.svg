@@ -1,0 +1,54 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Yellow Background -->
+  <rect width="512" height="512" fill="#FFD700"/>
+  
+  <!-- Decorative circle pattern -->
+  <circle cx="100" cy="100" r="30" fill="#FFC700" opacity="0.5"/>
+  <circle cx="420" cy="420" r="40" fill="#FFC700" opacity="0.5"/>
+  <circle cx="450" cy="80" r="25" fill="#FFC700" opacity="0.5"/>
+  
+  <!-- Camera Icon (bottom right, square) -->
+  <g transform="translate(340, 340)">
+    <!-- Camera square -->
+    <rect x="0" y="0" width="140" height="140" fill="none" stroke="white" stroke-width="6" rx="8"/>
+    
+    <!-- Inner square (lens) -->
+    <circle cx="70" cy="70" r="45" fill="none" stroke="white" stroke-width="5"/>
+    <circle cx="70" cy="70" r="30" fill="white" opacity="0.2"/>
+    
+    <!-- Flash -->
+    <rect x="15" y="15" width="25" height="25" fill="white" rx="3"/>
+  </g>
+  
+  <!-- "MomentCap" Text in Bubble Graffiti Style -->
+  <g id="bubble-text">
+    <!-- Bubble effect for "Moment" -->
+    <text x="256" y="120" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white" text-anchor="middle" letter-spacing="2">
+      Moment
+    </text>
+    
+    <!-- Stroke effect for bubble -->
+    <text x="256" y="120" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="none" stroke="#FFD700" stroke-width="3" text-anchor="middle" letter-spacing="2">
+      Moment
+    </text>
+    
+    <!-- Bubble effect for "Cap" with black outline -->
+    <text x="256" y="210" font-family="Arial, sans-serif" font-size="68" font-weight="900" fill="white" text-anchor="middle" letter-spacing="4">
+      CAP
+    </text>
+    
+    <!-- Stroke effect for Cap -->
+    <text x="256" y="210" font-family="Arial, sans-serif" font-size="68" font-weight="900" fill="none" stroke="#333333" stroke-width="4" text-anchor="middle" letter-spacing="4">
+      CAP
+    </text>
+  </g>
+  
+  <!-- Camera emoji decoration top left -->
+  <text x="50" y="80" font-size="60">📸</text>
+  
+  <!-- Decorative dots/bubbles -->
+  <circle cx="280" cy="280" r="8" fill="white" opacity="0.6"/>
+  <circle cx="320" cy="290" r="6" fill="white" opacity="0.6"/>
+  <circle cx="300" cy="320" r="5" fill="white" opacity="0.6"/>
+  <circle cx="340" cy="310" r="7" fill="white" opacity="0.6"/>
+</svg>

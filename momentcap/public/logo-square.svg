@@ -1,0 +1,85 @@
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="soft-shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Yellow Background -->
+  <rect width="500" height="500" fill="#FFD700"/>
+  
+  <!-- Main Camera Square -->
+  <g transform="translate(150, 150)">
+    <!-- Camera body with white fill -->
+    <rect x="0" y="0" width="200" height="200" fill="white" stroke="white" stroke-width="6" rx="12" filter="url(#soft-shadow)"/>
+    
+    <!-- Lens (main circle) -->
+    <circle cx="100" cy="100" r="60" fill="none" stroke="#FFD700" stroke-width="7"/>
+    <circle cx="100" cy="100" r="45" fill="rgba(255,215,0,0.15)"/>
+    <circle cx="100" cy="100" r="28" fill="#FFD700" opacity="0.3"/>
+    
+    <!-- Flash square -->
+    <rect x="25" y="25" width="40" height="40" fill="#FFD700" rx="5" filter="url(#soft-shadow)"/>
+    
+    <!-- Shutter lines -->
+    <line x1="100" y1="65" x2="100" y2="45" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="135" y1="100" x2="155" y2="100" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="100" y1="135" x2="100" y2="155" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+    <line x1="65" y1="100" x2="45" y2="100" stroke="#FFD700" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Text Overlay -->
+  <g>
+    <!-- "MOMENT CAP" stacked text -->
+    <text x="250" y="380" 
+      font-family="Impact, Arial Black, sans-serif" 
+      font-size="52" 
+      font-weight="900"
+      fill="white" 
+      text-anchor="middle"
+      letter-spacing="2"
+      filter="url(#soft-shadow)">
+      MOMENT
+    </text>
+    
+    <text x="250" y="380" 
+      font-family="Impact, Arial Black, sans-serif" 
+      font-size="52" 
+      font-weight="900"
+      fill="none" 
+      stroke="#333" 
+      stroke-width="2"
+      text-anchor="middle"
+      letter-spacing="2">
+      MOMENT
+    </text>
+    
+    <text x="250" y="445" 
+      font-family="Impact, Arial Black, sans-serif" 
+      font-size="50" 
+      font-weight="900"
+      fill="white" 
+      text-anchor="middle"
+      letter-spacing="3"
+      filter="url(#soft-shadow)">
+      CAP
+    </text>
+    
+    <text x="250" y="445" 
+      font-family="Impact, Arial Black, sans-serif" 
+      font-size="50" 
+      font-weight="900"
+      fill="none" 
+      stroke="#333" 
+      stroke-width="2"
+      text-anchor="middle"
+      letter-spacing="3">
+      CAP
+    </text>
+  </g>
+  
+  <!-- Corner decorations -->
+  <circle cx="40" cy="40" r="15" fill="white" opacity="0.4" filter="url(#soft-shadow)"/>
+  <circle cx="460" cy="460" r="20" fill="white" opacity="0.3" filter="url(#soft-shadow)"/>
+  <circle cx="460" cy="40" r="12" fill="white" opacity="0.35"/>
+</svg>

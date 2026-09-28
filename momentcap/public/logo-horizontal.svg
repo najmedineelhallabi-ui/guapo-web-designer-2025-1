@@ -1,0 +1,76 @@
+<svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="drop-shadow">
+      <feDropShadow dx="2" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  
+  <!-- Yellow Background -->
+  <rect width="800" height="300" fill="#FFD700"/>
+  
+  <!-- Camera Icon (Left Side) -->
+  <g transform="translate(30, 75)">
+    <!-- Camera body -->
+    <rect x="0" y="0" width="150" height="150" fill="white" stroke="white" stroke-width="5" rx="10" filter="url(#drop-shadow)"/>
+    
+    <!-- Lens -->
+    <circle cx="75" cy="75" r="45" fill="none" stroke="#FFD700" stroke-width="5"/>
+    <circle cx="75" cy="75" r="32" fill="rgba(255,215,0,0.15)"/>
+    <circle cx="75" cy="75" r="20" fill="#FFD700" opacity="0.3"/>
+    
+    <!-- Flash -->
+    <rect x="18" y="18" width="32" height="32" fill="#FFD700" rx="4"/>
+  </g>
+  
+  <!-- Text (Right Side) -->
+  <g transform="translate(220, 0)">
+    <!-- "MOMENT" -->
+    <text x="0" y="100" 
+      font-family="Impact, Arial Black, sans-serif" 
+      font-size="80" 
+      font-weight="900"
+      fill="white" 
+      letter-spacing="2"
+      filter="url(#drop-shadow)">
+      MOMENT
+    </text>
+    
+    <text x="0" y="100" 
+      font-family="Impact, Arial Black, sans-serif" 
+      font-size="80" 
+      font-weight="900"
+      fill="none" 
+      stroke="#333" 
+      stroke-width="3"
+      letter-spacing="2">
+      MOMENT
+    </text>
+    
+    <!-- "CAP" -->
+    <text x="0" y="180" 
+      font-family="Impact, Arial Black, sans-serif" 
+      font-size="76" 
+      font-weight="900"
+      fill="white" 
+      letter-spacing="4"
+      filter="url(#drop-shadow)">
+      CAP
+    </text>
+    
+    <text x="0" y="180" 
+      font-family="Impact, Arial Black, sans-serif" 
+      font-size="76" 
+      font-weight="900"
+      fill="none" 
+      stroke="#333" 
+      stroke-width="3"
+      letter-spacing="4">
+      CAP
+    </text>
+  </g>
+  
+  <!-- Decorative dots -->
+  <circle cx="600" cy="80" r="8" fill="white" opacity="0.5" filter="url(#drop-shadow)"/>
+  <circle cx="640" cy="100" r="6" fill="white" opacity="0.5"/>
+  <circle cx="620" cy="140" r="7" fill="white" opacity="0.5"/>
+</svg>
