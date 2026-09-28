@@ -1,7 +1,7 @@
 import 'server-only'
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
-import { put, get, list, del, type BlobAccessType } from '@vercel/blob'
+import { put, get, list, del, BlobPreconditionFailedError, type BlobAccessType } from '@vercel/blob'
 
 export type StoredFile = { body: Buffer; contentType: string }
 
@@ -10,6 +10,10 @@ export interface Storage {
   read(pathname: string): Promise<StoredFile | null>
   list(prefix: string): Promise<string[]>
   remove(pathnames: string[]): Promise<void>
+  /** Atomic read-modify-write of a JSON document (null when it doesn't exist yet). */
+  updateJSON<T, R>(pathname: string, fn: (current: T | null) => { value: T; result: R }): Promise<R>
+  /** Size in bytes, or null if the file doesn't exist */
+  size(pathname: string): Promise<number | null>
 }
 
 // --- Vercel Blob -----------------------------------------------------------
@@ -52,7 +56,45 @@ const blobStorage: Storage = {
   },
   async remove(pathnames) {
     if (pathnames.length) await del(pathnames)
+  },
+  async updateJSON(pathname, fn) {
+    // Optimistic concurrency with ETags; retried when another request wrote in between
+    for (let attempt = 0; attempt < 8; attempt++) {
+      const res = await get(pathname, { access: blobAccess, useCache: false }).catch(() => null)
+      const exists = Boolean(res && res.statusCode === 200 && res.stream)
+      const current = exists ? JSON.parse((await streamToBuffer(res!.stream!)).toString('utf8')) : null
+      const { value, result } = fn(current)
+      try {
+        await put(pathname, JSON.stringify(value), {
+          access: blobAccess,
+          contentType: 'application/json',
+          addRandomSuffix: false,
+          ...(exists ? { ifMatch: res!.blob.etag } : { allowOverwrite: false })
+        })
+        return result
+      } catch (err) {
+        const conflict = err instanceof BlobPreconditionFailedError || /already exists|precondition/i.test(String(err))
+        if (!conflict) throw err
+        await new Promise((r) => setTimeout(r, 50 + Math.random() * 150 * (attempt + 1)))
+      }
+    }
+    throw new Error('Too many concurrent updates, please retry')
+  },
+  async size(pathname) {
+    const res = await get(pathname, { access: blobAccess, useCache: false }).catch(() => null)
+    if (!res || res.statusCode !== 200) return null
+    res.stream?.cancel().catch(() => {})
+    return res.blob.size
   }
+}
+
+// Serializes updates within this process (the filesystem driver runs on one server)
+const locks = new Map<string, Promise<unknown>>()
+function withLock<R>(key: string, fn: () => Promise<R>): Promise<R> {
+  const prev = locks.get(key) || Promise.resolve()
+  const next = prev.catch(() => {}).then(fn)
+  locks.set(key, next)
+  return next
 }
 
 // --- Local filesystem (development / tests only) ---------------------------
@@ -95,6 +137,18 @@ function fsStorage(root: string): Storage {
     },
     async remove(pathnames) {
       await Promise.all(pathnames.flatMap((p) => [fs.rm(abs(p), { force: true }), fs.rm(abs(p) + '.type', { force: true })]))
+    },
+    updateJSON(pathname, fn) {
+      return withLock(pathname, async () => {
+        const file = await this.read(pathname)
+        const { value, result } = fn(file ? JSON.parse(file.body.toString('utf8')) : null)
+        await this.write(pathname, JSON.stringify(value), 'application/json')
+        return result
+      })
+    },
+    async size(pathname) {
+      const stat = await fs.stat(abs(pathname)).catch(() => null)
+      return stat ? stat.size : null
     }
   }
 }

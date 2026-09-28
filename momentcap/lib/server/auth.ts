@@ -1,6 +1,5 @@
 import 'server-only'
 import { createHash, createHmac, randomBytes, scryptSync, timingSafeEqual } from 'node:crypto'
-import type { NextRequest } from 'next/server'
 
 const TOKEN_DAYS = 30
 
@@ -39,21 +38,21 @@ function safeEqual(a: string, b: string) {
   return x.length === y.length && timingSafeEqual(x, y)
 }
 
-export type TokenPayload = { uid: string; ek: string; exp: number }
+export type TokenPayload = { uid: string; email: string; name: string; exp: number }
 
-export function createToken(uid: string, ek: string) {
-  const payload = b64url(JSON.stringify({ uid, ek, exp: Date.now() + TOKEN_DAYS * 864e5 }))
+export function createToken(user: { id: string; email: string; name: string }) {
+  const payload = b64url(JSON.stringify({ uid: user.id, email: user.email, name: user.name, exp: Date.now() + TOKEN_DAYS * 864e5 }))
   return `${payload}.${sign(payload)}`
 }
 
-export function readToken(request: NextRequest): TokenPayload | null {
+export function readToken(request: Request): TokenPayload | null {
   const header = request.headers.get('authorization') || ''
   const token = header.startsWith('Bearer ') ? header.slice(7) : ''
   const [payload, sig] = token.split('.')
   if (!payload || !sig || !safeEqual(sig, sign(payload))) return null
   try {
     const data = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as TokenPayload
-    return data.exp > Date.now() ? data : null
+    return data.exp > Date.now() && data.uid && data.email ? data : null
   } catch {
     return null
   }

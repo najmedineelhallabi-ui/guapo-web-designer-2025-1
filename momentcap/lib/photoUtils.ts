@@ -1,117 +1,111 @@
-export async function addWatermark(
-  file: File,
-  isFreemium: boolean
-): Promise<Blob> {
-  if (!isFreemium) {
-    return file
-  }
+'use client'
 
+import type { FrameId } from './albumRules'
+
+const MAX_SIDE = 1920
+
+function loadImage(file: Blob): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    
-    reader.onload = (e) => {
-      const img = new Image()
-      img.onload = () => {
-        const canvas = document.createElement('canvas')
-        canvas.width = img.width
-        canvas.height = img.height
-
-        const ctx = canvas.getContext('2d')
-        if (!ctx) {
-          reject(new Error('Could not get canvas context'))
-          return
-        }
-
-        // Draw original image
-        ctx.drawImage(img, 0, 0)
-
-        // Add watermark
-        const fontSize = Math.max(14, canvas.width / 50)
-        ctx.font = `${fontSize}px Arial`
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
-        ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)'
-        ctx.lineWidth = 2
-
-        const text = '📸 MomentCap'
-        const padding = 10
-        const x = padding
-        const y = canvas.height - padding - 10
-
-        // Draw text with stroke for better visibility
-        ctx.strokeText(text, x, y)
-        ctx.fillText(text, x, y)
-
-        canvas.toBlob((blob) => {
-          if (blob) {
-            resolve(blob)
-          } else {
-            reject(new Error('Could not create blob'))
-          }
-        }, 'image/jpeg', 0.9)
-      }
-      img.onerror = () => reject(new Error('Could not load image'))
-      img.src = e.target?.result as string
+    const url = URL.createObjectURL(file)
+    const img = new Image()
+    img.onload = () => {
+      URL.revokeObjectURL(url)
+      resolve(img)
     }
-
-    reader.onerror = () => reject(new Error('Could not read file'))
-    reader.readAsDataURL(file)
+    img.onerror = () => {
+      URL.revokeObjectURL(url)
+      reject(new Error('Could not read this image'))
+    }
+    img.src = url
   })
 }
 
-export async function compressImage(file: File): Promise<File> {
+export type ProcessOptions = {
+  frame: FrameId
+  frameColor: string
+  albumName: string
+  watermark: boolean
+}
+
+/**
+ * Resizes a photo, draws the chosen frame and (for free albums) the watermark.
+ * Formats the browser can't decode (e.g. some HEIC) are returned untouched.
+ */
+export async function processImage(file: File, opts: ProcessOptions): Promise<File> {
+  let img: HTMLImageElement
+  try {
+    img = await loadImage(file)
+  } catch {
+    return file
+  }
+
+  const scale = Math.min(1, MAX_SIDE / Math.max(img.width, img.height))
+  const w = Math.round(img.width * scale)
+  const h = Math.round(img.height * scale)
+
+  // Frame geometry
+  const unit = Math.round(Math.min(w, h) * 0.04)
+  const pad =
+    opts.frame === 'polaroid'
+      ? { top: unit, side: unit, bottom: unit * 5 }
+      : opts.frame === 'event'
+        ? { top: unit * 1.5, side: unit * 1.5, bottom: unit * 4 }
+        : { top: 0, side: 0, bottom: 0 }
+
+  const canvas = document.createElement('canvas')
+  canvas.width = w + pad.side * 2
+  canvas.height = h + pad.top + pad.bottom
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return file
+
+  if (opts.frame !== 'none') {
+    ctx.fillStyle = opts.frame === 'polaroid' ? '#ffffff' : opts.frameColor
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+  }
+  ctx.drawImage(img, pad.side, pad.top, w, h)
+
+  if (opts.frame !== 'none' && opts.albumName) {
+    const size = Math.round(pad.bottom * (opts.frame === 'polaroid' ? 0.32 : 0.38))
+    ctx.font = `700 ${size}px ui-sans-serif, system-ui, sans-serif`
+    ctx.fillStyle = '#17150f'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    const text = opts.albumName.length > 40 ? opts.albumName.slice(0, 39) + '…' : opts.albumName
+    ctx.fillText(text, canvas.width / 2, h + pad.top + pad.bottom / 2, canvas.width - pad.side * 4)
+  }
+
+  if (opts.watermark) {
+    const size = Math.max(14, Math.round(w / 45))
+    ctx.font = `600 ${size}px ui-sans-serif, system-ui, sans-serif`
+    ctx.textAlign = 'right'
+    ctx.textBaseline = 'bottom'
+    ctx.lineWidth = Math.max(2, size / 8)
+    ctx.strokeStyle = 'rgba(0,0,0,0.35)'
+    ctx.fillStyle = 'rgba(255,255,255,0.85)'
+    const x = pad.side + w - size * 0.6
+    const y = pad.top + h - size * 0.5
+    ctx.strokeText('MomentCap', x, y)
+    ctx.fillText('MomentCap', x, y)
+  }
+
+  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.85))
+  return blob ? new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', { type: 'image/jpeg' }) : file
+}
+
+/** Duration of a video file in seconds (null if the browser can't read it). */
+export function videoDuration(file: File): Promise<number | null> {
   return new Promise((resolve) => {
-    const reader = new FileReader()
-    
-    reader.onload = (e) => {
-      const img = new Image()
-      img.onload = () => {
-        const canvas = document.createElement('canvas')
-        const ctx = canvas.getContext('2d')
-        
-        if (!ctx) {
-          resolve(file)
-          return
-        }
-
-        // Max width/height
-        const maxWidth = 1920
-        const maxHeight = 1920
-        let width = img.width
-        let height = img.height
-
-        if (width > height) {
-          if (width > maxWidth) {
-            height = (height * maxWidth) / width
-            width = maxWidth
-          }
-        } else {
-          if (height > maxHeight) {
-            width = (width * maxHeight) / height
-            height = maxHeight
-          }
-        }
-
-        canvas.width = width
-        canvas.height = height
-        ctx.drawImage(img, 0, 0, width, height)
-
-        canvas.toBlob((blob) => {
-          if (blob) {
-            const compressedFile = new File([blob], file.name, {
-              type: 'image/jpeg'
-            })
-            resolve(compressedFile)
-          } else {
-            resolve(file)
-          }
-        }, 'image/jpeg', 0.8)
-      }
-      // Formats the browser can't decode (e.g. some HEIC) are passed through as-is
-      img.onerror = () => resolve(file)
-      img.src = e.target?.result as string
+    const url = URL.createObjectURL(file)
+    const video = document.createElement('video')
+    video.preload = 'metadata'
+    video.onloadedmetadata = () => {
+      URL.revokeObjectURL(url)
+      resolve(Number.isFinite(video.duration) ? video.duration : null)
     }
-
-    reader.onerror = () => resolve(file)
-    reader.readAsDataURL(file)
+    video.onerror = () => {
+      URL.revokeObjectURL(url)
+      resolve(null)
+    }
+    video.src = url
   })
 }

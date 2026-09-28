@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { QRCodeSVG } from 'qrcode.react'
 import SiteHeader from '@/components/SiteHeader'
 import { LogoMark } from '@/components/Logo'
-import { QrIcon, LockIcon, BoltIcon, CheckIcon, XIcon } from '@/components/Icons'
+import { QrIcon, LockIcon, CheckIcon, XIcon, TvIcon, MessageIcon, StarIcon, BookIcon } from '@/components/Icons'
 
 const steps = [
   { n: '1', title: 'Create your album', text: 'Name it, pick the date. Takes 30 seconds.' },
@@ -13,9 +13,12 @@ const steps = [
 ]
 
 const features = [
-  { icon: QrIcon, title: 'Zero setup', text: 'Scan the QR code and upload instantly. No accounts needed for guests.' },
-  { icon: LockIcon, title: 'Privacy first', text: 'Choose who sees what. Keep some photos just for you.' },
-  { icon: BoltIcon, title: 'Live gallery', text: "Photos appear as they're taken, so everyone relives the moment together." }
+  { icon: QrIcon, title: 'Zero setup for guests', text: 'Scan the QR code and upload instantly. No app, no account.' },
+  { icon: TvIcon, title: 'Live slideshow', text: 'Photos appear on the big screen as guests take them.' },
+  { icon: MessageIcon, title: 'Guestbook & reactions', text: 'Guests leave you messages and react ❤️ 😂 😮 to photos.' },
+  { icon: StarIcon, title: 'Photo challenges & moments', text: 'Fun missions and album sections: ceremony, cocktail, party…' },
+  { icon: LockIcon, title: 'You stay in control', text: 'Approve photos, private gallery, access code, upload times.' },
+  { icon: BookIcon, title: 'Keep the memories', text: 'Download everything as a ZIP or a PDF photo book.' }
 ]
 
 // Soft placeholder tiles for the hero preview
@@ -185,7 +188,10 @@ export default function Home() {
       <footer className="border-t border-line py-8">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 text-sm text-ink-soft sm:flex-row">
           <span className="flex items-center gap-2 font-semibold text-ink"><LogoMark className="h-6 w-6" /> MomentCap</span>
-          <span>© {new Date().getFullYear()} MomentCap</span>
+          <span className="flex gap-4">
+            <Link href="/pro" className="font-semibold text-ink hover:underline">For planners & venues</Link>
+            <span>© {new Date().getFullYear()} MomentCap</span>
+          </span>
         </div>
       </footer>
     </div>

@@ -6,6 +6,7 @@ import { useParams, useSearchParams } from 'next/navigation'
 import { QRCodeCanvas, QRCodeSVG } from 'qrcode.react'
 import SiteHeader from '@/components/SiteHeader'
 import { LogoMark } from '@/components/Logo'
+import ThemeScope from '@/components/album/ThemeScope'
 import { DownloadIcon, ShareIcon } from '@/components/Icons'
 import { getAlbum, type AppAlbum } from '@/lib/api'
 import { eventTypeInfo } from '@/lib/albumRules'
@@ -27,7 +28,8 @@ function SharePage() {
     setUrl(`${window.location.origin}/album/${code.toUpperCase()}`)
     setCanShare(typeof navigator.share === 'function')
     getAlbum(code)
-      .then((res) => setAlbum(res?.album ?? null))
+      .then((res) => setAlbum(res.locked ? null : res.album))
+      .catch(() => setAlbum(null))
       .finally(() => setLoading(false))
   }, [code])
 
@@ -73,7 +75,7 @@ function SharePage() {
   const { uploads_open_at: opens, uploads_close_at: closes } = album.settings
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <ThemeScope theme={album.theme} className="flex min-h-screen flex-col">
       <div className="print:hidden">
         <SiteHeader cta={false} />
       </div>
@@ -96,7 +98,9 @@ function SharePage() {
         <div className="mt-8 grid items-start gap-8 md:grid-cols-[1fr_280px] print:mt-0 print:block">
           {/* Printable card */}
           <div className="mx-auto w-full max-w-md rounded-[2rem] bg-brand p-3 shadow-xl print:max-w-none print:shadow-none">
-            <div className="rounded-[1.6rem] bg-white px-8 py-10 text-center">
+            <div className="overflow-hidden rounded-[1.6rem] bg-white text-center">
+              {album.cover_url && <img src={album.cover_url} alt="" className="h-40 w-full object-cover" />}
+              <div className="px-8 py-10">
               <div className="flex items-center justify-center gap-2 font-extrabold">
                 <LogoMark className="h-7 w-7" /> MomentCap
               </div>
@@ -113,6 +117,11 @@ function SharePage() {
               <p className="mt-4 text-lg font-extrabold">Scan to add your photos</p>
               <p className="text-sm text-ink-soft">No app needed · Or go to the link below</p>
               <p className="mt-3 break-all font-mono text-xs text-ink-soft">{url}</p>
+              {album.pin && (
+                <p className="mx-auto mt-4 w-fit rounded-xl bg-brand-soft px-4 py-2 text-sm">
+                  Album code: <span className="font-mono text-lg font-bold tracking-[0.2em]">{album.pin}</span>
+                </p>
+              )}
               {(opens || closes) && (
                 <p className="mt-3 text-xs font-semibold">
                   {opens && `Opens ${formatDateTime(opens)}`}
@@ -120,6 +129,7 @@ function SharePage() {
                   {closes && `Closes ${formatDateTime(closes)}`}
                 </p>
               )}
+              </div>
             </div>
           </div>
 
@@ -156,7 +166,7 @@ function SharePage() {
         {/* High-resolution QR for the PNG download */}
         <QRCodeCanvas ref={qrCanvasRef} value={url || ' '} size={1024} marginSize={4} className="hidden" />
       </main>
-    </div>
+    </ThemeScope>
   )
 }
 

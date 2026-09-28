@@ -43,3 +43,24 @@ export const TrashIcon = ({ className = 'h-5 w-5' }: P) => (
 export const ClockIcon = ({ className = 'h-5 w-5' }: P) => (
   <svg viewBox="0 0 24 24" className={className} {...base}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
 )
+export const StarIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9z" /></svg>
+)
+export const PlayIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+)
+export const TvIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><rect x="3" y="5" width="18" height="12" rx="2" /><path d="M8 21h8M12 17v4" /></svg>
+)
+export const ChartIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" /></svg>
+)
+export const BookIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5M19 19v2H6" /></svg>
+)
+export const MessageIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><path d="M4 5h16v11H9l-5 4z" /></svg>
+)
+export const UsersIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><circle cx="9" cy="8" r="3" /><path d="M3 20a6 6 0 0 1 12 0M16 11a3 3 0 1 0 0-6M21 20a6 6 0 0 0-4-5.6" /></svg>
+)

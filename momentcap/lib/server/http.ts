@@ -1,21 +1,30 @@
 import 'server-only'
-import { NextResponse } from 'next/server'
+import { AppError, formatError } from '../albumRules'
+import type { Ctx } from '../core/service'
+import { readToken } from './auth'
+import { serverRepo } from './serverRepo'
 
-export const json = (data: unknown, status = 200) => NextResponse.json(data, { status })
-export const fail = (error: string, status: number) => NextResponse.json({ error }, { status })
-
-/** Wraps a handler so storage/config errors become clean JSON responses. */
-export function handle<A extends unknown[]>(fn: (...args: A) => Promise<Response>) {
-  return async (...args: A) => {
-    try {
-      return await fn(...args)
-    } catch (err) {
-      console.error(err)
-      const message = err instanceof Error ? err.message : 'Server error'
-      return fail(message === 'Storage is not configured' ? message : 'Server error', 500)
-    }
+export function errorResponse(err: unknown) {
+  if (err instanceof AppError) {
+    return Response.json({ error: err.message, code: err.code, params: err.params }, { status: err.status })
   }
+  console.error(err)
+  return Response.json({ error: formatError('server_error'), code: 'server_error' }, { status: 500 })
 }
 
-export const isUuid = (v: unknown): v is string =>
-  typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(v)
+export function requireRepo() {
+  const repo = serverRepo()
+  if (!repo) throw new AppError('storage_unavailable', 503)
+  return repo
+}
+
+export function ctxFrom(request: Request): Ctx {
+  const token = readToken(request)
+  const guest = request.headers.get('x-guest-id')
+  const pin = request.headers.get('x-album-pin')
+  return {
+    user: token ? { id: token.uid, email: token.email, name: token.name } : null,
+    guestId: guest && /^[0-9a-f-]{36}$/.test(guest) ? guest : null,
+    pin: pin ? decodeURIComponent(pin) : null
+  }
+}

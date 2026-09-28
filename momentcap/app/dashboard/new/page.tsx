@@ -5,9 +5,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import SiteHeader from '@/components/SiteHeader'
 import Toggle from '@/components/Toggle'
+import ThemePicker from '@/components/ThemePicker'
 import { useRequireAuth } from '@/lib/useAuth'
 import { createAlbum } from '@/lib/api'
-import { EVENT_TYPES, eventTypeInfo, type EventType } from '@/lib/albumRules'
+import { DEFAULT_CHALLENGES, DEFAULT_MOMENTS, EVENT_TYPES, eventTypeInfo, type EventType, type ThemeId } from '@/lib/albumRules'
 import { eventDayWindow, formatDateTime, fromLocalInput } from '@/lib/dates'
 
 const inputClass =
@@ -42,6 +43,10 @@ export default function NewAlbumPage() {
   const [guestsCanView, setGuestsCanView] = useState(true)
   const [requireName, setRequireName] = useState(false)
   const [maxPerGuest, setMaxPerGuest] = useState('')
+  const [theme, setTheme] = useState<ThemeId>('sun')
+  const [moderation, setModeration] = useState(false)
+  const [useMoments, setUseMoments] = useState(true)
+  const [useChallenges, setUseChallenges] = useState(true)
   const [creating, setCreating] = useState(false)
   const [error, setError] = useState('')
 
@@ -78,8 +83,12 @@ export default function NewAlbumPage() {
         welcome_message: welcome,
         event_date: eventDate,
         location,
+        theme,
+        moments: useMoments ? [...DEFAULT_MOMENTS[type.id]] : [],
+        challenges: useChallenges ? [...DEFAULT_CHALLENGES[type.id]] : [],
         settings: {
           ...uploads,
+          moderation,
           guests_can_view: guestsCanView,
           require_name: requireName,
           max_photos_per_guest: maxPerGuest ? Number(maxPerGuest) : null
@@ -179,6 +188,10 @@ export default function NewAlbumPage() {
                   placeholder={welcomeExamples[type.id]} className={inputClass} />
                 <p className="mt-1 text-right text-xs text-ink-soft">{welcome.length}/280</p>
               </div>
+              <div>
+                <p className="mb-3 text-sm font-semibold">Album color</p>
+                <ThemePicker value={theme} onChange={setTheme} />
+              </div>
             </div>
             <div className="mt-6 flex gap-3">
               <button type="button" onClick={() => setStep(0)} className="rounded-full border border-line bg-white px-6 py-3.5 font-semibold transition hover:border-ink">
@@ -237,6 +250,14 @@ export default function NewAlbumPage() {
                   hint="Turn off to keep the gallery private: guests only see what they added." />
                 <Toggle checked={requireName} onChange={setRequireName} label="Guests must enter their name"
                   hint="So you always know who took each photo." />
+                <Toggle checked={moderation} onChange={setModeration} label="Approve photos before they appear"
+                  hint="Nothing shows up until you say so." />
+                {DEFAULT_MOMENTS[type.id].length > 0 && (
+                  <Toggle checked={useMoments} onChange={setUseMoments} label="Split the album into moments"
+                    hint={DEFAULT_MOMENTS[type.id].join(' · ')} />
+                )}
+                <Toggle checked={useChallenges} onChange={setUseChallenges} label="Add fun photo challenges"
+                  hint={DEFAULT_CHALLENGES[type.id].slice(0, 2).join(' · ') + '…'} />
                 <div className="flex items-start justify-between gap-4 py-4">
                   <label htmlFor="max">
                     <span className="block font-semibold">Photo limit per guest</span>

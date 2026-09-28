@@ -27,9 +27,26 @@ npm install
 MOMENTCAP_LOCAL_STORE=.data npm run dev
 ```
 
+## Features
+
+Guided album creation (occasion, color, rules) · cover photo & color themes ·
+access code · upload window with countdown · photo approval (moderation) ·
+moments & photo challenges · photos and short videos · frames · reactions ·
+guestbook · best-of favorites · live big-screen slideshow · stats · ZIP and
+PDF photo book · co-organizers · Premium upgrade (demo payment) · Pro page.
+
 ## Structure
 
-- `lib/api.ts` — client data layer (server or demo mode)
-- `lib/albumRules.ts` — album settings and upload rules shared by client and server
-- `lib/server/` — storage drivers, auth (scrypt passwords, HMAC tokens), data access
-- `app/api/` — auth, albums, photos, signed file serving
+- `lib/albumRules.ts` — album model, defaults and rules (client + server)
+- `lib/core/service.ts` — every action and permission check, written once
+- `lib/core/repo.ts` — storage interface used by the service
+- `lib/server/` — server repo (Blob / filesystem), auth tokens, HTTP helpers
+- `lib/browserRepo.ts` — demo-mode repo (localStorage + IndexedDB)
+- `lib/api.ts` — client layer: calls `/api/rpc` + `/api/upload` in server mode,
+  or the service directly in demo mode
+- `app/api/rpc` — JSON actions · `app/api/upload` — multipart uploads ·
+  `app/api/upload/token` — Blob direct uploads for large videos ·
+  `app/api/files` — signed file serving with Range support
+
+Set `MOMENTCAP_DEMO_PAYMENTS=1` to allow the fake €5 upgrade in server mode,
+and `NEXT_PUBLIC_CONTACT_EMAIL` for the Pro page contact button.

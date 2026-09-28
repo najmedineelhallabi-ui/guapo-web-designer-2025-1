@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import SiteHeader from '@/components/SiteHeader'
 import StatusBadge from '@/components/StatusBadge'
+import ThemeScope from '@/components/album/ThemeScope'
 import { ImageIcon, SettingsIcon, ShareIcon } from '@/components/Icons'
 import { useRequireAuth } from '@/lib/useAuth'
 import { listAlbums, type AppAlbum } from '@/lib/api'
@@ -89,13 +90,19 @@ export default function Dashboard() {
             {albums.map((a) => {
               const type = eventTypeInfo(a.event_type)
               return (
-                <div key={a.id} className="flex flex-col rounded-3xl border border-line bg-white p-5 transition hover:border-ink">
+                <ThemeScope key={a.id} theme={a.theme} className="flex flex-col overflow-hidden rounded-3xl border border-line bg-white transition hover:border-ink">
+                  {a.cover_url ? <img src={a.cover_url} alt="" className="h-28 w-full object-cover" /> : <div className="h-2 bg-brand" />}
+                  <div className="flex flex-1 flex-col p-5">
                   <Link href={`/album/${a.qr_code}`} className="flex-1">
                     <div className="flex items-start justify-between gap-3">
                       <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-soft text-2xl" aria-hidden="true">
                         {type.emoji}
                       </span>
-                      <StatusBadge settings={a.settings} />
+                      <span className="flex flex-col items-end gap-1">
+                        <StatusBadge settings={a.settings} />
+                        {a.role === 'co_organizer' && <span className="text-xs font-semibold text-ink-soft">Shared with you</span>}
+                        {a.is_paid && <span className="text-xs font-semibold">⭐ Premium</span>}
+                      </span>
                     </div>
                     <h2 className="mt-4 text-lg font-bold leading-tight">{a.name}</h2>
                     <p className="mt-1 text-sm text-ink-soft">
@@ -120,7 +127,8 @@ export default function Dashboard() {
                       <SettingsIcon className="h-4 w-4" /> Settings
                     </Link>
                   </div>
-                </div>
+                  </div>
+                </ThemeScope>
               )
             })}
           </div>
