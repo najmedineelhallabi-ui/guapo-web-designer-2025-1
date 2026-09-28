@@ -13,7 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MomentCap",
+  icons: { icon: "/favicon.svg" },
+  title: "MomentCap — one album for every guest's photos",
   description: "Collaborative photo albums for every event",
 };
 
@@ -23,7 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-cream text-ink">{children}</body>
     </html>
   );
 }

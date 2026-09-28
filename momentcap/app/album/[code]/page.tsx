@@ -5,6 +5,8 @@ import { useParams } from 'next/navigation'
 import { addWatermark, compressImage } from '@/lib/photoUtils'
 import Webcam from 'react-webcam'
 import { v4 as uuidv4 } from 'uuid'
+import Logo from '@/components/Logo'
+import { CameraIcon, UploadIcon, ImageIcon } from '@/components/Icons'
 
 type Album = {
   id: string
@@ -122,9 +124,10 @@ export default function AlbumPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-600">Loading album...</p>
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="flex items-center gap-3 text-ink-soft">
+          <span className="h-5 w-5 animate-spin rounded-full border-2 border-line border-t-ink" />
+          Loading album…
         </div>
       </div>
     )
@@ -132,9 +135,13 @@ export default function AlbumPage() {
 
   if (!album) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center bg-white p-8 rounded-2xl shadow-lg">
-          <p className="text-red-600">Album not found</p>
+      <div className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
+        <Logo />
+        <div className="mt-8 w-full max-w-sm rounded-3xl border border-line bg-white p-8">
+          <h1 className="text-xl font-bold">Album not found</h1>
+          <p className="mt-2 text-ink-soft">
+            Check the code <span className="font-mono font-semibold text-ink">{code}</span> or scan the QR code again.
+          </p>
         </div>
       </div>
     )
@@ -143,46 +150,63 @@ export default function AlbumPage() {
   const isExpired = new Date(album.created_at).getTime() + 7 * 24 * 60 * 60 * 1000 < Date.now()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 pb-8">
+    <div className="min-h-screen pb-12">
       {/* Header */}
-      <div className="bg-white shadow-md sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold">{album.name} 📸</h1>
-          <p className="text-gray-600 mt-1">
-            {photos.length} photo{photos.length !== 1 ? 's' : ''} uploaded
+      <header className="border-b border-line bg-white">
+        <div className="mx-auto max-w-4xl px-4 py-4">
+          <Logo />
+          <h1 className="mt-5 text-3xl font-extrabold tracking-tight sm:text-4xl">{album.name}</h1>
+          <p className="mt-1 text-ink-soft">
+            {photos.length} photo{photos.length !== 1 ? 's' : ''} shared
           </p>
           {isExpired && (
-            <p className="text-red-600 text-sm mt-2">⚠️ Album expired - photos will be deleted soon</p>
+            <p className="mt-3 inline-block rounded-full bg-red-50 px-3 py-1 text-sm font-medium text-red-700">
+              Album expired — photos will be deleted soon
+            </p>
           )}
         </div>
-      </div>
+      </header>
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <main className="mx-auto max-w-4xl px-4 py-8">
         {/* Upload Section */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <h2 className="text-xl font-bold mb-4">📤 Add Your Photos</h2>
+        <section className="rounded-3xl border border-line bg-white p-5 shadow-sm sm:p-8">
+          <h2 className="text-xl font-bold">Add your photos</h2>
+
+          <div className="mt-5">
+            <label htmlFor="contributor" className="mb-2 block text-sm font-semibold">Your name</label>
+            <input
+              id="contributor"
+              type="text"
+              value={contributorName}
+              onChange={(e) => setContributorName(e.target.value)}
+              placeholder="Your name"
+              className="w-full rounded-xl border border-line px-4 py-3 focus:border-ink focus:outline-none focus:ring-2 focus:ring-brand"
+            />
+          </div>
 
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4">
+            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
               {error}
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            {/* Camera Button */}
+          <div className="mt-5 grid grid-cols-2 gap-3">
             <button
               onClick={() => setShowCamera(!showCamera)}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-lg transition flex items-center justify-center gap-2"
+              disabled={uploading}
+              className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-brand px-4 py-5 font-bold transition hover:bg-brand-strong disabled:opacity-50"
             >
-              📷 {showCamera ? 'Hide Camera' : 'Take Photo'}
+              <CameraIcon className="h-7 w-7" />
+              {showCamera ? 'Hide camera' : 'Take a photo'}
             </button>
 
-            {/* Upload Button */}
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-6 rounded-lg transition flex items-center justify-center gap-2"
+              disabled={uploading}
+              className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-ink px-4 py-5 font-bold text-white transition hover:bg-black disabled:opacity-50"
             >
-              ⬆️ Upload Photo
+              <UploadIcon className="h-7 w-7" />
+              {uploading ? 'Uploading…' : 'Upload'}
             </button>
           </div>
 
@@ -196,23 +220,24 @@ export default function AlbumPage() {
 
           {/* Camera Section */}
           {showCamera && (
-            <div className="bg-gray-100 rounded-lg p-4 mb-4">
+            <div className="mt-4 overflow-hidden rounded-2xl bg-ink p-3">
               <Webcam
                 ref={webcamRef}
                 screenshotFormat="image/jpeg"
-                className="w-full rounded-lg"
+                videoConstraints={{ facingMode: 'environment' }}
+                className="w-full rounded-xl"
               />
-              <div className="mt-4 flex gap-4">
+              <div className="mt-3 flex gap-3">
                 <button
                   onClick={capturePhoto}
                   disabled={uploading}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-2 rounded-lg"
+                  className="flex-1 rounded-full bg-brand py-3 font-bold transition hover:bg-brand-strong disabled:opacity-50"
                 >
-                  {uploading ? 'Uploading...' : 'Capture Photo'}
+                  {uploading ? 'Uploading…' : 'Capture'}
                 </button>
                 <button
                   onClick={() => setShowCamera(false)}
-                  className="flex-1 bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 rounded-lg"
+                  className="rounded-full border border-white/30 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
                 >
                   Close
                 </button>
@@ -220,57 +245,46 @@ export default function AlbumPage() {
             </div>
           )}
 
-          {/* Contributor Name */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Your Name</label>
-            <input
-              type="text"
-              value={contributorName}
-              onChange={(e) => setContributorName(e.target.value)}
-              placeholder="Your name"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-
           {!album.is_paid && (
-            <div className="bg-blue-50 border border-blue-200 px-4 py-3 rounded-lg text-sm text-blue-700">
-              📸 Photos will have a watermark. Upgrade to remove it!
-            </div>
+            <p className="mt-4 text-sm text-ink-soft">
+              Photos in free albums get a small MomentCap watermark.
+            </p>
           )}
-        </div>
+        </section>
 
         {/* Photos Gallery */}
-        <div>
-          <h2 className="text-xl font-bold mb-4">🖼️ Photos ({photos.length})</h2>
+        <section className="mt-10">
+          <h2 className="text-xl font-bold">Photos <span className="text-ink-soft">({photos.length})</span></h2>
 
           {photos.length === 0 ? (
-            <div className="bg-white rounded-2xl shadow-lg p-8 text-center text-gray-600">
-              No photos yet. Be the first to upload!
+            <div className="mt-4 rounded-3xl border-2 border-dashed border-line bg-white px-6 py-14 text-center">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-soft">
+                <ImageIcon className="h-7 w-7" />
+              </div>
+              <p className="mt-4 font-semibold">No photos yet</p>
+              <p className="mt-1 text-ink-soft">Be the first to add one!</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
               {photos.map((photo) => (
-                <div key={photo.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-                  <img src={photo.url} alt="Uploaded" className="w-full h-48 object-cover" />
-                  <div className="p-3">
-                    <p className="text-sm font-medium text-gray-700">{photo.contributor_name}</p>
-                    <p className="text-xs text-gray-500">
-                      {new Date(photo.created_at).toLocaleTimeString()}
+                <figure key={photo.id} className="group relative overflow-hidden rounded-2xl bg-line">
+                  <img src={photo.url} alt={`Photo by ${photo.contributor_name}`} className="aspect-square w-full object-cover" />
+                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-3 text-white">
+                    <p className="truncate text-sm font-semibold">{photo.contributor_name}</p>
+                    <p className="text-xs text-white/80">
+                      {new Date(photo.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
-                  </div>
-                </div>
+                  </figcaption>
+                </figure>
               ))}
             </div>
           )}
-        </div>
+        </section>
 
-        {/* Info Footer */}
-        <div className="mt-12 bg-white rounded-2xl shadow-lg p-6 text-center">
-          <p className="text-gray-600 text-sm">
-            💡 This album will be deleted after 7 days unless the organizer pays to keep it.
-          </p>
-        </div>
-      </div>
+        <p className="mt-12 text-center text-sm text-ink-soft">
+          This album is kept for 7 days unless the organizer upgrades it.
+        </p>
+      </main>
     </div>
   )
 }

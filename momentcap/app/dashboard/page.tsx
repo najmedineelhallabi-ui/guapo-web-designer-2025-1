@@ -3,6 +3,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { QRCodeSVG } from 'qrcode.react'
+import SiteHeader from '@/components/SiteHeader'
+import { ImageIcon } from '@/components/Icons'
+
+const inputClass =
+  'w-full rounded-xl border border-line bg-white px-4 py-3 text-ink placeholder:text-ink-soft/60 focus:border-ink focus:outline-none focus:ring-2 focus:ring-brand'
 
 export default function Dashboard() {
   const [formData, setFormData] = useState({
@@ -16,6 +21,7 @@ export default function Dashboard() {
   const [showForm, setShowForm] = useState(false)
   const [createdAlbum, setCreatedAlbum] = useState<any>(null)
   const [qrUrl, setQrUrl] = useState('')
+  const [copied, setCopied] = useState(false)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -38,11 +44,12 @@ export default function Dashboard() {
         })
       })
 
-      if (!response.ok) throw new Error('Failed to create album')
+      if (!response.ok) throw new Error('Could not create the album. Please try again.')
 
       const data = await response.json()
       setCreatedAlbum(data.album)
       setQrUrl(data.qrUrl)
+      setAlbums(prev => [data.album, ...prev])
       setFormData({ name: '', event_date: '', location: '' })
       setShowForm(false)
     } catch (err) {
@@ -52,134 +59,196 @@ export default function Dashboard() {
     }
   }
 
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(qrUrl)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Clipboard can be blocked; the link is still visible to copy by hand
+    }
+  }
+
   if (createdAlbum) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-          <h2 className="text-2xl font-bold mb-4">✨ Album Created!</h2>
-          <p className="text-gray-600 mb-6">{createdAlbum.name}</p>
+      <div className="flex min-h-screen flex-col">
+        <SiteHeader cta={false} />
+        <main className="flex flex-1 items-center justify-center px-4 py-12">
+          <div className="w-full max-w-md rounded-3xl border border-line bg-white p-8 text-center shadow-xl">
+            <span className="inline-block rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold uppercase tracking-wider">
+              Album created
+            </span>
+            <h1 className="mt-4 text-2xl font-extrabold tracking-tight">{createdAlbum.name}</h1>
+            <p className="mt-1 text-ink-soft">Share this QR code with your guests</p>
 
-          <div className="bg-gray-100 p-6 rounded-lg mb-6">
             {qrUrl && (
-              <div>
-                <QRCodeSVG value={qrUrl} size={256} className="w-full h-auto" />
-                <p className="text-sm text-gray-600 mt-2">Share this QR code with guests</p>
+              <div className="mx-auto mt-6 w-fit rounded-2xl bg-brand p-4">
+                <div className="rounded-xl bg-white p-4">
+                  <QRCodeSVG value={qrUrl} size={200} />
+                </div>
               </div>
             )}
-          </div>
 
-          <div className="bg-blue-50 p-4 rounded-lg mb-6">
-            <p className="text-sm font-mono text-blue-700 break-all">{createdAlbum.qr_code}</p>
-            <p className="text-xs text-gray-600 mt-2">Or use this code</p>
-          </div>
+            <div className="mt-6 rounded-xl bg-cream p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-ink-soft">Album code</p>
+              <p className="mt-1 font-mono text-2xl font-bold tracking-[0.2em]">{createdAlbum.qr_code}</p>
+            </div>
 
-          <div className="flex gap-3">
-            <Link
-              href={`/album/${createdAlbum.qr_code}`}
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition"
-            >
-              Open Album
-            </Link>
-            <button
-              onClick={() => {
-                setCreatedAlbum(null)
-                setQrUrl('')
-              }}
-              className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 rounded-lg transition"
-            >
-              Back
-            </button>
+            {qrUrl && (
+              <button
+                onClick={copyLink}
+                className="mt-3 w-full truncate rounded-xl border border-line px-4 py-2.5 text-sm text-ink-soft transition hover:border-ink"
+              >
+                {copied ? 'Link copied ✓' : qrUrl}
+              </button>
+            )}
+
+            <div className="mt-6 flex gap-3">
+              <Link
+                href={`/album/${createdAlbum.qr_code}`}
+                className="flex-1 rounded-full bg-ink py-3 font-semibold text-white transition hover:bg-black"
+              >
+                Open album
+              </Link>
+              <button
+                onClick={() => {
+                  setCreatedAlbum(null)
+                  setQrUrl('')
+                }}
+                className="flex-1 rounded-full border border-line py-3 font-semibold transition hover:border-ink"
+              >
+                Done
+              </button>
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-12 pt-8">
+    <div className="flex min-h-screen flex-col">
+      <SiteHeader cta={false} />
+
+      <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-10">
+        {/* Page title */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-4xl font-bold text-gray-900">📸 MomentCap</h1>
-            <p className="text-gray-600 mt-2">Collaborative photo albums for every event</p>
+            <h1 className="text-3xl font-extrabold tracking-tight">Your albums</h1>
+            <p className="mt-1 text-ink-soft">Create an album, share the QR code, collect every photo.</p>
           </div>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition"
+            className={
+              showForm
+                ? 'rounded-full border border-line bg-white px-6 py-3 font-semibold transition hover:border-ink'
+                : 'rounded-full bg-brand px-6 py-3 font-bold transition hover:bg-brand-strong'
+            }
           >
-            {showForm ? 'Cancel' : '+ New Album'}
+            {showForm ? 'Cancel' : '+ New album'}
           </button>
         </div>
 
         {/* Create Album Form */}
         {showForm && (
-          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-            <h2 className="text-2xl font-bold mb-6">Create a New Album</h2>
-            <form onSubmit={handleCreateAlbum} className="space-y-4">
+          <div className="mt-8 rounded-3xl border border-line bg-white p-6 shadow-sm sm:p-8">
+            <h2 className="text-xl font-bold">New album</h2>
+            <form onSubmit={handleCreateAlbum} className="mt-6 space-y-5">
               <div>
-                <label className="block text-sm font-medium mb-2">Album Name</label>
+                <label htmlFor="name" className="mb-2 block text-sm font-semibold">Album name</label>
                 <input
+                  id="name"
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="e.g., Wedding, Birthday Party, Team Outing"
+                  placeholder="e.g. Sarah & Tom's Wedding"
                   required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={inputClass}
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-2">Event Date</label>
-                <input
-                  type="date"
-                  name="event_date"
-                  value={formData.event_date}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="event_date" className="mb-2 block text-sm font-semibold">Event date</label>
+                  <input
+                    id="event_date"
+                    type="date"
+                    name="event_date"
+                    value={formData.event_date}
+                    onChange={handleInputChange}
+                    required
+                    className={inputClass}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="location" className="mb-2 block text-sm font-semibold">
+                    Location <span className="font-normal text-ink-soft">(optional)</span>
+                  </label>
+                  <input
+                    id="location"
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleInputChange}
+                    placeholder="e.g. Brussels"
+                    className={inputClass}
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium mb-2">Location (Optional)</label>
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleInputChange}
-                  placeholder="e.g., Brussels, Belgium"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {error && <p className="text-red-600 text-sm">{error}</p>}
+              {error && (
+                <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+              )}
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-2 rounded-lg transition"
+                className="w-full rounded-full bg-ink py-3.5 font-semibold text-white transition hover:bg-black disabled:opacity-50"
               >
-                {loading ? 'Creating...' : 'Create Album'}
+                {loading ? 'Creating…' : 'Create album'}
               </button>
             </form>
           </div>
         )}
 
+        {/* Albums created this session */}
+        {albums.length > 0 && (
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {albums.map((a) => (
+              <Link
+                key={a.id}
+                href={`/album/${a.qr_code}`}
+                className="rounded-2xl border border-line bg-white p-5 transition hover:border-ink"
+              >
+                <p className="font-bold">{a.name}</p>
+                <p className="mt-1 text-sm text-ink-soft">
+                  {a.event_date}{a.location ? ` · ${a.location}` : ''}
+                </p>
+                <p className="mt-3 font-mono text-sm tracking-widest">{a.qr_code}</p>
+              </Link>
+            ))}
+          </div>
+        )}
+
         {/* Empty State */}
         {albums.length === 0 && !showForm && (
-          <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
-            <p className="text-gray-600 mb-4">No albums yet. Create your first one!</p>
+          <div className="mt-8 rounded-3xl border-2 border-dashed border-line bg-white px-6 py-16 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-soft">
+              <ImageIcon className="h-7 w-7" />
+            </div>
+            <h2 className="mt-5 text-xl font-bold">No albums yet</h2>
+            <p className="mt-1 text-ink-soft">Create your first one — it takes 30 seconds.</p>
             <button
               onClick={() => setShowForm(true)}
-              className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition"
+              className="mt-6 rounded-full bg-brand px-6 py-3 font-bold transition hover:bg-brand-strong"
             >
-              Create Album
+              Create an album
             </button>
           </div>
         )}
-      </div>
+      </main>
     </div>
   )
 }
