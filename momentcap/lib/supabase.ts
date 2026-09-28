@@ -1,14 +1,29 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+// Clients are created on first use so the app can build and render
+// even before the Supabase env vars are configured.
+function lazyClient(getKey: () => string | undefined, label: string): SupabaseClient {
+  let client: SupabaseClient | null = null
+  return new Proxy({} as SupabaseClient, {
+    get(_target, prop) {
+      if (!client) {
+        const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+        const key = getKey()
+        if (!url || !key) {
+          throw new Error(`Supabase is not configured (missing NEXT_PUBLIC_SUPABASE_URL or ${label})`)
+        }
+        client = createClient(url, key)
+      }
+      return Reflect.get(client, prop)
+    }
+  })
+}
 
 // Client-side
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = lazyClient(() => process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, 'NEXT_PUBLIC_SUPABASE_ANON_KEY')
 
 // Server-side (with service role)
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
+export const supabaseAdmin = lazyClient(() => process.env.SUPABASE_SERVICE_ROLE_KEY, 'SUPABASE_SERVICE_ROLE_KEY')
 
 // Types
 export type Album = {
