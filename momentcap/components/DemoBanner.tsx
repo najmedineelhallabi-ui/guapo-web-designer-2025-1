@@ -1,10 +1,17 @@
-import { isSupabaseConfigured } from '@/lib/supabase'
+'use client'
+
+import { useEffect, useState } from 'react'
+import { getBackend } from '@/lib/api'
 
 export default function DemoBanner() {
-  if (isSupabaseConfigured) return null
+  const [demo, setDemo] = useState(false)
+  useEffect(() => {
+    getBackend().then((b) => setDemo(b === 'demo'))
+  }, [])
+  if (!demo) return null
   return (
     <div className="bg-ink px-4 py-2 text-center text-xs font-medium text-white">
-      Demo mode — accounts, albums and photos are saved only in this browser.
+      Demo mode — accounts, albums and photos are saved only in this browser, so guests on other phones can&apos;t see them yet.
     </div>
   )
 }

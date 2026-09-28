@@ -22,7 +22,6 @@ export default function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
 
   const isSignup = mode === 'signup'
 
@@ -35,25 +34,11 @@ export default function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
-    setNotice('')
 
     setLoading(true)
     try {
-      if (isSignup) {
-        const needsConfirmation = await signUp(
-          name,
-          email,
-          password,
-          `${window.location.origin}/login?next=${encodeURIComponent(next)}`
-        )
-        if (needsConfirmation) {
-          // Email confirmation is enabled on the Supabase project
-          setNotice(`We sent a confirmation link to ${email}. Click it, then log in.`)
-          return
-        }
-      } else {
-        await signIn(email, password)
-      }
+      if (isSignup) await signUp(name, email, password)
+      else await signIn(email, password)
       router.push(next)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
@@ -96,7 +81,6 @@ export default function AuthForm({ mode }: { mode: 'login' | 'signup' }) {
           </div>
 
           {error && <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-          {notice && <p className="rounded-xl border border-line bg-brand-soft px-4 py-3 text-sm">{notice}</p>}
 
           <button type="submit" disabled={loading}
             className="w-full rounded-full bg-brand py-3.5 font-bold transition hover:bg-brand-strong disabled:opacity-50">

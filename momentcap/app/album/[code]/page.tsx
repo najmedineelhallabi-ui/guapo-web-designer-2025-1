@@ -5,25 +5,25 @@ import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import Webcam from 'react-webcam'
 import { QRCodeSVG } from 'qrcode.react'
-import { v4 as uuidv4 } from 'uuid'
 import { addWatermark, compressImage } from '@/lib/photoUtils'
-import { getAlbum, uploadPhoto, type AppAlbum, type AppPhoto } from '@/lib/api'
-import { useAuth } from '@/lib/useAuth'
+import { deletePhoto, getAlbum, getGuestId, uploadPhoto, type AppAlbum, type AppPhoto } from '@/lib/api'
+import { checkUpload, uploadState, MAX_FILE_MB } from '@/lib/albumRules'
 import Logo from '@/components/Logo'
-import { CameraIcon, UploadIcon, ImageIcon, DownloadIcon, ChevronIcon, ShareIcon, XIcon } from '@/components/Icons'
+import { CameraIcon, UploadIcon, ImageIcon, DownloadIcon, ChevronIcon, ShareIcon, XIcon, SettingsIcon, TrashIcon, ClockIcon } from '@/components/Icons'
 
-const MAX_FILE_MB = 20
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleString([], { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
 
 export default function AlbumPage() {
   const params = useParams()
   const code = params.code as string
-  const { user } = useAuth()
 
   const [album, setAlbum] = useState<AppAlbum | null>(null)
   const [photos, setPhotos] = useState<AppPhoto[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [inviteId] = useState(() => uuidv4())
+  const [isOwner, setIsOwner] = useState(false)
+  const [guestId, setGuestId] = useState('')
   const [contributorName, setContributorName] = useState('')
   const [progress, setProgress] = useState<{ done: number; total: number } | null>(null)
   const [showCamera, setShowCamera] = useState(false)
@@ -35,7 +35,7 @@ export default function AlbumPage() {
   const webcamRef = useRef<Webcam>(null)
 
   const uploading = progress !== null
-  const isOwner = Boolean(user && album && user.id === album.owner_id)
+  const myCount = photos.filter((p) => p.guest_id === guestId).length
   const albumUrl = typeof window !== 'undefined' ? `${window.location.origin}/album/${code}` : ''
 
   // Remember the guest's name between visits
@@ -43,6 +43,7 @@ export default function AlbumPage() {
     try {
       setContributorName(localStorage.getItem('mc_guest_name') || '')
     } catch {}
+    setGuestId(getGuestId())
   }, [])
 
   useEffect(() => {
@@ -52,6 +53,7 @@ export default function AlbumPage() {
         if (result) {
           setAlbum(result.album)
           setPhotos(result.photos)
+          setIsOwner(result.isOwner)
         }
       })
       .catch((err) => setError(err instanceof Error ? err.message : 'Error loading album'))
@@ -65,7 +67,7 @@ export default function AlbumPage() {
       const watermarked = await addWatermark(processed, true)
       processed = new File([watermarked], file.name, { type: 'image/jpeg' })
     }
-    const photo = await uploadPhoto(album, processed, contributorName.trim() || 'Guest', inviteId)
+    const photo = await uploadPhoto(album, processed, contributorName.trim(), isOwner)
     setPhotos((prev) => [...prev, photo])
   }
 
@@ -81,9 +83,17 @@ export default function AlbumPage() {
     const failures: string[] = tooBig.map((f) => `${f.name} is over ${MAX_FILE_MB} MB`)
 
     setProgress({ done: 0, total: valid.length })
+    let added = 0
     for (const [i, file] of valid.entries()) {
+      // Stop early once a rule (limit, closed window…) blocks this guest
+      const blocked = checkUpload(album, myCount + added, contributorName, isOwner)
+      if (blocked) {
+        failures.push(blocked)
+        break
+      }
       try {
         await processAndUpload(file)
+        added++
       } catch (err) {
         failures.push(`${file.name}: ${err instanceof Error ? err.message : 'upload failed'}`)
       }
@@ -123,6 +133,17 @@ export default function AlbumPage() {
       setError('Could not create the ZIP file. Please try again.')
     } finally {
       setZipping(false)
+    }
+  }
+
+  const removePhoto = async (photo: AppPhoto) => {
+    if (!album || !confirm('Delete this photo for everyone?')) return
+    try {
+      await deletePhoto(album, photo.id)
+      setPhotos((prev) => prev.filter((p) => p.id !== photo.id))
+      setLightbox(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not delete the photo')
     }
   }
 
@@ -169,6 +190,11 @@ export default function AlbumPage() {
   }
 
   const isExpired = new Date(album.created_at).getTime() + 7 * 24 * 60 * 60 * 1000 < Date.now()
+  const state = uploadState(album.settings)
+  const canUpload = isOwner || state.open
+  const max = album.settings.max_photos_per_guest
+  const remaining = max === null ? null : Math.max(0, max - myCount)
+  const galleryPrivate = !album.settings.guests_can_view && !isOwner
   const current = lightbox !== null ? photos[lightbox] : null
 
   return (
@@ -210,6 +236,12 @@ export default function AlbumPage() {
               >
                 <DownloadIcon /> {zipping ? 'Preparing ZIP…' : 'Download all (ZIP)'}
               </button>
+              <Link
+                href={`/album/${album.qr_code}/settings`}
+                className="flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm font-semibold transition hover:border-ink"
+              >
+                <SettingsIcon /> Settings
+              </Link>
             </div>
           )}
 
@@ -230,11 +262,34 @@ export default function AlbumPage() {
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         {/* Upload Section */}
+        {!canUpload ? (
+          <section className="rounded-3xl border border-line bg-white p-6 text-center shadow-sm sm:p-8">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-soft">
+              <ClockIcon className="h-7 w-7" />
+            </div>
+            {state.open === false && state.reason === 'not_yet' ? (
+              <>
+                <h2 className="mt-4 text-xl font-bold">Uploads open soon</h2>
+                <p className="mt-1 text-ink-soft">Come back on {formatDate(state.opensAt)} to add your photos.</p>
+              </>
+            ) : (
+              <>
+                <h2 className="mt-4 text-xl font-bold">Uploads are closed</h2>
+                <p className="mt-1 text-ink-soft">The organizer stopped collecting photos for this album.</p>
+              </>
+            )}
+          </section>
+        ) : (
         <section className="rounded-3xl border border-line bg-white p-5 shadow-sm sm:p-8">
           <h2 className="text-xl font-bold">Add your photos</h2>
+          {!isOwner && album.settings.uploads_close_at && (
+            <p className="mt-1 text-sm text-ink-soft">Open until {formatDate(album.settings.uploads_close_at)}</p>
+          )}
 
           <div className="mt-5">
-            <label htmlFor="contributor" className="mb-2 block text-sm font-semibold">Your name</label>
+            <label htmlFor="contributor" className="mb-2 block text-sm font-semibold">
+              Your name {album.settings.require_name && !isOwner && <span className="text-red-700">*</span>}
+            </label>
             <input
               id="contributor"
               type="text"
@@ -323,16 +378,28 @@ export default function AlbumPage() {
             </div>
           )}
 
+          {!isOwner && remaining !== null && (
+            <p className="mt-4 text-sm font-semibold">
+              {remaining > 0 ? `You can add ${remaining} more photo${remaining > 1 ? 's' : ''}.` : 'You reached the photo limit for this album.'}
+            </p>
+          )}
+
           {!album.is_paid && (
             <p className="mt-4 text-sm text-ink-soft">
               Photos in free albums get a small MomentCap watermark. Max {MAX_FILE_MB} MB per photo.
             </p>
           )}
         </section>
+        )}
 
         {/* Photos Gallery */}
         <section className="mt-10">
-          <h2 className="text-xl font-bold">Photos <span className="text-ink-soft">({photos.length})</span></h2>
+          <h2 className="text-xl font-bold">
+            {galleryPrivate ? 'Your photos' : 'Photos'} <span className="text-ink-soft">({photos.length})</span>
+          </h2>
+          {galleryPrivate && (
+            <p className="mt-1 text-sm text-ink-soft">The organizer keeps this album private — you only see the photos you added.</p>
+          )}
 
           {photos.length === 0 ? (
             <div className="mt-4 rounded-3xl border-2 border-dashed border-line bg-white px-6 py-14 text-center">
@@ -340,7 +407,7 @@ export default function AlbumPage() {
                 <ImageIcon className="h-7 w-7" />
               </div>
               <p className="mt-4 font-semibold">No photos yet</p>
-              <p className="mt-1 text-ink-soft">Be the first to add one!</p>
+              <p className="mt-1 text-ink-soft">{galleryPrivate ? 'Your photos will show up here.' : 'Be the first to add one!'}</p>
             </div>
           ) : (
             <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
@@ -394,6 +461,11 @@ export default function AlbumPage() {
               >
                 <DownloadIcon className="h-6 w-6" />
               </a>
+              {isOwner && (
+                <button onClick={() => removePhoto(current)} className="rounded-full p-2 transition hover:bg-white/10" aria-label="Delete photo">
+                  <TrashIcon className="h-6 w-6" />
+                </button>
+              )}
               <button onClick={() => setLightbox(null)} className="rounded-full p-2 transition hover:bg-white/10" aria-label="Close">
                 <XIcon className="h-6 w-6" />
               </button>

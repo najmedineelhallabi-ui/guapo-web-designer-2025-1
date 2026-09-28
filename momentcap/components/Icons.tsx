@@ -34,3 +34,12 @@ export const ChevronIcon = ({ className = 'h-6 w-6', dir = 'right' }: P & { dir?
 export const ShareIcon = ({ className = 'h-5 w-5' }: P) => (
   <svg viewBox="0 0 24 24" className={className} {...base}><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4" /></svg>
 )
+export const SettingsIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0" /><circle cx="16" cy="6" r="2" /><circle cx="10" cy="12" r="2" /><circle cx="18" cy="18" r="2" /></svg>
+)
+export const TrashIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" /></svg>
+)
+export const ClockIcon = ({ className = 'h-5 w-5' }: P) => (
+  <svg viewBox="0 0 24 24" className={className} {...base}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+)

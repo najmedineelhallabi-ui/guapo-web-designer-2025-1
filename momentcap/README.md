@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MomentCap
 
-## Getting Started
+Collaborative photo albums for events: the organizer creates an album, shares
+its QR code, and guests add photos from their phone — no app, no guest account.
 
-First, run the development server:
+## Storage modes
+
+The app picks its backend automatically (`GET /api/config`):
+
+| Mode | When | Data lives in |
+|------|------|---------------|
+| **server** | `BLOB_READ_WRITE_TOKEN` is set (Vercel Blob store connected to the project) | Vercel Blob — shared by every device |
+| **server (local)** | `MOMENTCAP_LOCAL_STORE=/some/dir` | Files on disk — for local development and tests |
+| **demo** | neither is set | The visitor's browser only (localStorage + IndexedDB) |
+
+### Connect Vercel Blob
+
+Vercel dashboard → project → **Storage** → **Create** → **Blob** → connect it to
+the project (all environments). This adds `BLOB_READ_WRITE_TOKEN`; redeploy.
+Optionally set `AUTH_SECRET` to a long random string to sign login tokens
+(otherwise the Blob token is used as the signing key).
+
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+MOMENTCAP_LOCAL_STORE=.data npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `lib/api.ts` — client data layer (server or demo mode)
+- `lib/albumRules.ts` — album settings and upload rules shared by client and server
+- `lib/server/` — storage drivers, auth (scrypt passwords, HMAC tokens), data access
+- `app/api/` — auth, albums, photos, signed file serving

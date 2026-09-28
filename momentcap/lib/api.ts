@@ -1,47 +1,45 @@
 'use client'
 
 // Single client-side data layer for the app.
-// Uses Supabase (auth + API routes) when it is configured, otherwise a
-// browser-only demo mode (localStorage + IndexedDB) so every flow still works.
+// "server" mode talks to our API routes (backed by Vercel Blob storage).
+// "demo" mode keeps everything in this browser (localStorage + IndexedDB) so
+// the app is fully clickable before storage is set up.
 
-import { supabase, isSupabaseConfigured } from './supabase'
+import {
+  checkUpload,
+  sanitizeSettings,
+  withDefaults,
+  type AlbumSettings,
+  type AppAlbum,
+  type AppPhoto
+} from './albumRules'
 
+export type { AppAlbum, AppPhoto, AlbumSettings }
 export type AppUser = { id: string; email: string; name: string }
-
-export type AppAlbum = {
-  id: string
-  owner_id: string
-  name: string
-  event_date: string
-  location: string
-  qr_code: string
-  is_paid: boolean
-  album_visibility: 'public' | 'private'
-  created_at: string
-}
-
-export type AppPhoto = {
-  id: string
-  album_id: string
-  url: string
-  contributor_name: string
-  created_at: string
-}
-
-export const isDemoMode = !isSupabaseConfigured
-
-const newCode = () => crypto.randomUUID().split('-')[0].toUpperCase()
+export type Backend = 'server' | 'demo'
 
 // ---------------------------------------------------------------------------
-// Demo storage
+// Backend detection
 // ---------------------------------------------------------------------------
 
-const LS_USERS = 'mc_demo_users'
-const LS_SESSION = 'mc_demo_session'
-const LS_ALBUMS = 'mc_demo_albums'
-const AUTH_EVENT = 'mc-demo-auth'
+let backendPromise: Promise<Backend> | null = null
 
-type DemoUser = AppUser & { passwordHash: string }
+export function getBackend(): Promise<Backend> {
+  backendPromise ??= fetch('/api/config')
+    .then((r) => r.json())
+    .then((d) => (d.backend === 'server' ? 'server' : 'demo') as Backend)
+    .catch(() => 'demo' as Backend)
+  return backendPromise
+}
+
+// ---------------------------------------------------------------------------
+// Shared browser helpers
+// ---------------------------------------------------------------------------
+
+const AUTH_EVENT = 'mc-auth'
+const LS_TOKEN = 'mc_token'
+const LS_USER = 'mc_user'
+const LS_GUEST = 'mc_guest_id'
 
 function readLS<T>(key: string, fallback: T): T {
   try {
@@ -53,27 +51,75 @@ function readLS<T>(key: string, fallback: T): T {
 }
 
 function writeLS(key: string, value: unknown) {
-  localStorage.setItem(key, JSON.stringify(value))
+  try {
+    if (value === null) localStorage.removeItem(key)
+    else localStorage.setItem(key, JSON.stringify(value))
+  } catch {}
 }
 
-async function hashPassword(password: string) {
-  const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password))
+const notifyAuth = () => window.dispatchEvent(new Event(AUTH_EVENT))
+
+/** Stable anonymous id for this guest's browser, used for per-guest limits. */
+export function getGuestId(): string {
+  let id = readLS<string | null>(LS_GUEST, null)
+  if (!id) {
+    id = crypto.randomUUID()
+    writeLS(LS_GUEST, id)
+  }
+  return id
+}
+
+const newCode = () => crypto.randomUUID().split('-')[0].toUpperCase()
+
+// ---------------------------------------------------------------------------
+// Server mode helpers
+// ---------------------------------------------------------------------------
+
+async function request<T = any>(path: string, init: RequestInit = {}): Promise<T> {
+  const token = readLS<string | null>(LS_TOKEN, null)
+  const headers = new Headers(init.headers)
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+  const res = await fetch(path, { ...init, headers })
+  const data = await res.json().catch(() => ({}))
+  if (res.status === 401 && token) {
+    // Expired or invalid session
+    writeLS(LS_TOKEN, null)
+    writeLS(LS_USER, null)
+    notifyAuth()
+  }
+  if (!res.ok) throw Object.assign(new Error(data.error || 'Something went wrong'), { status: res.status })
+  return data as T
+}
+
+function saveSession(token: string, user: AppUser) {
+  writeLS(LS_TOKEN, token)
+  writeLS(LS_USER, user)
+  notifyAuth()
+}
+
+// ---------------------------------------------------------------------------
+// Demo mode storage
+// ---------------------------------------------------------------------------
+
+const LS_DEMO_USERS = 'mc_demo_users'
+const LS_DEMO_SESSION = 'mc_demo_session'
+const LS_DEMO_ALBUMS = 'mc_demo_albums'
+
+type DemoUser = AppUser & { passwordHash: string }
+
+async function sha256(text: string) {
+  const bytes = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text))
   return Array.from(new Uint8Array(bytes), (b) => b.toString(16).padStart(2, '0')).join('')
 }
 
 function demoCurrentUser(): AppUser | null {
-  const id = readLS<string | null>(LS_SESSION, null)
-  const user = readLS<DemoUser[]>(LS_USERS, []).find((u) => u.id === id)
+  const id = readLS<string | null>(LS_DEMO_SESSION, null)
+  const user = readLS<DemoUser[]>(LS_DEMO_USERS, []).find((u) => u.id === id)
   return user ? { id: user.id, email: user.email, name: user.name } : null
 }
 
-function setDemoSession(id: string | null) {
-  if (id) writeLS(LS_SESSION, id)
-  else localStorage.removeItem(LS_SESSION)
-  window.dispatchEvent(new Event(AUTH_EVENT))
-}
+const demoAlbums = () => readLS<AppAlbum[]>(LS_DEMO_ALBUMS, []).map(withDefaults)
 
-// Photos are stored as blobs in IndexedDB (localStorage is too small)
 type StoredPhoto = Omit<AppPhoto, 'url'> & { blob: Blob }
 
 function openPhotoDb(): Promise<IDBDatabase> {
@@ -94,151 +140,180 @@ async function photoStore<T>(mode: IDBTransactionMode, run: (s: IDBObjectStore) 
   })
 }
 
-const toAppPhoto = ({ blob, ...rest }: StoredPhoto): AppPhoto => ({ ...rest, url: URL.createObjectURL(blob) })
+const toAppPhoto = ({ blob, ...rest }: StoredPhoto): AppPhoto => ({
+  ...rest,
+  guest_id: rest.guest_id || '',
+  url: URL.createObjectURL(blob)
+})
 
-// ---------------------------------------------------------------------------
-// Remote helpers
-// ---------------------------------------------------------------------------
-
-async function authHeaders(): Promise<Record<string, string>> {
-  const { data } = await supabase.auth.getSession()
-  const token = data.session?.access_token
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
-
-async function jsonOrThrow(res: Response, fallback: string) {
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(data.error || fallback)
-  return data
+async function demoPhotos(albumId: string) {
+  const all = await photoStore<StoredPhoto[]>('readonly', (s) => s.getAll())
+  return all.filter((p) => p.album_id === albumId).sort((a, b) => a.created_at.localeCompare(b.created_at))
 }
 
 // ---------------------------------------------------------------------------
-// Public API
+// Auth
 // ---------------------------------------------------------------------------
 
 export async function getUser(): Promise<AppUser | null> {
-  if (isDemoMode) return demoCurrentUser()
-  const { data } = await supabase.auth.getSession()
-  const u = data.session?.user
-  return u ? { id: u.id, email: u.email || '', name: (u.user_metadata?.name as string) || '' } : null
+  if ((await getBackend()) === 'demo') return demoCurrentUser()
+  return readLS<string | null>(LS_TOKEN, null) ? readLS<AppUser | null>(LS_USER, null) : null
 }
 
 export function onAuthChange(callback: () => void): () => void {
-  if (isDemoMode) {
-    window.addEventListener(AUTH_EVENT, callback)
-    window.addEventListener('storage', callback)
-    return () => {
-      window.removeEventListener(AUTH_EVENT, callback)
-      window.removeEventListener('storage', callback)
-    }
+  window.addEventListener(AUTH_EVENT, callback)
+  window.addEventListener('storage', callback)
+  return () => {
+    window.removeEventListener(AUTH_EVENT, callback)
+    window.removeEventListener('storage', callback)
   }
-  const { data } = supabase.auth.onAuthStateChange(() => callback())
-  return () => data.subscription.unsubscribe()
 }
 
-/** Returns true when the user must confirm their email before logging in. */
-export async function signUp(name: string, email: string, password: string, redirectTo: string): Promise<boolean> {
-  if (isDemoMode) {
-    const users = readLS<DemoUser[]>(LS_USERS, [])
+export async function signUp(name: string, email: string, password: string) {
+  if ((await getBackend()) === 'demo') {
+    const users = readLS<DemoUser[]>(LS_DEMO_USERS, [])
     const normalized = email.trim().toLowerCase()
     if (users.some((u) => u.email === normalized)) throw new Error('An account with this email already exists')
-    const user: DemoUser = { id: crypto.randomUUID(), email: normalized, name, passwordHash: await hashPassword(password) }
-    writeLS(LS_USERS, [...users, user])
-    setDemoSession(user.id)
-    return false
+    const user: DemoUser = { id: crypto.randomUUID(), email: normalized, name: name.trim(), passwordHash: await sha256(password) }
+    writeLS(LS_DEMO_USERS, [...users, user])
+    writeLS(LS_DEMO_SESSION, user.id)
+    return notifyAuth()
   }
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: { data: { name }, emailRedirectTo: redirectTo }
+  const data = await request<{ token: string; user: AppUser }>('/api/auth/signup', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, password })
   })
-  if (error) throw error
-  return !data.session
+  saveSession(data.token, data.user)
 }
 
 export async function signIn(email: string, password: string) {
-  if (isDemoMode) {
+  if ((await getBackend()) === 'demo') {
     const normalized = email.trim().toLowerCase()
-    const hash = await hashPassword(password)
-    const user = readLS<DemoUser[]>(LS_USERS, []).find((u) => u.email === normalized && u.passwordHash === hash)
+    const hash = await sha256(password)
+    const user = readLS<DemoUser[]>(LS_DEMO_USERS, []).find((u) => u.email === normalized && u.passwordHash === hash)
     if (!user) throw new Error('Wrong email or password')
-    setDemoSession(user.id)
-    return
+    writeLS(LS_DEMO_SESSION, user.id)
+    return notifyAuth()
   }
-  const { error } = await supabase.auth.signInWithPassword({ email, password })
-  if (error) throw error
+  const data = await request<{ token: string; user: AppUser }>('/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  })
+  saveSession(data.token, data.user)
 }
 
 export async function signOut() {
-  if (isDemoMode) return setDemoSession(null)
-  await supabase.auth.signOut()
+  writeLS(LS_DEMO_SESSION, null)
+  writeLS(LS_TOKEN, null)
+  writeLS(LS_USER, null)
+  notifyAuth()
 }
 
+// ---------------------------------------------------------------------------
+// Albums
+// ---------------------------------------------------------------------------
+
 export async function listAlbums(): Promise<AppAlbum[]> {
-  if (isDemoMode) {
+  if ((await getBackend()) === 'demo') {
     const user = demoCurrentUser()
-    return readLS<AppAlbum[]>(LS_ALBUMS, [])
+    return demoAlbums()
       .filter((a) => a.owner_id === user?.id)
       .sort((a, b) => b.created_at.localeCompare(a.created_at))
   }
-  const res = await fetch('/api/albums', { headers: await authHeaders() })
-  return (await jsonOrThrow(res, 'Could not load your albums')).albums || []
+  return (await request<{ albums: AppAlbum[] }>('/api/albums')).albums
 }
 
 export async function createAlbum(input: { name: string; event_date: string; location: string }) {
   const albumUrl = (code: string) => `${window.location.origin}/album/${code}`
 
-  if (isDemoMode) {
+  if ((await getBackend()) === 'demo') {
     const user = demoCurrentUser()
     if (!user) throw new Error('Please log in to create an album')
-    const album: AppAlbum = {
+    const album = withDefaults({
       id: crypto.randomUUID(),
       owner_id: user.id,
-      name: input.name,
+      name: input.name.trim(),
       event_date: input.event_date,
-      location: input.location,
+      location: input.location.trim(),
       qr_code: newCode(),
       is_paid: false,
-      album_visibility: 'public',
       created_at: new Date().toISOString()
-    }
-    writeLS(LS_ALBUMS, [...readLS<AppAlbum[]>(LS_ALBUMS, []), album])
+    })
+    writeLS(LS_DEMO_ALBUMS, [...demoAlbums(), album])
     return { album, qrUrl: albumUrl(album.qr_code) }
   }
 
-  const res = await fetch('/api/albums', {
+  const data = await request<{ album: AppAlbum; qrUrl: string }>('/api/albums', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
-    body: JSON.stringify({ ...input, owner_type: 'couple' })
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input)
   })
-  const data = await jsonOrThrow(res, 'Could not create the album. Please try again.')
-  return { album: data.album as AppAlbum, qrUrl: (data.qrUrl as string) || albumUrl(data.album.qr_code) }
+  return { album: data.album, qrUrl: data.qrUrl || albumUrl(data.album.qr_code) }
 }
 
-export async function getAlbum(code: string): Promise<{ album: AppAlbum; photos: AppPhoto[] } | null> {
-  if (isDemoMode) {
-    const album = readLS<AppAlbum[]>(LS_ALBUMS, []).find((a) => a.qr_code === code.toUpperCase())
+export type AlbumView = { album: AppAlbum; photos: AppPhoto[]; isOwner: boolean; totalPhotos: number }
+
+export async function getAlbum(code: string): Promise<AlbumView | null> {
+  if ((await getBackend()) === 'demo') {
+    const album = demoAlbums().find((a) => a.qr_code === code.toUpperCase())
     if (!album) return null
-    const all = await photoStore<StoredPhoto[]>('readonly', (s) => s.getAll())
-    const photos = all
-      .filter((p) => p.album_id === album.id)
-      .sort((a, b) => a.created_at.localeCompare(b.created_at))
-      .map(toAppPhoto)
-    return { album, photos }
+    const isOwner = demoCurrentUser()?.id === album.owner_id
+    const all = (await demoPhotos(album.id)).map(toAppPhoto)
+    const guestId = getGuestId()
+    const photos = isOwner || album.settings.guests_can_view ? all : all.filter((p) => p.guest_id === guestId)
+    return { album, photos, isOwner, totalPhotos: all.length }
   }
-  const res = await fetch(`/api/albums/${encodeURIComponent(code)}`)
-  if (res.status === 404) return null
-  const { album } = await jsonOrThrow(res, 'Could not load the album')
-  const { photos = [], ...rest } = album
-  return { album: rest, photos }
+  try {
+    return await request<AlbumView>(`/api/albums/${encodeURIComponent(code)}?guest=${getGuestId()}`)
+  } catch (err) {
+    if ((err as { status?: number }).status === 404) return null
+    throw err
+  }
 }
 
-export async function uploadPhoto(album: AppAlbum, file: File, contributorName: string, inviteId: string): Promise<AppPhoto> {
-  if (isDemoMode) {
+export type AlbumPatch = Partial<Pick<AppAlbum, 'name' | 'location' | 'event_date'>> & { settings?: Partial<AlbumSettings> }
+
+export async function updateAlbum(code: string, patch: AlbumPatch): Promise<AppAlbum> {
+  if ((await getBackend()) === 'demo') {
+    const albums = demoAlbums()
+    const album = albums.find((a) => a.qr_code === code.toUpperCase())
+    if (!album || album.owner_id !== demoCurrentUser()?.id) throw new Error('Only the organizer can change this album')
+    const updated: AppAlbum = {
+      ...album,
+      name: patch.name?.trim() || album.name,
+      location: patch.location !== undefined ? patch.location.trim() : album.location,
+      event_date: patch.event_date || album.event_date,
+      settings: patch.settings ? sanitizeSettings(patch.settings, album.settings) : album.settings
+    }
+    writeLS(LS_DEMO_ALBUMS, albums.map((a) => (a.id === album.id ? updated : a)))
+    return updated
+  }
+  const data = await request<{ album: AppAlbum }>(`/api/albums/${encodeURIComponent(code)}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(patch)
+  })
+  return data.album
+}
+
+// ---------------------------------------------------------------------------
+// Photos
+// ---------------------------------------------------------------------------
+
+export async function uploadPhoto(album: AppAlbum, file: File, contributorName: string, isOwner: boolean): Promise<AppPhoto> {
+  const guestId = getGuestId()
+
+  if ((await getBackend()) === 'demo') {
+    const mine = (await demoPhotos(album.id)).filter((p) => p.guest_id === guestId).length
+    const blocked = checkUpload(album, mine, contributorName, isOwner)
+    if (blocked) throw new Error(blocked)
     const stored: StoredPhoto = {
       id: crypto.randomUUID(),
       album_id: album.id,
-      contributor_name: contributorName || 'Guest',
+      guest_id: guestId,
+      contributor_name: contributorName.trim() || 'Guest',
       created_at: new Date().toISOString(),
       blob: file
     }
@@ -246,12 +321,18 @@ export async function uploadPhoto(album: AppAlbum, file: File, contributorName: 
     return toAppPhoto(stored)
   }
 
-  const formData = new FormData()
-  formData.append('file', file)
-  formData.append('albumId', album.id)
-  formData.append('inviteId', inviteId)
-  formData.append('visibility', 'public')
-  formData.append('contributorName', contributorName)
-  const res = await fetch('/api/photos', { method: 'POST', body: formData })
-  return (await jsonOrThrow(res, 'Upload failed')).photo
+  const form = new FormData()
+  form.append('file', file)
+  form.append('guestId', guestId)
+  form.append('contributorName', contributorName)
+  const data = await request<{ photo: AppPhoto }>(`/api/albums/${album.qr_code}/photos`, { method: 'POST', body: form })
+  return data.photo
+}
+
+export async function deletePhoto(album: AppAlbum, photoId: string) {
+  if ((await getBackend()) === 'demo') {
+    await photoStore('readwrite', (s) => s.delete(photoId))
+    return
+  }
+  await request(`/api/albums/${album.qr_code}/photos?id=${photoId}`, { method: 'DELETE' })
 }
